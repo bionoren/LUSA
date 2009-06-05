@@ -1,0 +1,485 @@
+<?php
+    /*
+	 *	Copyright 2009 Bion Oren
+	 *
+	 *	Licensed under the Apache License, Version 2.0 (the "License");
+	 *	you may not use this file except in compliance with the License.
+	 *	You may obtain a copy of the License at
+	 *		http://www.apache.org/licenses/LICENSE-2.0
+	 *	Unless required by applicable law or agreed to in writing, software
+	 *	distributed under the License is distributed on an "AS IS" BASIS,
+	 *	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 *	See the License for the specific language governing permissions and
+	 *	limitations under the License.
+	 */
+
+
+    //WARNING
+    //This does not handle online classes. Basically, they always conflict with everything, because they are interpreted as
+    //lasting all day every day.
+
+	//DEBUGGING FUNCTIONS
+	function dump($name, $array, $limit=1000000) {
+        if($limit <= 0)
+			$array = "array(".count($array).")";
+		if(!is_array($array)) {
+			print "$name = $array<br>";
+		} else {
+			foreach($array as $key=>$val) {
+				if(is_array($val))
+					dump($name."[$key]", $val, $limit-1);
+				else
+					print $name."[".$key."] = $val<br>";
+			}
+		}
+	}
+
+	//FUNCTIONS
+    function getCurrentSemester($year=2009, $semester="FA") {
+        //get the current class schedule from LeTourneu
+		if(!file_exists($year.$semester.".txt")) {
+            `php cache.php $file`;
+        }
+        $file = fopen($year.$semester.".txt", "r");
+        $title = fgets($file);
+        fclose($file);
+        return $title;
+    }
+
+	function getClassData($year=2009, $semester="FA") {
+		$file = fopen($year.$semester.".txt", "r");
+        $classes = array();
+        fgets($file); //burn the title
+        while(!feof($file)) {
+            $classes[] = new Course(array_combine(Course::$EXPORT, explode("$$", fgets($file))));
+        }
+        fclose($file);
+        return $classes;
+	}
+
+    //filters the master class list down to the courses we're interested in and organizes the data into something parsable by evaluateSchedules()
+    //just as a warning, this method took a lot of thought, but it really does work. Good luck...
+	function findSchedules(array $courses, $filters=null, $classFilters=null) {
+		//add course information for all the courses to be taken
+        //classes with only one section must be common
+        foreach($courses as $i=>$sections) {
+            if(count($sections) == 1) {
+                Schedule::$common[] = $sections[0];
+                unset($courses[$i]);
+            }
+        }
+        if(count($courses) == 0) {
+            $temp = new Schedule(array());
+            $valid = $temp->isValid();
+            if($valid === true) {
+                return array();
+            } else {
+                return $valid;
+            }
+        }
+        //fix the indices unset messed up
+        $courses = array_values($courses);
+
+        $indexes = array_fill(0, count($courses), 0);
+        $schedules = array();
+        $conflict = null;
+        while(true) {
+            $classes = array();
+            $ignore = false;
+            foreach($courses as $i=>$sections) {
+                $class = $sections[$indexes[$i]];
+                if(isset($classFilters[$class->getID()])) {
+                    $ignore = true;
+                    break;
+                }
+                $classes[] = $class;
+            }
+            //for each course, if the index for this course is less than the max section index, shift it
+            //also handles rollover for previous indicies
+            $temp = new Schedule($classes);
+            if(($filters === null || $filters[$temp->getID()]) && !$ignore) {
+                $valid = $temp->isValid();
+                if($valid === true) {
+                    $schedules[] = $temp;
+                } else {
+                    $conflict = $valid;
+                }
+            }
+            for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
+                $indexes[$i++] = 0;
+                //this exits the loop
+                if($i == count($courses)) break 2;
+            }
+        }
+        if(count($schedules) == 0) {
+            return $conflict;
+        }
+        //die(dump("filters", $filters));
+
+        //find classes that could have had options, but only one works
+        $common = array_diff($schedules[0]->getClasses(), Schedule::$common);
+        foreach($schedules as $schedule) {
+            $common = array_intersect($common, $schedule->getClasses());
+            if(empty($common)) {
+                break;
+            }
+        }
+        Schedule::$common = array_merge(Schedule::$common, $common);
+		return $schedules;
+	}
+
+	function classSort(Course $class1, Course $class2) {
+        //if the classes aren't even on the same days, sort by days
+		if(!isDayOverlap($class1, $class2)) {
+			return daySort($class1, $class2);
+		}
+        return timeSort($class1, $class2);
+	}
+
+    function timeSort(Course $class1, Course $class2) {
+        $start1 = $class1->getStartTime();
+        $start2 = $class2->getStartTime();
+        //returns -1 if class1 is before class2
+        return ($start1 - $start2)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
+    }
+
+	function daySort(Course $class1, Course $class2) {
+		return $class2->getDays() - $class1->getDays();
+	}
+
+	function checkTimeConflict(Course $class1, Course $class2) {
+		$start1 = $class1->getStartTime();
+		$start2 = $class2->getStartTime();
+		$end1 = $class1->getEndTime();
+		$end2 = $class2->getEndTime();
+        //if one of the classes ends before the other one starts, no overlap
+        if($end1 < $start2 || $end2 < $start1) {
+            return false;
+        } else {
+            return $class1->getTitle()." conflicts with ".$class2->getTitle();
+        }
+	}
+
+	function isDayOverlap(Course $class1, Course $class2) {
+        return ((int)$class1->getDays() & (int)$class2->getDays()) > 0;
+	}
+
+	function displaySchedules($schedules, $total) {
+		if(is_array($schedules)) {
+			print '<table border=0>';
+				if($total > 0) {
+					print '<tr><td>Showing '.count($schedules).' of '.$total.' possible ways to take your other classes</td></tr>';
+				} else {
+    				print '<tr><td>There are '.count($schedules).' possible ways to take the rest of your classes</td></tr>';
+				}
+				foreach($schedules as $schedule) {
+					$schedule->display();
+				}
+			print '</table>';
+		} else {
+			print '<font color="red">Sorry, '.$schedules.'</font><br>';
+		}
+	}
+
+    class Schedule {
+        protected static $ID = 1;
+        public static $common = array();
+        protected $id;
+        protected $classes;
+
+        public function __construct(array $classes) {
+            $this->id = Schedule::$ID++;
+            foreach($classes as $class) {
+                $this->addClass($class);
+            }
+            foreach(Schedule::$common as $class) {
+                $this->addClass($class);
+            }
+        }
+
+        protected function addClass(Course $class) {
+            $this->classes[] = $class;
+        }
+
+        public function isValid() {
+            //eliminate schedules that have overlaps
+            $ret = "";
+            for($i = 0; $i < count($this->classes)-1; $i++) {
+                $class1 = $this->classes[$i];
+                for($j = $i+1; $j < count($this->classes); $j++) {
+                    $class2 = $this->classes[$j];
+                    if(isDayOverlap($class1, $class2)) {
+                        $tmp = checkTimeConflict($class1, $class2);
+                        if($tmp !== false) {
+                            $ret .= $tmp."<br>";
+                        }
+                    }
+                    if(substr_compare($class1->getCourseID(), $class2->getCourseID(), 0, 9) == 0
+                            && $class1->getSection() != $class2->getSection()) {
+                        //if the course numbers are the same, but the sections don't match, fail
+                        return false;
+                    }
+                }
+            }
+            //return all the conflicts together
+            if(!empty($ret)) {
+                return $ret;
+            }
+            //this is slower than above, but it makes them look pretty
+            usort($this->classes, "classSort");
+            return true;
+        }
+
+        public function getID() {
+            return dechex($this->id);
+        }
+
+        public function display() {
+            $qs = Schedule::getPrintQS($this->classes);
+            print '<tr><td>
+                <table border="0"><tr><td align="left">Keep this schedule: <input type="checkbox" name="sf[]" value="'.$this->getID().'" checked></td>
+                <td align="right"><a href="print.php?'.$qs.'" target="_new">Week View</a></td></tr><tr><td colspan="2"><table border="1">';
+            print '<tr><td></td><td colspan="2">Class</td><td>Prof</td><td>Days</td><td>Time</td><td>Section</td><td>curReg/maxReg</td></tr>';
+            if(count($this->getClasses()) != count(Schedule::$common)) {
+                foreach(array_diff($this->classes, Schedule::$common) as $class) {
+                    $class->display(true);
+                }
+            } else {
+                foreach($this->classes as $class) {
+                    $class->display();
+                }
+            }
+//            print $this->getUniqueID()."<br>";
+            print "</td></tr></table></td></tr></table>\n";
+        }
+
+        public static function displayCommon() {
+            print '<tr><td>
+                <table border="0"><tr><td align="left">These are the only times you can take these classes:</td><td align="right"><a href="print.php?'.Schedule::getPrintQS(Schedule::$common).'"
+                target="_new">Week View</a></td></tr><tr><td colspan="2"><table border="1">';
+            print '<tr><td colspan="2">Class</td><td>Prof</td><td>Days</td><td>Time</td><td>Section</td><td>curReg/maxReg</td></tr>';
+            foreach(Schedule::$common as $class) {
+                print $class->display();
+            }
+            print "</td></tr></table></td></tr></table>\n";
+        }
+
+        public static function getPrintQS($classes=null) {
+            $ret = '';
+            foreach($classes as $class) {
+                $ret .= base64_encode(serialize($class))."&";
+            }
+            return substr($ret, 0, strlen($ret)-1);
+        }
+
+        public function getClasses() {
+            return $this->classes;
+        }
+
+        public function __toString() {
+            return "Schedule object";
+        }
+    }
+
+    class Course {
+        protected static $ID = 1;
+        public static $KEYS = array("ref#", "course", "section", "title", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
+        public static $EXPORT = array("course", "section", "days", "start", "end", "title", "prof", "curReg", "maxReg");
+
+        protected $id;
+        protected $courseID;
+        protected $section;
+        protected $days;
+        protected $startTime;
+        protected $endTime;
+        protected $title;
+        protected $prof;
+        protected $currentRegistered;
+        protected $maxRegisterable;
+
+        public function __construct(array $dataArray) {
+            $this->id = Course::$ID++;
+            $this->courseID = $dataArray["course"];
+            $this->section = $dataArray["section"];
+            $this->days = $dataArray["days"];
+            if(array_key_exists("start", $dataArray)) {
+                $this->startTime = $dataArray["start"];
+                $this->endTime = $dataArray["end"];
+            } else {
+                $this->startTime = $this->convertTime($dataArray["times"][0]);
+                $this->endTime = $this->convertTime($dataArray["times"][1]);
+            }
+            $this->title = $dataArray["title"];
+            $this->prof = $dataArray["prof"];
+            $this->currentRegistered = $dataArray["curReg"];
+            $this->maxRegisterable = $dataArray["maxReg"];
+            if(empty($this->currentRegistered)) {
+                $this->currentRegistered = 0;
+            }
+        }
+
+        protected function convertTime($timestr) {
+            if($timestr == "TBA")
+                return $timestr;
+            $end = strlen($timestr)-1;
+            //strip off the last character (a or p)
+            $ap = substr($timestr, $end);
+            //split minutes and hours
+            $time = explode(":", substr($timestr, 0, $end));
+            //convert to 24 hour format
+            if($ap == "p")
+                $time[0] = $time[0]%12 + 12;
+            //convert minutes into a decimal
+            return $time[0]+$time[1]/60;
+        }
+
+        public function displayTime($time) {
+            if($time == "TBA")
+                return $time;
+            //separate hours and minutes
+            $time = explode(".", $time);
+            //if hours >= 12, then pm
+            $ap = ($time[0]/12 >= 1)?"p":"a";
+            //if hours > 12, then put back into 12 hour format
+            if($time[0] > 12)
+                $time[0] -= 12;
+            //make the minutes a decimal number again
+            $time[1] = ".".$time[1];
+            //convert the decimal back to minutes
+            $time[1] = round($time[1]*60);
+            //add a leading zero if 0-9 minutes
+            if($time[1] < 10)
+                $time[1] = "0".$time[1];
+            //return the time
+            return $time[0].":".$time[1].$ap;
+        }
+
+        //fills in the mising data of this lab with the given class information
+        public function mergeLabWithClass(Course $class) {
+            if(empty($this->courseID))
+                $this->courseID = $class->getCourseID()." lab";
+            if(empty($this->section))
+                $this->section = $class->getSection();
+            if(empty($this->days))
+                $this->days = $class->getDays();
+            if(empty($this->startTime))
+                $this->startTime = $class->getStartTime();
+            if(empty($this->endTime))
+                $this->endTime = $class->getEndTime();
+            if(empty($this->title))
+                $this->title = $class->getTitle()." lab";
+            if(empty($this->prof))
+                $this->prof = $class->getProf();
+            if(empty($this->currentRegistered))
+                $this->currentRegistered = $class->getCurrentRegistered();
+            if(empty($this->maxRegisterable))
+                $this->maxRegisterable = $class->getMaxRegistered();
+        }
+
+        public function getCourseID() {
+            return $this->courseID;
+        }
+
+        public function getSection() {
+            return $this->section;
+        }
+
+        public function getDays() {
+            return $this->days;
+        }
+
+        public function getStartTime() {
+            return $this->startTime;
+        }
+
+        public function getEndTime() {
+            return $this->endTime;
+        }
+
+        public function getTitle() {
+            return $this->title;
+        }
+
+        public function getProf() {
+            return $this->prof;
+        }
+
+        public function getCurrentRegistered() {
+            return $this->currentRegistered;
+        }
+
+        public function getMaxRegistered() {
+            return $this->maxRegisterable;
+        }
+
+        public function display($filterable=false) {
+            //>5 seats left
+            if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
+                $color = 'rgb(136, 255, 136)';
+            } elseif($this->getMaxRegistered()-$this->getCurrentRegistered() <= 5 && (int)$this->getMaxRegistered() > (int)$this->getCurrentRegistered()) {
+            //<5 seats left
+                $color = 'rgb(255, 255, 136)';
+            } else {
+            //no seats left
+                $color = 'rgb(255, 136, 136)';
+            }
+            print '<tr style="background-color:'.$color.';">';
+                if($filterable) {
+                    print '<td><a href="?'.$_SERVER["QUERY_STRING"].'&cf[]='.$this->getID().'" style="color:red; text-decoration:none;">Remove</td>';
+                }
+                print '<td>'.$this->getCourseID().'</td>';
+                print '<td>'.$this->getTitle().'</td>';
+                print '<td>'.$this->getProf().'</td>';
+                print '<td>'.$this->dayString().'</td>';
+                print '<td>'.$this->displayTime($this->getStartTime()).'-'.$this->displayTime($this->getEndTime()).'</td>';
+                print '<td>'.$this->getSection().'</td>';
+                print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
+            print '</tr>';
+            return $ret;
+        }
+
+        function dayString() {
+            $temp = array("S", "M", "T", "W", "R", "F", "S");
+            $nums = array(1, 2, 4, 8, 16, 32, 64);
+            $ret = "";
+            for($i = 0; $i < count($temp); $i++) {
+                if($this->getDays() & $nums[$i]) {
+                    $ret .= $temp[$i];
+                } else {
+                    $ret .= "-";
+                }
+            }
+            return $ret;
+        }
+
+        public function isEmpty() {
+            return $this->getDays() > 0;
+        }
+
+        //for some definition of equal... make sure you don't check num registered here!
+        public function equal($class) {
+            if($this->isEmpty())
+                return false;
+            if($this->getCourseID() != $class->getCourseID())
+                return false;
+            if($this->getSection() != $class->getSection())
+                return false;
+            if($this->getTitle() != $class->getTitle())
+                return false;
+            return true;
+        }
+
+        public function export() {
+            return array($this->courseID, $this->section, $this->days, $this->startTime, $this->endTime, $this->title,
+                $this->prof, $this->currentRegistered, $this->maxRegisterable);
+        }
+
+        public function getID() {
+            return dechex($this->id);
+        }
+
+        public function __toString() {
+            return "Course ".$this->getID();
+        }
+    }
+?>
