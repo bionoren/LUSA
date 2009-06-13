@@ -196,16 +196,17 @@
                                     }
                                 }
                                 print '</select>';
-                                if($errors[$i]) {
-                                    print '&nbsp;&nbsp;<font color="red">Sorry, this class is not offered this semester</font>';
-                                }
-                                print '<br>';
+                                if($errors[$i]):
+                                ?>
+                                    <font color="red">Sorry, this class is not offered this semester</font>
+                                <?php endif;?>
+                                <br>
+                                <?php
                             }
                             print "$hours credit hours<br>";
                         ?>
                     </td>
                     <td>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg"></a>
                         <br>
                             <i>Student Edition</i>

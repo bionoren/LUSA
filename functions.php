@@ -166,7 +166,7 @@
 
 	function displaySchedules($schedules, $total) {
 		if(is_array($schedules)) {
-			print '<table border=0>';
+			print '<table class="full border">';
 				if($total > 0) {
 					print '<tr><td>Showing '.count($schedules).' of '.$total.' possible ways to take your other classes</td></tr>';
 				} else {
@@ -236,10 +236,10 @@
 
         public function display() {
             $qs = Schedule::getPrintQS($this->classes);
-            print '<tr><td>
-                <table><tr><td align="left">Keep this schedule: <input type="checkbox" name="sf[]" value="'.$this->getID().'" checked></td>
-                <td align="right"><a href="print.php?'.$qs.'" target="_new">Week View</a></td></tr><tr><td colspan="2"><table>';
             ?>
+          <p>Keep this schedule: <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" checked></p>
+          <p><a href="print.php?<?php echo $qs?>" target="_new">Week View</a></p>
+          <table class="full border">
             <tr>
               <th></th>
               <th colspan="2">Class</th>
@@ -259,28 +259,31 @@
                     $class->display();
                 }
             }
-//            print $this->getUniqueID()."<br>";
-            print "</td></tr></table></td></tr></table>\n";
+            ?></td></tr></table><?php
         }
 
         public static function displayCommon() {
-            print '<tr><td>
-                <table border="0"><tr><td align="left">These are the only times you can take these classes:</td><td align="right"><a href="print.php?'.Schedule::getPrintQS(Schedule::$common).'"
-                target="_new">Week View</a></td></tr><tr><td colspan="2"><table border="1">';
             ?>
-            <tr>
-              <th colspan="2">Class</th>
-              <th>Prof</th>
-              <th>Days</th>
-              <th>Time</th>
-              <th>Section</th>
-              <th>Registration/Size</th>
-            </tr>
+            <p>These are the only times you can take these classes:</p>
+            <p><a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?> target="_new">Week View</a></p>
+            <table class="full border">
+              <tr>
+                <th colspan="2">Class</th>
+                <th>Prof</th>
+                <th>Days</th>
+                <th>Time</th>
+                <th>Section</th>
+                <th>Registration/Size</th>
+              </tr>
 			<?php
             foreach(Schedule::$common as $class) {
                 print $class->display();
             }
-            print "</td></tr></table></td></tr></table>\n";
+            ?>
+			    </td>
+			  </tr>
+			</table>
+			<?php
         }
 
         public static function getPrintQS($classes=null) {

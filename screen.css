@@ -19,7 +19,8 @@ body {
 }
 
 #container #header {
-	
+	border-bottom: 1px solid #CCCCCC;
+	margin-bottom: 10px;
 }
 
 #container #footer {
