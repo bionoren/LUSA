@@ -13,15 +13,15 @@
 	 *	limitations under the License.
 	 */
 ?>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <head bgcolor="#e0e3ec">
+<head>
+<title>LUSA SE</title>
+<link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
 <?php
 	$NUM_CLASSES = 15;
     //the limit should be in apache at ~4000 characters
-    $method = (strlen($_SERVER["QUERY_STRING"]) < 3500)?"get":"post";
+    $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
 
 	require_once("functions.php");
 
@@ -33,8 +33,6 @@
         $now = getCurrentSemester("2009", $semester);
     }
 	$classInfo = getClassData("2009", $semester);
-//	die(dump("classInfo", $classInfo));
-//	die("classes=".count($classInfo));
 
 	$classGroups = array();
     $classes = array();
@@ -75,7 +73,6 @@
 
     //I really don't know javascript, so make whatever sense of this you can...
 ?>
-        <title>LUSA SE</title>
         <script type="text/javascript">
             <!--
             <?php
@@ -121,13 +118,15 @@
             }
             // -->
         </script>
-    </head>
-	<body>
-
-        <?php print $now; ?>
-        <br>
+</head>
+<body>
+<div id="container">
+	<div id="header"></div>
+	<div id="body">
+		<?php print $now; ?>
+		<br>
         <form method="<?php print $method; ?>">
-            <select name="semester">
+			<select name="semester">
                 <option value="SU" <?php if($_REQUEST["semester"] == "SU") { print "selected"; } ?>>Summer</option>
                 <option value="FA" <?php if($_REQUEST["semester"] != "SU") { print "selected"; } ?>>Fall</option>
             </select>
@@ -150,12 +149,7 @@
                         } else {
                             $classFilter = null;
                         }
-        //                print "filters = ".count($filter)."<br>";
-        //                die(dump("filter", $filter));
-
-        //                die(dump("courses", $courses));
                         $schedules = findSchedules($courses, $filter, $classFilter);
-        //				  die(dump("schedules", $schedules, 3));
 
                         if(isset($_REQUEST["total"])) {
                             $total = $_REQUEST["total"];
@@ -174,7 +168,7 @@
                     }
                 }
             ?>
-            <table border="0" cellspacing="0" cellpadding="0">
+            <table>
                 <tr>
                     <td>
                         <?php
@@ -240,7 +234,12 @@
             <input type="submit" name="submit" value="Generate Schedules!">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="index.php">Clear Classes</a>
-            <br>By clicking these buttons, you agree to never sue (<a href="tos.php" target="_new">blah blah blah</a>)...<br>
+            <br><br>
         </form>
-	</body>
+	</div>
+	<div id="footer">
+		<p>By clicking these buttons, you agree to never sue (<a href="tos.php" target="_new">blah blah blah</a>)...</p>
+	</div>
+</div>
+</body>
 </html>
