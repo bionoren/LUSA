@@ -4,10 +4,10 @@
 body {
 	background-color: #eeeeff;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
-	font-size: 80%;
+	font-size: 0.8em;
 	margin: 0;
 	padding: 0;
-	text-align: center;
+	text-align: left;
 }
 
 #container {
@@ -15,11 +15,75 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	background-color: white;
-	padding: 10px;
+	padding: 20px;
+}
+
+#container #header {
+	
 }
 
 #container #footer {
 	border-top: 1px solid #CCCCCC;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #666666;
+	line-height: 1.5em;
+}
+#container #footer ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#container #body table {
+	font-size: 1em;
+	margin: 0 0 0 -2px;
+	padding: 0;
+	border-spacing: 1px;
+}
+#container #body table.collapsed {
+	border-collapse: collapse;
+}
+#container #body table td {
+	margin-top: 1px;
+}
+#container #body table th {
+	text-align: left;
+}
+#container #body table.full {
+	width: 100%;
+}
+#container #body table.border {
+	border-collapse: collapse;
+}
+#container #body table.border th {
+	border: none;
+}
+#container #body table.border td {
+	border: 1px solid rgb(220, 220, 220);
+}
+#container #body table.border td table td {
+	border: none;
+}
+#container #body table.padding td,
+#container #body table.padding th {
+	padding: 2px;
+}
+#container #body table tr.strong td {
+	font-weight: bold;
+}
+#container #body table tr.em td {
+	font-style: italic;
+}
+#container #body table.sortable tr th,
+#container #body table.server_sortable tr th {
+	cursor: pointer;
+	background-image: url(images/tr_back.gif);
+	background-repeat: repeat-x;
+	background-position: center center;
+	empty-cells: show;
+}
+#container #body table.sortable tr th:hover {
+	color: #0043B4;ow
 }

@@ -121,7 +121,9 @@
 </head>
 <body>
 <div id="container">
-	<div id="header"></div>
+	<div id="header">
+		<h1>LUSA</h1>
+	</div>
 	<div id="body">
 		<?php print $now; ?>
 		<br>
@@ -206,13 +208,11 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg"></a>
                         <br>
-                        <center>
                             <i>Student Edition</i>
-                        </center>
                     </td>
                 </tr>
             </table>
-			<?php if(isset($_REQUEST["submit"])) { ?>
+			<?php if(isset($_REQUEST["submit"])): ?>
                 <input type="submit" name="submit" value="Filter">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <?php
@@ -224,21 +224,17 @@
                 ?>
                 <a href="<?php print $clear; ?>">Clear Filters</a>
                 <br>
-            <?php } ?>
-            <br>
-            <b><font color="red">Please be aware that LUSA does NOT register you for classes!</font></b>
-            <br>
-            To register for classes log into my.letu.edu and select "Web Services - Student"
-            <br>
-            <br>
+            <?php endif; ?>
             <input type="submit" name="submit" value="Generate Schedules!">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="index.php">Clear Classes</a>
-            <br><br>
         </form>
 	</div>
 	<div id="footer">
-		<p>By clicking these buttons, you agree to never sue (<a href="tos.php" target="_new">blah blah blah</a>)...</p>
+		<ul>
+			<li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>)...</li>
+			<li>To register for classes log into my.letu.edu and select "Web Services - Student"</li>
+			<li>Please remember that LUSA does <strong>not</strong> register you for classes</li>
+		</ul>
 	</div>
 </div>
 </body>

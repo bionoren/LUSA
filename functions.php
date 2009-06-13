@@ -237,9 +237,19 @@
         public function display() {
             $qs = Schedule::getPrintQS($this->classes);
             print '<tr><td>
-                <table border="0"><tr><td align="left">Keep this schedule: <input type="checkbox" name="sf[]" value="'.$this->getID().'" checked></td>
-                <td align="right"><a href="print.php?'.$qs.'" target="_new">Week View</a></td></tr><tr><td colspan="2"><table border="1">';
-            print '<tr><td></td><td colspan="2">Class</td><td>Prof</td><td>Days</td><td>Time</td><td>Section</td><td>curReg/maxReg</td></tr>';
+                <table><tr><td align="left">Keep this schedule: <input type="checkbox" name="sf[]" value="'.$this->getID().'" checked></td>
+                <td align="right"><a href="print.php?'.$qs.'" target="_new">Week View</a></td></tr><tr><td colspan="2"><table>';
+            ?>
+            <tr>
+              <th></th>
+              <th colspan="2">Class</th>
+              <th>Prof</th>
+              <th>Days</th>
+              <th>Time</th>
+              <th>Section</th>
+              <th>Registered/Size</th>
+            </tr>
+            <?php
             if(count($this->getClasses()) != count(Schedule::$common)) {
                 foreach(array_diff($this->classes, Schedule::$common) as $class) {
                     $class->display(true);
@@ -257,7 +267,16 @@
             print '<tr><td>
                 <table border="0"><tr><td align="left">These are the only times you can take these classes:</td><td align="right"><a href="print.php?'.Schedule::getPrintQS(Schedule::$common).'"
                 target="_new">Week View</a></td></tr><tr><td colspan="2"><table border="1">';
-            print '<tr><td colspan="2">Class</td><td>Prof</td><td>Days</td><td>Time</td><td>Section</td><td>curReg/maxReg</td></tr>';
+            ?>
+            <tr>
+              <th colspan="2">Class</th>
+              <th>Prof</th>
+              <th>Days</th>
+              <th>Time</th>
+              <th>Section</th>
+              <th>Registration/Size</th>
+            </tr>
+			<?php
             foreach(Schedule::$common as $class) {
                 print $class->display();
             }
