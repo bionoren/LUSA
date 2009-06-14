@@ -256,6 +256,7 @@
               <th>Registered/Size</th>
             </tr>
             <?php
+            Course::generateQS();
             if(count($this->getClasses()) != count(Schedule::$common)) {
                 foreach(array_diff($this->classes, Schedule::$common) as $class) {
                     $class->display($total, true);
@@ -315,6 +316,7 @@
         protected static $ID = 1;
         public static $KEYS = array("ref#", "course", "section", "title", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
         public static $EXPORT = array("course", "section", "days", "start", "end", "title", "prof", "curReg", "maxReg");
+        public static $QS = "";
 
         protected $id;
         protected $courseID;
@@ -455,8 +457,8 @@
             }
             print '<tr style="background-color:'.$color.';">';
                 if($filterable) {
-                    $qstring = $_SERVER["QUERY_STRING"].'&cf[]='.$this->getID().'&submit=Filter&total='.$total;
-                    print '<td><a href="?'.$qstring.'" style="color:red; text-decoration:none;">Remove</td>';
+                    $qstring = Course::$QS.'&cf[]='.$this->getID().'&submit=Filter&total='.$total;
+                    print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</td>';
                 }
                 print '<td>'.$this->getCourseID().'</td>';
                 print '<td>'.$this->getTitle().'</td>';
@@ -511,6 +513,19 @@
 
         public function __toString() {
             return "Course ".$this->getID();
+        }
+
+        public static function generateQS() {
+            //this string concatenation could take longer than I'd like, but we need to do it...
+            $qString = "?";
+            foreach($_REQUEST as $key=>$val) {
+                if(is_array($val)) {
+                    $qString .= $key."[]=".implode("&".$key."[]=", $val)."&";
+                } else {
+                    $qString .= $key."=".$val."&";
+                }
+            }
+            Course::$QS = $qString;
         }
     }
 ?>

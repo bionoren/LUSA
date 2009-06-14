@@ -176,7 +176,7 @@
                 <tr>
                     <td>
                         <?php
-//                            displayClassSelections($_REQUEST, $classGroups, $classes, $errors);
+//                            displayClassSelections($classGroups, $classes, $errors);
                             $hours = 0;
                             $classGroups = implode("", $classGroups);
                             for($i=0; $i < $NUM_CLASSES; $i++) {
