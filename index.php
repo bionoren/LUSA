@@ -172,11 +172,8 @@
                     }
                 }
             ?>
-            <table>
-                <tr>
-                    <td>
+            <div class="leftcol">
                         <?php
-//                            displayClassSelections($classGroups, $classes, $errors);
                             $hours = 0;
                             $classGroups = implode("", $classGroups);
                             for($i=0; $i < $NUM_CLASSES; $i++) {
@@ -209,14 +206,12 @@
                             }
                             print "$hours credit hours<br>";
                         ?>
-                    </td>
-                    <td>
+                    </div>
+                    <div class="rightcol" style="text-align: right">
                         <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg"></a>
                         <br>
-                            <i>Student Edition</i>
-                    </td>
-                </tr>
-            </table>
+                            <em>Student Edition</em>
+                    </div>
 			<?php if(isset($_REQUEST["submit"])): ?>
                 <input type="submit" name="submit" value="Filter">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

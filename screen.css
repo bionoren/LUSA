@@ -2,18 +2,17 @@
 --  PAGE BODY --------------------------------------------------------------
 ----------------------------------------------------------------------------*/
 body {
-	background-color: #eeeeff;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
 	font-size: 0.8em;
 	margin: 0;
 	padding: 0;
 	text-align: left;
+	background-color: rgb(42,73,101);
 }
 
 #container {
 	width: 900px;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 10px auto;
 	background-color: white;
 	padding: 20px;
 }
@@ -24,6 +23,7 @@ body {
 }
 
 #container #footer {
+	margin-top: 10px;
 	border-top: 1px solid #CCCCCC;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -35,6 +35,17 @@ body {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
+}
+
+#container #body .leftcol {
+	width: 50%;
+	float: left;
+	clear: left;
+}
+#container #body .rightcol {
+	width: 50%;
+	float: right;
+	clear: right;
 }
 
 #container #body table {
