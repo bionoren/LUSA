@@ -230,15 +230,16 @@
                 <a href="<?php print $clear; ?>">Clear Filters</a>
                 <br>
             <?php endif; ?>
+            <br>
             <input type="submit" name="submit" value="Generate Schedules!">
             <a href="index.php">Clear Classes</a>
         </form>
 	</div>
 	<div id="footer">
 		<ul>
+            <li><b>To register for classes log into my.letu.edu and select "Web Services - Student"</b></li>
+			<li><b>Please remember that LUSA does <strong>not</strong> register you for classes</b></li>
 			<li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>)...</li>
-			<li>To register for classes log into my.letu.edu and select "Web Services - Student"</li>
-			<li>Please remember that LUSA does <strong>not</strong> register you for classes</li>
 		</ul>
 	</div>
 </div>
