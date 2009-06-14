@@ -269,27 +269,29 @@
         }
 
         public static function displayCommon() {
-            ?>
-            <p>These are the only times you can take these classes:</p>
-            <p><a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new">Week View</a></p>
-            <table class="full border">
-              <tr>
-                <th colspan="2">Class</th>
-                <th>Prof</th>
-                <th>Days</th>
-                <th>Time</th>
-                <th>Section</th>
-                <th>Registration/Size</th>
-              </tr>
+            if(count(Schedule::$common) != 0):
+                ?>
+                <p>These are the only times you can take these classes:</p>
+                <p><a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new">Week View</a></p>
+                <table class="full border">
+                  <tr>
+                    <th colspan="2">Class</th>
+                    <th>Prof</th>
+                    <th>Days</th>
+                    <th>Time</th>
+                    <th>Section</th>
+                    <th>Registration/Size</th>
+                  </tr>
+                <?php
+                foreach(Schedule::$common as $class) {
+                    print $class->display();
+                }
+                ?>
+                    </td>
+                  </tr>
+                </table>
 			<?php
-            foreach(Schedule::$common as $class) {
-                print $class->display();
-            }
-            ?>
-			    </td>
-			  </tr>
-			</table>
-			<?php
+            endif;
         }
 
         public static function getPrintQS($classes=null) {

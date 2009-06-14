@@ -166,10 +166,7 @@
                             $total = 0;
                         }
 
-                        //be careful with this if statement. The order is important, because schedules[0] may or may not be an object
-                        if(is_array($schedules) && (count($schedules) <= 1 || count($schedules[0]->getClasses()) != count(Schedule::$common))) {
-                            Schedule::displayCommon()."<br>";
-                        }
+                        Schedule::displayCommon()."<br>";
                         if(count($schedules) > 1) {
                             displaySchedules($schedules, $total);
                         }
