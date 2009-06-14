@@ -38,14 +38,13 @@
         $semester = $_REQUEST["semester"];
         $now = getCurrentSemester("2009", $semester);
     }
-	$classInfo = getClassData("2009", $semester);
 
 	$classGroups = array();
     $classes = array();
 	$courseTitleNumbers = array();
     //in all honesty, I don't remember what most of this does, just that things break if I mess with it...
     //generate select option values for display later
-	foreach($classInfo as $class) {
+	foreach(getClassData("2009", $semester) as $class) {
 		$course = substr($class->getCourseID(), 0, 4);
 		$classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
         $classes[$course][$class->getCourseID()] = $class->getTitle();
@@ -163,10 +162,10 @@
                             $total = $_REQUEST["total"];
                         } else {
                             print '<input type="hidden" name="total" value="'.count($schedules).'">';
-                            $total = 0;
+                            $total = count($schedules);
                         }
 
-                        Schedule::displayCommon()."<br>";
+                        Schedule::displayCommon($total)."<br>";
                         if(count($schedules) > 1) {
                             displaySchedules($schedules, $total);
                         }

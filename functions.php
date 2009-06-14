@@ -171,14 +171,14 @@
 		if(is_array($schedules)) {
             print "<br>";
 			print '<table class="full border">';
-				if($total > 0) {
+				if($total != count($schedules)) {
 					print '<tr><td>Showing '.count($schedules).' of '.$total.' possible ways to take your other classes</td></tr>';
 				} else {
     				print '<tr><td>There are '.count($schedules).' possible ways to take the rest of your classes</td></tr>';
 				}
 				foreach($schedules as $schedule) {
 					print '<tr><td style="border:0px;">';
-                        $schedule->display();
+                        $schedule->display($total);
                     print '</td></tr>';
 				}
 			print '</table>';
@@ -240,7 +240,7 @@
             return dechex($this->id);
         }
 
-        public function display() {
+        public function display($total) {
             $qs = Schedule::getPrintQS($this->classes);
             ?>
           <p>Keep this schedule: <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" checked></p>
@@ -258,17 +258,17 @@
             <?php
             if(count($this->getClasses()) != count(Schedule::$common)) {
                 foreach(array_diff($this->classes, Schedule::$common) as $class) {
-                    $class->display(true);
+                    $class->display($total, true);
                 }
             } else {
                 foreach($this->classes as $class) {
-                    $class->display();
+                    $class->display($total);
                 }
             }
             ?></td></tr></table><?php
         }
 
-        public static function displayCommon() {
+        public static function displayCommon($total) {
             if(count(Schedule::$common) != 0):
                 ?>
                 <p>These are the only times you can take these classes:</p>
@@ -284,7 +284,7 @@
                   </tr>
                 <?php
                 foreach(Schedule::$common as $class) {
-                    print $class->display();
+                    print $class->display($total);
                 }
                 ?>
                     </td>
@@ -442,7 +442,7 @@
             return $this->maxRegisterable;
         }
 
-        public function display($filterable=false) {
+        public function display($total, $filterable=false) {
             //>5 seats left
             if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
                 $color = 'rgb(136, 255, 136)';
@@ -455,7 +455,8 @@
             }
             print '<tr style="background-color:'.$color.';">';
                 if($filterable) {
-                    print '<td><a href="?'.$_SERVER["QUERY_STRING"].'&cf[]='.$this->getID().'&submit=Filter" style="color:red; text-decoration:none;">Remove</td>';
+                    $qstring = $_SERVER["QUERY_STRING"].'&cf[]='.$this->getID().'&submit=Filter&total='.$total;
+                    print '<td><a href="?'.$qstring.'" style="color:red; text-decoration:none;">Remove</td>';
                 }
                 print '<td>'.$this->getCourseID().'</td>';
                 print '<td>'.$this->getTitle().'</td>';
