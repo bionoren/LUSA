@@ -19,17 +19,20 @@
     //lasting all day every day.
 
 	//DEBUGGING FUNCTIONS
-	function dump($name, $array, $limit=1000000) {
-        if($limit <= 0)
-			$array = "array(".count($array).")";
+	function dump($name, $array, $member=null) {
 		if(!is_array($array)) {
 			print "$name = $array<br>";
 		} else {
 			foreach($array as $key=>$val) {
 				if(is_array($val))
-					dump($name."[$key]", $val, $limit-1);
-				else
-					print $name."[".$key."] = $val<br>";
+					dump($name."[$key]", $val, $member);
+				else {
+                    if($member == null) {
+    					print $name."[".$key."] = $val<br>";
+                    } else {
+                        print $name."[".$key."] = ".$val->{$member}()."<br>";
+                    }
+                }
 			}
 		}
 	}
@@ -166,6 +169,7 @@
 
 	function displaySchedules($schedules, $total) {
 		if(is_array($schedules)) {
+            print "<br>";
 			print '<table class="full border">';
 				if($total > 0) {
 					print '<tr><td>Showing '.count($schedules).' of '.$total.' possible ways to take your other classes</td></tr>';
@@ -173,7 +177,9 @@
     				print '<tr><td>There are '.count($schedules).' possible ways to take the rest of your classes</td></tr>';
 				}
 				foreach($schedules as $schedule) {
-					$schedule->display();
+					print '<tr><td style="border:0px;">';
+                        $schedule->display();
+                    print '</td></tr>';
 				}
 			print '</table>';
 		} else {
@@ -265,7 +271,7 @@
         public static function displayCommon() {
             ?>
             <p>These are the only times you can take these classes:</p>
-            <p><a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?> target="_new">Week View</a></p>
+            <p><a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new">Week View</a></p>
             <table class="full border">
               <tr>
                 <th colspan="2">Class</th>
@@ -447,7 +453,7 @@
             }
             print '<tr style="background-color:'.$color.';">';
                 if($filterable) {
-                    print '<td><a href="?'.$_SERVER["QUERY_STRING"].'&cf[]='.$this->getID().'" style="color:red; text-decoration:none;">Remove</td>';
+                    print '<td><a href="?'.$_SERVER["QUERY_STRING"].'&cf[]='.$this->getID().'&submit=Filter" style="color:red; text-decoration:none;">Remove</td>';
                 }
                 print '<td>'.$this->getCourseID().'</td>';
                 print '<td>'.$this->getTitle().'</td>';

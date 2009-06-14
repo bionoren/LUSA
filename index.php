@@ -25,6 +25,12 @@
 
 	require_once("functions.php");
 
+    if($_REQUEST["submit"] != "Filter") {
+        unset($_REQUEST["sf"]);
+        unset($_REQUEST["cf"]);
+        unset($_REQUEST["total"]);
+    }
+
     if(!isset($_REQUEST["semester"])) {
         $now = getCurrentSemester();
         $semester = "FA";
@@ -49,7 +55,6 @@
     foreach($classes as &$array) {
         asort($array);
     }
-	$classGroups = implode("", $classGroups);
 
 	if(isset($_REQUEST["submit"])) {
 		//gather input data
@@ -151,6 +156,7 @@
                         } else {
                             $classFilter = null;
                         }
+
                         $schedules = findSchedules($courses, $filter, $classFilter);
 
                         if(isset($_REQUEST["total"])) {
@@ -162,7 +168,7 @@
 
                         //be careful with this if statement. The order is important, because schedules[0] may or may not be an object
                         if(is_array($schedules) && (count($schedules) <= 1 || count($schedules[0]->getClasses()) != count(Schedule::$common))) {
-                            print Schedule::displayCommon()."<br>";
+                            Schedule::displayCommon()."<br>";
                         }
                         if(count($schedules) > 1) {
                             displaySchedules($schedules, $total);
@@ -174,7 +180,9 @@
                 <tr>
                     <td>
                         <?php
+//                            displayClassSelections($_REQUEST, $classGroups, $classes, $errors);
                             $hours = 0;
+                            $classGroups = implode("", $classGroups);
                             for($i=0; $i < $NUM_CLASSES; $i++) {
                                 if(isset($_REQUEST["class".$i])) {
                                     $tmp = str_replace(">".$_REQUEST["class".$i], ' selected="yes">'.$_GET["class".$i], $classGroups);
