@@ -55,22 +55,20 @@
         asort($array);
     }
 
-	if(isset($_REQUEST["submit"])) {
+	if(isset($_REQUEST["submit"]) && isset($_REQUEST["choice"])) {
+        $_REQUEST["class"] = array_values(array_filter($_REQUEST["class"]));
 		//gather input data
 		$courses = array();
 		$errors = array();
-		for($i = 0; $i < $NUM_CLASSES; $i++) {
-			if($_REQUEST["class".$i] != "----" && !empty($_GET["choice".$i])) {
-				$key = $_REQUEST["choice".$i];
-				if(isset($courseTitleNumbers[$key])) {
-					$courses[] = $courseTitleNumbers[$key];
-                    if(isset($courseTitleNumbers[$key." lab"])) {
-                        $courses[] = $courseTitleNumbers[$key." lab"];
-                    }
-				} else {
-					$errors[$i] = true;
-				}
-			}
+		foreach($_REQUEST["choice"] as $key) {
+            if(isset($courseTitleNumbers[$key])) {
+                $courses[] = $courseTitleNumbers[$key];
+                if(isset($courseTitleNumbers[$key." lab"])) {
+                    $courses[] = $courseTitleNumbers[$key." lab"];
+                }
+            } else {
+                $errors[$i] = true;
+            }
 		}
 	}
     //find possible schedules
@@ -177,19 +175,19 @@
                             $hours = 0;
                             $classGroups = implode("", $classGroups);
                             for($i=0; $i < $NUM_CLASSES; $i++) {
-                                if(isset($_REQUEST["class".$i])) {
-                                    $tmp = str_replace(">".$_REQUEST["class".$i], ' selected="yes">'.$_GET["class".$i], $classGroups);
+                                if(isset($_REQUEST["class"][$i])) {
+                                    $tmp = str_replace(">".$_REQUEST["class"][$i], ' selected="yes">'.$_REQUEST["class"][$i], $classGroups);
                                 } else {
                                     $tmp = $classGroups;
                                 }
-                                print '<select name="class'.$i.'" onchange="selectChange(this, choice'.$i.');"><option value="----">----</option>'.$tmp.'</select>-';
-                                print '<select id="choice'.$i.'" name="choice'.$i.'">';
-                                if(!empty($_REQUEST["choice".$i])) {
-                                    foreach($classes[$_REQUEST["class".$i]] as $key=>$value) {
+                                print '<select name="class[]" onchange="selectChange(this, choice'.$i.');"><option value="0">----</option>'.$tmp.'</select>-';
+                                print '<select id="choice'.$i.'" name="choice[]">';
+                                if(!empty($_REQUEST["choice"][$i])) {
+                                    foreach($classes[$_REQUEST["class"][$i]] as $key=>$value) {
                                         if(substr($key, strlen($key)-3) == "lab")
                                             continue;
                                         print '<option value="'.$key.'"';
-                                        if($_REQUEST["choice".$i] == $key) {
+                                        if($_REQUEST["choice"][$i] == $key) {
                                             print ' selected="yes"';
                                             $hours += substr($key, 8);
                                         }
@@ -218,7 +216,7 @@
                 <?php
                     $clear = "index.php?semester=".$_REQUEST["semester"]."&total=".$_REQUEST["total"];
                     for($i = 0; $i < $NUM_CLASSES; $i++) {
-                        $clear .= "&class$i=".$_REQUEST["class".$i]."&choice$i=".$_REQUEST["choice".$i];
+                        $clear .= "&class[]=".$_REQUEST["class"][$i]."&choice[]=".$_REQUEST["choice"][$i];
                     }
                     $clear .= "&submit=Generate+Schedules!";
                 ?>
