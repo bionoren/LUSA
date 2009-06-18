@@ -108,12 +108,17 @@
 //        rename("temp.txt", "/Library/WebServer/Documents/LUSASE/".$year.$semester.".txt");
 	}
 
-    $files[] = array(2009, "SU");
-    $files[] = array(2009, "FA");
+    $files = getFileArray(false);
+    $lastSemester = "";
     for($i = 0; $i < count($files); $i++) {
         $year = $files[$i][0];
         $sem = $files[$i][1];
         $semester = fetchCurrentSemester($year, $sem);
-        writeClassData($semester, $year, $sem);
+        if($semester == $lastSemester) {
+            break;
+        } else {
+            $lastSemester = $semester;
+            writeClassData($semester, $year, $sem);
+        }
     }
 ?>

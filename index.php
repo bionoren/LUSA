@@ -32,19 +32,28 @@
     }
 
     if(!isset($_REQUEST["semester"])) {
-        $now = getCurrentSemester();
-        $semester = "FA";
+        $files = getFileArray();
+        if(is_array($files[1])) {
+            //never default to the summer unless there's no fall data yet
+            if($files[1][1] == "SU" && is_array($files[2])) {
+                $semester = $files[2];
+            } else {
+                $semester = $files[1];
+            }
+        } else {
+            $semester = $files[0];
+        }
     } else {
-        $semester = $_REQUEST["semester"];
-        $now = getCurrentSemester("2009", $semester);
+        $semester = explode(" ", $_REQUEST["semester"]);
     }
+    $now = getCurrentSemester($semester[0], $semester[1]);
 
 	$classGroups = array();
     $classes = array();
 	$courseTitleNumbers = array();
     //in all honesty, I don't remember what most of this does, just that things break if I mess with it...
     //generate select option values for display later
-	foreach(getClassData("2009", $semester) as $class) {
+	foreach(getClassData($semester[0], $semester[1]) as $class) {
 		$course = substr($class->getCourseID(), 0, 4);
 		$classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
         $classes[$course][$class->getCourseID()] = $class->getTitle();
@@ -131,15 +140,26 @@
 		<br>
         <form method="<?php print $method; ?>">
 			<select name="semester">
-                <option value="SU" <?php if($_REQUEST["semester"] == "SU") { print "selected"; } ?>>Summer</option>
-                <option value="FA" <?php if($_REQUEST["semester"] != "SU") { print "selected"; } ?>>Fall</option>
+                <?php
+                    $files = getFileArray();
+                    $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
+                    $semesterStr = $semester[0].' '.$semester[1];
+                    for($i = 0; $i < count($files); $i++) {
+                        $key = $files[$i][0].' '.$files[$i][1];
+                        print '<option value="'.$key.'"';
+                        if($semesterStr == $key) {
+                            print "selected";
+                        }
+                        print '>'.$names[$files[$i][1]].' '.$files[$i][0].'</option>';
+                    }
+                ?>
             </select>
             <input type="submit" name="update" value="Change">
         </form>
         <br>
 
         <form method="<?php print $method; ?>" id="form" name="form">
-            <input type="hidden" name="semester" value="<?php print $semester; ?>">
+            <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
             <?php
                 if(isset($_REQUEST["submit"]) && empty($errors)) {
                     if(count($courses) > 0) {

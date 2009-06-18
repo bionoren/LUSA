@@ -38,10 +38,10 @@
 	}
 
 	//FUNCTIONS
-    function getCurrentSemester($year=2009, $semester="FA") {
-        //get the current class schedule from LeTourneu
+    function getCurrentSemester($year=null, $semester=null) {
+        //get the current class schedule from LeTourneau
 		if(!file_exists($year.$semester.".txt")) {
-            `php cache.php $file`;
+            die("There is no data available for $semester $year");
         }
         $file = fopen($year.$semester.".txt", "r");
         $title = fgets($file);
@@ -49,8 +49,38 @@
         return $title;
     }
 
-	function getClassData($year=2009, $semester="FA") {
-		$file = fopen($year.$semester.".txt", "r");
+    function getFileArray($reject=true) {
+        //rollover on May 1st, August 10th, and December 15th
+        $year = date("Y");
+        $month = date("n");
+        $day = date("j");
+        $files = array();
+        //order is important here!
+        if($month < 5) {
+            //grab last fall and this spring and try for this summer and fall
+            $files[] = array($year-1, "FA");
+            $files[] = array($year, "SP");
+            $files[] = array($year, "SU");
+            $files[] = array($year, "FA");
+        } elseif($month < 8 || ($month == 8 && $day < 10)) {
+            //grab last spring and this summer and try for next fall
+            $files[] = array($year, "SP");
+            $files[] = array($year, "SU");
+            $files[] = array($year, "FA");
+        } else {
+            //grab last summer and this fall and try for next spring
+            $files[] = array($year, "SU");
+            $files[] = array($year, "FA");
+            $files[] = array($year+1, "SP");
+        }
+        return $files;
+    }
+
+	function getClassData($year, $semester) {
+		if(!file_exists($year.$semester.".txt")) {
+            die("There is no data available for $semester $year");
+        }
+        $file = fopen($year.$semester.".txt", "r");
         $classes = array();
         fgets($file); //burn the title
         while(!feof($file)) {
