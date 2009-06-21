@@ -12,6 +12,18 @@
 	 *	See the License for the specific language governing permissions and
 	 *	limitations under the License.
 	 */
+
+    require_once("functions.php");
+
+    //whatever happens, cookie stuff comes first
+    if(isset($_REQUEST["submit"])) {
+        save_cookie($_SERVER["QUERY_STRING"]);
+    } else {
+        //look for cookie data
+        if(isset($_COOKIE["lastSchedule"])) {
+            header("Location:?".$_COOKIE["lastSchedule"]);
+        }
+    }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,8 +34,6 @@
 	$NUM_CLASSES = 15;
     //the limit should be in apache at ~4000 characters
     $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
-
-	require_once("functions.php");
 
     if($_REQUEST["submit"] != "Filter") {
         unset($_REQUEST["sf"]);

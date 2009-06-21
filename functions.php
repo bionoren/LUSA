@@ -38,6 +38,11 @@
 	}
 
 	//FUNCTIONS
+    function save_cookie($data) {
+        //set for 2 months
+        setcookie("lastSchedule", $data, time()+60*60*24*7*8);
+    }
+
     function getCurrentSemester($year=null, $semester=null) {
         //get the current class schedule from LeTourneau
 		if(!file_exists($year.$semester.".txt")) {
