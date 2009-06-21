@@ -97,7 +97,7 @@
 
     //filters the master class list down to the courses we're interested in and organizes the data into something parsable by evaluateSchedules()
     //just as a warning, this method took a lot of thought, but it really does work. Good luck...
-	function findSchedules(array $courses, $filters=null, $classFilters=null) {
+	function findSchedules(array $courses, $filters=null) {
 		//add course information for all the courses to be taken
         //classes with only one section must be common
         foreach($courses as $i=>$sections) {
@@ -123,19 +123,14 @@
         $conflict = null;
         while(true) {
             $classes = array();
-            $ignore = false;
             foreach($courses as $i=>$sections) {
                 $class = $sections[$indexes[$i]];
-                if(isset($classFilters[$class->getID()])) {
-                    $ignore = true;
-                    break;
-                }
                 $classes[] = $class;
             }
             //for each course, if the index for this course is less than the max section index, shift it
             //also handles rollover for previous indicies
             $temp = new Schedule($classes);
-            if(($filters === null || $filters[$temp->getID()]) && !$ignore) {
+            if(($filters === null || $filters[$temp->getID()])) {
                 $valid = $temp->isValid();
                 if($valid === true) {
                     $schedules[] = $temp;
@@ -492,7 +487,7 @@
             }
             print '<tr style="background-color:'.$color.';">';
                 if($filterable) {
-                    $qstring = Course::$QS.'&cf[]='.$this->getID().'&submit=Filter&total='.$total;
+                    $qstring = Course::$QS.'cf[]='.$this->getID().'&submit=Filter&total='.$total;
                     print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</td>';
                 }
                 print '<td>'.$this->getCourseID().'</td>';
@@ -552,8 +547,11 @@
 
         public static function generateQS() {
             //this string concatenation could take longer than I'd like, but we need to do it...
-            $qString = "?";
+            $qString = "./?";
             foreach($_REQUEST as $key=>$val) {
+                if(isset($_COOKIE[$key])) {
+                    continue;
+                }
                 if(is_array($val)) {
                     $qString .= $key."[]=".implode("&".$key."[]=", $val)."&";
                 } else {

@@ -20,8 +20,8 @@
         save_cookie($_SERVER["QUERY_STRING"]);
     } else {
         //look for cookie data
-        if(isset($_COOKIE["lastSchedule"])) {
-            header("Location:?".$_COOKIE["lastSchedule"]);
+        if(isset($_COOKIE["lastSchedule"]) && !isset($_REQUEST["ignore"])) {
+            header("Location:./?".$_COOKIE["lastSchedule"]);
         }
     }
 ?>
@@ -62,8 +62,17 @@
     $classes = array();
 	$courseTitleNumbers = array();
     //in all honesty, I don't remember what most of this does, just that things break if I mess with it...
+    if(isset($_REQUEST["cf"])) {
+        $classFilter = array_fill_keys($_REQUEST["cf"], true);
+    } else {
+        $classFilter = null;
+    }
+
     //generate select option values for display later
 	foreach(getClassData($semester[0], $semester[1]) as $class) {
+        if(isset($classFilter[$class->getID()])) {
+            continue;
+        }
 		$course = substr($class->getCourseID(), 0, 4);
 		$classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
         $classes[$course][$class->getCourseID()] = $class->getTitle();
@@ -178,13 +187,8 @@
                         } else {
                             $filter = null;
                         }
-                        if(isset($_REQUEST["cf"])) {
-                            $classFilter = array_fill_keys($_REQUEST["cf"], true);
-                        } else {
-                            $classFilter = null;
-                        }
 
-                        $schedules = findSchedules($courses, $filter, $classFilter);
+                        $schedules = findSchedules($courses, $filter);
 
                         if(isset($_REQUEST["total"])) {
                             $total = $_REQUEST["total"];
@@ -245,18 +249,22 @@
                 <input type="submit" name="submit" value="Filter">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <?php
-                    $clear = "index.php?semester=".$_REQUEST["semester"]."&total=".$_REQUEST["total"];
+                    $clear = "./?semester=".$_REQUEST["semester"];
                     for($i = 0; $i < $NUM_CLASSES; $i++) {
-                        $clear .= "&class[]=".$_REQUEST["class"][$i]."&choice[]=".$_REQUEST["choice"][$i];
+                        if(!empty($_REQUEST["choice"][$i])) {
+                            $clear .= "&class[]=".$_REQUEST["class"][$i]."&choice[]=".$_REQUEST["choice"][$i];
+                        } else {
+                            $clear .= "&class[]=0";
+                        }
                     }
-                    $clear .= "&submit=Generate+Schedules!";
+                    $clear .= "&submit=Filter";
                 ?>
                 <a href="<?php print $clear; ?>">Clear Filters</a>
                 <br>
             <?php endif; ?>
             <br>
             <input type="submit" name="submit" value="Generate Schedules!">
-            <a href="index.php">Clear Classes</a>
+            <a href="index.php?ignore=true">Clear Classes</a>
         </form>
 	</div>
 	<div id="footer">
