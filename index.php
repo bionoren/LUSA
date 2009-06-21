@@ -188,6 +188,7 @@
 
                         if(isset($_REQUEST["total"])) {
                             $total = $_REQUEST["total"];
+                            print '<input type="hidden" name="total" value="'.$total.'">';
                         } else {
                             print '<input type="hidden" name="total" value="'.count($schedules).'">';
                             $total = count($schedules);
