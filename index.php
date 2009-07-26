@@ -28,6 +28,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>LUSA SE</title>
 <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
 <?php
@@ -157,7 +158,7 @@
 	<div id="body">
 		<?php print $now; ?>
 		<br>
-        <form method="<?php print $method; ?>">
+        <form method="<?php print $method; ?>" action="./">
 			<select name="semester">
                 <?php
                     $files = getFileArray();
@@ -177,7 +178,7 @@
         </form>
         <br>
 
-        <form method="<?php print $method; ?>" id="form" name="form">
+        <form method="<?php print $method; ?>" id="form" name="form" action="./">
             <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
             <?php
                 if(isset($_REQUEST["submit"]) && empty($errors)) {
@@ -211,37 +212,43 @@
                             $classGroups = implode("", $classGroups);
                             for($i=0; $i < $NUM_CLASSES; $i++) {
                                 if(isset($_REQUEST["class"][$i])) {
-                                    $tmp = str_replace(">".$_REQUEST["class"][$i], ' selected="yes">'.$_REQUEST["class"][$i], $classGroups);
+                                    $tmp = str_replace(">".$_REQUEST["class"][$i], ' selected="selected">'.$_REQUEST["class"][$i], $classGroups);
                                 } else {
                                     $tmp = $classGroups;
                                 }
-                                print '<select name="class[]" onchange="selectChange(this, choice'.$i.');"><option value="0">----</option>'.$tmp.'</select>-';
-                                print '<select id="choice'.$i.'" name="choice[]">';
+                                ?>
+                                <select name="class[]" onchange="selectChange(this, choice<?php echo $i?>);"><option value="0">----</option><?php echo $tmp?></select>
+                                <select id="choice<?php echo $i?>" name="choice[]">
+                                <?php
                                 if(!empty($_REQUEST["choice"][$i])) {
                                     foreach($classes[$_REQUEST["class"][$i]] as $key=>$value) {
                                         if(substr($key, strlen($key)-3) == "lab")
                                             continue;
                                         print '<option value="'.$key.'"';
                                         if($_REQUEST["choice"][$i] == $key) {
-                                            print ' selected="yes"';
+                                            print ' selected="selected"';
                                             $hours += substr($key, 8);
                                         }
                                         print '>'.$value.'</option>';
                                     }
                                 }
-                                print '</select>';
-                                if($errors[$i]):
+                                else {
+                                	?>
+                                	<option value="" disabled="disabled"></option>
+                                	<?php
+                                }
                                 ?>
-                                    <font color="red">Sorry, this class is not offered this semester</font>
+                                </select>
+                                <?php if($errors[$i]):?>
+                                <font color="red">Sorry, this class is not offered this semester</font>
                                 <?php endif;?>
                                 <br>
                                 <?php
-                            }
-                            print "$hours credit hours<br>";
-                        ?>
+                            } ?>
+                            <?php echo $hours?> credit hours<br>
                     </div>
                     <div class="rightcol" style="text-align: right">
-                        <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg"></a>
+                        <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg" alt="LUSA"></a>
                         <br>
                             <em>Student Edition</em>
                     </div>
@@ -252,12 +259,12 @@
                     $clear = "./?semester=".$_REQUEST["semester"];
                     for($i = 0; $i < $NUM_CLASSES; $i++) {
                         if(!empty($_REQUEST["choice"][$i])) {
-                            $clear .= "&class[]=".$_REQUEST["class"][$i]."&choice[]=".$_REQUEST["choice"][$i];
+                            $clear .= "&amp;class[]=".$_REQUEST["class"][$i]."&amp;choice[]=".$_REQUEST["choice"][$i];
                         } else {
-                            $clear .= "&class[]=0";
+                            $clear .= "&amp;class[]=0";
                         }
                     }
-                    $clear .= "&submit=Filter";
+                    $clear .= "&amp;submit=Filter";
                 ?>
                 <a href="<?php print $clear; ?>">Clear Filters</a>
                 <br>

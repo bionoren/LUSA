@@ -296,7 +296,7 @@
                     $class->display($total);
                 }
             }
-            ?></td></tr></table><?php
+            ?></table><?php
         }
 
         public static function displayCommon($total) {
@@ -318,8 +318,6 @@
                     print $class->display($total);
                 }
                 ?>
-                    </td>
-                  </tr>
                 </table>
 			<?php
             endif;
@@ -328,7 +326,7 @@
         public static function getPrintQS($classes=null) {
             $ret = '';
             foreach($classes as $class) {
-                $ret .= base64_encode(serialize($class))."&";
+                $ret .= base64_encode(serialize($class))."&amp;";
             }
             return substr($ret, 0, strlen($ret)-1);
         }
@@ -487,8 +485,8 @@
             }
             print '<tr style="background-color:'.$color.';">';
                 if($filterable) {
-                    $qstring = Course::$QS.'cf[]='.$this->getID().'&submit=Filter&total='.$total;
-                    print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</td>';
+                    $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter&amp;total='.$total;
+                    print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a></td>';
                 }
                 print '<td>'.$this->getCourseID().'</td>';
                 print '<td>'.$this->getTitle().'</td>';
@@ -553,9 +551,9 @@
                     continue;
                 }
                 if(is_array($val)) {
-                    $qString .= $key."[]=".implode("&".$key."[]=", $val)."&";
+                    $qString .= $key."[]=".implode("&amp;".$key."[]=", $val)."&amp;";
                 } else {
-                    $qString .= $key."=".$val."&";
+                    $qString .= $key."=".$val."&amp;";
                 }
             }
             Course::$QS = $qString;
