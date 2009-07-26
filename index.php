@@ -269,8 +269,8 @@
 	</div>
 	<div id="footer">
 		<ul>
-            <li><b>To register for classes log into my.letu.edu and select "Web Services - Student"</b></li>
-			<li><b>Please remember that LUSA does <strong>not</strong> register you for classes</b></li>
+            <li><b>To register for classes log into <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">my.letu.edu</a> and select "Web Services - Student"</b></li>
+			<li><b>Please remember that LUSA does <strong style="color:red;">not</strong> register you for classes</b></li>
 			<li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>)...</li>
 		</ul>
 	</div>
