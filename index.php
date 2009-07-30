@@ -199,8 +199,13 @@
                             $total = count($schedules);
                         }
 
-                        Schedule::displayCommon($total)."<br>";
-                        if(count($schedules) > 1) {
+                        if(is_array($schedules)) {
+                            Schedule::displayCommon($total)."<br>";
+                            if(count($schedules) > 1) {
+                                displaySchedules($schedules, $total);
+                            }
+                        } else {
+                            //believe it or not, this is error handling
                             displaySchedules($schedules, $total);
                         }
                     }
