@@ -225,6 +225,7 @@
                                 <select name="class[]" onchange="selectChange(this, choice<?php echo $i?>);"><option value="0">----</option><?php echo $tmp?></select>
                                 <select id="choice<?php echo $i?>" name="choice[]">
                                 <?php
+                                $populated = false;
                                 if(!empty($_REQUEST["choice"][$i])) {
                                     foreach($classes[$_REQUEST["class"][$i]] as $key=>$value) {
                                         if(substr($key, strlen($key)-3) == "lab")
@@ -233,6 +234,7 @@
                                         if($_REQUEST["choice"][$i] == $key) {
                                             print ' selected="selected"';
                                             $hours += substr($key, 8);
+                                            $populated = $key;
                                         }
                                         print '>'.$value.'</option>';
                                     }
@@ -244,8 +246,13 @@
                                 }
                                 ?>
                                 </select>
-                                <?php if($errors[$i]):?>
-                                <font color="red">Sorry, this class is not offered this semester</font>
+                                <?php
+                                    if($populated !== false) {
+                                        print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
+                                    }
+                                    if($errors[$i]):
+                                ?>
+                                    <font color="red">Sorry, this class is not offered this semester</font>
                                 <?php endif;?>
                                 <br>
                                 <?php

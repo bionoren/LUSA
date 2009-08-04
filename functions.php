@@ -543,6 +543,30 @@
             return "Course ".$this->getID();
         }
 
+        public static function displayBookStoreLink($classID) {
+            $terms = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105&_=");
+            preg_match('/"data":\[\{(.+?)\}\]\}/', $terms, $groups);
+            $terms = explode(",", $groups[1]);
+            $term = explode(":", $terms[count($terms)-1]);
+            $term = substr($term[1], 1, -1);
+
+            $course = explode("-", $classID);
+            $dep = $course[0];
+            $course = $course[1];
+
+            $sections = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=SECTIONS&storeId=10236&demoKey=d&programId=1105&termId=".$term."&divisionName=Traditional&departmentName=".$dep."&courseName=".$course."&_=");
+            preg_match('/"data":\[\{(.+?)\}\]\}/', $sections, $groups);
+            $sections = explode(",", $groups[1]);
+            $end = strpos($sections[0], '"', 1);
+            $section = substr($sections[0], 1, $end-1);
+
+            $ids = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=COURSE&storeId=10236&demoKey=d&programId=1105&termId=".$term."&divisionName=Traditional&departmentName=".$dep."&courseName=".$course."&sectionName=".$section."&_=");
+            preg_match('/"courseId"\s*:\s*"(.*?)"/', $ids, $groups);
+            $id = $groups[1];
+
+            print '<a href="http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=null&storeId=10236&langId=-1&programId=1105&termId='.$term.'&courseId_1='.$id.'&divisionDisplayName=Traditional&departmentDisplayName='.$dep.'&courseDisplayName='.$course.'&sectionDisplayName='.$section.'&demoKey=d&purpose=browse" target="_new">Get Books</a>';
+        }
+
         public static function generateQS() {
             //this string concatenation could take longer than I'd like, but we need to do it...
             $qString = "./?";
