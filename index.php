@@ -31,6 +31,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>LUSA SE</title>
 <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
+<link rel="stylesheet" type="text/css" href="print.css" media="print">
 <?php
 	$NUM_CLASSES = 15;
     //the limit should be in apache at ~4000 characters
@@ -156,6 +157,7 @@
 		<h1>LUSA</h1>
 	</div>
 	<div id="body">
+		<div id="semester">
 		<?php print $now; ?>
 		<br>
         <form method="<?php print $method; ?>" action="./">
@@ -176,6 +178,7 @@
             </select>
             <input type="submit" name="update" value="Change">
         </form>
+        </div>
         <br>
 
         <form method="<?php print $method; ?>" id="form" name="form" action="./">
@@ -211,7 +214,7 @@
                     }
                 }
             ?>
-            <div class="leftcol">
+            <div class="leftcol print-no">
                         <?php
                             $hours = 0;
                             $classGroups = implode("", $classGroups);
@@ -259,12 +262,15 @@
                             } ?>
                             <?php echo $hours?> credit hours<br>
                     </div>
-                    <div class="rightcol" style="text-align: right">
+                    <div class="rightcol print-no" style="text-align:right;">
                         <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg" alt="LUSA"></a>
                         <br>
                             <em>Student Edition</em>
                     </div>
+                    <div class="clear"></div>
+                    
 			<?php if(isset($_REQUEST["submit"])): ?>
+			<div class="print-no">
                 <input type="submit" name="submit" value="Filter">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <?php
@@ -280,10 +286,13 @@
                 ?>
                 <a href="<?php print $clear; ?>">Clear Filters</a>
                 <br>
+                </div>
             <?php endif; ?>
+            <div class="print-no">
             <br>
             <input type="submit" name="submit" value="Generate Schedules!">
             <a href="index.php?ignore=true">Clear Classes</a>
+            </div>
         </form>
 	</div>
 	<div id="footer">

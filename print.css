@@ -1,0 +1,129 @@
+/*** General Layout **************************************************/
+
+body, pre {
+	width: 100%;
+	font: 10pt "Times New Roman", "TimesNR", Times, serif !important;
+	color: #000000 !important;
+	background: #FFFFFF !important;
+	page: normal;
+	margin: 0;
+	padding: 0;
+}
+#header,
+#semester {
+	display: none;
+}
+
+/*** General Styles **************************************************/
+
+img {
+	border: none;
+}
+
+a {
+	color: #000000;
+	text-decoration: none;
+}
+
+/*** Print Styles ****************************************************/
+
+@page normal {
+	size: portrait;
+	margin: 1in;
+}
+@page rotate {
+	size: landscape;
+	margin: 0.5in;
+}
+.print-no {
+	display: none;
+}
+.print-only {
+	display: block;
+}
+.print-landscape {
+	page: rotate;
+}
+.print-page-break-before {
+	page-break-before: always;
+}
+.print-page-break-after {
+	page-break-after: always;
+}
+div.print#runhead {
+	position: fixed;
+	top: 0;
+	right: 0;
+}
+
+/*** content **********************************************/
+
+div.clear {
+	clear: both;
+}
+
+#body table {
+	font-size: 1em;
+	margin: 0 0 0 -2px;
+	padding: 0;
+}
+
+#body table th,
+#body table td {
+	text-align: left;
+	padding: 1px;
+	margin: 0;
+}
+
+#body table td.center {
+	text-align: center;
+}
+
+#body table.wide,
+#body table.full {
+	width: 100%;
+}
+
+#body table.borders {
+	border-collapse: collapse;
+}
+
+#body table.borders th {
+	border: none;
+}
+
+#body table.borders td {
+	border: 1px solid rgb(220,220,220);
+}
+#body table.font.weight.reverse th {
+	font-weight: normal;
+}
+#body table.font.weight.reverse td {
+	font-weight: bold;
+}
+
+#body table.vertical-columns th {
+	text-align: right;
+	vertical-align: text-top;
+}
+
+#body table.padding td,
+#body table.padding th {
+	padding: 2px;
+}
+
+#body table tr.strong td {
+	font-weight: bold;
+}
+
+#body table tr.em td {
+	font-style: italic;
+}
+
+#body div.line {
+	border-top: 1px solid rgb(235,235,235);
+	width: auto;
+	margin: 8px 0 8px 0;
+	padding: 0;
+	clear: both;
+}
