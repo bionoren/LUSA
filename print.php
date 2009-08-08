@@ -15,9 +15,11 @@
 
     #Div layers are the answer! Just create functions that map days to x position and hours to y position
     require_once("functions.php");
-    $classes = explode("&", $_SERVER["QUERY_STRING"]);
-    foreach($classes as $key=>$class) {
-        $classes[$key] = unserialize(base64_decode($class));
+    $tmp = explode("&", $_SERVER["QUERY_STRING"]);
+    foreach($tmp as $key=>$class) {
+        if(!empty($class)) {
+            $classes[$key] = unserialize(base64_decode($class));
+        }
     }
     //add chapel
     $dataArray["course"] = "LETU-1111";
