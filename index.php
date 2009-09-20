@@ -16,7 +16,7 @@
     require_once("functions.php");
 
     //whatever happens, cookie stuff comes first
-    if(isset($_REQUEST["submit"])) {
+    if(isset($_REQUEST["submit"]) || isset($_REQUEST["update"])) {
         save_cookie($_SERVER["QUERY_STRING"]);
     } else {
         //look for cookie data
@@ -268,7 +268,7 @@
                             <em>Student Edition</em>
                     </div>
                     <div class="clear"></div>
-                    
+
 			<?php if(isset($_REQUEST["submit"])): ?>
 			<div class="print-no">
                 <input type="submit" name="submit" value="Filter">

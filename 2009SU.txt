@@ -90,8 +90,7 @@ SPAN-2123$$01$$1$$0$$0$$Intermediate Spanish II$$05/20/2009$$Morales, A$$06/03/2
 AERF-2101$$01$$1$$0$$0$$Flight Science Lab II$$05/26/2009$$Chase, B.$$06/23/2009
 AERF-2103$$01$$1$$0$$0$$Flight Science II$$05/26/2009$$Chase, B.$$06/23/2009
 AERF-1103$$01$$1$$0$$0$$Flight Science I$$06/01/2009$$Visser, A$$07/26/2009
-COSC-1303$$01$$3$$0$$0$$Computer Science I$$06/01/2009$$Tevis, J.$$07/26/2009
-HIST-3003$$01$$1$$0$$0$$History of the Church$$06/01/2009$$Hood, R.V.$$07/26/2009
+COSC-1303$$01$$1$$0$$0$$Computer Science I$$06/01/2009$$Tevis, J.$$07/26/2009
 KINE-1512$$03$$1$$0$$0$$Concepts of Lifetime Fitness$$06/01/2009$$Otwell, M.$$07/26/2009
 BECN-2103$$01$$1$$0$$0$$Macroeconomics$$06/04/2009$$Wharton, B$$06/17/2009
 BECN-2203$$02$$1$$0$$0$$Microeconomics$$06/04/2009$$Wharton, B$$06/17/2009
@@ -105,6 +104,7 @@ BIBL-3653$$01$$3$$0$$0$$Romans$$06/29/2009$$Hood, R.V.$$08/23/2009
 BIBL-3653$$02$$3$$0$$0$$Romans$$06/29/2009$$Hood, R.V.$$08/23/2009
 BIOL-4951$$01$$1$$0$$0$$LEGS: Undergraduate Research$$06/29/2009$$Rispin, K.$$08/23/2009
 BUSI-4923$$01$$1$$0$$0$$Business Internship$$06/29/2009$$Feezell, J$$08/23/2009
+HIST-3003$$01$$1$$0$$0$$History of the Church$$06/29/2009$$Hood, R.V.$$08/23/2009
 KINE-1512$$04$$1$$0$$0$$Concepts of Lifetime Fitness$$06/29/2009$$Otwell, M.$$08/23/2009
 PSYC-2013$$02$$1$$0$$0$$Intro to Psychology$$06/29/2009$$Kranz, S.$$08/23/2009
 ENGL-0833$$01$$1$$0$$0$$Writing and Language Development$$07/07/2009$$Palacios,I$$08/06/2009

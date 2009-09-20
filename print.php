@@ -34,7 +34,7 @@
     $classes["chapel"] = new Course($dataArray);
 
     //surely we'll never have class on Sunday...
-    $days = array("Monday", "Tuesday", "Wednesday", "Thursay", "Friday", "Saturday");
+    $days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
     //do you want to teach at some other obscure hour?
     $hours = array(7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10);
 

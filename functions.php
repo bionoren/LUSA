@@ -46,6 +46,7 @@
     function getCurrentSemester($year=null, $semester=null) {
         //get the current class schedule from LeTourneau
 		if(!file_exists($year.$semester.".txt")) {
+            print '<script language="javascript">setTimeout("history.back()",5000);</script>';
             die("There is no data available for $semester $year");
         }
         $file = fopen($year.$semester.".txt", "r");
