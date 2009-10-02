@@ -558,6 +558,10 @@
             $sections = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=SECTIONS&storeId=10236&demoKey=d&programId=1105&termId=".$term."&divisionName=Traditional&departmentName=".$dep."&courseName=".$course."&_=");
             preg_match('/"data":\[\{(.+?)\}\]\}/', $sections, $groups);
             $sections = explode(",", $groups[1]);
+            //this class doesn't believe in books
+            if(strlen($sections[0]) == 0) {
+                return;
+            }
             $end = strpos($sections[0], '"', 1);
             $section = substr($sections[0], 1, $end-1);
 

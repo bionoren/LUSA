@@ -182,6 +182,9 @@
         <br>
 
         <form method="<?php print $method; ?>" id="form" name="form" action="./">
+            <input type="checkbox" name="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") { print "checked"; } ?>>
+            Show bookstore links
+            <br>
             <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
             <?php
                 if(isset($_REQUEST["submit"]) && empty($errors)) {
@@ -250,7 +253,7 @@
                                 ?>
                                 </select>
                                 <?php
-                                    if($populated !== false) {
+                                    if($populated !== false && $_REQUEST["showBooks"] == "on") {
                                         print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
                                     }
                                     if($errors[$i]):
