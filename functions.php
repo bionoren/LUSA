@@ -274,17 +274,16 @@
         public function display($total) {
             $qs = Schedule::getPrintQS($this->classes);
             ?>
-          <p>Keep this schedule: <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" checked></p>
-          <p><a href="print.php?<?php echo $qs?>" target="_new">Week View</a></p>
+          <div class="line"></div>
           <table class="full border">
             <tr>
-              <th></th>
-              <th colspan="2">Class</th>
-              <th>Prof</th>
-              <th>Days</th>
-              <th>Time</th>
-              <th>Section</th>
-              <th>Registered/Size</th>
+              <th style="width:10%;"></th>
+              <th style="width:30%;" colspan="2">Class</th>
+              <th style="width:10%;">Prof</th>
+              <th style="width:10%;">Days</th>
+              <th style="width:20%;">Time</th>
+              <th style="width:10%;">Section</th>
+              <th style="width:10%;">Registered/Size</th>
             </tr>
             <?php
             Course::generateQS();
@@ -297,7 +296,10 @@
                     $class->display($total);
                 }
             }
-            ?></table><?php
+            ?></table>
+            <div class="leftcol"><a href="print.php?<?php echo $qs?>" target="_new">Week View</a></div>
+          <div class="rightcol" style="text-align:right;"><label for="keep<?php echo $this->getID()?>">Keep this schedule:</label> <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" id="keep<?php echo $this->getID()?>" checked></div>
+            <?php
         }
 
         public static function displayCommon($total) {

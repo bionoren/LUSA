@@ -39,6 +39,14 @@ body {
 	margin: 0;
 }
 
+#container div.line {
+	border-top: 1px solid rgb(190, 190, 190);
+	width: auto;
+	margin: 8px 0 8px 0;
+	padding: 0;
+	clear: both;
+}
+
 #container #body .leftcol {
 	width: 50%;
 	float: left;
