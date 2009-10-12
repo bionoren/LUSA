@@ -55,7 +55,7 @@
 
     //$day integer from 0-6
     function xFromDay($day) {
-        $offset = -53;
+        $offset = -54;
         return $day*(100+4)+$offset;
     }
 
@@ -74,9 +74,11 @@
                 $end = yFromTime($class->getEndTime());
                 //print $class->getStartTime()." - ".$class->getEndTime()."<br>";
                 //print "$start - $end<br>";
-                print '<div style="position:absolute; top:'.$start.'; left:'.xFromDay($i).'; width:100; height:'.($end-$start).'; overflow:visible;';
-                print 'background-color:yellow;">';
+                print '<div style="position:absolute; top:'.$start.'; left:'.xFromDay($i).'; width:98; height:'.($end-$start).'; overflow:visible;';
+                print 'background-color:yellow; border-color:yellow; border-style:solid; border-width:2px;">';
+                print '<span style=\'font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif; font-size: 0.8em;\'>';
                 print str_replace("/", " ", $class->getTitle()."<br>");
+                print "</span>";
                 //print $class->displayTime($class->getStartTime())." - ".$class->displayTime($class->getEndTime())."<br>";
                 print '</div>';
             }

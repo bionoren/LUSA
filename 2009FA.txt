@@ -83,7 +83,7 @@ AVTC-2441$$01$$34$$15.3333333333$$17.1666666667$$Lab-Airframe Electrical$$Farrel
 AVTC-2443$$01$$42$$8.33333333333$$9.25$$Airframe Electrical$$Farrell, A$$21$$20
 AVTC-2601$$01$$34$$15.3333333333$$17.6666666667$$Intro Aircraft Recip Eng Lab$$Foulk, J$$20$$18
 AVTC-2601$$02$$20$$15.3333333333$$17.6666666667$$Intro Aircraft Recip Eng Lab$$Foulk, J$$19$$18
-AVTC-2603$$01$$42$$9.41666666667$$10.3333333333$$Intro Aircraft Recip Eng$$Foulk, J$$39$$40
+AVTC-2603$$01$$42$$9.41666666667$$10.3333333333$$Intro Aircraft Recip Eng$$Foulk, J$$38$$40
 AVTC-3211$$01$$8$$15.3333333333$$17.1666666667$$Trans Cat Aircraft Systems Lab$$Farrell, A$$22$$18
 AVTC-3212$$01$$34$$13.1666666667$$14.0833333333$$Transort Category Aircr Sys$$Farrell, A$$23$$20
 AVTC-3261$$01$$20$$8.16666666667$$10.5$$Aircraft Composite Lab$$Scroggins$$20$$18
@@ -134,18 +134,18 @@ BIBL-1043$$04$$20$$15$$16.3333333333$$Biblical Foundations$$Lowery, D$$38$$35
 BIBL-1043$$05$$20$$9.5$$10.8333333333$$Biblical Foundations$$Baker, T.$$38$$35
 BIBL-1043$$06$$20$$12$$13.3333333333$$Biblical Foundations$$Lowery, D$$37$$35
 BIBL-3103$$01$$42$$11.75$$12.6666666667$$Pentateuch$$Mason, S$$40$$35
-BIBL-3303$$01$$42$$9.75$$10.6666666667$$Poetical Books$$Woodring,$$36$$35
+BIBL-3303$$01$$42$$9.75$$10.6666666667$$Poetical Books$$Woodring,$$35$$35
 BIBL-3613$$01$$42$$13.9166666667$$14.8333333333$$Paul's Prison Letters$$Liebengood$$37$$35
 BIBL-3653$$01$$42$$11.75$$12.6666666667$$Romans$$Roudkovs,V$$39$$35
 BIBL-3853$$01$$20$$13.5$$14.8333333333$$Book of Revelation$$Liebengood$$39$$35
-BIBL-4253$$01$$20$$9.5$$10.8333333333$$Intertestamental Period$$Roudkovs,V$$36$$35
+BIBL-4253$$01$$20$$9.5$$10.8333333333$$Intertestamental Period$$Roudkovs,V$$35$$35
 BIBL-4253$$02$$0$$TBA$$0$$Intertestamental Period$$Roudkovs,V$$1$$0
 BIOL-1111$$01$$8$$15$$17.3333333333$$General Biology Lab I$$Rispin, K.$$19$$22
 BIOL-1111$$02$$16$$8.5$$10.8333333333$$General Biology Lab I$$Rispin, K.$$16$$22
 BIOL-1111$$03$$16$$15$$17.3333333333$$General Biology Lab I$$Rispin, K.$$16$$22
 BIOL-1113$$01$$42$$13.9166666667$$14.8333333333$$General Biology$$Jarstfer,A$$55$$66
-BIOL-2014$$01$$42$$12.8333333333$$13.75$$Human Anatomy & Physiology I$$Elliott, A$$16$$22
-BIOL-2014 lab$$01$$16$$8.5$$10.8333333333$$Human Anatomy & Physiology I lab$$Elliott, A$$16$$22
+BIOL-2014$$01$$42$$12.8333333333$$13.75$$Human Anatomy & Physiology I$$Elliott, A$$15$$22
+BIOL-2014 lab$$01$$16$$8.5$$10.8333333333$$Human Anatomy & Physiology I lab$$Elliott, A$$15$$22
 BIOL-2014$$02$$42$$12.8333333333$$13.75$$Human Anatomy & Physiology I$$Elliott, A$$22$$22
 BIOL-2014 lab$$02$$16$$15$$17.3333333333$$Human Anatomy & Physiology I lab$$Elliott, A$$22$$22
 BIOL-3504$$01$$42$$11.75$$12.6666666667$$Ecology & Field Biology$$Rispin, K.$$7$$20
@@ -184,13 +184,13 @@ CHEM-1111$$01$$2$$15$$17.3333333333$$General Chemistry Lab I$$Ford, D$$21$$20
 CHEM-1111$$02$$2$$18.5$$20.8333333333$$General Chemistry Lab I$$Ford, D$$20$$20
 CHEM-1111$$03$$4$$15$$17.3333333333$$General Chemistry Lab I$$Jarrell, H$$22$$20
 CHEM-1111$$04$$4$$18.5$$20.8333333333$$General Chemistry Lab I$$Jarrell, H$$21$$20
-CHEM-1111$$05$$8$$15$$17.3333333333$$General Chemistry Lab I$$Ford, D$$20$$20
+CHEM-1111$$05$$8$$15$$17.3333333333$$General Chemistry Lab I$$Ford, D$$19$$20
 CHEM-1111$$06$$16$$8.5$$10.8333333333$$General Chemistry Lab I$$DeBoer, G.$$12$$20
 CHEM-1111$$07$$16$$15$$17.3333333333$$General Chemistry Lab I$$Jarrell, H$$22$$20
 CHEM-1111$$08$$16$$18.5$$20.8333333333$$General Chemistry Lab I$$Jarrell, H$$20$$20
 CHEM-1111$$09$$4$$8.5$$10.8333333333$$General Chemistry Lab I$$DeBoer, G.$$17$$20
 CHEM-1113$$01$$42$$8.66666666667$$9.58333333333$$General Chemistry I$$DeBoer, G.$$58$$60
-CHEM-1113$$02$$42$$9.75$$10.6666666667$$General Chemistry I$$DeBoer, G.$$63$$60
+CHEM-1113$$02$$42$$9.75$$10.6666666667$$General Chemistry I$$DeBoer, G.$$61$$60
 CHEM-1113$$03$$20$$12$$13.3333333333$$General Chemistry I$$Johnson, D$$53$$60
 CHEM-2111$$01$$16$$15$$17.3333333333$$Organic Chemistry Lab I$$Ford, D$$12$$16
 CHEM-2113$$01$$42$$12.8333333333$$13.75$$Organic Chemistry I$$Ford, D$$13$$16
@@ -240,7 +240,7 @@ EDUC-2301$$01$$0$$TBA$$0$$Intro to 8th-12th Grade Teaching$$Stephens,K$$0$$0
 EDUC-3010$$01$$20$$8$$9.33333333333$$Practicum II$$Teel, J$$5$$10
 EDUC-3010$$02$$20$$9.5$$10.8333333333$$Practicum II$$Teel, J$$4$$10
 EDUC-3010$$03$$20$$12$$13.3333333333$$Practicum II$$Teel, J$$7$$10
-EDUC-3010$$04$$20$$13.5$$14.8333333333$$Practicum II$$Teel, J$$3$$10
+EDUC-3010$$04$$20$$13.5$$14.8333333333$$Practicum II$$Teel, J$$2$$10
 EDUC-3133$$01$$42$$7.58333333333$$8.5$$Methods of Elem Math/Sci Instruc$$Mills, S.$$15$$20
 EDUC-3143$$01$$42$$12.8333333333$$13.75$$Creative Expression for EC$$Mills, S.$$20$$20
 EDUC-3320$$01$$20$$8$$9.33333333333$$Practicum III$$Ames, J.$$4$$10
@@ -248,7 +248,7 @@ EDUC-3320$$02$$20$$9.5$$10.8333333333$$Practicum III$$Ames, J.$$3$$10
 EDUC-3320$$03$$20$$12$$13.3333333333$$Practicum III$$Ames, J.$$2$$10
 EDUC-3320$$04$$20$$13.5$$14.8333333333$$Practicum III$$Ames, J.$$1$$10
 EDUC-3323$$01$$42$$9.75$$10.6666666667$$Planning & Assessment$$Ames, J.$$9$$20
-EDUC-3343$$01$$8$$13.7666666667$$16.5$$Foundations of Am Ed & Culture$$Teel, J$$19$$30
+EDUC-3343$$01$$8$$13.7666666667$$16.5$$Foundations of Am Ed & Culture$$Teel, J$$18$$30
 EDUC-4101$$01$$8$$9.75$$10.6666666667$$Certification Prep Sem EC-6th$$Ames, J.$$10$$20
 EDUC-4113$$01$$20$$9.5$$10.8333333333$$Overview of Special Education$$Hilburn,J$$4$$20
 EDUC-4133$$01$$20$$8$$9.33333333333$$Meth of Elem Lang Arts & Soc Std$$Stephens,K$$14$$20
@@ -343,7 +343,7 @@ ENGR-1043 lab$$02$$10$$16.0833333333$$17.5$$Engineering Graphics lab$$Shields, E
 ENGR-1043$$03$$20$$15$$15.9166666667$$Engineering Graphics$$Shields, E$$30$$45
 ENGR-1043 lab$$03$$20$$16.0833333333$$17.5$$Engineering Graphics lab$$Shields, E$$30$$45
 ENGR-1311$$01$$2$$15$$17.9166666667$$Manufacturing Processes Lab$$Baney, R.$$14$$14
-ENGR-1311$$02$$8$$15$$17.9166666667$$Manufacturing Processes Lab$$Baney, R.$$14$$14
+ENGR-1311$$02$$8$$15$$17.9166666667$$Manufacturing Processes Lab$$Baney, R.$$13$$14
 ENGR-1311$$03$$16$$15$$17.9166666667$$Manufacturing Processes Lab$$Baney, R.$$13$$14
 ENGR-1311$$04$$32$$15$$17.9166666667$$Manufacturing Processes Lab$$Baney, R.$$14$$14
 ENGR-1311$$05$$2$$15$$17.9166666667$$Manufacturing Processes Lab$$Kielhorn,$$14$$14
@@ -363,7 +363,7 @@ ENGR-3022$$01$$20$$12$$12.9166666667$$Engineering Project Management$$West, D$$4
 ENGR-3423$$01$$20$$12$$13.3333333333$$Mechatronics$$Iordache,M$$42$$40
 ENGR-3813$$01$$42$$13.9166666667$$14.8333333333$$Engr Design Methodology$$Green, M$$17$$30
 ENGR-4400$$01$$0$$TBA$$0$$Senior Design Seminar$$Adonyi, Y.$$85$$100
-ENGR-4813$$01$$20$$13.5$$14.8333333333$$Senior Design I$$Green, M$$11$$100
+ENGR-4813$$01$$20$$13.5$$14.8333333333$$Senior Design I$$Green, M$$10$$100
 ENGR-4813$$02$$20$$13.5$$14.8333333333$$Senior Design I$$Webb, J$$14$$0
 ENGR-4813$$03$$20$$13.5$$14.8333333333$$Senior Design I$$Ayers, S$$12$$0
 ENGR-4813$$04$$20$$13.5$$14.8333333333$$Senior Design I$$Ayers, S$$6$$0
@@ -372,7 +372,7 @@ ENGR-4813$$06$$20$$13.5$$14.8333333333$$Senior Design I$$Hellmuth,T$$22$$0
 ENGR-4813$$07$$20$$13.5$$14.8333333333$$Senior Design I$$Kim, J$$14$$0
 ENGR-4813$$08$$20$$13.5$$14.8333333333$$Senior Design I$$Webb, J$$6$$0
 ENGR-4943$$01$$20$$12$$13.3333333333$$ST: Advanced Mechatronics$$Iordache,M$$1$$10
-ENGR-4951$$01$$0$$TBA$$0$$ST: Design Project I$$Green, M$$3$$60
+ENGR-4951$$01$$0$$TBA$$0$$ST: Design Project I$$Green, M$$4$$60
 ENGR-4951$$02$$0$$TBA$$0$$ST: Design Project I$$Gonzalez,R$$0$$0
 ENGR-4951$$03$$0$$TBA$$0$$ST: Design Project I$$Ayers, S$$1$$0
 ENGR-4951$$04$$0$$TBA$$0$$ST: Design Project I$$Ayers, S$$2$$0
@@ -481,10 +481,10 @@ MATH-1303$$01$$62$$8$$9.33333333333$$Precalculus (1st half)$$Knouse, L$$49$$0
 MATH-1303$$02$$42$$13.9166666667$$14.8333333333$$Precalculus$$ArmstrongS$$29$$30
 MATH-1423$$01$$42$$8.66666666667$$9.58333333333$$Elementary Statistics$$Erickstad,$$28$$30
 MATH-1603$$01$$42$$12.8333333333$$13.75$$Technical Calculus I$$Erickstad,$$20$$30
-MATH-1803$$01$$42$$11.75$$12.6666666667$$Discrete Mathematics$$Tevis, J.$$25$$30
+MATH-1803$$01$$42$$11.75$$12.6666666667$$Discrete Mathematics$$Tevis, J.$$24$$30
 MATH-1903$$01$$62$$8$$9.33333333333$$Calculus I (2nd half)$$Knouse, L$$49$$0
 MATH-1903$$02$$42$$8.66666666667$$9.58333333333$$Calculus I$$ArmstrongS$$33$$34
-MATH-1903$$03$$42$$12.8333333333$$13.75$$Calculus I$$ArmstrongS$$37$$34
+MATH-1903$$03$$42$$12.8333333333$$13.75$$Calculus I$$ArmstrongS$$35$$34
 MATH-2013$$01$$42$$9.75$$10.6666666667$$Calculus II$$Anderson,$$27$$27
 MATH-2013$$02$$42$$9.75$$10.6666666667$$Calculus II$$ArmstrongS$$18$$27
 MATH-2023$$01$$42$$12.8333333333$$13.75$$Calculus III$$Anderson,$$15$$25
@@ -497,8 +497,8 @@ MATH-3403$$02$$42$$13.9166666667$$14.8333333333$$Statistics$$Erickstad,$$26$$30
 MATH-3553$$01$$20$$9.5$$10.8333333333$$Math Practicum$$Taylor, J.$$9$$20
 MATH-4103$$01$$20$$13.5$$14.8333333333$$Real Analysis$$Anderson,$$10$$25
 MATH-4403$$01$$20$$9.5$$10.8333333333$$Numerical Analysis$$Anderson,$$22$$30
-MEGR-2013$$01$$20$$12$$13.3333333333$$Statics$$Lee, B.K.$$27$$35
-MEGR-2013$$02$$42$$12.8333333333$$13.75$$Statics$$Lee, B.K.$$19$$35
+MEGR-2013$$01$$20$$12$$13.3333333333$$Statics$$Lee, B.K.$$26$$35
+MEGR-2013$$02$$42$$12.8333333333$$13.75$$Statics$$Lee, B.K.$$18$$35
 MEGR-2023$$01$$42$$9.75$$10.6666666667$$Dynamics$$Gonzalez,R$$28$$40
 MEGR-2023 lab$$01$$4$$15$$17$$Dynamics lab$$Gonzalez,R$$28$$40
 MEGR-3123$$01$$10$$9.75$$10.6666666667$$Experiment Methods in Mech Engr$$Reynolds,G$$5$$12
