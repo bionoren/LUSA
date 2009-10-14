@@ -146,6 +146,11 @@
         </script>
 </head>
 <body>
+<!--LUSA 2: A Dorm 41 Production-->
+<!--Developed by: Wharf-->
+<!--Design by: Shutter-->
+<!--Lead Tester: Synk-->
+<!--Special thanks to all the 41ers for their suggestions, bug reports, and encouragement!-->
 <div id="container">
 	<div id="header">
 		<h1>LUSA</h1>
