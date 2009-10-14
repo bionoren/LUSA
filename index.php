@@ -16,7 +16,7 @@
     require_once("functions.php");
 
     //whatever happens, cookie stuff comes first
-    if(isset($_REQUEST["submit"]) || isset($_REQUEST["update"])) {
+    if(isset($_REQUEST["submit"])) {
         save_cookie($_SERVER["QUERY_STRING"]);
     } else {
         //look for cookie data
@@ -36,12 +36,6 @@
 	$NUM_CLASSES = 15;
     //the limit should be in apache at ~4000 characters
     $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
-
-    if($_REQUEST["submit"] != "Filter") {
-        unset($_REQUEST["sf"]);
-        unset($_REQUEST["cf"]);
-        unset($_REQUEST["total"]);
-    }
 
     if(!isset($_REQUEST["semester"])) {
         $files = getFileArray();
@@ -183,6 +177,18 @@
 
         <form method="<?php print $method; ?>" id="form" name="form" action="./">
             <input type="checkbox" name="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") { print "checked"; } ?>>
+            <?php
+                if(isset($_REQUEST["cf"])) {
+                    foreach($_REQUEST["cf"] as $val) {
+                        print '<input type="hidden" name="cf[]" value="'.$val.'">';
+                    }
+                }
+                if(isset($_REQUEST["sf"])) {
+                    foreach($_REQUEST["sf"] as $val) {
+                        print '<input type="hidden" name="sf[]" value="'.$val.'">';
+                    }
+                }
+            ?>
             Show bookstore links
             <br>
             <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
@@ -264,6 +270,7 @@
                                 <?php
                             } ?>
                             <?php echo $hours?> credit hours<br>
+                            <a href="index.php?ignore=true">Clear Classes</a>
                     </div>
                     <div class="rightcol print-no" style="text-align:right;">
                         <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg" alt="LUSA"></a>
@@ -274,8 +281,6 @@
 
 			<?php if(isset($_REQUEST["submit"])): ?>
 			<div class="print-no">
-                <input type="submit" name="submit" value="Filter">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <?php
                     $clear = "./?semester=".$_REQUEST["semester"];
                     for($i = 0; $i < $NUM_CLASSES; $i++) {
@@ -293,8 +298,7 @@
             <?php endif; ?>
             <div class="print-no">
             <br>
-            <input type="submit" name="submit" value="Generate Schedules!">
-            <a href="index.php?ignore=true">Clear Classes</a>
+            <input type="submit" name="submit" value="Update Schedule">
             </div>
         </form>
 	</div>
