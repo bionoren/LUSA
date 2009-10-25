@@ -56,7 +56,7 @@
     }
 
     function getFileArray($reject=true) {
-        //rollover on May 1st, August 10th, and December 15th
+        //rollover on May 1st, August 1st, and January 1st
         $year = date("Y");
         $month = date("n");
         $day = date("j");
@@ -64,16 +64,20 @@
         //order is important here!
         if($month < 5) {
             //this spring and try for this summer and fall
-            $files[] = array($year, "FA");
-            $files[] = array($year, "SU");
+            if(file_exists($year."FA.txt"))
+                $files[] = array($year, "FA");
+            if(file_exists($year."SU.txt"))
+                $files[] = array($year, "SU");
             $files[] = array($year, "SP");
-        } elseif($month < 8 || ($month == 8 && $day < 10)) {
+        } elseif($month < 8) {
             //grab this summer and try for next fall
-            $files[] = array($year, "FA");
+            if(file_exists($year."FA.txt"))
+                $files[] = array($year, "FA");
             $files[] = array($year, "SU");
         } else {
             //grab this fall and try for next spring
-            $files[] = array($year+1, "SP");
+            if(file_exists(($year+1)."SP.txt"))
+                $files[] = array($year+1, "SP");
             $files[] = array($year, "FA");
         }
         return $files;
