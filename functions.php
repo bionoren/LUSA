@@ -63,21 +63,18 @@
         $files = array();
         //order is important here!
         if($month < 5) {
-            //grab last fall and this spring and try for this summer and fall
-            $files[] = array($year-1, "FA");
-            $files[] = array($year, "SP");
-            $files[] = array($year, "SU");
+            //this spring and try for this summer and fall
             $files[] = array($year, "FA");
+            $files[] = array($year, "SU");
+            $files[] = array($year, "SP");
         } elseif($month < 8 || ($month == 8 && $day < 10)) {
-            //grab last spring and this summer and try for next fall
-            $files[] = array($year, "SP");
-            $files[] = array($year, "SU");
+            //grab this summer and try for next fall
             $files[] = array($year, "FA");
+            $files[] = array($year, "SU");
         } else {
-            //grab last summer and this fall and try for next spring
-            $files[] = array($year, "SU");
-            $files[] = array($year, "FA");
+            //grab this fall and try for next spring
             $files[] = array($year+1, "SP");
+            $files[] = array($year, "FA");
         }
         return $files;
     }

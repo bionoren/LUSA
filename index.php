@@ -39,16 +39,7 @@
 
     if(!isset($_REQUEST["semester"])) {
         $files = getFileArray();
-        if(is_array($files[1])) {
-            //never default to the summer unless there's no fall data yet
-            if($files[1][1] == "SU" && is_array($files[2])) {
-                $semester = $files[2];
-            } else {
-                $semester = $files[1];
-            }
-        } else {
-            $semester = $files[0];
-        }
+        $semester = $files[0];
     } else {
         $semester = explode(" ", $_REQUEST["semester"]);
     }
