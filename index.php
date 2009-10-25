@@ -91,7 +91,7 @@
                     $courses[] = $courseTitleNumbers[$key." lab"];
                 }
             } else {
-                $errors[$i] = true;
+                $errors[$key] = true;
             }
 		}
 	}
@@ -133,6 +133,14 @@
                 myEle.setAttribute("value","0");
                 controlToPopulate.appendChild(myEle);
                 var group = arrItems[control.value];
+                if(group == null) {
+                    //some browsers (read some versions of some browsers) feel obligated to pass
+                    //on empty values if a select statement is populated with an empty option
+                    //Therefore, we make empty fields truly empty here.
+                    for(var q=controlToPopulate.options.length; q>=0; q--)
+                        controlToPopulate.options[q]=null;
+                    return;
+                }
                 var foo = eval('arrItems'+group);
                 for(x in foo) {
                     myEle = document.createElement("option");
@@ -255,11 +263,6 @@
                                         }
                                         print '>'.$value.'</option>';
                                     }
-                                }
-                                else {
-                                	?>
-                                	<option value="" disabled="disabled"></option>
-                                	<?php
                                 }
                                 ?>
                                 </select>
