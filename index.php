@@ -174,7 +174,7 @@
                     }
                 ?>
             </select>
-            <input type="submit" name="update" value="Change">
+            <input type="submit" name="submit" value="Change">
         </form>
         </div>
         <br>
