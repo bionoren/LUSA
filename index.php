@@ -45,6 +45,12 @@
     }
     $now = getCurrentSemester($semester[0], $semester[1]);
 
+    //if the class hash changed, we need to unset the schedule filter array (sf[])
+    //we keep the class filters, since if you didn't want it before, why would you want it now?
+    if(array_key_exists("sf", $_REQUEST) && crc32(implode($_REQUEST["choice"])) != $_REQUEST["ch"]) {
+        unset($_REQUEST["sf"]);
+    }
+
 	$classGroups = array();
     $classes = array();
 	$courseTitleNumbers = array();
@@ -199,13 +205,7 @@
             <?php
                 if(isset($_REQUEST["submit"]) && empty($errors)) {
                     if(count($courses) > 0) {
-                        if(isset($_REQUEST["sf"])) {
-                            $filter = array_fill_keys($_REQUEST["sf"], true);
-                        } else {
-                            $filter = null;
-                        }
-
-                        $schedules = findSchedules($courses, $filter);
+                        $schedules = findSchedules($courses, $_REQUEST["sf"]);
 
                         if(isset($_REQUEST["total"])) {
                             $total = $_REQUEST["total"];
@@ -229,6 +229,12 @@
             ?>
             <div class="leftcol print-no">
                         <?php
+                            //class hash
+                            //crc32 is fast and should be good enough here to distinguish different class sets,
+                            //and it keeps the url small
+                            if(array_key_exists("choice", $_REQUEST)) {
+                                print '<input type="hidden" name="ch" value="'.crc32(implode($_REQUEST["choice"])).'">';
+                            }
                             $hours = 0;
                             $classGroups = implode("", $classGroups);
                             for($i=0; $i < $NUM_CLASSES; $i++) {

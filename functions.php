@@ -100,7 +100,13 @@
     //filters the master class list down to the courses we're interested in and organizes the data into something parsable by evaluateSchedules()
     //just as a warning, this method took a lot of thought, but it really does work. Good luck...
 	function findSchedules(array $courses, $filters=null) {
-		//add course information for all the courses to be taken
+        if($filters !== null && !empty($filters)) {
+            $filters = array_flip($filters);
+        } else {
+            $filters = null;
+        }
+
+        //add course information for all the courses to be taken
         //classes with only one section must be common
         foreach($courses as $i=>$sections) {
             if(count($sections) == 1) {
@@ -132,7 +138,7 @@
             //for each course, if the index for this course is less than the max section index, shift it
             //also handles rollover for previous indicies
             $temp = new Schedule($classes);
-            if(($filters === null || $filters[$temp->getID()])) {
+            if($filters === null || !array_key_exists($temp->getID(), $filters)) {
                 $valid = $temp->isValid();
                 if($valid === true) {
                     $schedules[] = $temp;
@@ -299,7 +305,7 @@
             }
             ?></table>
             <div class="leftcol"><a href="print.php?<?php echo $qs?>" target="_new">Week View</a></div>
-          <div class="rightcol" style="text-align:right;"><label for="keep<?php echo $this->getID()?>">Keep this schedule:</label> <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" id="keep<?php echo $this->getID()?>" checked></div>
+          <div class="rightcol" style="text-align:right;"><label for="keep<?php echo $this->getID()?>">Remove this schedule:</label> <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" id="keep<?php echo $this->getID()?>"></div>
             <?php
         }
 
