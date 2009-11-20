@@ -33,8 +33,9 @@
 <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
 <link rel="stylesheet" type="text/css" href="print.css" media="print">
 <?php
+    //for those of you wondering why this number is so high, I know an aviation major taking 11 classes next semester.
 	$NUM_CLASSES = 15;
-    //the limit should be in apache at ~4000 characters
+    //the limit is in apache at ~4000 characters by my analysis
     $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
 
     if(!isset($_REQUEST["semester"])) {
@@ -46,7 +47,7 @@
     $now = getCurrentSemester($semester[0], $semester[1]);
 
     //if the class hash changed, we need to unset the schedule filter array (sf[])
-    //we keep the class filters, since if you didn't want it before, why would you want it now?
+    //we keep the class filters, since if you didn't want it before, ... why would you want it now?
     if(array_key_exists("sf", $_REQUEST) && crc32(implode($_REQUEST["choice"])) != $_REQUEST["ch"]) {
         unset($_REQUEST["sf"]);
     }
@@ -54,7 +55,6 @@
 	$classGroups = array();
     $classes = array();
 	$courseTitleNumbers = array();
-    //in all honesty, I don't remember what most of this does, just that things break if I mess with it...
     if(isset($_REQUEST["cf"])) {
         $classFilter = array_fill_keys($_REQUEST["cf"], true);
     } else {
@@ -93,8 +93,6 @@
 		}
 	}
     //find possible schedules
-
-    //I really don't know javascript, so make whatever sense of this you can...
 ?>
         <script type="text/javascript">
             <!--
@@ -221,7 +219,7 @@
                                 displaySchedules($schedules, $total);
                             }
                         } else {
-                            //believe it or not, this is error handling
+                            //believe it or not, this also does error handling
                             displaySchedules($schedules, $total);
                         }
                     }

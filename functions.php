@@ -16,7 +16,7 @@
 
     //WARNING
     //This does not handle online classes. Basically, they always conflict with everything, because they are interpreted as
-    //lasting all day every day.
+    //lasting all day, every day, forever and ever amen.
 
 	//DEBUGGING FUNCTIONS
 	function dump($name, $array, $member=null) {
@@ -39,13 +39,14 @@
 
 	//FUNCTIONS
     function save_cookie($data) {
-        //set for 2 months
+        //set for ~2 months
         setcookie("lastSchedule", $data, time()+60*60*24*7*8);
     }
 
     function getCurrentSemester($year=null, $semester=null) {
         //get the current class schedule from LeTourneau
 		if(!file_exists($year.$semester.".txt")) {
+            //send the user back after 5 seconds
             print '<script language="javascript">setTimeout("history.back()",5000);</script>';
             die("There is no data available for $semester $year");
         }
@@ -525,19 +526,6 @@
 
         public function isEmpty() {
             return $this->getDays() > 0;
-        }
-
-        //for some definition of equal... make sure you don't check num registered here!
-        public function equal($class) {
-            if($this->isEmpty())
-                return false;
-            if($this->getCourseID() != $class->getCourseID())
-                return false;
-            if($this->getSection() != $class->getSection())
-                return false;
-            if($this->getTitle() != $class->getTitle())
-                return false;
-            return true;
         }
 
         public function export() {

@@ -16,7 +16,7 @@
     require_once("functions.php");
 
     function fetchCurrentSemester($year=2009, $semester="FA") {
-        //get the current class schedule from LeTourneu
+        //get the current class schedule from LeTourneau
 		$file = "http://www.letu.edu/academics/course-sched/index.html";
 		if(!empty($year) && !empty($semester)) {
 			$file .= "?target_term=".$year."%7C".$semester;
@@ -29,7 +29,7 @@
     }
 
 	function writeClassData($title, $year, $semester) {
-		//get the current class schedule from LeTourneu
+		//get the current class schedule from LeTourneau
 		$file = "http://www.letu.edu/academics/course-sched/index.html";
 		if(!empty($year) && !empty($semester)) {
 			$file .= "?target_term=".$year."%7C".$semester;
@@ -58,7 +58,7 @@
 			preg_match_all("/\>[^\<]+?<\//is", $val, $sections);
             $sections = $sections[0];
 
-			//evaluate and store each portion of a classes information
+			//evaluate and store each portion of a class' information
 			foreach($sections as $key2=>$val2) {
 				if(count($sections) < 11) { //handle labs
 					$key2 += 12-count($sections);

@@ -7,11 +7,11 @@ AERF-1101$$05$$32$$12.8333333333$$14.6666666667$$Flight Science I Lab$$Visser, A
 AERF-1101$$06$$2$$15$$16.8333333333$$Flight Science I Lab$$Visser, A$$8$$7
 AERF-1101$$07$$8$$15$$16.8333333333$$Flight Science I Lab$$Visser, A$$8$$7
 AERF-1101$$08$$32$$15$$16.8333333333$$Flight Science I Lab$$Visser, A$$4$$8
-AERF-1103$$01$$42$$7.58333333333$$8.5$$Flight Science I$$Visser, A$$34$$35
+AERF-1103$$01$$42$$7.58333333333$$8.5$$Flight Science I$$Visser, A$$33$$35
 AERF-1103$$02$$42$$8.66666666667$$9.58333333333$$Flight Science I$$Visser, A$$36$$35
 AERF-1111$$01$$34$$13.1666666667$$17.1666666667$$Primary Flight I$$Bitikofer$$4$$0
-AERF-1111$$02$$20$$13.1666666667$$17.1666666667$$Primary Flight I$$Bitikofer$$5$$0
-AERF-1111$$03$$72$$13.1666666667$$17.1666666667$$Primary Flight I$$Bitikofer$$6$$0
+AERF-1111$$02$$20$$13.1666666667$$17.1666666667$$Primary Flight I$$Bitikofer$$4$$0
+AERF-1111$$03$$72$$13.1666666667$$17.1666666667$$Primary Flight I$$Bitikofer$$4$$0
 AERF-1121$$01$$34$$13.1666666667$$17.1666666667$$Primary Flight II$$Bitikofer$$5$$6
 AERF-1121$$02$$20$$13.1666666667$$17.1666666667$$Primary Flight II$$Bitikofer$$5$$4
 AERF-1121$$03$$72$$13.1666666667$$17.1666666667$$Primary Flight II$$Bitikofer$$1$$6
@@ -19,11 +19,11 @@ AERF-1121$$04$$20$$7.25$$11.25$$Primary Flight II$$Bitikofer$$2$$2
 AERF-1201$$01$$34$$13.1666666667$$17.1666666667$$FL Policies & Standardization$$Chase, B.$$4$$2
 AERF-1201$$02$$20$$13.1666666667$$17.1666666667$$FL Policies & Standardization$$Chase, B.$$2$$2
 AERF-1201$$03$$72$$13.1666666667$$17.1666666667$$FL Policies & Standardization$$Chase, B.$$5$$2
-AERF-2101$$01$$20$$19$$19.9166666667$$Flight Science Lab II$$Chase, B.$$5$$6
+AERF-2101$$01$$20$$19$$19.9166666667$$Flight Science Lab II$$Chase, B.$$4$$6
 AERF-2101$$02$$10$$19$$19.9166666667$$Flight Science Lab II$$Chase, B.$$7$$7
 AERF-2101$$03$$10$$20.0833333333$$21$$Flight Science Lab II$$Chase, B.$$6$$7
 AERF-2101$$04$$20$$20.0833333333$$21$$Flight Science Lab II$$Chase, B.$$5$$7
-AERF-2103$$01$$42$$7.25$$8.16666666667$$Flight Science II$$Chase, B.$$24$$30
+AERF-2103$$01$$42$$7.25$$8.16666666667$$Flight Science II$$Chase, B.$$23$$30
 AERF-2311$$01$$34$$9.25$$11.25$$Commercial Flight I$$Bitikofer$$1$$2
 AERF-2311$$02$$20$$7.25$$11.25$$Commercial Flight I$$Bitikofer$$4$$4
 AERF-2311$$03$$34$$13.1666666667$$17.1666666667$$Commercial Flight I$$Bitikofer$$3$$4
@@ -32,9 +32,9 @@ AERF-2311$$05$$72$$13.1666666667$$17.1666666667$$Commercial Flight I$$Bitikofer$
 AERF-2311$$06$$72$$9.25$$11.25$$Commercial Flight I$$Bitikofer$$0$$2
 AERF-2311$$07$$20$$19$$21$$Commercial Flight I$$Bitikofer$$1$$0
 AERF-2411$$01$$34$$7.25$$11.25$$Commercial Flight II$$Bitikofer$$4$$6
-AERF-2411$$02$$20$$7.25$$11.25$$Commercial Flight II$$Bitikofer$$1$$6
+AERF-2411$$02$$20$$7.25$$11.25$$Commercial Flight II$$Bitikofer$$0$$6
 AERF-2411$$03$$20$$13.1666666667$$17.1666666667$$Commercial Flight II$$Bitikofer$$1$$6
-AERF-2411$$04$$72$$13.1666666667$$17.1666666667$$Commercial Flight II$$Bitikofer$$5$$6
+AERF-2411$$04$$72$$13.1666666667$$17.1666666667$$Commercial Flight II$$Bitikofer$$4$$6
 AERF-2411$$05$$34$$13.1666666667$$17.1666666667$$Commercial Flight II$$Bitikofer$$3$$6
 AERF-2411$$06$$20$$19.25$$23.25$$Commercial Flight II$$Bitikofer$$1$$1
 AERF-3103$$01$$42$$7.25$$8.16666666667$$Flight Science III$$Wooden, B$$16$$30
@@ -42,7 +42,7 @@ AERF-3211$$01$$8$$7.25$$11.25$$Upset Recovery Flight$$Bitikofer$$1$$4
 AERF-3412$$01$$20$$19$$23$$Instrument Flight$$Bitikofer$$7$$14
 AERF-3412$$02$$10$$19$$23$$Instrument Flight$$Bitikofer$$4$$14
 AERF-3512$$01$$20$$7.25$$11.25$$Comm Flight III (Transport)$$Bitikofer$$7$$7
-AERF-3512$$02$$72$$7.25$$11.25$$Comm Flight III (Transport)$$Bitikofer$$3$$6
+AERF-3512$$02$$72$$7.25$$11.25$$Comm Flight III (Transport)$$Bitikofer$$2$$6
 AERF-3522$$01$$20$$7.25$$11.25$$Comm Flight III (Missions)$$Bitikofer$$0$$4
 AERF-3522$$02$$72$$7.25$$11.25$$Comm Flight III (Missions)$$Bitikofer$$5$$6
 AERF-3522$$03$$34$$14.25$$17.1666666667$$Comm Flight III (Missions)$$Bitikofer$$1$$1
@@ -58,7 +58,7 @@ AERF-4611$$02$$0$$TBA$$0$$Flight Instructor Instrument Fl$$Bitikofer$$2$$2
 AERF-4921$$01$$0$$TBA$$0$$ST: Comm Flight Familiarization$$Bitikofer$$1$$1
 AERO-2112$$01$$20$$7.08333333333$$8$$Aerodynamics for Pilots$$Bitikofer$$30$$40
 AERO-2203$$01$$20$$8.16666666667$$9.5$$Meteorology for Pilots$$Rispin, P.$$35$$30
-AERO-3823$$01$$0$$TBA$$0$$Aviation Management$$Burnett, W$$24$$40
+AERO-3823$$01$$0$$TBA$$0$$Aviation Management$$Burnett, W$$23$$40
 AERO-4133$$01$$42$$14.25$$15.1666666667$$Crew Resource Management$$Wooden, B$$6$$30
 AVTC-1001$$01$$8$$13.1666666667$$15$$Found Concepts/Aviation St Lab$$Fortier, S$$17$$16
 AVTC-1001$$02$$32$$13.1666666667$$15$$Found Concepts/Aviation St Lab$$Fortier, S$$19$$18
@@ -76,14 +76,14 @@ AVTC-2211$$01$$34$$8.33333333333$$10.6666666667$$Aircraft Metal Structure Lab$$S
 AVTC-2213$$01$$42$$13.1666666667$$14.0833333333$$Aircraft Metal Structures$$Scroggins$$13$$20
 AVTC-2231$$01$$34$$13.1666666667$$15$$Intro Aircraft Systems Lab$$Poelman, M$$22$$18
 AVTC-2232$$01$$34$$9.41666666667$$10.3333333333$$Intro Aircraft Systems$$Poelman, M$$22$$20
-AVTC-2431$$01$$20$$13.1666666667$$15$$Powerplant Elect Sys Lab$$Fortier, S$$18$$18
+AVTC-2431$$01$$20$$13.1666666667$$15$$Powerplant Elect Sys Lab$$Fortier, S$$17$$18
 AVTC-2431$$02$$34$$13.1666666667$$15$$Powerplant Elect Sys Lab$$Fortier, S$$19$$18
-AVTC-2433$$01$$42$$8.33333333333$$9.25$$Powerplant Elect Sys$$Fortier, S$$38$$40
+AVTC-2433$$01$$42$$8.33333333333$$9.25$$Powerplant Elect Sys$$Fortier, S$$37$$40
 AVTC-2441$$01$$34$$15.3333333333$$17.1666666667$$Lab-Airframe Electrical$$Farrell, A$$20$$18
 AVTC-2443$$01$$42$$8.33333333333$$9.25$$Airframe Electrical$$Farrell, A$$21$$20
 AVTC-2601$$01$$34$$15.3333333333$$17.6666666667$$Intro Aircraft Recip Eng Lab$$Foulk, J$$20$$18
-AVTC-2601$$02$$20$$15.3333333333$$17.6666666667$$Intro Aircraft Recip Eng Lab$$Foulk, J$$19$$18
-AVTC-2603$$01$$42$$9.41666666667$$10.3333333333$$Intro Aircraft Recip Eng$$Foulk, J$$38$$40
+AVTC-2601$$02$$20$$15.3333333333$$17.6666666667$$Intro Aircraft Recip Eng Lab$$Foulk, J$$16$$18
+AVTC-2603$$01$$42$$9.41666666667$$10.3333333333$$Intro Aircraft Recip Eng$$Foulk, J$$37$$40
 AVTC-3211$$01$$8$$15.3333333333$$17.1666666667$$Trans Cat Aircraft Systems Lab$$Farrell, A$$22$$18
 AVTC-3212$$01$$34$$13.1666666667$$14.0833333333$$Transort Category Aircr Sys$$Farrell, A$$23$$20
 AVTC-3261$$01$$20$$8.16666666667$$10.5$$Aircraft Composite Lab$$Scroggins$$20$$18
@@ -93,15 +93,15 @@ AVTC-3461$$01$$20$$8.16666666667$$10$$Aircr Instruments Lab$$Farrell, A$$19$$18
 AVTC-3461$$02$$20$$15.3333333333$$17.1666666667$$Aircr Instruments Lab$$Farrell, A$$18$$18
 AVTC-3462$$01$$20$$14.25$$15.1666666667$$Aircraft Instru Systems$$Farrell, A$$37$$40
 AVTC-3612$$01$$2$$15.5$$17.3333333333$$Intro/Aircraft Gas Turb Engine$$Ritchey, F$$23$$30
-AVTC-4021$$01$$0$$TBA$$0$$Aircraft Inspections Lab$$Foulk, J$$24$$40
+AVTC-4021$$01$$0$$TBA$$0$$Aircraft Inspections Lab$$Foulk, J$$23$$40
 AVTC-4022$$01$$34$$14.25$$15.1666666667$$Aircraft Inspections$$Foulk, J$$22$$40
 AVTC-4601$$01$$20$$13.8333333333$$16.1666666667$$Adv Aircraft Gas Turb Eng Lab$$Poelman, M$$19$$18
 AVTC-4601$$02$$34$$15.3333333333$$17.6666666667$$Adv Aircraft Gas Turb Eng Lab$$Poelman, M$$11$$18
 AVTC-4603$$01$$20$$16.3333333333$$17.6666666667$$Adv. Aircr Gas Turbine Engines$$Poelman, M$$31$$36
-BACT-2103$$01$$10$$14$$15.3333333333$$Accounting Prin I$$Rowe, B.$$22$$25
+BACT-2103$$01$$10$$14$$15.3333333333$$Accounting Prin I$$Rowe, B.$$20$$25
 BACT-2103$$02$$10$$12$$13.3333333333$$Accounting Prin I$$Rowe, B.$$16$$25
 BACT-2103$$HD$$0$$TBA$$0$$Accounting Prin I$$Staff$$1$$0
-BACT-3103$$01$$20$$12$$13.3333333333$$Intermediate Accounting I$$Rowe, B.$$17$$20
+BACT-3103$$01$$20$$12$$13.3333333333$$Intermediate Accounting I$$Rowe, B.$$16$$20
 BACT-3203$$01$$10$$15.6666666667$$17$$Govt & Non-Profit Acct$$Rowe, B.$$13$$20
 BACT-3303$$01$$20$$9.5$$10.8333333333$$Cost Accounting$$Rowe, B.$$18$$20
 BACT-4923$$01$$0$$TBA$$0$$Accounting Internship$$Rowe, B.$$3$$5
@@ -118,15 +118,15 @@ BEGR-3311$$01$$0$$TBA$$0$$Biomedical Engr Seminar$$Gonzalez,R$$5$$30
 BEGR-3313$$01$$42$$11.75$$12.6666666667$$Intro to Biomechanics$$Webb, J$$7$$15
 BEGR-3811$$01$$4$$13.5$$14.4166666667$$Jr Biomed Engr Research Exp I$$Gonzalez,R$$5$$15
 BEGR-4311$$01$$0$$TBA$$0$$Biomedical Engr Seminar$$Gonzalez,R$$4$$30
-BFIN-3113$$01$$42$$11.75$$12.6666666667$$Financial Mgmt$$Feezell, J$$37$$27
+BFIN-3113$$01$$42$$11.75$$12.6666666667$$Financial Mgmt$$Feezell, J$$35$$27
 BFIN-3203$$01$$0$$TBA$$0$$Financial Risk Management$$Castro, J.$$1$$0
 BFIN-3403$$01$$20$$9.5$$10.8333333333$$Investments$$Castro, J.$$5$$25
 BFIN-4923$$01$$0$$TBA$$0$$Finance Internship$$Castro, J.$$1$$5
-BIBL-1033$$01$$42$$7.58333333333$$8.5$$Biblical Literature$$Woodring,$$67$$70
+BIBL-1033$$01$$42$$7.58333333333$$8.5$$Biblical Literature$$Woodring,$$66$$70
 BIBL-1033$$02$$42$$12.8333333333$$13.75$$Biblical Literature$$Liebengood$$34$$35
 BIBL-1033$$03$$20$$9.5$$10.8333333333$$Biblical Literature$$Mays, P$$38$$35
-BIBL-1033$$04$$20$$12$$13.3333333333$$Biblical Literature$$Roudkovs,V$$35$$35
-BIBL-1033$$05$$42$$9.75$$10.6666666667$$Biblical Literature$$Liebengood$$35$$35
+BIBL-1033$$04$$20$$12$$13.3333333333$$Biblical Literature$$Roudkovs,V$$34$$35
+BIBL-1033$$05$$42$$9.75$$10.6666666667$$Biblical Literature$$Liebengood$$34$$35
 BIBL-1043$$01$$42$$8.66666666667$$9.58333333333$$Biblical Foundations$$Baker, T.$$34$$35
 BIBL-1043$$02$$42$$13.9166666667$$14.8333333333$$Biblical Foundations$$Woodring,$$36$$35
 BIBL-1043$$03$$20$$8$$9.33333333333$$Biblical Foundations$$Baker, T.$$36$$35
@@ -136,22 +136,22 @@ BIBL-1043$$06$$20$$12$$13.3333333333$$Biblical Foundations$$Lowery, D$$37$$35
 BIBL-3103$$01$$42$$11.75$$12.6666666667$$Pentateuch$$Mason, S$$40$$35
 BIBL-3303$$01$$42$$9.75$$10.6666666667$$Poetical Books$$Woodring,$$35$$35
 BIBL-3613$$01$$42$$13.9166666667$$14.8333333333$$Paul's Prison Letters$$Liebengood$$37$$35
-BIBL-3653$$01$$42$$11.75$$12.6666666667$$Romans$$Roudkovs,V$$39$$35
-BIBL-3853$$01$$20$$13.5$$14.8333333333$$Book of Revelation$$Liebengood$$39$$35
+BIBL-3653$$01$$42$$11.75$$12.6666666667$$Romans$$Roudkovs,V$$38$$35
+BIBL-3853$$01$$20$$13.5$$14.8333333333$$Book of Revelation$$Liebengood$$38$$35
 BIBL-4253$$01$$20$$9.5$$10.8333333333$$Intertestamental Period$$Roudkovs,V$$35$$35
 BIBL-4253$$02$$0$$TBA$$0$$Intertestamental Period$$Roudkovs,V$$1$$0
-BIOL-1111$$01$$8$$15$$17.3333333333$$General Biology Lab I$$Rispin, K.$$19$$22
-BIOL-1111$$02$$16$$8.5$$10.8333333333$$General Biology Lab I$$Rispin, K.$$16$$22
-BIOL-1111$$03$$16$$15$$17.3333333333$$General Biology Lab I$$Rispin, K.$$16$$22
-BIOL-1113$$01$$42$$13.9166666667$$14.8333333333$$General Biology$$Jarstfer,A$$55$$66
+BIOL-1111$$01$$8$$15$$17.3333333333$$General Biology Lab I$$Rispin, K.$$18$$22
+BIOL-1111$$02$$16$$8.5$$10.8333333333$$General Biology Lab I$$Rispin, K.$$15$$22
+BIOL-1111$$03$$16$$15$$17.3333333333$$General Biology Lab I$$Rispin, K.$$15$$22
+BIOL-1113$$01$$42$$13.9166666667$$14.8333333333$$General Biology$$Jarstfer,A$$51$$66
 BIOL-2014$$01$$42$$12.8333333333$$13.75$$Human Anatomy & Physiology I$$Elliott, A$$15$$22
 BIOL-2014 lab$$01$$16$$8.5$$10.8333333333$$Human Anatomy & Physiology I lab$$Elliott, A$$15$$22
 BIOL-2014$$02$$42$$12.8333333333$$13.75$$Human Anatomy & Physiology I$$Elliott, A$$22$$22
 BIOL-2014 lab$$02$$16$$15$$17.3333333333$$Human Anatomy & Physiology I lab$$Elliott, A$$22$$22
 BIOL-3504$$01$$42$$11.75$$12.6666666667$$Ecology & Field Biology$$Rispin, K.$$7$$20
 BIOL-3504 lab$$01$$4$$15$$17.3333333333$$Ecology & Field Biology lab$$Rispin, K.$$7$$20
-BIOL-4314$$01$$42$$8.66666666667$$9.58333333333$$Biochemistry I$$Elliott, A$$17$$22
-BIOL-4314 lab$$01$$8$$15$$17.3333333333$$Biochemistry I lab$$Elliott, A$$17$$22
+BIOL-4314$$01$$42$$8.66666666667$$9.58333333333$$Biochemistry I$$Elliott, A$$16$$22
+BIOL-4314 lab$$01$$8$$15$$17.3333333333$$Biochemistry I lab$$Elliott, A$$16$$22
 BIOL-4931$$01$$0$$TBA$$0$$Clinical Observation$$Jarstfer,A$$3$$0
 BIOL-4951$$01$$4$$13.5$$14.8333333333$$UR: LEGS$$Rispin, K.$$2$$0
 BIOL-4951$$02$$16$$13.5$$14.8333333333$$UR: ACL$$Rispin, K.$$2$$0
@@ -162,14 +162,14 @@ BIOL-4952$$02$$20$$13.5$$14.8333333333$$UR: ACL$$Rispin, K.$$1$$0
 BIOL-4971$$01$$16$$12.4166666667$$13.3333333333$$ST: Cell Biology Colloquium$$Suh, Byung$$6$$15
 BIOL-4973$$01$$42$$13.9166666667$$14.8333333333$$ST: Immunology$$Suh, Byung$$13$$25
 BMGT-2303$$01$$20$$12$$13.3333333333$$Prin of Management$$Jacobs, K$$18$$30
-BMGT-2303$$02$$20$$12$$13.3333333333$$Prin of Management$$Lester, A$$20$$30
+BMGT-2303$$02$$20$$12$$13.3333333333$$Prin of Management$$Lester, A$$19$$30
 BMGT-3313$$01$$20$$13.5$$14.8333333333$$Organizational Behavior$$Adams-Gain$$25$$30
 BMGT-4103$$01$$20$$9.5$$10.8333333333$$Compensation & Benefits$$Jacobs, K$$8$$25
 BMGT-4303$$01$$42$$8.66666666667$$9.58333333333$$Production Operations Mgmt$$Feezell, J$$12$$25
 BMGT-4923$$01$$0$$TBA$$0$$Management Internship$$Wharton, B$$3$$5
 BMKT-2503$$01$$42$$9.75$$10.6666666667$$Principles of Marketing$$Fairweathe$$23$$26
-BMKT-3503$$01$$20$$9.5$$10.8333333333$$Advertising$$Fairweathe$$13$$18
-BMKT-4303$$01$$20$$12$$13.3333333333$$International Marketing$$Fairweathe$$10$$18
+BMKT-3503$$01$$20$$9.5$$10.8333333333$$Advertising$$Fairweathe$$12$$18
+BMKT-4303$$01$$20$$12$$13.3333333333$$International Marketing$$Fairweathe$$9$$18
 BMKT-4923$$01$$0$$TBA$$0$$Marketing Internship$$Fairweathe$$0$$5
 BUSI-3103$$01$$4$$18$$21$$Business Law$$Hill, Matt$$35$$40
 BUSI-3403$$01$$42$$9.75$$10.6666666667$$Business Ethics$$Feezell, J$$29$$26
@@ -185,17 +185,17 @@ CHEM-1111$$02$$2$$18.5$$20.8333333333$$General Chemistry Lab I$$Ford, D$$20$$20
 CHEM-1111$$03$$4$$15$$17.3333333333$$General Chemistry Lab I$$Jarrell, H$$22$$20
 CHEM-1111$$04$$4$$18.5$$20.8333333333$$General Chemistry Lab I$$Jarrell, H$$21$$20
 CHEM-1111$$05$$8$$15$$17.3333333333$$General Chemistry Lab I$$Ford, D$$19$$20
-CHEM-1111$$06$$16$$8.5$$10.8333333333$$General Chemistry Lab I$$DeBoer, G.$$12$$20
-CHEM-1111$$07$$16$$15$$17.3333333333$$General Chemistry Lab I$$Jarrell, H$$22$$20
-CHEM-1111$$08$$16$$18.5$$20.8333333333$$General Chemistry Lab I$$Jarrell, H$$20$$20
+CHEM-1111$$06$$16$$8.5$$10.8333333333$$General Chemistry Lab I$$DeBoer, G.$$10$$20
+CHEM-1111$$07$$16$$15$$17.3333333333$$General Chemistry Lab I$$Jarrell, H$$21$$20
+CHEM-1111$$08$$16$$18.5$$20.8333333333$$General Chemistry Lab I$$Jarrell, H$$19$$20
 CHEM-1111$$09$$4$$8.5$$10.8333333333$$General Chemistry Lab I$$DeBoer, G.$$17$$20
-CHEM-1113$$01$$42$$8.66666666667$$9.58333333333$$General Chemistry I$$DeBoer, G.$$58$$60
-CHEM-1113$$02$$42$$9.75$$10.6666666667$$General Chemistry I$$DeBoer, G.$$61$$60
-CHEM-1113$$03$$20$$12$$13.3333333333$$General Chemistry I$$Johnson, D$$53$$60
+CHEM-1113$$01$$42$$8.66666666667$$9.58333333333$$General Chemistry I$$DeBoer, G.$$56$$60
+CHEM-1113$$02$$42$$9.75$$10.6666666667$$General Chemistry I$$DeBoer, G.$$59$$60
+CHEM-1113$$03$$20$$12$$13.3333333333$$General Chemistry I$$Johnson, D$$52$$60
 CHEM-2111$$01$$16$$15$$17.3333333333$$Organic Chemistry Lab I$$Ford, D$$12$$16
 CHEM-2113$$01$$42$$12.8333333333$$13.75$$Organic Chemistry I$$Ford, D$$13$$16
-CHEM-3112$$01$$6$$18.5$$20.8333333333$$Chemical Analysis Lab$$Dobbs, J.$$10$$16
-CHEM-3122$$01$$20$$9.91666666667$$10.8333333333$$Chemical Analysis$$Johnson, D$$10$$16
+CHEM-3112$$01$$6$$18.5$$20.8333333333$$Chemical Analysis Lab$$Dobbs, J.$$9$$16
+CHEM-3122$$01$$20$$9.91666666667$$10.8333333333$$Chemical Analysis$$Johnson, D$$9$$16
 CHEM-4253$$01$$20$$15$$16.3333333333$$Advanced Quantum Mechanics$$DeBoer, G.$$1$$15
 CHEM-4314$$01$$42$$8.66666666667$$9.58333333333$$Biochemistry I$$Elliott, A$$1$$10
 CHEM-4314 lab$$01$$8$$15$$17.3333333333$$Biochemistry I lab$$Elliott, A$$1$$10
@@ -210,15 +210,16 @@ COMM-1113$$01$$42$$13.9166666667$$14.8333333333$$Intro to Speech Comm$$Payton,K$
 COMM-1113$$02$$42$$12.8333333333$$13.75$$Intro to Speech Comm$$Payton,K$$20$$20
 COMM-1113$$03$$20$$13.5$$14.8333333333$$Intro to Speech Comm$$Payton,K$$20$$20
 COMM-1113$$04$$20$$15$$16.3333333333$$Intro to Speech Comm$$Payton,K$$20$$20
-COMM-1113$$05$$20$$9.5$$10.8333333333$$Intro to Speech Comm$$Forester,D$$20$$20
+COMM-1113$$05$$20$$9.5$$10.8333333333$$Intro to Speech Comm$$Forester,D$$19$$20
 COMM-1113$$06$$20$$12$$13.3333333333$$Intro to Speech Comm$$Forester,D$$19$$20
 COOP-3000$$01$$0$$TBA$$0$$Co-op Alternate$$Gatton, S.$$3$$0
-COSC-1101$$01$$2$$13.9166666667$$14.8333333333$$Personal Comp Apps$$Rouse, K$$15$$30
-COSC-1303$$01$$20$$12$$13.3333333333$$Computer Science I$$Rouse, K$$32$$0
+COSC-1101$$01$$2$$13.9166666667$$14.8333333333$$Personal Comp Apps$$Rouse, K$$14$$30
+COSC-1303$$01$$20$$12$$13.3333333333$$Computer Science I$$Rouse, K$$31$$0
 COSC-1303$$02$$42$$15$$15.9166666667$$Computer Science I$$Rouse, K$$29$$30
-COSC-1303$$03$$42$$12.8333333333$$13.75$$Computer Science I$$Rouse, K$$31$$30
+COSC-1303$$03$$42$$12.8333333333$$13.75$$Computer Science I$$Rouse, K$$30$$30
 COSC-2103$$01$$42$$9.75$$10.6666666667$$Computer Science II$$Baas, B.$$13$$30
 COSC-2203$$01$$42$$8.66666666667$$9.58333333333$$Data Structures$$Baas, B.$$9$$30
+COSC-3303$$HD$$0$$TBA$$0$$Computer Architecture$$Staff$$1$$0
 COSC-3523$$01$$42$$12.8333333333$$13.75$$Analysis of Algorithms$$Baas, B.$$6$$30
 COSC-3603$$01$$20$$12$$13.3333333333$$Networks & Data Communications$$Tevis, J.$$22$$30
 COSC-3653$$01$$42$$13.9166666667$$14.8333333333$$Network Security$$Tevis, J.$$11$$15
@@ -233,8 +234,8 @@ COSC-4963$$01$$0$$TBA$$0$$ST: High Performance Computing$$Staff$$0$$0
 DSTC-1203$$01$$42$$11.75$$12.6666666667$$Computer Aided Drafting & Design$$Gaiser, J.$$20$$20
 DSTC-1203$$02$$42$$15$$15.9166666667$$Computer Aided Drafting & Design$$Gaiser, J.$$16$$20
 DSTC-1203$$03$$4$$18$$20.75$$Computer Aided Drafting & Design$$Blair, G$$19$$20
-DSTC-1313$$01$$10$$8.25$$9.58333333333$$Technical Illustration$$Gaiser, J.$$10$$18
-DSTC-1413$$01$$20$$13.5$$15.5$$Technical Design Elements I$$Gaiser, J.$$13$$18
+DSTC-1313$$01$$10$$8.25$$9.58333333333$$Technical Illustration$$Gaiser, J.$$8$$18
+DSTC-1413$$01$$20$$13.5$$15.5$$Technical Design Elements I$$Gaiser, J.$$12$$18
 DSTC-2811$$01$$10$$16.0833333333$$17$$Engr Design Technology I$$Gaiser, J.$$2$$20
 EDUC-2301$$01$$0$$TBA$$0$$Intro to 8th-12th Grade Teaching$$Stephens,K$$0$$0
 EDUC-3010$$01$$20$$8$$9.33333333333$$Practicum II$$Teel, J$$5$$10
@@ -242,7 +243,7 @@ EDUC-3010$$02$$20$$9.5$$10.8333333333$$Practicum II$$Teel, J$$4$$10
 EDUC-3010$$03$$20$$12$$13.3333333333$$Practicum II$$Teel, J$$7$$10
 EDUC-3010$$04$$20$$13.5$$14.8333333333$$Practicum II$$Teel, J$$2$$10
 EDUC-3133$$01$$42$$7.58333333333$$8.5$$Methods of Elem Math/Sci Instruc$$Mills, S.$$15$$20
-EDUC-3143$$01$$42$$12.8333333333$$13.75$$Creative Expression for EC$$Mills, S.$$20$$20
+EDUC-3143$$01$$42$$12.8333333333$$13.75$$Creative Expression for EC$$Mills, S.$$19$$20
 EDUC-3320$$01$$20$$8$$9.33333333333$$Practicum III$$Ames, J.$$4$$10
 EDUC-3320$$02$$20$$9.5$$10.8333333333$$Practicum III$$Ames, J.$$3$$10
 EDUC-3320$$03$$20$$12$$13.3333333333$$Practicum III$$Ames, J.$$2$$10
@@ -256,7 +257,7 @@ EDUC-4143$$01$$10$$14$$15.5$$Lang Dev of the Young Child$$Mills, S.$$13$$20
 EDUC-4186$$01$$0$$TBA$$0$$Student Teaching in Elem School$$Mills, S.$$0$$0
 EDUC-4201$$01$$8$$9.75$$10.6666666667$$Certification Prep Sem 4th-8th$$Ames, J.$$3$$20
 EDUC-4301$$01$$8$$9.75$$10.6666666667$$Certification Prep Sem 8th-12th$$Ames, J.$$15$$20
-EDUC-4330$$01$$20$$8$$9.33333333333$$Practicum IV$$Mills, S.$$6$$10
+EDUC-4330$$01$$20$$8$$9.33333333333$$Practicum IV$$Mills, S.$$8$$10
 EDUC-4330$$02$$20$$9.5$$10.8333333333$$Practicum IV$$Mills, S.$$8$$10
 EDUC-4330$$03$$20$$12$$13.3333333333$$Practicum IV$$Mills, S.$$12$$10
 EDUC-4330$$04$$20$$13.5$$14.8333333333$$Practicum IV$$Mills, S.$$5$$10
@@ -267,15 +268,15 @@ EEGR-2053$$01$$42$$8.66666666667$$9.58333333333$$Electric Circuits I$$Graff, B.$
 EEGR-2053 lab$$01$$2$$16.0833333333$$18.0833333333$$Electric Circuits I lab$$Graff, B.$$37$$35
 EEGR-2053$$02$$42$$9.75$$10.6666666667$$Electric Circuits I$$Graff, B.$$21$$35
 EEGR-2053 lab$$02$$8$$16.0833333333$$18.0833333333$$Electric Circuits I lab$$Graff, B.$$21$$35
-EEGR-3112$$01$$4$$13.5$$14.4166666667$$Electronics Lab I$$Ortiz, O.$$11$$15
-EEGR-3112 lab$$01$$4$$15$$17.75$$Electronics Lab I lab$$Ortiz, O.$$11$$15
+EEGR-3112$$01$$4$$13.5$$14.4166666667$$Electronics Lab I$$Ortiz, O.$$10$$15
+EEGR-3112 lab$$01$$4$$15$$17.75$$Electronics Lab I lab$$Ortiz, O.$$10$$15
 EEGR-3112$$02$$4$$13.5$$14.4166666667$$Electronics Lab I$$Ortiz, O.$$12$$15
 EEGR-3112 lab$$02$$16$$15$$17.75$$Electronics Lab I lab$$Ortiz, O.$$12$$15
 EEGR-3213$$01$$42$$8.66666666667$$9.58333333333$$Digital Electronics$$Leiffer, P$$21$$30
 EEGR-3213$$02$$42$$13.9166666667$$14.8333333333$$Digital Electronics$$Leiffer, P$$7$$30
-EEGR-3233$$01$$20$$9.5$$10.8333333333$$Intro to Microcontrollers$$Iordache,M$$11$$15
-EEGR-3233 lab$$01$$8$$16.0833333333$$17$$Intro to Microcontrollers lab$$Iordache,M$$11$$15
-EEGR-3313$$01$$42$$15$$15.9166666667$$Electronics I$$Ortiz, O.$$23$$30
+EEGR-3233$$01$$20$$9.5$$10.8333333333$$Intro to Microcontrollers$$Iordache,M$$10$$15
+EEGR-3233 lab$$01$$8$$16.0833333333$$17$$Intro to Microcontrollers lab$$Iordache,M$$10$$15
+EEGR-3313$$01$$42$$15$$15.9166666667$$Electronics I$$Ortiz, O.$$22$$30
 EEGR-4233$$01$$42$$12.8333333333$$13.75$$Intro to Microproc/Microcomp$$Kim, J$$7$$30
 EEGR-4433$$01$$20$$15$$16.3333333333$$Electrical Power Systems$$Leiffer, P$$9$$30
 EEGR-4513$$01$$20$$9.5$$10.8333333333$$Electromagnetic Fields & Waves$$Graff, B.$$18$$30
@@ -283,8 +284,8 @@ EEGR-4943$$01$$20$$9.5$$10.8333333333$$ST:Adv Electromagnetic Flds & Wv$$Graff, 
 EETC-1011$$01$$4$$15$$17.9166666667$$Electronic Fabrication Fund$$Niemi, A$$7$$10
 EETC-1041$$01$$4$$15$$17$$AC Electricity Laboratory$$Iordache,M$$15$$14
 EETC-1041$$02$$32$$13.9166666667$$15.9166666667$$AC Electricity Laboratory$$Iordache,M$$6$$14
-EETC-1041$$03$$16$$15.6666666667$$17.6666666667$$AC Electricity Laboratory$$Iordache,M$$13$$14
-EETC-1042$$01$$20$$8.41666666667$$9.33333333333$$AC Electricity$$Shields, E$$33$$36
+EETC-1041$$03$$16$$15.6666666667$$17.6666666667$$AC Electricity Laboratory$$Iordache,M$$11$$14
+EETC-1042$$01$$20$$8.41666666667$$9.33333333333$$AC Electricity$$Shields, E$$30$$36
 EETC-2324$$01$$10$$8.25$$9.58333333333$$Electronics II$$Niemi, A$$11$$14
 EETC-2324 lab$$01$$8$$15$$16.8333333333$$Electronics II lab$$Niemi, A$$11$$14
 EETC-3413$$01$$10$$12.8333333333$$13.75$$Electrical Machinery$$Shields, E$$19$$20
@@ -297,15 +298,15 @@ EETC-4233$$01$$10$$9.75$$10.6666666667$$Instrumentation & Controls$$Kim, J$$12$$
 EETC-4233 lab$$01$$32$$8.66666666667$$10.6666666667$$Instrumentation & Controls lab$$Kim, J$$12$$20
 ENGL-0813$$01$$20$$16.75$$18.25$$ST:Speaking and Listening Part 1$$Vance, S$$5$$0
 ENGL-0833$$01$$42$$15.25$$16.1666666667$$Writing and Language Development$$Palacios,I$$12$$10
-ENGL-1001$$01$$2$$13.9166666667$$14.8333333333$$English Review$$Palacios,I$$14$$15
+ENGL-1001$$01$$2$$13.9166666667$$14.8333333333$$English Review$$Palacios,I$$13$$15
 ENGL-1001$$02$$4$$15$$15.9166666667$$English Review$$Compton, R$$14$$15
 ENGL-1001$$03$$8$$9.75$$10.6666666667$$English Review$$Palacios,I$$15$$15
 ENGL-1001$$04$$8$$12.8333333333$$13.75$$English Review$$Compton, R$$14$$15
 ENGL-1001$$05$$32$$8.66666666667$$9.58333333333$$English Review$$Compton, R$$16$$15
 ENGL-1004$$01$$42$$8.66666666667$$9.58333333333$$College Writing$$Stuckey, F$$17$$16
 ENGL-1004 lab$$01$$20$$8$$8.91666666667$$College Writing lab$$Stuckey, F$$17$$16
-ENGL-1004$$02$$42$$8.66666666667$$9.58333333333$$College Writing$$Stuckey, F$$16$$16
-ENGL-1004 lab$$02$$20$$15$$15.9166666667$$College Writing lab$$Stuckey, F$$16$$16
+ENGL-1004$$02$$42$$8.66666666667$$9.58333333333$$College Writing$$Stuckey, F$$15$$16
+ENGL-1004 lab$$02$$20$$15$$15.9166666667$$College Writing lab$$Stuckey, F$$15$$16
 ENGL-1004$$03$$42$$11.75$$12.6666666667$$College Writing$$Palacios,I$$17$$16
 ENGL-1004 lab$$03$$20$$9.5$$10.4166666667$$College Writing lab$$Palacios,I$$17$$16
 ENGL-1004$$04$$42$$11.75$$12.6666666667$$College Writing$$Palacios,I$$19$$16
@@ -314,32 +315,32 @@ ENGL-1004$$05$$42$$16.0833333333$$17$$College Writing$$Wisdom, L$$14$$16
 ENGL-1004 lab$$05$$20$$15$$15.9166666667$$College Writing lab$$Wisdom, L$$14$$16
 ENGL-1004$$06$$42$$16.0833333333$$17$$College Writing$$Wisdom, L$$11$$16
 ENGL-1004 lab$$06$$10$$17.1666666667$$18.0833333333$$College Writing lab$$Wisdom, L$$11$$16
-ENGL-1013$$01$$42$$9.75$$10.6666666667$$English Comp I$$Stuckey, F$$22$$23
+ENGL-1013$$01$$42$$9.75$$10.6666666667$$English Comp I$$Stuckey, F$$20$$23
 ENGL-1013$$02$$20$$8$$9.33333333333$$English Comp I$$Batts, M.$$22$$23
 ENGL-1013$$03$$20$$15$$16.3333333333$$English Comp I$$Batts, M.$$22$$23
 ENGL-1013$$04$$34$$10.5833333333$$11.8333333333$$English Comp I$$Olson, A.$$7$$0
 ENGL-1013$$05$$20$$12$$13.3333333333$$English Comp I$$Compton, R$$23$$23
 ENGL-1013$$06$$20$$12$$13.3333333333$$English Comp I$$Batts, M.$$21$$23
-ENGL-1023$$01$$42$$9.75$$10.6666666667$$English Comp II$$Compton, R$$22$$23
+ENGL-1023$$01$$42$$9.75$$10.6666666667$$English Comp II$$Compton, R$$21$$23
 ENGL-1023$$02$$42$$11.75$$12.6666666667$$English Comp II$$Compton, R$$23$$23
 ENGL-1023$$03$$20$$9.5$$10.8333333333$$English Comp II$$Watson, J.$$21$$23
-ENGL-1023$$04$$20$$8$$9.33333333333$$English Comp II$$Watson, J.$$14$$23
+ENGL-1023$$04$$20$$8$$9.33333333333$$English Comp II$$Watson, J.$$13$$23
 ENGL-2011$$01$$0$$TBA$$0$$Applied Journalism$$Payton,K$$6$$10
 ENGL-2011$$02$$0$$TBA$$0$$Applied Journalism$$Payton,K$$0$$10
 ENGL-2323$$01$$42$$9.75$$10.6666666667$$British Literature I$$Watson, J.$$42$$40
 ENGL-2603$$01$$20$$13.5$$14.8333333333$$Creative Writing$$Stuckey, F$$8$$20
-ENGL-3103$$01$$20$$9.5$$10.8333333333$$Survey of American Lit I$$Compton, R$$39$$35
-ENGL-3503$$01$$20$$13.5$$14.8333333333$$World Lit: Beg Thru Renaissance$$Palacios,I$$28$$35
+ENGL-3103$$01$$20$$9.5$$10.8333333333$$Survey of American Lit I$$Compton, R$$38$$35
+ENGL-3503$$01$$20$$13.5$$14.8333333333$$World Lit: Beg Thru Renaissance$$Palacios,I$$27$$35
 ENGL-3931$$01$$0$$TBA$$0$$English Internship$$Watson, J.$$1$$0
 ENGL-4013$$01$$42$$12.8333333333$$13.75$$Digital Literature$$Olson, A.$$9$$12
 ENGL-4023$$01$$0$$TBA$$0$$Writing for Digital Media$$Olson, A.$$1$$0
 ENGL-4913$$01$$42$$11.75$$12.6666666667$$Literary Criticism$$Watson, J.$$6$$20
 ENGL-4931$$01$$0$$TBA$$0$$Digital Writing Practicum$$Olson, A.$$1$$0
 ENGL-4983$$01$$42$$12.8333333333$$13.75$$ST: C.S. Lewis$$Batts, M.$$34$$40
-ENGR-1043$$01$$20$$9.5$$10.4166666667$$Engineering Graphics$$Shields, E$$41$$45
-ENGR-1043 lab$$01$$20$$12$$13.3333333333$$Engineering Graphics lab$$Shields, E$$41$$45
-ENGR-1043$$02$$10$$15$$15.9166666667$$Engineering Graphics$$Shields, E$$43$$45
-ENGR-1043 lab$$02$$10$$16.0833333333$$17.5$$Engineering Graphics lab$$Shields, E$$43$$45
+ENGR-1043$$01$$20$$9.5$$10.4166666667$$Engineering Graphics$$Shields, E$$40$$45
+ENGR-1043 lab$$01$$20$$12$$13.3333333333$$Engineering Graphics lab$$Shields, E$$40$$45
+ENGR-1043$$02$$10$$15$$15.9166666667$$Engineering Graphics$$Shields, E$$42$$45
+ENGR-1043 lab$$02$$10$$16.0833333333$$17.5$$Engineering Graphics lab$$Shields, E$$42$$45
 ENGR-1043$$03$$20$$15$$15.9166666667$$Engineering Graphics$$Shields, E$$30$$45
 ENGR-1043 lab$$03$$20$$16.0833333333$$17.5$$Engineering Graphics lab$$Shields, E$$30$$45
 ENGR-1311$$01$$2$$15$$17.9166666667$$Manufacturing Processes Lab$$Baney, R.$$14$$14
@@ -360,9 +361,9 @@ ENGR-2122$$03$$4$$8.41666666667$$9.33333333333$$Instrumentation/Measurements Lab
 ENGR-2122 lab$$03$$32$$15.5$$18.0833333333$$Instrumentation/Measurements Lab lab$$Kim, J$$9$$12
 ENGR-2313$$01$$20$$12$$13.3333333333$$Materials Engineering$$Warke, R$$40$$40
 ENGR-3022$$01$$20$$12$$12.9166666667$$Engineering Project Management$$West, D$$43$$50
-ENGR-3423$$01$$20$$12$$13.3333333333$$Mechatronics$$Iordache,M$$42$$40
-ENGR-3813$$01$$42$$13.9166666667$$14.8333333333$$Engr Design Methodology$$Green, M$$17$$30
-ENGR-4400$$01$$0$$TBA$$0$$Senior Design Seminar$$Adonyi, Y.$$85$$100
+ENGR-3423$$01$$20$$12$$13.3333333333$$Mechatronics$$Iordache,M$$41$$40
+ENGR-3813$$01$$42$$13.9166666667$$14.8333333333$$Engr Design Methodology$$Green, M$$16$$30
+ENGR-4400$$01$$0$$TBA$$0$$Senior Design Seminar$$Adonyi, Y.$$86$$100
 ENGR-4813$$01$$20$$13.5$$14.8333333333$$Senior Design I$$Green, M$$10$$100
 ENGR-4813$$02$$20$$13.5$$14.8333333333$$Senior Design I$$Webb, J$$14$$0
 ENGR-4813$$03$$20$$13.5$$14.8333333333$$Senior Design I$$Ayers, S$$12$$0
@@ -376,8 +377,8 @@ ENGR-4951$$01$$0$$TBA$$0$$ST: Design Project I$$Green, M$$4$$60
 ENGR-4951$$02$$0$$TBA$$0$$ST: Design Project I$$Gonzalez,R$$0$$0
 ENGR-4951$$03$$0$$TBA$$0$$ST: Design Project I$$Ayers, S$$1$$0
 ENGR-4951$$04$$0$$TBA$$0$$ST: Design Project I$$Ayers, S$$2$$0
-ENGR-4951$$05$$0$$TBA$$0$$ST: Design Project I$$Adonyi, Y.$$1$$0
-ENGR-4951$$06$$0$$TBA$$0$$ST: Design Project I$$Hellmuth,T$$5$$0
+ENGR-4951$$05$$0$$TBA$$0$$ST: Design Project I$$Adonyi, Y.$$0$$0
+ENGR-4951$$06$$0$$TBA$$0$$ST: Design Project I$$Hellmuth,T$$6$$0
 ENGR-4951$$07$$0$$TBA$$0$$ST: Design Project I$$Kim, J$$2$$0
 ENGR-4951$$08$$0$$TBA$$0$$ST: Design Project I$$Webb, J$$0$$0
 ENGR-4953$$01$$0$$TBA$$0$$ST:Design Project$$Ayers, S$$0$$0
@@ -390,26 +391,26 @@ FMST-3023$$01$$0$$TBA$$0$$Family, Church & Society Studies$$Sheafer, V$$1$$0
 GEOG-2013$$01$$20$$15$$16.3333333333$$World Regional Geography$$Johnson, B$$16$$35
 GETC-2313$$01$$20$$12$$13.3333333333$$Materials Technology$$Baney, R.$$12$$25
 GREE-2113$$01$$42$$12.8333333333$$13.75$$Intermediate Greek I$$Roudkovs,V$$17$$15
-HEBR-1113$$01$$42$$8.66666666667$$9.58333333333$$Elementary Hebrew I$$Mason, S$$15$$15
+HEBR-1113$$01$$42$$8.66666666667$$9.58333333333$$Elementary Hebrew I$$Mason, S$$13$$15
 HIST-1113$$01$$42$$13.9166666667$$14.8333333333$$West Civ to 1715$$Kubricht,P$$27$$35
-HIST-1113$$02$$20$$9.5$$10.8333333333$$West Civ to 1715$$Kubricht,P$$35$$35
+HIST-1113$$02$$20$$9.5$$10.8333333333$$West Civ to 1715$$Kubricht,P$$34$$35
 HIST-2113$$01$$42$$9.75$$10.6666666667$$American Hist to 1865$$Johnson, B$$34$$35
 HIST-2113$$02$$20$$12$$13.3333333333$$American Hist to 1865$$Johnson, B$$36$$35
 HIST-2531$$01$$0$$TBA$$0$$Social Studies Practicum$$Johnson, B$$4$$3
 HIST-3003$$HD$$0$$TBA$$0$$History of the Church$$Staff$$0$$0
 HIST-3403$$01$$42$$12.8333333333$$13.75$$Colonial & Revolutionary America$$Johnson, B$$21$$30
 HIST-3603$$01$$42$$11.75$$12.6666666667$$Hist of Modern Middle East$$Kubricht,P$$31$$30
-HIST-4603$$01$$20$$13.5$$14.8333333333$$American Foreign Policy$$Kubricht,P$$15$$30
+HIST-4603$$01$$20$$13.5$$14.8333333333$$American Foreign Policy$$Kubricht,P$$14$$30
 HIST-4873$$01$$8$$16.75$$19$$Senior Research Seminar$$Johnson, B$$6$$20
 HIST-4993$$0$$0$$TBA$$0$$ST: 20th Century America$$Johnson, B$$2$$0
 HNRS-1043$$01$$20$$8$$9.33333333333$$Biblical Worldview$$Mason, S$$20$$25
 HNRS-1101$$01$$4$$13.5$$14.8333333333$$Freshman Honors Seminar$$Olson, A.$$21$$25
-HNRS-2013$$01$$16$$18$$21$$Classical Western Literature$$Olson, A.$$11$$20
-HNRS-2023$$01$$4$$18$$21$$ST: Only Inklings$$Woodring,$$10$$18
+HNRS-2013$$01$$16$$18$$21$$Classical Western Literature$$Olson, A.$$10$$20
+HNRS-2023$$01$$4$$18$$21$$ST: Only Inklings$$Woodring,$$9$$18
 HNRS-3121$$01$$2$$17$$18$$ST: The Art of Leadership$$Hudson, R$$5$$15
 HNRS-3123$$01$$16$$18$$21$$ST: Parables of Jesus$$Roudkovs,V$$7$$18
 HNRS-4911$$01$$4$$16.5$$17.5$$Senior Capstone Seminar$$Roudkovski$$19$$15
-HUMA-1153$$01$$20$$12$$13.3333333333$$Intro to Fine Arts$$Watson, J.$$42$$40
+HUMA-1153$$01$$20$$12$$13.3333333333$$Intro to Fine Arts$$Watson, J.$$40$$40
 INTC-3003$$01$$2$$13.5$$16.5$$Applications of Technology$$Ames, J.$$9$$10
 INTC-3003$$03$$8$$13.5$$16.5$$Applications of Technology$$McElroy, M$$5$$10
 KINE-1011$$01$$42$$8.66666666667$$9.58333333333$$Aerobic Running (1st half)$$Haesecke,M$$9$$24
@@ -417,9 +418,10 @@ KINE-1051$$01$$42$$9.75$$10.6666666667$$Badminton ( 1st Half )$$Plunk,D$$13$$16
 KINE-1201$$01$$42$$13.9166666667$$14.8333333333$$Racquetball (2nd half)$$Thomast, C$$14$$12
 KINE-1231$$01$$4$$18$$21$$SCUBA: Begin (1st half)$$Francis,E$$24$$24
 KINE-1251$$01$$20$$13.5$$14.8333333333$$Baseball (2nd half)$$Harriss, R$$20$$24
+KINE-1251$$02$$20$$15$$16.3333333333$$Baseball (2nd half)$$Harriss, R$$15$$24
 KINE-1301$$01$$42$$13.9166666667$$14.8333333333$$Tennis (1st half)$$Thomast, C$$14$$12
-KINE-1331$$01$$42$$12.8333333333$$13.75$$Weight Training (1st half)$$Haesecke,M$$14$$16
-KINE-1331$$02$$42$$12.8333333333$$13.75$$Weight Training (2nd half)$$Haesecke,M$$5$$16
+KINE-1331$$01$$42$$12.8333333333$$13.75$$Weight Training (1st half)$$Haesecke,M$$13$$16
+KINE-1331$$02$$42$$12.8333333333$$13.75$$Weight Training (2nd half)$$Haesecke,M$$7$$16
 KINE-1341$$01$$20$$12$$13.3333333333$$Karate: Begin (1st half)$$LaMont, R.$$16$$24
 KINE-1361$$01$$20$$12$$13.3333333333$$Karate: Advanced (1st half)$$LaMont, R.$$3$$24
 KINE-1371$$01$$4$$18$$21$$SCUBA: Advanced (2nd half)$$Francis,E$$24$$24
@@ -431,14 +433,14 @@ KINE-1512$$04$$42$$13.9166666667$$14.8333333333$$Concepts of Lifetime Fitness$$O
 KINE-1512$$05$$42$$15$$15.9166666667$$Concepts of Lifetime Fitness$$Otwell, M.$$8$$24
 KINE-1512$$06$$20$$9.5$$10.8333333333$$Concepts of Lifetime Fitness$$Thomast, C$$26$$24
 KINE-1512$$07$$20$$12$$13.3333333333$$Concepts of Lifetime Fitness$$Davis,R.$$25$$24
-KINE-1512$$08$$20$$13.5$$14.8333333333$$Concepts of Lifetime Fitness$$Davis,R.$$21$$24
+KINE-1512$$08$$20$$13.5$$14.8333333333$$Concepts of Lifetime Fitness$$Davis,R.$$20$$24
 KINE-1602$$01$$20$$9.5$$10.8333333333$$Foundations of Kinesiology$$Trogdon, D$$8$$16
 KINE-1602$$02$$20$$12$$13.3333333333$$Foundations of Kinesiology$$Trogdon, D$$11$$16
 KINE-2003$$01$$42$$11.75$$12.6666666667$$Lifetime Activities$$Harriss, R$$25$$24
 KINE-2502$$01$$20$$13.5$$14.8333333333$$Movement and Games for Children$$Haesecke,M$$23$$24
 KINE-2681$$01$$0$$TBA$$0$$Varsity Soccer (Men)$$Haesecke,M$$9$$25
-KINE-2681$$02$$0$$TBA$$0$$Varsity Soccer (Women)$$Plunk,D$$9$$25
-KINE-2721$$01$$0$$TBA$$0$$Varsity Volleyball$$Cavins, A$$8$$25
+KINE-2681$$02$$0$$TBA$$0$$Varsity Soccer (Women)$$Plunk,D$$8$$25
+KINE-2721$$01$$0$$TBA$$0$$Varsity Volleyball$$Cavins, A$$7$$25
 KINE-2901$$01$$20$$8$$9.33333333333$$Emergency Care (1st half)$$Plunk,D$$14$$16
 KINE-2901$$02$$20$$8$$9.33333333333$$Emergency Care (2nd half)$$Plunk,D$$4$$16
 KINE-3103$$01$$42$$8.66666666667$$9.58333333333$$Kinesiology$$Trogdon, D$$21$$24
@@ -470,19 +472,19 @@ LETU-1101$$16$$16$$13.5$$14.8333333333$$Cornerstones$$Wooden, B$$14$$0
 LETU-1101$$17$$4$$13.5$$14.8333333333$$Cornerstones$$Townsend,J$$10$$0
 LETU-1101$$18$$16$$13.5$$14.8333333333$$Cornerstones$$Trogdon, D$$17$$0
 LETU-1101$$19$$4$$9.5$$10.8333333333$$Cornerstones$$Payton,K$$18$$0
-MATH-1123$$01$$42$$8.66666666667$$9.58333333333$$Intermediate Algebra$$Taylor, J.$$26$$25
+MATH-1123$$01$$42$$8.66666666667$$9.58333333333$$Intermediate Algebra$$Taylor, J.$$25$$25
 MATH-1123$$02$$42$$9.75$$10.6666666667$$Intermediate Algebra$$Taylor, J.$$28$$25
-MATH-1203$$01$$42$$8.66666666667$$9.58333333333$$College Algebra w/ Apps$$Boyd, W.$$29$$32
-MATH-1203$$02$$42$$9.75$$10.6666666667$$College Algebra w/ Apps$$Boyd, W.$$32$$32
-MATH-1203$$03$$42$$11.75$$12.6666666667$$College Algebra w/ Apps$$Taylor, J.$$30$$32
+MATH-1203$$01$$42$$8.66666666667$$9.58333333333$$College Algebra w/ Apps$$Boyd, W.$$28$$32
+MATH-1203$$02$$42$$9.75$$10.6666666667$$College Algebra w/ Apps$$Boyd, W.$$31$$32
+MATH-1203$$03$$42$$11.75$$12.6666666667$$College Algebra w/ Apps$$Taylor, J.$$28$$32
 MATH-1252$$01$$20$$8.41666666667$$9.33333333333$$Trigonometry$$Taylor, J.$$13$$25
-MATH-1252$$02$$20$$12$$12.9166666667$$Trigonometry$$ArmstrongS$$20$$25
+MATH-1252$$02$$20$$12$$12.9166666667$$Trigonometry$$ArmstrongS$$17$$25
 MATH-1303$$01$$62$$8$$9.33333333333$$Precalculus (1st half)$$Knouse, L$$49$$0
 MATH-1303$$02$$42$$13.9166666667$$14.8333333333$$Precalculus$$ArmstrongS$$29$$30
-MATH-1423$$01$$42$$8.66666666667$$9.58333333333$$Elementary Statistics$$Erickstad,$$28$$30
-MATH-1603$$01$$42$$12.8333333333$$13.75$$Technical Calculus I$$Erickstad,$$20$$30
-MATH-1803$$01$$42$$11.75$$12.6666666667$$Discrete Mathematics$$Tevis, J.$$24$$30
-MATH-1903$$01$$62$$8$$9.33333333333$$Calculus I (2nd half)$$Knouse, L$$49$$0
+MATH-1423$$01$$42$$8.66666666667$$9.58333333333$$Elementary Statistics$$Erickstad,$$27$$30
+MATH-1603$$01$$42$$12.8333333333$$13.75$$Technical Calculus I$$Erickstad,$$19$$30
+MATH-1803$$01$$42$$11.75$$12.6666666667$$Discrete Mathematics$$Tevis, J.$$23$$30
+MATH-1903$$01$$62$$8$$9.33333333333$$Calculus I (2nd half)$$Knouse, L$$47$$0
 MATH-1903$$02$$42$$8.66666666667$$9.58333333333$$Calculus I$$ArmstrongS$$33$$34
 MATH-1903$$03$$42$$12.8333333333$$13.75$$Calculus I$$ArmstrongS$$35$$34
 MATH-2013$$01$$42$$9.75$$10.6666666667$$Calculus II$$Anderson,$$27$$27
@@ -491,26 +493,26 @@ MATH-2023$$01$$42$$12.8333333333$$13.75$$Calculus III$$Anderson,$$15$$25
 MATH-2023$$02$$42$$13.9166666667$$14.8333333333$$Calculus III$$Anderson,$$25$$25
 MATH-2203$$01$$42$$11.75$$12.6666666667$$Differ Equations$$Knouse, L$$26$$30
 MATH-2203$$02$$42$$13.9166666667$$14.8333333333$$Differ Equations$$Knouse, L$$29$$30
-MATH-3303$$01$$42$$15$$15.9166666667$$Linear Algebra$$Knouse, L$$35$$30
+MATH-3303$$01$$42$$15$$15.9166666667$$Linear Algebra$$Knouse, L$$34$$30
 MATH-3403$$01$$42$$9.75$$10.6666666667$$Statistics$$Erickstad,$$29$$30
-MATH-3403$$02$$42$$13.9166666667$$14.8333333333$$Statistics$$Erickstad,$$26$$30
+MATH-3403$$02$$42$$13.9166666667$$14.8333333333$$Statistics$$Erickstad,$$25$$30
 MATH-3553$$01$$20$$9.5$$10.8333333333$$Math Practicum$$Taylor, J.$$9$$20
 MATH-4103$$01$$20$$13.5$$14.8333333333$$Real Analysis$$Anderson,$$10$$25
-MATH-4403$$01$$20$$9.5$$10.8333333333$$Numerical Analysis$$Anderson,$$22$$30
-MEGR-2013$$01$$20$$12$$13.3333333333$$Statics$$Lee, B.K.$$26$$35
-MEGR-2013$$02$$42$$12.8333333333$$13.75$$Statics$$Lee, B.K.$$18$$35
-MEGR-2023$$01$$42$$9.75$$10.6666666667$$Dynamics$$Gonzalez,R$$28$$40
-MEGR-2023 lab$$01$$4$$15$$17$$Dynamics lab$$Gonzalez,R$$28$$40
+MATH-4403$$01$$20$$9.5$$10.8333333333$$Numerical Analysis$$Anderson,$$21$$30
+MEGR-2013$$01$$20$$12$$13.3333333333$$Statics$$Lee, B.K.$$25$$35
+MEGR-2013$$02$$42$$12.8333333333$$13.75$$Statics$$Lee, B.K.$$17$$35
+MEGR-2023$$01$$42$$9.75$$10.6666666667$$Dynamics$$Gonzalez,R$$26$$40
+MEGR-2023 lab$$01$$4$$15$$17$$Dynamics lab$$Gonzalez,R$$26$$40
 MEGR-3123$$01$$10$$9.75$$10.6666666667$$Experiment Methods in Mech Engr$$Reynolds,G$$5$$12
 MEGR-3123 lab$$01$$4$$15$$18$$Experiment Methods in Mech Engr lab$$Reynolds,G$$5$$12
 MEGR-3513$$01$$20$$9.5$$10.8333333333$$Fluid Mechanics$$Reynolds,G$$24$$25
-MEGR-3513$$02$$10$$15$$16.3333333333$$Fluid Mechanics$$Reynolds,G$$19$$25
-MEGR-3713$$01$$42$$11.75$$12.6666666667$$Thermodynamics$$Green, M$$40$$35
+MEGR-3513$$02$$10$$15$$16.3333333333$$Fluid Mechanics$$Reynolds,G$$18$$25
+MEGR-3713$$01$$42$$11.75$$12.6666666667$$Thermodynamics$$Green, M$$38$$35
 MEGR-4423$$01$$20$$9.5$$10.8333333333$$Mechanical Vibrations$$Lee, B.K.$$41$$35
 MEGR-4443$$01$$42$$13.9166666667$$14.8333333333$$Machine Design$$Lee, B.K.$$47$$35
 MEGR-4943$$01$$20$$9.5$$10.8333333333$$ST: Adv. Mechanical Vibrations$$Lee, B.K.$$0$$10
 MEGR-4993$$01$$0$$TBA$$0$$ST: Finite Element Analysis$$Staff$$0$$0
-METC-2013$$01$$42$$13.9166666667$$14.8333333333$$Statics$$Ayers, S$$34$$35
+METC-2013$$01$$42$$13.9166666667$$14.8333333333$$Statics$$Ayers, S$$32$$35
 METC-3323$$01$$42$$8.66666666667$$9.58333333333$$Strength of Materials$$Ayers, S$$22$$25
 METC-3713$$01$$20$$9.5$$10.8333333333$$Thermodynamics$$Green, M$$23$$25
 METC-4113$$01$$20$$8.41666666667$$9.33333333333$$Engr Techn Measurements Lab$$Baney, R.$$21$$20
@@ -545,10 +547,10 @@ PHYS-3323$$01$$42$$9.75$$10.6666666667$$Atoms, Nuclei and Particles$$Ball, S.$$5
 PHYS-3941$$01$$0$$TBA$$0$$Science Curriculum Research$$Ball, S.$$0$$0
 PHYS-4253$$01$$20$$15$$16.3333333333$$Advanced Quantum Mechanics$$DeBoer, G.$$3$$15
 PHYS-4951$$01$$0$$TBA$$0$$Undergraduate Research$$Forringer,$$0$$0
-POLS-2103$$01$$42$$11.75$$12.6666666667$$Federal,State & Loc Government$$Rothra, K.$$26$$35
+POLS-2103$$01$$42$$11.75$$12.6666666667$$Federal,State & Loc Government$$Rothra, K.$$25$$35
 POLS-2103$$02$$20$$8$$9.33333333333$$Federal,State & Loc Government$$Staff$$0$$0
-PSYC-2013$$01$$20$$9.5$$10.8333333333$$Intro to Psychology$$Kranz, S.$$31$$40
-PSYC-2013$$02$$42$$8.66666666667$$9.58333333333$$Intro to Psychology$$Roudkovski$$29$$40
+PSYC-2013$$01$$20$$9.5$$10.8333333333$$Intro to Psychology$$Kranz, S.$$29$$40
+PSYC-2013$$02$$42$$8.66666666667$$9.58333333333$$Intro to Psychology$$Roudkovski$$28$$40
 PSYC-2033$$01$$42$$9.75$$10.6666666667$$Professions in Psychology$$Roudkovski$$14$$30
 PSYC-2143$$01$$20$$9.5$$10.8333333333$$Human Growth & Development$$Roudkovski$$37$$40
 PSYC-3003$$01$$20$$8$$9.33333333333$$Theories & Tech of Counseling$$Roudkovski$$13$$30
