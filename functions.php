@@ -65,19 +65,19 @@
         //order is important here!
         if($month < 5) {
             //this spring and try for this summer and fall
-            if(file_exists($year."FA.txt"))
+            if(!$reject || file_exists($year."FA.txt"))
                 $files[] = array($year, "FA");
-            if(file_exists($year."SU.txt"))
+            if(!$reject || file_exists($year."SU.txt"))
                 $files[] = array($year, "SU");
             $files[] = array($year, "SP");
         } elseif($month < 8) {
             //grab this summer and try for next fall
-            if(file_exists($year."FA.txt"))
+            if(!$reject || file_exists($year."FA.txt"))
                 $files[] = array($year, "FA");
             $files[] = array($year, "SU");
         } else {
             //grab this fall and try for next spring
-            if(file_exists(($year+1)."SP.txt"))
+            if(!$reject || file_exists(($year+1)."SP.txt"))
                 $files[] = array($year+1, "SP");
             $files[] = array($year, "FA");
         }
@@ -583,6 +583,19 @@
                 }
             }
             Course::$QS = $qString;
+        }
+
+        //for some definition of equal... make sure you don't check num registered here!
+        public function equal($class) {
+            if($this->isEmpty())
+                return false;
+            if($this->getCourseID() != $class->getCourseID())
+                return false;
+            if($this->getSection() != $class->getSection())
+                return false;
+            if($this->getTitle() != $class->getTitle())
+                return false;
+            return true;
         }
     }
 ?>
