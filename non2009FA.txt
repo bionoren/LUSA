@@ -1,0 +1,448 @@
+Fall 2009
+A$$Fundamentals of Accounting$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Rowe, B.
+E$$Fundamentals of Accounting$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Schreiber,
+A$$Managerial Accounting$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Hood, M.
+B$$Managerial Accounting$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Runyan, Gr
+C$$Managerial Accounting$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Runyan, Gr
+D$$Managerial Accounting$$3$$0$$0$$08/24/2009$$10/04/2009$$15$$Carlson, F
+E$$Managerial Accounting$$3$$0$$0$$11/09/2009$$12/20/2009$$16$$Merrill, R
+F$$Managerial Accounting$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Ide, H.W.
+I$$Managerial Accounting$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Randall, C
+A$$Aviation Safety Factors$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Parker, J.
+A$$New Testament Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$15$$Simpkins,J
+C$$New Testament Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Porter, S
+D$$New Testament Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Claeys, J
+E$$New Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Lightfoot
+F$$New Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Hansen, W.
+G$$New Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Webb, R.
+H$$New Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$McKellar,M
+I$$New Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Hawkins, F
+J$$New Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Webb, R.
+K$$New Testament Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Webb, R.
+L$$New Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Chandler,D
+M$$New Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Latham, J
+S$$New Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Hansen, W.
+T$$New Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Coleman, J
+B$$Old Testament Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Lightfoot
+C$$Old Testament Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Coleman, J
+D$$Old Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$23$$Dyer, Robe
+E$$Old Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Porter, S
+F$$Old Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$23$$Coleman, J
+G$$Old Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$23$$Shelby, R
+I$$Old Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Latham, J
+J$$Old Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Izard, E.
+K$$Old Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Porter, S
+L$$Old Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Connors,D
+M$$Old Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Parson, Gr
+N$$Old Testament Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$21$$Porter, S
+O$$Old Testament Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Latham, J
+P$$Old Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Hansen, W.
+Q$$Old Testament Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Chandler,D
+R$$Old Testament Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Coleman, J
+B$$Introduction to the Gospels$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Monroe, J.
+D$$Introduction to the Gospels$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Hansen, W.
+E$$Introduction to the Gospels$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Hansen, W.
+F$$Introduction to the Gospels$$3$$0$$0$$08/24/2009$$10/04/2009$$18$$Robinson,A
+H$$Introduction to the Gospels$$3$$0$$0$$11/09/2009$$12/20/2009$$23$$Davis, J.
+I$$Introduction to the Gospels$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Chandler,D
+J$$Introduction to the Gospels$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Lightfoot
+K$$Introduction to the Gospels$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Coleman, J
+L$$Introduction to the Gospels$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Connors,D
+M$$Introduction to the Gospels$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Chandler,D
+N$$Introduction to the Gospels$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Coleman, J
+O$$Introduction to the Gospels$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Latham, J
+P$$Introduction to the Gospels$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Webb, R.
+F$$Paul's Prison Letters$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Lightfoot
+G$$Paul's Prison Letters$$3$$0$$0$$11/09/2009$$12/20/2009$$23$$Connors,D
+H$$Paul's Prison Letters$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Chandler,D
+J$$Paul's Prison Letters$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Connors,D
+K$$Paul's Prison Letters$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Womack, C
+L$$Paul's Prison Letters$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Shelby, R
+N$$Paul's Prison Letters$$3$$0$$0$$10/05/2009$$11/08/2009$$10$$Bronleewe,
+O$$Paul's Prison Letters$$3$$0$$0$$11/09/2009$$12/20/2009$$23$$Coleman, S
+Q$$Paul's Prison Letters$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Hansen, W.
+R$$Paul's Prison Letters$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Claeys, J
+S$$Paul's Prison Letters$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Connors,D
+T$$Paul's Prison Letters$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Hansen, W.
+U$$Paul's Prison Letters$$3$$0$$0$$10/05/2009$$11/08/2009$$10$$Simpkins,J
+B$$Prin of Life Science$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Jensen, D.
+C$$Prin of Life Science$$3$$0$$0$$11/09/2009$$12/20/2009$$23$$Martinez,J
+D$$Prin of Life Science$$3$$0$$0$$08/24/2009$$10/04/2009$$23$$Jensen, D.
+E$$Prin of Life Science$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Price, K.
+G$$Prin of Life Science$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Price, K.
+H$$Prin of Life Science$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Price, K.
+A$$Intro to Business Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Clay-Brown
+B$$Intro to Business Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Runyan, Gr
+C$$Intro to Business Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Waldo, R
+D$$Intro to Business Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Perkins,K
+B$$Business Research I$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Agee, Jame
+D$$Business Research I$$3$$0$$0$$11/09/2009$$12/20/2009$$16$$Tew, E. J.
+E$$Business Research I$$3$$0$$0$$08/24/2009$$10/04/2009$$22$$Sam, P.
+F$$Business Research I$$3$$0$$0$$11/09/2009$$12/20/2009$$18$$Walsh, D.
+G$$Business Research I$$3$$0$$0$$11/09/2009$$12/20/2009$$22$$Baldwin,R
+D$$Management and Leadership$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Hudson, L.
+I$$Management and Leadership$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Master, D
+N$$Management and Leadership$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Hudson, L.
+P$$Management and Leadership$$3$$0$$0$$08/24/2009$$10/04/2009$$16$$Clay-Brown
+Q$$Management and Leadership$$3$$0$$0$$08/24/2009$$10/04/2009$$22$$Harlan, P
+S$$Management and Leadership$$3$$0$$0$$10/05/2009$$11/08/2009$$22$$Schneider
+T$$Management and Leadership$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Pittman, G
+C$$Financial Analysis for Managers$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Driver, R
+D$$Financial Analysis for Managers$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Ide, H.W.
+F$$Financial Analysis for Managers$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Griswold
+G$$Financial Analysis for Managers$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Smith, WA
+C$$Managing Human Resources$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Agee, Jame
+D$$Managing Human Resources$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Waldo, R
+E$$Managing Human Resources$$3$$0$$0$$08/24/2009$$10/04/2009$$15$$Smallwood
+F$$Managing Human Resources$$3$$0$$0$$10/05/2009$$11/08/2009$$15$$Coleman,Tr
+G$$Managing Human Resources$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Smallwood
+I$$Managing Human Resources$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Ellinger,S
+L$$Managing Human Resources$$3$$0$$0$$08/24/2009$$10/04/2009$$22$$Foland, A.
+A$$Business Law$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Jackson, T
+B$$Business Law$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Nedbalek
+C$$Business Law$$3$$0$$0$$10/05/2009$$11/08/2009$$15$$Prather, R
+E$$Business Law$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Sanders, J
+G$$Business Law$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Morris, J
+J$$Business Law$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Johnson,JS
+B$$Marketing Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Ray, D.S.
+C$$Marketing Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Tocci, Den
+D$$Marketing Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Balog, K
+F$$Marketing Principles$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Foland, A.
+G$$Marketing Principles$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Roach, F.
+I$$Marketing Principles$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Fontaine,C
+B$$Business Ethics$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Driver, R
+D$$Business Ethics$$3$$0$$0$$11/09/2009$$12/20/2009$$15$$VanHamme,J
+G$$Business Ethics$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Ray, D.S.
+J$$Business Ethics$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Tocci, Den
+L$$Business Ethics$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Webb, R.
+N$$Business Ethics$$3$$0$$0$$10/05/2009$$11/08/2009$$22$$Adams, R.
+P$$Business Ethics$$3$$0$$0$$11/09/2009$$12/20/2009$$22$$Adams, R.
+Q$$Business Ethics$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Driver, R
+B$$Negotiation Strategy$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Fontaine,B
+C$$Negotiation Strategy$$3$$0$$0$$11/09/2009$$12/20/2009$$22$$Harlan, P
+A$$Nonprofit Leadership and Mgt.$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Pittman, G
+B$$Nonprofit Leadership and Mgt.$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Meyer, All
+C$$Nonprofit Leadership and Mgt.$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Wayhan, V
+A$$Mng Inovation/Change in Aviation$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Burnett, W
+B$$Business Research Methods$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Denny, Joh
+C$$Business Research Methods$$3$$0$$0$$11/09/2009$$12/20/2009$$18$$Denny, Joh
+D$$Business Research Methods$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Wall, D
+E$$Business Research Methods$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Holt, R.
+F$$Business Research Methods$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Holt, R.
+G$$Business Research Methods$$3$$0$$0$$08/24/2009$$10/04/2009$$15$$Walsh, D.
+H$$Business Research Methods$$3$$0$$0$$11/09/2009$$12/20/2009$$15$$Sparks, Ge
+I$$Business Research Methods$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Matthews,W
+J$$Business Research Methods$$3$$0$$0$$11/09/2009$$12/20/2009$$22$$Sam, P.
+K$$Business Research Methods$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Denny, Joh
+L$$Business Research Methods$$3$$0$$0$$10/05/2009$$11/08/2009$$10$$Cobb, G.
+B$$Intrntl Issues in Business$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Tocci, Den
+C$$Intrntl Issues in Business$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Yoo, K.
+D$$Intrntl Issues in Business$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Shankle, D
+E$$Intrntl Issues in Business$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Fairweathe
+F$$Intrntl Issues in Business$$3$$0$$0$$10/05/2009$$11/08/2009$$16$$Crutchfiel
+G$$Intrntl Issues in Business$$3$$0$$0$$11/09/2009$$12/20/2009$$15$$Crutchfiel
+H$$Intrntl Issues in Business$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Ekholm, H
+I$$Intrntl Issues in Business$$3$$0$$0$$10/05/2009$$11/08/2009$$16$$Matthews,W
+J$$Intrntl Issues in Business$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Master, D
+A$$Managing Innovation and Change$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Hammond, L
+B$$Managing Innovation and Change$$3$$0$$0$$10/05/2009$$11/08/2009$$22$$Becker, L.
+B$$Operations Management$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Howard, Ke
+C$$Operations Management$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Ray, D.S.
+D$$Operations Management$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$McWilliams
+F$$Operations Management$$3$$0$$0$$10/05/2009$$11/08/2009$$15$$Tew, E. J.
+G$$Operations Management$$3$$0$$0$$08/24/2009$$10/04/2009$$16$$Sam, P.
+H$$Operations Management$$3$$0$$0$$08/24/2009$$10/04/2009$$18$$Henderson
+I$$Operations Management$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Wayhan, V
+J$$Operations Management$$3$$0$$0$$11/09/2009$$12/20/2009$$10$$Smith, WA
+B$$Organizational Behavior$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Jacobs, K
+C$$Organizational Behavior$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Spangenbur
+E$$Organizational Behavior$$3$$0$$0$$08/24/2009$$10/04/2009$$18$$Carlson, F
+G$$Organizational Behavior$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Strong, D.
+J$$Organizational Behavior$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Clay-Brown
+K$$Organizational Behavior$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Pittman, G
+L$$Organizational Behavior$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Fontenot,L
+M$$Organizational Behavior$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Tocci, Den
+S$$Organizational Behavior$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Ray, D.S.
+B$$Principles of Finance$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Rushing, E
+C$$Principles of Finance$$3$$0$$0$$08/24/2009$$10/04/2009$$12$$Smith, WA
+D$$Principles of Finance$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Lemler,B
+E$$Principles of Finance$$3$$0$$0$$10/05/2009$$11/08/2009$$16$$Carlson, F
+F$$Principles of Finance$$3$$0$$0$$10/05/2009$$11/08/2009$$22$$Ide, H.W.
+B$$Management Strategy$$3$$0$$0$$08/24/2009$$10/04/2009$$18$$Smith, WA
+C$$Management Strategy$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Hammond, L
+D$$Management Strategy$$3$$0$$0$$11/09/2009$$12/20/2009$$16$$Carlson, F
+E$$Management Strategy$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Clay-Brown
+G$$Management Strategy$$3$$0$$0$$11/09/2009$$12/20/2009$$18$$Smallwood
+H$$Management Strategy$$3$$0$$0$$11/09/2009$$12/20/2009$$16$$Sanders, J
+I$$Management Strategy$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Hammond, L
+J$$Management Strategy$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Meyer, All
+A$$Financial Analysis Seminar$$3$$0$$0$$10/12/2009$$11/01/2009$$25$$Spangenbur
+A$$Speech Communications$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Withers, D
+C$$Speech Communications$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Gibbs, B.
+D$$Speech Communications$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Forester,D
+A$$Business Comm for Managers$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Barnes,Ais
+C$$Business Comm for Managers$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Forester,D
+A$$Info Systems Project Mgmt$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Tevis, J.
+B$$Principles of Economics$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Howard, Ke
+F$$Principles of Economics$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Howard, Ke
+G$$Principles of Economics$$3$$0$$0$$08/24/2009$$10/04/2009$$23$$McClelland
+H$$Principles of Economics$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Henderson
+I$$Principles of Economics$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Matthews,W
+J$$Principles of Economics$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Powers, K
+A$$Family & School for EC$$3$$0$$0$$08/24/2009$$10/04/2009$$18$$Hilburn,J
+B$$Family & School for EC$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Coones, C.
+C$$Family & School for EC$$3$$0$$0$$10/05/2009$$11/08/2009$$23$$Glenn, N.
+D$$Family & School for EC$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Stricklan
+F$$Family & School for EC$$3$$0$$0$$10/05/2009$$11/08/2009$$16$$Hancock, D
+C$$Cog/Social/Emotional Dev of YC$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Fontaine,V
+D$$Cog/Social/Emotional Dev of YC$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Fontaine,V
+B$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Dorsey, L
+C$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$08/24/2009$$10/04/2009$$15$$Rader, Eli
+D$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Walsh, D.
+F$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Roecker, L
+G$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Harris, C.
+I$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$11/09/2009$$12/20/2009$$22$$Beverlin,L
+J$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$11/09/2009$$12/20/2009$$10$$Jaquez, K.
+K$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Fontaine,V
+L$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Jaquez, K.
+A$$Planning & Assessment$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Baker, Do.
+C$$Planning & Assessment$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Gresham,Em
+D$$Planning & Assessment$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Jaquez, K.
+E$$Planning & Assessment$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Dorsey, L
+A$$Foundations of Am Ed & Culture$$3$$0$$0$$08/24/2009$$10/04/2009$$18$$Thomas, D.
+D$$Foundations of Am Ed & Culture$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Raines-Eva
+G$$Foundations of Am Ed & Culture$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Bass, B
+H$$Foundations of Am Ed & Culture$$3$$0$$0$$08/24/2009$$10/04/2009$$14$$Janz, J
+A$$Dvlp & Learn of the Young Child$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Hilburn,J
+D$$Dvlp & Learn of the Young Child$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Hendrix, E
+F$$Dvlp & Learn of the Young Child$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Jackson,MA
+B$$Certification Prep Sem EC-6th$$3$$0$$0$$10/05/2009$$11/01/2009$$18$$Birdsong,R
+C$$Certification Prep Sem EC-6th$$3$$0$$0$$10/05/2009$$11/01/2009$$24$$Duck, P.
+D$$Certification Prep Sem EC-6th$$3$$0$$0$$11/09/2009$$12/06/2009$$15$$Glenn, N.
+E$$Certification Prep Sem EC-6th$$3$$0$$0$$11/09/2009$$12/06/2009$$18$$Slaughter,
+F$$Certification Prep Sem EC-6th$$3$$0$$0$$11/09/2009$$12/06/2009$$20$$Janz, J
+J$$Curriculum for the Middle School$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Baggett, D
+K$$Curriculum for the Middle School$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Jackson,MA
+L$$Curriculum for the Middle School$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Baker, Do.
+B$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$11/09/2009$$12/20/2009$$18$$Hilburn,J
+C$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Baker, Do.
+D$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Hendrix, E
+E$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$11/09/2009$$12/20/2009$$18$$Roecker, L
+F$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$11/09/2009$$12/20/2009$$15$$Holcomb,M
+G$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Holt, B.
+E$$Lang Dev of the Young Child$$3$$0$$0$$11/09/2009$$12/20/2009$$18$$Walker, M.
+F$$Lang Dev of the Young Child$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Walker, M.
+I$$Lang Dev of the Young Child$$3$$0$$0$$08/24/2009$$10/04/2009$$18$$Elkins, L.
+J$$Lang Dev of the Young Child$$3$$0$$0$$08/24/2009$$10/04/2009$$22$$Jackson,MA
+M$$Lang Dev of the Young Child$$3$$0$$0$$11/09/2009$$12/20/2009$$15$$Hendrix, E
+N$$Lang Dev of the Young Child$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Hendrix, E
+O$$Lang Dev of the Young Child$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Dean, K.
+P$$Lang Dev of the Young Child$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Coones, C.
+Q$$Lang Dev of the Young Child$$3$$0$$0$$11/09/2009$$12/20/2009$$22$$Jackson,MA
+R$$Lang Dev of the Young Child$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Patterso,R
+B$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Reagan, M.
+C$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Hilburn,J
+E$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$10/05/2009$$11/08/2009$$21$$Black, F.M
+F$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$08/24/2009$$10/04/2009$$22$$Jackson,MA
+H$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Kattan, D.
+I$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Kattan, D.
+L$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$11/09/2009$$12/20/2009$$10$$Jaquez, K.
+M$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Jaquez, K.
+A$$Certification Prep Sem 4th-8th$$3$$0$$0$$10/05/2009$$11/01/2009$$24$$Duck, P.
+C$$Certification Prep Sem 4th-8th$$3$$0$$0$$11/09/2009$$12/06/2009$$15$$Staff
+D$$Certification Prep Sem 4th-8th$$3$$0$$0$$11/09/2009$$12/06/2009$$18$$Staff
+D$$Teaching the Mid School Student$$3$$0$$0$$08/24/2009$$10/04/2009$$22$$Walker, T
+F$$Teaching the Mid School Student$$3$$0$$0$$11/09/2009$$12/20/2009$$16$$Jackson,MA
+G$$Teaching the Mid School Student$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Baggett, D
+A$$Instructional Methods for 8-12$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Baggett, D
+B$$Classroom Mgt/Org Secondary Sch$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Staff
+A$$Differentiating Classrm Instruct$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Hendrix, E
+B$$Differentiating Classrm Instruct$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Bass, B
+A$$Written Communications I$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Middleton
+C$$Written Communications I$$3$$0$$0$$11/09/2009$$12/20/2009$$23$$Hattaway
+E$$Written Communications I$$3$$0$$0$$10/05/2009$$11/08/2009$$15$$Hattaway
+B$$Great Writers of Western World$$3$$0$$0$$08/24/2009$$10/04/2009$$15$$Parker, N.
+C$$Great Writers of Western World$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Klue, M.
+D$$Great Writers of Western World$$3$$0$$0$$08/24/2009$$10/04/2009$$23$$Middleton
+E$$Great Writers of Western World$$3$$0$$0$$08/24/2009$$10/04/2009$$18$$Robinson,H
+F$$Great Writers of Western World$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Dyer, A.
+G$$Great Writers of Western World$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Roskoski,L
+H$$Great Writers of Western World$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Roskoski,L
+I$$Great Writers of Western World$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Nedbalek
+J$$Great Writers of Western World$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Middleton
+B$$Creative Writing$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Stuckey, F
+C$$Creative Writing$$3$$0$$0$$08/24/2009$$10/04/2009$$12$$Jackson, B
+E$$Creative Writing$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Robinson,H
+F$$Creative Writing$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Roskoski,L
+B$$World Regional Geography$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Kennard,D.
+C$$World Regional Geography$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Kennard,D.
+D$$World Regional Geography$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Kennard,D.
+E$$World Regional Geography$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Richey, P
+F$$World Regional Geography$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Kennard,D.
+G$$World Regional Geography$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Richey, P
+A$$Early American History$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Reed, J
+B$$Early American History$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Reed, J
+A$$Recent American History$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Cross, T
+C$$Recent American History$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Love, I
+D$$Recent American History$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Solganick,
+E$$Recent American History$$3$$0$$0$$11/09/2009$$12/20/2009$$18$$Hawkins, F
+D$$Profiles in Leadership$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Reed, J
+E$$Profiles in Leadership$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Hawkins, F
+F$$Profiles in Leadership$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Reed, J
+H$$Profiles in Leadership$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Reed, J
+B$$Texas & American West$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Richey, P
+C$$Texas & American West$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Richey, P
+D$$Texas & American West$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Woodard, A
+F$$Texas & American West$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Taylor, C.
+G$$Texas & American West$$3$$0$$0$$11/09/2009$$12/20/2009$$15$$Solganick,
+H$$Texas & American West$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Woodard, A
+I$$Texas & American West$$3$$0$$0$$10/05/2009$$11/08/2009$$15$$Smith,C.J.
+J$$Texas & American West$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Woodard, A
+K$$Texas & American West$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Nelson, B.
+L$$Texas & American West$$3$$0$$0$$10/05/2009$$11/08/2009$$10$$Quinn, Deb
+M$$Texas & American West$$3$$0$$0$$11/09/2009$$12/20/2009$$10$$Quinn, Deb
+N$$Texas & American West$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Taylor, C.
+O$$Texas & American West$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Richey, P
+P$$Texas & American West$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Reed, J
+A$$Children's Fine Arts$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Latham, J
+B$$Children's Fine Arts$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Latham, J
+C$$Children's Fine Arts$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Davenpo,Me
+D$$Children's Fine Arts$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Birdsong,R
+E$$Children's Fine Arts$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Birdsong,R
+C$$Human Culture and Society$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Connors,D
+D$$Human Culture and Society$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Parker, N.
+F$$Human Culture and Society$$3$$0$$0$$11/09/2009$$12/20/2009$$13$$Goodie, G.
+A$$Applications of Technology$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Burson, J.
+C$$Executive Wellness$$3$$0$$0$$10/05/2009$$11/08/2009$$22$$Jensen, D.
+E$$Executive Wellness$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Baker, K
+G$$Executive Wellness$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Baker, K
+A$$Strategies for Adult Learning$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Perkins,K
+B$$Strategies for Adult Learning$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Stewart, J
+C$$Strategies for Adult Learning$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Perkins,K
+D$$Strategies for Adult Learning$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Perkins,K
+G$$Strategies for Adult Learning$$3$$0$$0$$08/24/2009$$10/04/2009$$15$$Vinson, B.
+J$$Strategies for Adult Learning$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Elacqua,T
+K$$Strategies for Adult Learning$$3$$0$$0$$10/05/2009$$11/08/2009$$1$$Dubose, C.
+L$$Strategies for Adult Learning$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Yeakley, R
+M$$Strategies for Adult Learning$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Jones, Mic
+N$$Strategies for Adult Learning$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Stewart, J
+E$$Business Math$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Jessen, R.
+F$$Business Math$$3$$0$$0$$10/05/2009$$11/08/2009$$16$$Maness
+G$$Business Math$$3$$0$$0$$11/09/2009$$12/20/2009$$16$$Thomas, V
+B$$Elementary Statistics$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Johnson, D
+C$$Elementary Statistics$$3$$0$$0$$10/05/2009$$11/08/2009$$15$$Ackley, R.
+D$$Elementary Statistics$$3$$0$$0$$10/05/2009$$11/08/2009$$23$$Mabee, C
+F$$Elementary Statistics$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Wall, D
+G$$Elementary Statistics$$3$$0$$0$$11/09/2009$$12/20/2009$$18$$Ritchie,We
+H$$Elementary Statistics$$3$$0$$0$$11/09/2009$$12/20/2009$$23$$Mabee, C
+I$$Elementary Statistics$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$McWilliams
+J$$Elementary Statistics$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$McWilliams
+K$$Elementary Statistics$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$McWilliams
+B$$Math Modeling for Dec Making$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Mabee, C
+C$$Math Modeling for Dec Making$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Mabee, C
+E$$Math Modeling for Dec Making$$3$$0$$0$$11/09/2009$$12/20/2009$$15$$Jessen, R.
+F$$Math Modeling for Dec Making$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Olsen, D.
+G$$Math Modeling for Dec Making$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Wall, D
+I$$Math Modeling for Dec Making$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Wall, D
+J$$Math Modeling for Dec Making$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Wall, D
+K$$Math Modeling for Dec Making$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Ritchie,We
+M$$Math Modeling for Dec Making$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Wall, D
+N$$Math Modeling for Dec Making$$3$$0$$0$$11/09/2009$$12/20/2009$$16$$Thomas, V
+C$$Mathematical Concepts$$3$$0$$0$$10/05/2009$$11/08/2009$$23$$Moebes, T
+D$$Mathematical Concepts$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Walsh, D.
+B$$Math Practicum$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Denny, Joh
+G$$Math Practicum$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Wall, D
+A$$Self-Leadership Assess & Devl$$3$$0$$0$$10/12/2009$$11/01/2009$$25$$Waldo, R
+B$$Self-Leadership Assess & Devl$$3$$0$$0$$10/12/2009$$11/01/2009$$20$$Wayhan, V
+C$$Self-Leadership Assess & Devl$$3$$0$$0$$10/12/2009$$11/01/2009$$22$$Webb, R.
+D$$Self-Leadership Assess & Devl$$3$$0$$0$$10/12/2009$$11/01/2009$$20$$Waldo, R
+E$$Self-Leadership Assess & Devl$$3$$0$$0$$10/26/2009$$11/15/2009$$20$$Hammond, L
+A$$Leadership & Ethics$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Tocci, Den
+C$$Leadership & Ethics$$3$$0$$0$$08/24/2009$$10/11/2009$$22$$Ray, D.S.
+D$$Leadership & Ethics$$3$$0$$0$$10/26/2009$$12/20/2009$$20$$Waldo, R
+A$$Work-Life Balance$$3$$0$$0$$10/12/2009$$11/01/2009$$26$$Waldo, R
+A$$Managerial Accounting$$3$$0$$0$$10/26/2009$$12/20/2009$$26$$Lemler,B
+B$$Managerial Accounting$$3$$0$$0$$10/26/2009$$12/20/2009$$20$$Rowe, B.
+A$$Managerial Economics$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Howard, Ke
+B$$Managerial Economics$$3$$0$$0$$08/24/2009$$10/11/2009$$15$$Powers, K
+A$$Quantitative Methods$$3$$0$$0$$10/26/2009$$12/20/2009$$24$$Feezell, J
+B$$Quantitative Methods$$3$$0$$0$$10/26/2009$$12/20/2009$$16$$Baldwin,R
+C$$Quantitative Methods$$3$$0$$0$$10/26/2009$$12/20/2009$$20$$Agee, Jame
+E$$Quantitative Methods$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Corum, R
+F$$Quantitative Methods$$3$$0$$0$$10/26/2009$$12/20/2009$$22$$Castro, J.
+A$$Managerial Finance$$3$$0$$0$$10/26/2009$$12/20/2009$$25$$Driver, R
+A$$Human Resource Management$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Spangenbur
+B$$Human Resource Management$$3$$0$$0$$10/26/2009$$12/20/2009$$25$$Driver, R
+C$$Human Resource Management$$3$$0$$0$$10/26/2009$$12/20/2009$$15$$Baldwin,R
+D$$Human Resource Management$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Driver, R
+A$$Quality & Operations Mgmt$$3$$0$$0$$08/24/2009$$10/11/2009$$24$$Feezell, J
+B$$Quality & Operations Mgmt$$3$$0$$0$$08/24/2009$$10/11/2009$$24$$McWilliams
+C$$Quality & Operations Mgmt$$3$$0$$0$$08/24/2009$$10/11/2009$$15$$Tew, E. J.
+D$$Quality & Operations Mgmt$$3$$0$$0$$08/24/2009$$10/11/2009$$24$$Matthews,W
+E$$Quality & Operations Mgmt$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$McWilliams
+A$$Marketing Management$$3$$0$$0$$08/24/2009$$10/11/2009$$24$$Fairweathe
+B$$Marketing Management$$3$$0$$0$$10/26/2009$$12/20/2009$$25$$Howard, Ke
+C$$Marketing Management$$3$$0$$0$$08/24/2009$$10/11/2009$$16$$Strong, D.
+A$$Strategic Management$$3$$0$$0$$10/26/2009$$12/20/2009$$24$$Ray, D.S.
+B$$Strategic Management$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Ray, D.S.
+C$$Strategic Management$$3$$0$$0$$10/26/2009$$12/20/2009$$25$$Hammond, L
+D$$Strategic Management$$3$$0$$0$$10/26/2009$$12/20/2009$$15$$Carlson, F
+E$$Strategic Management$$3$$0$$0$$10/26/2009$$12/20/2009$$24$$Wayhan, V
+G$$Strategic Management$$3$$0$$0$$10/26/2009$$12/20/2009$$20$$Balog, K
+A$$Intnl Travel Experience$$3$$0$$0$$10/12/2009$$10/26/2009$$15$$Hammond, L
+A$$Conflict Resolution$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Fontenot,L
+A$$E-Commerce Marketing Mgmt$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Balog, K
+B$$International Finance$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Castro, J.
+A$$Financial Risk Mgmt$$3$$0$$0$$10/26/2009$$12/13/2009$$25$$Lemler,B
+A$$ST:Religion in Public Education$$3$$0$$0$$10/12/2009$$11/01/2009$$20$$Baggett, D
+B$$ST:Religion in Public Education$$3$$0$$0$$10/26/2009$$11/15/2009$$20$$Baggett, D
+A$$ST: Administration of TAKS$$3$$0$$0$$10/12/2009$$11/01/2009$$25$$Woods, Que
+B$$ST: Administration of TAKS$$3$$0$$0$$10/12/2009$$11/01/2009$$25$$Baggett, D
+A$$Comm & Collaboration$$3$$0$$0$$10/26/2009$$12/20/2009$$20$$Woods, Que
+A$$Edu Research for Effect Teaching$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$ThompsonJR
+B$$Edu Research for Effect Teaching$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Stricklan
+A$$Psych Frameworks for Educators$$3$$0$$0$$08/24/2009$$10/11/2009$$20$$Watwood,M
+A$$Public School Law$$3$$0$$0$$10/26/2009$$12/20/2009$$25$$Watwood,M
+B$$Public School Law$$3$$0$$0$$10/26/2009$$12/20/2009$$25$$Baggett, D
+A$$Theory & Practice Classroom Mgt$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Baggett, D
+A$$Children, Adolescents & Learning$$3$$0$$0$$10/26/2009$$12/20/2009$$25$$Burson, J.
+A$$Theory & Prac Classroom Mgt 8-12$$3$$0$$0$$08/24/2009$$10/11/2009$$25$$Watwood,M
+A$$School Finance$$3$$0$$0$$08/24/2009$$10/11/2009$$20$$Brown, All
+B$$School Finance$$3$$0$$0$$10/26/2009$$12/20/2009$$20$$ThompsonJR
+A$$Physical Science$$3$$0$$0$$08/24/2009$$10/04/2009$$23$$Gentsch, M
+B$$Physical Science$$3$$0$$0$$10/05/2009$$11/08/2009$$18$$Flakes, L
+C$$Physical Science$$3$$0$$0$$10/05/2009$$11/08/2009$$23$$Flakes, L
+D$$Physical Science$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Ogunjimi
+E$$Physical Science$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Flakes, L
+F$$Physical Science$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Gentsch, M
+A$$American Political Foundation$$3$$0$$0$$08/24/2009$$10/04/2009$$20$$Nelson, B.
+B$$American Political Foundation$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Valague, D
+A$$Intro to Psychology$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$MorrisLehm
+B$$Intro to Psychology$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Zeigler, J
+A$$Professions in Psychology$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Coleman, J
+A$$Human Growth & Development$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Modisette
+E$$Human Growth & Development$$3$$0$$0$$08/24/2009$$10/04/2009$$24$$Harlan, P
+A$$Marriage & the Family$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Russell, D
+B$$Marriage & the Family$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Andrews, T
+C$$Marriage & the Family$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Russell, D
+D$$Marriage & the Family$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Baker, Do.
+A$$Theories & Tech of Counseling$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Andrews, T
+B$$Theories & Tech of Counseling$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Coleman, J
+A$$Personality Theory$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Modisette
+B$$Personality Theory$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Coleman, J
+E$$Personality Theory$$3$$0$$0$$10/05/2009$$11/08/2009$$24$$Harlan, P
+A$$Learning and Cognition$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Russell, D
+A$$Social Psychology$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Harlan, P
+A$$Abnormal Psychology$$3$$0$$0$$08/24/2009$$10/04/2009$$25$$Modisette
+A$$Tests & Measurements$$3$$0$$0$$10/05/2009$$11/08/2009$$25$$Harlan, P
+A$$Physiological Psychology$$3$$0$$0$$11/09/2009$$12/20/2009$$25$$Agee, Jame
+A$$Intro to Lang & Literacy$$3$$0$$0$$09/07/2009$$10/04/2009$$1$$Hendrix, E
+B$$Intro to Lang & Literacy$$3$$0$$0$$10/12/2009$$11/08/2009$$1$$Hendrix, E
+C$$Teaching of Reading$$3$$0$$0$$08/24/2009$$10/04/2009$$21$$Elkins, L.
+E$$Teaching of Reading$$3$$0$$0$$11/09/2009$$12/20/2009$$24$$Hendrix, E
+G$$Teaching of Reading$$3$$0$$0$$11/09/2009$$12/20/2009$$22$$Hardage, R
+H$$Teaching of Reading$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Holt, B.
+B$$Lit for Children & Adolescents$$3$$0$$0$$11/09/2009$$12/20/2009$$20$$Dean, K.
+A$$Remediation of Rdg Difficulties$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Hendrix, E
+B$$Reading in the Content Area$$3$$0$$0$$10/05/2009$$11/08/2009$$22$$Tuck, A
+C$$Reading in the Content Area$$3$$0$$0$$10/05/2009$$11/08/2009$$20$$Dean, K.

@@ -1,0 +1,490 @@
+Spring 2010
+A$$Fundamentals of Accounting$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Runyan, Gr
+B$$Fundamentals of Accounting$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Lawanson
+D$$Fundamentals of Accounting$$3$$0$$0$$02/22/2010$$04/04/2010$$15$$Arnett, G
+A$$Managerial Accounting$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Randall, C
+B$$Managerial Accounting$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+D$$Managerial Accounting$$3$$0$$0$$01/11/2010$$02/21/2010$$13$$Staff
+E$$Managerial Accounting$$3$$0$$0$$04/05/2010$$05/09/2010$$21$$Ide, H.W.
+H$$Managerial Accounting$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Rowe, B.
+K$$Managerial Accounting$$3$$0$$0$$02/22/2010$$04/04/2010$$16$$Carlson, F
+L$$Managerial Accounting$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Carlson, F
+A$$New Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Claeys, J
+B$$New Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Claeys, J
+C$$New Testament Principles$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Coleman, J
+D$$New Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Coleman, J
+F$$New Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Chandler,D
+G$$New Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$13$$Staff
+H$$New Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Hawkins, F
+I$$New Testament Principles$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+J$$New Testament Principles$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Womack, C
+K$$New Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Davis, J.
+L$$New Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Chandler,D
+M$$New Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Staff
+N$$New Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Coleman, J
+P$$New Testament Principles$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Coleman, J
+A$$Old Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Coleman, J
+B$$Old Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Chandler,D
+C$$Old Testament Principles$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Hansen, W.
+E$$Old Testament Principles$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Parson, Gr
+F$$Old Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$15$$VanHamme,J
+G$$Old Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$13$$Staff
+I$$Old Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+J$$Old Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Hansen, W.
+K$$Old Testament Principles$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Hansen, W.
+L$$Old Testament Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Webb, R.
+M$$Old Testament Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Hansen, W.
+A$$Introduction to the Gospels$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Connors,D
+B$$Introduction to the Gospels$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Hansen, W.
+C$$Introduction to the Gospels$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Claeys, J
+D$$Introduction to the Gospels$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Womack, C
+E$$Introduction to the Gospels$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Porter, S
+F$$Introduction to the Gospels$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Staff
+G$$Introduction to the Gospels$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Chandler,D
+H$$Introduction to the Gospels$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Connors,D
+J$$Introduction to the Gospels$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Latham, J
+A$$Paul's Prison Letters$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Shelby, R
+B$$Paul's Prison Letters$$3$$0$$0$$02/22/2010$$04/04/2010$$22$$Lightfoot
+D$$Paul's Prison Letters$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Webb, R.
+E$$Paul's Prison Letters$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Coleman, J
+F$$Paul's Prison Letters$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Chandler,D
+A$$Prin of Life Science$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Price, K.
+B$$Prin of Life Science$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Jensen, D.
+C$$Prin of Life Science$$3$$0$$0$$01/11/2010$$02/21/2010$$22$$Vaughn, L.
+D$$Prin of Life Science$$3$$0$$0$$04/05/2010$$05/09/2010$$15$$Zidermanis
+A$$Financial Mgmt for Individuals$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Runyan, Gr
+B$$Financial Mgmt for Individuals$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Foland, A.
+D$$Financial Mgmt for Individuals$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Carlson, F
+A$$Intro to Business Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Rowe, B.
+A$$Small Business Management$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Meyer, All
+A$$Business Research I$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+C$$Business Research I$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+D$$Business Research I$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Sam, P.
+E$$Business Research I$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Baldwin,R
+F$$Business Research I$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Holt, R.
+H$$Business Research I$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Holt, R.
+K$$Business Research I$$3$$0$$0$$04/05/2010$$05/09/2010$$15$$Tew, E. J.
+A$$Management and Leadership$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Geeding,
+B$$Management and Leadership$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Hudson, L.
+C$$Management and Leadership$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Spangenbur
+D$$Management and Leadership$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Staff
+A$$Financial Analysis for Managers$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+B$$Financial Analysis for Managers$$3$$0$$0$$01/11/2010$$02/21/2010$$21$$Staff
+E$$Financial Analysis for Managers$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Runyan, Gr
+F$$Financial Analysis for Managers$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Runyan, Gr
+A$$Managing Human Resources$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Baker, S
+B$$Managing Human Resources$$3$$0$$0$$04/05/2010$$05/09/2010$$13$$Staff
+C$$Managing Human Resources$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Smith,J.M.
+E$$Managing Human Resources$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Staff
+G$$Managing Human Resources$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Ross, L.K.
+J$$Managing Human Resources$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Waldo, R
+L$$Managing Human Resources$$3$$0$$0$$02/22/2010$$04/04/2010$$15$$Coleman,Tr
+B$$Business Law$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Jackson, T
+C$$Business Law$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Springerly
+D$$Business Law$$3$$0$$0$$02/22/2010$$04/04/2010$$21$$Staff
+F$$Business Law$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Nedbalek
+G$$Business Law$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Staff
+H$$Business Law$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$Sandlin, M
+C$$Marketing Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Fairweathe
+D$$Marketing Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Lester, A
+E$$Marketing Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$21$$Foland, A.
+F$$Marketing Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$21$$Griswold
+J$$Marketing Principles$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Lester, A
+K$$Marketing Principles$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Howard, Ke
+M$$Marketing Principles$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Corum, R
+A$$Business Ethics$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Fontenot,L
+B$$Business Ethics$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Smith, WA
+C$$Negotiation Strategy$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+E$$Negotiation Strategy$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Fontaine,B
+A$$Nonprofit Leadership and Mgt.$$3$$0$$0$$01/11/2010$$02/21/2010$$22$$Master, D
+A$$Project Management$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Price, K.
+A$$Intnl Travel Experience$$3$$0$$0$$04/05/2010$$05/09/2010$$0$$Shankle, D
+A$$Business Research Methods$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Wall, D
+B$$Business Research Methods$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Wayhan, V
+C$$Business Research Methods$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Baldwin,R
+F$$Business Research Methods$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Denny, Joh
+G$$Business Research Methods$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Lemler,B
+H$$Business Research Methods$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Holt, R.
+K$$Business Research Methods$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Tew, E. J.
+L$$Business Research Methods$$3$$0$$0$$01/11/2010$$02/21/2010$$16$$Walsh, D.
+B$$Intrntl Issues in Business$$3$$0$$0$$02/22/2010$$04/04/2010$$22$$Master, D
+C$$Intrntl Issues in Business$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Hammond, L
+D$$Intrntl Issues in Business$$3$$0$$0$$02/22/2010$$04/04/2010$$15$$Crutchfiel
+A$$Managing Innovation and Change$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Matthews,W
+C$$Managing Innovation and Change$$3$$0$$0$$04/05/2010$$05/09/2010$$25$$Clay-Brown
+D$$Managing Innovation and Change$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Tocci, Den
+A$$Operations Management$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$McWilliams
+B$$Operations Management$$3$$0$$0$$04/05/2010$$05/09/2010$$22$$Adams-Gain
+C$$Operations Management$$3$$0$$0$$01/11/2010$$02/21/2010$$22$$Sam, P.
+D$$Operations Management$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$McWilliams
+E$$Operations Management$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Henderson
+G$$Operations Management$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Ekholm, H
+A$$Organizational Behavior$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Baker, S
+B$$Organizational Behavior$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Ray, D.S.
+C$$Organizational Behavior$$3$$0$$0$$02/22/2010$$04/04/2010$$10$$Staff
+D$$Organizational Behavior$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Harlan, P
+E$$Organizational Behavior$$3$$0$$0$$01/11/2010$$02/22/2010$$23$$Smith,J.M.
+F$$Organizational Behavior$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Jacobs, K
+J$$Organizational Behavior$$3$$0$$0$$04/05/2010$$05/09/2010$$16$$Bourne, B
+K$$Organizational Behavior$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Grant, K.
+A$$Principles of Finance$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+B$$Principles of Finance$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+C$$Principles of Finance$$3$$0$$0$$01/11/2010$$02/21/2010$$13$$Ide, H.W.
+D$$Principles of Finance$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Staff
+E$$Principles of Finance$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+F$$Principles of Finance$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Driver, R
+H$$Principles of Finance$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$Carlson, F
+J$$Principles of Finance$$3$$0$$0$$01/11/2010$$02/21/2010$$16$$Carlson, F
+E$$Management Strategy$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$Lester, A
+F$$Management Strategy$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$McWilliams
+G$$Management Strategy$$3$$0$$0$$01/11/2010$$02/21/2010$$13$$Staff
+H$$Management Strategy$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Perkins,K
+I$$Management Strategy$$3$$0$$0$$02/22/2010$$04/04/2010$$22$$Schneider
+J$$Management Strategy$$3$$0$$0$$04/05/2010$$05/09/2010$$22$$Master, D
+K$$Management Strategy$$3$$0$$0$$01/11/2010$$02/21/2010$$22$$Adams-Gain
+M$$Management Strategy$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Hammond, L
+N$$Management Strategy$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Balog, K
+O$$Management Strategy$$3$$0$$0$$04/05/2010$$05/09/2010$$15$$Carlson, F
+A$$Strategic Management$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Spangenbur
+C$$Dynamics of Leadership$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Adams, R.
+E$$Dynamics of Leadership$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Adams, R.
+G$$Dynamics of Leadership$$3$$0$$0$$04/05/2010$$05/09/2010$$21$$Sam, P.
+H$$Dynamics of Leadership$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Waldo, R
+J$$Dynamics of Leadership$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Elacqua,T
+L$$Dynamics of Leadership$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Staff
+A$$Speech Communications$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Withers, D
+B$$Speech Communications$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Forester,D
+D$$Speech Communications$$3$$0$$0$$02/22/2010$$04/04/2010$$22$$Staff
+E$$Speech Communications$$3$$0$$0$$04/05/2010$$05/09/2010$$15$$Tyson, B.
+F$$Speech Communications$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Barnes,Ais
+G$$Speech Communications$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Klue, M.
+H$$Speech Communications$$3$$0$$0$$04/05/2010$$05/09/2010$$22$$Klue, M.
+A$$Business Comm for Managers$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Gibbs, B.
+B$$Business Comm for Managers$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Withers, D
+C$$Business Comm for Managers$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Klue, M.
+A$$Principles of Economics$$3$$0$$0$$01/11/2010$$02/21/2010$$21$$Matthews,W
+B$$Principles of Economics$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Wheeler,H
+C$$Principles of Economics$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+D$$Principles of Economics$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Staff
+E$$Principles of Economics$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Staff
+F$$Principles of Economics$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Lemler,B
+H$$Principles of Economics$$3$$0$$0$$04/05/2010$$05/09/2010$$16$$Staff
+B$$Family & School for EC$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Hilburn,J
+C$$Family & School for EC$$3$$0$$0$$01/11/2010$$02/21/2010$$10$$Baggett, D
+E$$Family & School for EC$$3$$0$$0$$02/22/2010$$04/04/2010$$22$$Staff
+B$$Cog/Social/Emotional Dev of YC$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Fontaine,V
+J$$Cog/Social/Emotional Dev of YC$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Stricklan
+K$$Cog/Social/Emotional Dev of YC$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Rolf, S
+A$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Fontaine,V
+B$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$01/11/2010$$02/21/2010$$13$$Staff
+C$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$01/11/2010$$02/21/2010$$22$$Jackson,MA
+E$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Harris, C.
+F$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$02/22/2010$$04/04/2010$$16$$Rader, Eli
+G$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Rolf, S
+H$$Methods of Elem Math/Sci Instruc$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Jaquez, K.
+A$$Planning & Assessment$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Dennis, G.
+B$$Planning & Assessment$$3$$0$$0$$01/11/2010$$02/21/2010$$23$$Staff
+C$$Planning & Assessment$$3$$0$$0$$01/11/2010$$02/21/2010$$23$$Dorsey, L
+D$$Planning & Assessment$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Roecker, L
+F$$Planning & Assessment$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Janz, J
+J$$Planning & Assessment$$3$$0$$0$$02/22/2010$$04/04/2010$$16$$Robinson,Y
+K$$Planning & Assessment$$3$$0$$0$$01/11/2010$$02/21/2010$$16$$Gentsch KD
+A$$Foundations of Am Ed & Culture$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Gentsch KD
+J$$Foundations of Am Ed & Culture$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Staff
+A$$Dvlp & Learn of the Young Child$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Jackson,MA
+C$$Dvlp & Learn of the Young Child$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Jackson,MA
+C$$Certification Prep Sem EC-6th$$3$$0$$0$$03/01/2010$$03/28/2010$$18$$Staff
+D$$Certification Prep Sem EC-6th$$3$$0$$0$$03/01/2010$$03/28/2010$$13$$Baggett, D
+E$$Certification Prep Sem EC-6th$$3$$0$$0$$01/25/2010$$02/21/2010$$24$$Bass, B
+F$$Certification Prep Sem EC-6th$$3$$0$$0$$04/05/2010$$05/02/2010$$22$$Bass, B
+A$$Overview of Special Education$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Bass, B
+C$$Curriculum for the Middle School$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Birdsong,R
+A$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Hilburn,J
+B$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$02/22/2010$$04/04/2010$$13$$Staff
+C$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Holt, B.
+D$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$04/05/2010$$05/09/2010$$23$$Valera, K
+E$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+F$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$01/11/2010$$02/21/2010$$16$$Rader, Eli
+G$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Jaquez, K.
+H$$Meth of Elem Lang Arts & Soc Std$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Jaquez, K.
+C$$Lang Dev of the Young Child$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Baker, Do.
+D$$Lang Dev of the Young Child$$3$$0$$0$$04/05/2010$$05/09/2010$$13$$Dean, K.
+E$$Lang Dev of the Young Child$$3$$0$$0$$01/11/2010$$02/21/2010$$21$$Jackson,MA
+F$$Lang Dev of the Young Child$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Hancock, D
+G$$Lang Dev of the Young Child$$3$$0$$0$$01/11/2010$$02/21/2010$$23$$Hendrix, E
+H$$Lang Dev of the Young Child$$3$$0$$0$$01/11/2010$$02/21/2010$$16$$Elkins, L.
+J$$Lang Dev of the Young Child$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Staff
+K$$Lang Dev of the Young Child$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Ames, J.
+A$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Jaquez, K.
+B$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$01/11/2010$$02/21/2010$$22$$Hall,Lynne
+C$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Kattan, D.
+E$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Mackey, J.
+F$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$04/05/2010$$05/09/2010$$22$$Staff
+G$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Kattan, D.
+H$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Hilburn,J
+J$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Jaquez, K.
+K$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Kattan, D.
+M$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Goade, Car
+N$$Class Mgt/Org for Elem/Mid Schl$$3$$0$$0$$04/05/2010$$05/09/2010$$16$$Kneggs, D
+B$$Certification Prep Sem 4th-8th$$3$$0$$0$$03/01/2010$$03/28/2010$$24$$Staff
+C$$Certification Prep Sem 4th-8th$$3$$0$$0$$03/01/2010$$03/28/2010$$10$$Staff
+D$$Certification Prep Sem 4th-8th$$3$$0$$0$$01/25/2010$$02/21/2010$$16$$Staff
+E$$Certification Prep Sem 4th-8th$$3$$0$$0$$04/05/2010$$05/02/2010$$20$$Staff
+F$$Teaching the Mid School Student$$3$$0$$0$$02/22/2010$$04/04/2010$$16$$Walker, T
+G$$Teaching the Mid School Student$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$Mackey, J.
+J$$Teaching the Mid School Student$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Bailey, C.
+K$$Teaching the Mid School Student$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Birdsong,R
+A$$Instructional Methods for 8-12$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Davenpo,Ma
+A$$Classroom Mgt/Org Secondary Sch$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Summers, C
+A$$Teaching Diverse Populations$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Bass, B
+A$$Differentiating Classrm Instruct$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Meritt, J.
+B$$Differentiating Classrm Instruct$$3$$0$$0$$04/05/2010$$05/09/2010$$22$$Staff
+C$$Differentiating Classrm Instruct$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Roecker, L
+D$$Differentiating Classrm Instruct$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Watwood,M
+A$$English Review$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Roskoski,L
+A$$Written Communications I$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Middleton
+B$$Written Communications I$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$CovingtonS
+D$$Written Communications I$$3$$0$$0$$02/22/2010$$04/04/2010$$15$$Knighten
+E$$Written Communications I$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Staff
+F$$Written Communications I$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+G$$Written Communications I$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Middleton
+H$$Written Communications I$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Staff
+A$$Written Communications II$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Roskoski,L
+B$$Written Communications II$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Middleton
+D$$Written Communications II$$3$$0$$0$$04/05/2010$$05/09/2010$$15$$Knighten
+G$$Written Communications II$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+J$$Written Communications II$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Nedbalek
+K$$Written Communications II$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$CovingtonS
+A$$Great Writers of Western World$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Middleton
+B$$Great Writers of Western World$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Klue, M.
+C$$Great Writers of Western World$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$Staff
+D$$Great Writers of Western World$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Parker, N.
+E$$Great Writers of Western World$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Robinson,H
+F$$Great Writers of Western World$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Roskoski,L
+G$$Great Writers of Western World$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Solganick,
+A$$Creative Writing$$3$$0$$0$$01/11/2010$$02/21/2010$$21$$Staff
+A$$Literature for Leaders$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$Roskoski,L
+C$$Literature for Leaders$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$CovingtonS
+A$$Spec Topic- Classics in$$3$$0$$0$$02/22/2010$$04/04/2010$$15$$Solganick,
+A$$World Regional Geography$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Richey, P
+B$$World Regional Geography$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Kennard,D.
+C$$World Regional Geography$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Kennard,D.
+D$$World Regional Geography$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Kennard,D.
+F$$World Regional Geography$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Richey, P
+A$$Early American History$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Reed, J
+B$$Early American History$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Taylor, C.
+C$$Early American History$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Love, I
+D$$Early American History$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+A$$Global History Since 1918$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Simpson
+A$$Recent American History$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Taylor, C.
+B$$Recent American History$$3$$0$$0$$02/22/2010$$04/04/2010$$8$$Staff
+C$$Recent American History$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Staff
+D$$Recent American History$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+E$$Recent American History$$3$$0$$0$$04/05/2010$$05/09/2010$$22$$Staff
+F$$Recent American History$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Staff
+A$$Profiles in Leadership$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Richey, P
+B$$Profiles in Leadership$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Solganick,
+C$$Profiles in Leadership$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Taylor, C.
+D$$Profiles in Leadership$$3$$0$$0$$01/11/2010$$02/21/2010$$22$$Staff
+A$$Texas & American West$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Reed, J
+B$$Texas & American West$$3$$0$$0$$02/22/2010$$04/04/2010$$22$$Staff
+C$$Texas & American West$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+D$$Texas & American West$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Simpson
+E$$Texas & American West$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Hawkins, F
+F$$Texas & American West$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Hawkins, F
+G$$Texas & American West$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Simpson
+H$$Texas & American West$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Reed, J
+J$$Texas & American West$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Reed, J
+A$$Children's Fine Arts$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Latham, J
+B$$Children's Fine Arts$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Latham, J
+C$$Children's Fine Arts$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Staff
+A$$Human Culture and Society$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Connors,D
+B$$Human Culture and Society$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Connors,D
+D$$Human Culture and Society$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Rogers, Gl
+A$$Executive Wellness$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Baker, K
+B$$Executive Wellness$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Jensen, D.
+C$$Executive Wellness$$3$$0$$0$$04/05/2010$$05/09/2010$$22$$Moughon, J
+D$$Executive Wellness$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Jensen, D.
+A$$Strategies for Adult Learning$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Stewart, J
+B$$Strategies for Adult Learning$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Perkins,K
+C$$Strategies for Adult Learning$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Perkins,K
+D$$Strategies for Adult Learning$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Perkins,K
+E$$Strategies for Adult Learning$$3$$0$$0$$01/11/2010$$02/21/2010$$13$$Stewart, J
+F$$Strategies for Adult Learning$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Dubose, C.
+G$$Strategies for Adult Learning$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Vinson, B.
+H$$Strategies for Adult Learning$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Yeakley, R
+I$$Strategies for Adult Learning$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Yeakley, R
+B$$Business Math$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$McDaniel,G
+C$$Business Math$$3$$0$$0$$01/11/2010$$02/21/2010$$10$$Staff
+D$$Business Math$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Thomas, V
+E$$Business Math$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Wall, D
+A$$Elementary Statistics$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$McWilliams
+B$$Elementary Statistics$$3$$0$$0$$02/22/2010$$04/04/2010$$23$$Denny, Joh
+C$$Elementary Statistics$$3$$0$$0$$04/05/2010$$05/09/2010$$22$$Wall, D
+D$$Elementary Statistics$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Mabee, C
+E$$Elementary Statistics$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Hall, Jerr
+F$$Elementary Statistics$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Staff
+A$$Math Modeling for Dec Making$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Wall, D
+B$$Math Modeling for Dec Making$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Mabee, C
+C$$Math Modeling for Dec Making$$3$$0$$0$$02/22/2010$$04/04/2010$$21$$Maness
+D$$Math Modeling for Dec Making$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Mabee, C
+E$$Math Modeling for Dec Making$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Ackley, R.
+F$$Math Modeling for Dec Making$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Denny, Joh
+A$$Mathematical Concepts$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Wall, D
+B$$Mathematical Concepts$$3$$0$$0$$02/22/2010$$04/04/2010$$8$$Wall, D
+C$$Mathematical Concepts$$3$$0$$0$$01/11/2010$$02/21/2010$$15$$Jessen, R.
+D$$Mathematical Concepts$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Ritchie,We
+E$$Mathematical Concepts$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Wall, D
+A$$Math Practicum$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Ackley, R.
+A$$Self-Leadership Assess & Devl$$3$$0$$0$$03/22/2010$$04/11/2010$$20$$Hammond, L
+A$$Leadership & Ethics$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Ray, D.S.
+A$$Work-Life Balance$$3$$0$$0$$03/01/2010$$03/28/2010$$24$$Hansen, W.
+B$$Work-Life Balance$$3$$0$$0$$03/01/2010$$03/28/2010$$15$$Wayhan, V
+C$$Work-Life Balance$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Waldo, R
+D$$Work-Life Balance$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Hammond, L
+A$$Spiritual Elements of Leadership$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Waldo, R
+B$$Spiritual Elements of Leadership$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Hansen, W.
+A$$Organizational Behavior$$3$$0$$0$$01/11/2010$$02/28/2010$$21$$Sam, P.
+B$$Organizational Behavior$$3$$0$$0$$01/11/2010$$02/28/2010$$24$$Fairweathe
+C$$Organizational Behavior$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Elacqua,T
+A$$Managerial Accounting$$3$$0$$0$$03/22/2010$$05/09/2010$$24$$Randall, C
+B$$Managerial Accounting$$3$$0$$0$$03/22/2010$$05/09/2010$$21$$Staff
+C$$Managerial Accounting$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Lemler,B
+A$$Managerial Economics$$3$$0$$0$$03/22/2010$$05/09/2010$$22$$Staff
+B$$Managerial Economics$$3$$0$$0$$03/22/2010$$05/09/2010$$16$$Staff
+C$$Managerial Economics$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Matthews,W
+A$$Quantitative Methods$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Agee, Jame
+A$$Managerial Finance$$3$$0$$0$$01/11/2010$$02/28/2010$$15$$Driver, R
+B$$Managerial Finance$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Castro, J.
+C$$Managerial Finance$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Driver, R
+A$$Human Resource Management$$3$$0$$0$$01/11/2010$$02/28/2010$$24$$Ray, D.S.
+B$$Human Resource Management$$3$$0$$0$$01/11/2010$$02/28/2010$$16$$Matthews,W
+A$$Organizational Devel & Change$$3$$0$$0$$03/22/2010$$05/09/2010$$15$$Staff
+B$$Organizational Devel & Change$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Ray, D.S.
+C$$Organizational Devel & Change$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Driver, R
+A$$Cross-Cultural Management$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Spangenbur
+A$$Quality & Operations Mgmt$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Hammond, L
+A$$Marketing Management$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Balog, K
+A$$Strategic Management$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Balog, K
+B$$Strategic Management$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Hammond, L
+A$$Intnl Travel Experience$$3$$0$$0$$03/22/2010$$05/09/2010$$0$$Howard, Ke
+A$$Staffing in Organizations$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Balog, K
+A$$Compensation and Benefits$$3$$0$$0$$03/22/2010$$05/02/2010$$20$$Waldo, R
+A$$Advertising and Public Relations$$3$$0$$0$$03/22/2010$$05/02/2010$$20$$Corum, R
+A$$Marketing Research$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Howard, Ke
+A$$International Management$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Tocci, Den
+A$$International Marketing$$3$$0$$0$$03/22/2010$$05/02/2010$$20$$Hammond, L
+A$$Entrepreneurship & Creativity$$3$$0$$0$$03/22/2010$$05/02/2010$$20$$Balog, K
+A$$Conflict Resolution$$3$$0$$0$$03/22/2010$$05/02/2010$$20$$Staff
+B$$International Finance$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Castro, J.
+A$$Financial Risk Mgmt$$3$$0$$0$$03/22/2010$$05/02/2010$$20$$Lemler,B
+A$$ST:Gangs at School$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Staff
+A$$ST:Ldrshp Styles,Assess,& Invnt$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Staff
+A$$Comm & Collaboration$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Staff
+B$$Comm & Collaboration$$3$$0$$0$$03/22/2010$$05/09/2010$$23$$Staff
+C$$Comm & Collaboration$$3$$0$$0$$03/22/2010$$05/09/2010$$24$$Staff
+A$$Edu Research for Effect Teaching$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Woods, Que
+A$$Psych Frameworks for Educators$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Modisette
+B$$Psych Frameworks for Educators$$3$$0$$0$$03/22/2010$$05/09/2010$$18$$Staff
+C$$Psych Frameworks for Educators$$3$$0$$0$$03/22/2010$$05/09/2010$$16$$Staff
+D$$Psych Frameworks for Educators$$3$$0$$0$$03/22/2010$$05/09/2010$$24$$Staff
+A$$Internship (Campus Leader)$$3$$0$$0$$01/11/2010$$04/09/2010$$20$$Staff
+A$$Foundations of Literacy Instr$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Hendrix, E
+A$$Assessment & Instr Planning$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Watwood,M
+B$$Eff Instr Methodologies 8-12$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Baggett, D
+A$$Eff Method Lang Art/Soc Studies$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Hendrix, E
+A$$Curriculum & Instructional Desgn$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Holt, B.
+A$$Intro to Educucational Admin$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Woods, Que
+A$$Admini of EC-12 Curriculum$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Baggett, D
+A$$Admin of Special Programs$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Baggett, D
+A$$Leadership at the Campus Level$$3$$0$$0$$01/11/2010$$02/28/2010$$20$$Ames, J.
+B$$Leadership at the Campus Level$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$ThompsonJR
+A$$Action Research$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$ThompsonJR
+B$$Action Research$$3$$0$$0$$01/11/2010$$01/31/2010$$20$$Staff
+C$$Action Research$$3$$0$$0$$01/11/2010$$01/31/2010$$20$$Staff
+F$$Action Research$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Staff
+K$$Action Research$$3$$0$$0$$03/22/2010$$04/11/2010$$20$$Staff
+L$$Action Research$$3$$0$$0$$03/22/2010$$04/11/2010$$20$$Staff
+A$$Action Research II$$3$$0$$0$$01/11/2010$$01/31/2010$$20$$Staff
+B$$Action Research II$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Staff
+C$$Action Research II$$3$$0$$0$$03/22/2010$$04/11/2010$$20$$Staff
+A$$Action Research III$$3$$0$$0$$01/11/2010$$01/31/2010$$20$$Staff
+B$$Action Research III$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Staff
+C$$Action Research III$$3$$0$$0$$03/22/2010$$04/11/2010$$20$$Staff
+A$$Practicum-Curriculum & Instr$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Staff
+B$$Practicum-Curriculum & Instr$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Staff
+B$$Practicum-Educational Admin$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Staff
+C$$Practicum-Educational Admin$$3$$0$$0$$03/22/2010$$05/09/2010$$20$$Staff
+B$$Action Research IV$$3$$0$$0$$01/11/2010$$01/31/2010$$20$$Staff
+C$$Action Research IV$$3$$0$$0$$03/01/2010$$03/28/2010$$20$$Staff
+D$$Action Research IV$$3$$0$$0$$03/22/2010$$04/11/2010$$20$$Staff
+A$$Great Ideas Through the Cent.$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Parker, N.
+B$$Great Ideas Through the Cent.$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$Wood, Timo
+C$$Great Ideas Through the Cent.$$3$$0$$0$$04/05/2010$$05/09/2010$$21$$Staff
+A$$Physical Science$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Flakes, L
+B$$Physical Science$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Ogunjimi
+A$$American Political Foundation$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Pardo, T.
+B$$American Political Foundation$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Pardo, T.
+C$$American Political Foundation$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Staff
+D$$American Political Foundation$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+A$$Intro to Psychology$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Modisette
+B$$Intro to Psychology$$3$$0$$0$$02/22/2010$$04/04/2010$$14$$Staff
+A$$Human Growth & Development$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Russell, D
+A$$Career & Prof Development$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Staff
+B$$Career & Prof Development$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Montemayor
+A$$Marriage & the Family$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Russell, D
+B$$Marriage & the Family$$3$$0$$0$$01/11/2010$$02/21/2010$$24$$Staff
+A$$Theories & Tech of Counseling$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Coleman, J
+A$$Basic Counseling Skills$$3$$0$$0$$01/11/2010$$02/21/2010$$21$$Staff
+B$$Basic Counseling Skills$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Coleman, J
+C$$Basic Counseling Skills$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Andrews, T
+D$$Basic Counseling Skills$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Baker, Do.
+A$$History & Systems of Psych$$3$$0$$0$$02/22/2010$$04/04/2010$$21$$Harlan, P
+B$$History & Systems of Psych$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Staff
+C$$History & Systems of Psych$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Baker, Do.
+D$$History & Systems of Psych$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Andrews, T
+E$$History & Systems of Psych$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Staff
+A$$Learning and Cognition$$3$$0$$0$$04/05/2010$$05/09/2010$$21$$Harlan, P
+B$$Learning and Cognition$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Coleman, J
+C$$Learning and Cognition$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Harlan, P
+A$$Abnormal Psychology$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Russell, D
+A$$Tests & Measurements$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Russell, D
+A$$Physiological Psychology$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Agee, Jame
+A$$Experimental Research & Design$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Agee, Jame
+A$$Senior Seminar$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Meyer, All
+B$$Senior Seminar$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Andrews, T
+A$$Teaching of Reading$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Dean, K.
+B$$Teaching of Reading$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Hardage, R
+C$$Teaching of Reading$$3$$0$$0$$02/22/2010$$04/04/2010$$23$$Staff
+D$$Teaching of Reading$$3$$0$$0$$02/22/2010$$04/04/2010$$22$$Hardage, R
+E$$Teaching of Reading$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Hendrix, E
+F$$Teaching of Reading$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Holt, B.
+G$$Teaching of Reading$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Coones, C.
+H$$Teaching of Reading$$3$$0$$0$$04/05/2010$$05/09/2010$$24$$Parker, N.
+K$$Teaching of Reading$$3$$0$$0$$01/11/2010$$02/21/2010$$23$$Baker, Do.
+A$$Lit for Children & Adolescents$$3$$0$$0$$04/05/2010$$05/09/2010$$18$$Staff
+B$$Lit for Children & Adolescents$$3$$0$$0$$04/05/2010$$05/09/2010$$15$$Hendrix, E
+C$$Lit for Children & Adolescents$$3$$0$$0$$04/05/2010$$05/09/2010$$20$$Jackson,MA
+D$$Lit for Children & Adolescents$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Baker, Do.
+A$$Remediation of Rdg Difficulties$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Stephens,K
+B$$Remediation of Rdg Difficulties$$3$$0$$0$$02/22/2010$$04/04/2010$$24$$Coones, C.
+C$$Remediation of Rdg Difficulties$$3$$0$$0$$04/05/2010$$05/09/2010$$10$$Staff
+E$$Remediation of Rdg Difficulties$$3$$0$$0$$02/22/2010$$04/04/2010$$16$$Jackson,MA
+F$$Remediation of Rdg Difficulties$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Hendrix, E
+G$$Remediation of Rdg Difficulties$$3$$0$$0$$04/05/2010$$05/09/2010$$15$$Elkins, L.
+H$$Remediation of Rdg Difficulties$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Parker, N.
+A$$Reading in the Content Area$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Dean, K.
+B$$Reading in the Content Area$$3$$0$$0$$01/11/2010$$02/21/2010$$18$$Thomas, D.
+C$$Reading in the Content Area$$3$$0$$0$$02/22/2010$$04/04/2010$$18$$Staff
+D$$Reading in the Content Area$$3$$0$$0$$02/22/2010$$04/04/2010$$22$$Coones, C.
+E$$Reading in the Content Area$$3$$0$$0$$02/22/2010$$04/04/2010$$13$$Staff
+F$$Reading in the Content Area$$3$$0$$0$$01/11/2010$$02/21/2010$$16$$Holt, B.
+G$$Reading in the Content Area$$3$$0$$0$$04/05/2010$$05/09/2010$$16$$Staff
+H$$Reading in the Content Area$$3$$0$$0$$01/11/2010$$02/21/2010$$16$$Staff
+J$$Reading in the Content Area$$3$$0$$0$$01/11/2010$$02/21/2010$$13$$Hendrix, E
+K$$Reading in the Content Area$$3$$0$$0$$04/05/2010$$05/09/2010$$23$$Staff
+L$$Reading in the Content Area$$3$$0$$0$$04/05/2010$$05/09/2010$$16$$Baker, Do.
+M$$Reading in the Content Area$$3$$0$$0$$02/22/2010$$04/04/2010$$16$$Baker, Do.
+N$$Reading in the Content Area$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Parker, N.
+P$$Reading in the Content Area$$3$$0$$0$$01/11/2010$$02/21/2010$$20$$Coones, C.
+A$$Literacy Instruction in ESL and$$3$$0$$0$$02/22/2010$$04/04/2010$$20$$Richey, P

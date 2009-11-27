@@ -15,9 +15,8 @@
 
     require_once("functions.php");
 
-    function fetchCurrentSemester($year=2009, $semester="FA") {
+    function fetchCurrentSemester($file, $year=2009, $semester="FA", $prefix="non") {
         //get the current class schedule from LeTourneau
-		$file = "http://www.letu.edu/academics/course-sched/index.html";
 		if(!empty($year) && !empty($semester)) {
 			$file .= "?target_term=".$year."%7C".$semester;
 		}
@@ -28,9 +27,8 @@
         return $matches[1];
     }
 
-	function writeClassData($title, $year, $semester) {
+	function writeClassData($file, $title, $year, $semester, $prefix="non") {
 		//get the current class schedule from LeTourneau
-		$file = "http://www.letu.edu/academics/course-sched/index.html";
 		if(!empty($year) && !empty($semester)) {
 			$file .= "?target_term=".$year."%7C".$semester;
 		}
@@ -104,21 +102,25 @@
         }
         fclose($file);
         //seamlessly transition the new data
-        rename("temp.txt", $year.$semester.".txt");
+        rename("temp.txt", $prefix.$year.$semester.".txt");
 //        rename("temp.txt", "/Library/WebServer/Documents/LUSASE/".$year.$semester.".txt");
 	}
 
     $files = getFileArray(false);
     $lastSemester = "";
+    $trad = "http://www.letu.edu/academics/course-sched/index.html";
+    $nontrad = "http://www.letu.edu/academics/course-sched/nontrad.html";
     for($i = 0; $i < count($files); $i++) {
         $year = $files[$i][0];
         $sem = $files[$i][1];
-        $semester = fetchCurrentSemester($year, $sem);
+        $semester = fetchCurrentSemester($trad, $year, $sem, "");
         if($semester == $lastSemester) {
             break;
         } else {
             $lastSemester = $semester;
-            writeClassData($semester, $year, $sem);
+            writeClassData($trad, $semester, $year, $sem, "");
         }
+        $semester = fetchCurrentSemester($nontrad, $year, $sem);
+        writeClassData($nontrad, $semester, $year, $sem);
     }
 ?>
