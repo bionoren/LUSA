@@ -353,6 +353,10 @@
 
     class Course {
         protected static $ID = 1;
+        //diff - Crs Start, Crs End, Campus
+        //non-traditional keys
+        public static $NON_KEYS = array("Course", "Sec", "Title", "Crs Start", "Crs End", "Professor", "Max Reg", "Cur Reg", "Type", "Days", "Times", "Campus", "Bldg", "Room");
+        //traditional keys
         public static $KEYS = array("ref#", "course", "section", "title", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
         public static $EXPORT = array("course", "section", "days", "start", "end", "title", "prof", "curReg", "maxReg");
         public static $QS = "";
@@ -545,28 +549,14 @@
             $terms = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105&_=");
             preg_match('/"data":\[\{(.+?)\}\]\}/', $terms, $groups);
             $terms = explode(",", $groups[1]);
-            $term = explode(":", $terms[count($terms)-1]);
+            $term = explode(":", $terms[0]);
             $term = substr($term[1], 1, -1);
 
             $course = explode("-", $classID);
             $dep = $course[0];
             $course = $course[1];
 
-            $sections = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=SECTIONS&storeId=10236&demoKey=d&programId=1105&termId=".$term."&divisionName=Traditional&departmentName=".$dep."&courseName=".$course."&_=");
-            preg_match('/"data":\[\{(.+?)\}\]\}/', $sections, $groups);
-            $sections = explode(",", $groups[1]);
-            //this class doesn't believe in books
-            if(strlen($sections[0]) == 0) {
-                return;
-            }
-            $end = strpos($sections[0], '"', 1);
-            $section = substr($sections[0], 1, $end-1);
-
-            $ids = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=COURSE&storeId=10236&demoKey=d&programId=1105&termId=".$term."&divisionName=Traditional&departmentName=".$dep."&courseName=".$course."&sectionName=".$section."&_=");
-            preg_match('/"courseId"\s*:\s*"(.*?)"/', $ids, $groups);
-            $id = $groups[1];
-
-            print '<a href="http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=null&storeId=10236&langId=-1&programId=1105&termId='.$term.'&courseId_1='.$id.'&divisionDisplayName=Traditional&departmentDisplayName='.$dep.'&courseDisplayName='.$course.'&sectionDisplayName='.$section.'&demoKey=d&purpose=browse" target="_new">Get Books</a>';
+            print '<a href="http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=null&storeId=10236&langId=-1&programId=1105&termId='.$term.'&divisionDisplayName=%20&departmentDisplayName='.$dep.'&courseDisplayName='.$course.'&sectionDisplayName=01&demoKey=d&purpose=browse" target="_new">Get Books</a>';
         }
 
         public static function generateQS() {

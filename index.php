@@ -268,11 +268,11 @@
                                     <?php
                                 } ?>
                                 <?php echo $hours?> Credit Hours<br><br>
-                                
-                                
-                                
+
+
+
                                 <a href="index.php?ignore=true" class="button">Clear Classes</a>
-                                
+
                                 <?php if(isset($_REQUEST["submit"])): ?>
                     <?php
                         $clear = "./?semester=".$_REQUEST["semester"];
@@ -287,10 +287,10 @@
                     ?>
                     <a href="<?php print $clear; ?>" class="button">Clear Filters</a>
                 <?php endif; ?>
-                                
+
                         </div><br>
 
-                
+
                 <div class="print-no">
                 <input type="submit" name="submit" value="Update Schedule">
                 </div>
