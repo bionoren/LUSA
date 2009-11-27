@@ -146,171 +146,171 @@
             }
             // -->
         </script>
-</head>
-<body>
-<!--LUSA 2: A Dorm 41 Production-->
-<!--Developed by: Wharf-->
-<!--Design by: Shutter-->
-<!--Lead Tester: Synk-->
-<!--Special thanks to all the 41ers for their suggestions, bug reports, and encouragement!-->
-<div id="container">
-	<div id="header">
-		<h1>LUSA</h1>
-	</div>
-	<div id="body">
-		<div id="semester">
-		<?php print $now; ?>
-		<br>
-        <form method="<?php print $method; ?>" action="./">
-			<select name="semester">
-                <?php
-                    $files = getFileArray();
-                    $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
-                    $semesterStr = $semester[0].' '.$semester[1];
-                    for($i = 0; $i < count($files); $i++) {
-                        $key = $files[$i][0].' '.$files[$i][1];
-                        print '<option value="'.$key.'"';
-                        if($semesterStr == $key) {
-                            print "selected";
+    </head>
+    <body>
+    <!--LUSA 2: A Dorm 41 Production-->
+    <!--Developed by: Wharf-->
+    <!--Design by: Shutter-->
+    <!--Lead Tester: Synk-->
+    <!--Special thanks to all the 41ers for their suggestions, bug reports, and encouragement!-->
+    <div id="container">
+        <div id="header">
+            <h1>LUSA</h1>
+        </div>
+        <div id="body">
+            <div id="semester">
+            <?php print $now; ?>
+            <br>
+            <form method="<?php print $method; ?>" action="./">
+                <select name="semester">
+                    <?php
+                        $files = getFileArray();
+                        $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
+                        $semesterStr = $semester[0].' '.$semester[1];
+                        for($i = 0; $i < count($files); $i++) {
+                            $key = $files[$i][0].' '.$files[$i][1];
+                            print '<option value="'.$key.'"';
+                            if($semesterStr == $key) {
+                                print "selected";
+                            }
+                            print '>'.$names[$files[$i][1]].' '.$files[$i][0].'</option>';
                         }
-                        print '>'.$names[$files[$i][1]].' '.$files[$i][0].'</option>';
+                    ?>
+                </select>
+                <input type="submit" name="submit" value="Change">
+            </form>
+            </div>
+            <br>
+
+            <form method="<?php print $method; ?>" id="form" name="form" action="./">
+                <input type="checkbox" name="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") { print "checked"; } ?>>
+                <?php
+                    if(isset($_REQUEST["cf"])) {
+                        foreach($_REQUEST["cf"] as $val) {
+                            print '<input type="hidden" name="cf[]" value="'.$val.'">';
+                        }
+                    }
+                    if(isset($_REQUEST["sf"])) {
+                        foreach($_REQUEST["sf"] as $val) {
+                            print '<input type="hidden" name="sf[]" value="'.$val.'">';
+                        }
                     }
                 ?>
-            </select>
-            <input type="submit" name="submit" value="Change">
-        </form>
-        </div>
-        <br>
+                Show bookstore links
+                <br>
+                <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
+                <?php
+                    if(isset($_REQUEST["submit"]) && empty($errors)) {
+                        if(count($courses) > 0) {
+                            $schedules = findSchedules($courses, $_REQUEST["sf"]);
 
-        <form method="<?php print $method; ?>" id="form" name="form" action="./">
-            <input type="checkbox" name="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") { print "checked"; } ?>>
-            <?php
-                if(isset($_REQUEST["cf"])) {
-                    foreach($_REQUEST["cf"] as $val) {
-                        print '<input type="hidden" name="cf[]" value="'.$val.'">';
-                    }
-                }
-                if(isset($_REQUEST["sf"])) {
-                    foreach($_REQUEST["sf"] as $val) {
-                        print '<input type="hidden" name="sf[]" value="'.$val.'">';
-                    }
-                }
-            ?>
-            Show bookstore links
-            <br>
-            <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
-            <?php
-                if(isset($_REQUEST["submit"]) && empty($errors)) {
-                    if(count($courses) > 0) {
-                        $schedules = findSchedules($courses, $_REQUEST["sf"]);
+                            if(isset($_REQUEST["total"])) {
+                                $total = $_REQUEST["total"];
+                                print '<input type="hidden" name="total" value="'.$total.'">';
+                            } else {
+                                print '<input type="hidden" name="total" value="'.count($schedules).'">';
+                                $total = count($schedules);
+                            }
 
-                        if(isset($_REQUEST["total"])) {
-                            $total = $_REQUEST["total"];
-                            print '<input type="hidden" name="total" value="'.$total.'">';
-                        } else {
-                            print '<input type="hidden" name="total" value="'.count($schedules).'">';
-                            $total = count($schedules);
-                        }
-
-                        if(is_array($schedules)) {
-                            Schedule::displayCommon($total)."<br>";
-                            if(count($schedules) > 1) {
+                            if(is_array($schedules)) {
+                                Schedule::displayCommon($total)."<br>";
+                                if(count($schedules) > 1) {
+                                    displaySchedules($schedules, $total);
+                                }
+                            } else {
+                                //believe it or not, this also does error handling
                                 displaySchedules($schedules, $total);
                             }
-                        } else {
-                            //believe it or not, this also does error handling
-                            displaySchedules($schedules, $total);
                         }
                     }
-                }
-            ?>
-            <div class="leftcol print-no">
-                        <?php
-                            //class hash
-                            //crc32 is fast and should be good enough here to distinguish different class sets,
-                            //and it keeps the url small
-                            if(array_key_exists("choice", $_REQUEST)) {
-                                print '<input type="hidden" name="ch" value="'.crc32(implode($_REQUEST["choice"])).'">';
-                            }
-                            $hours = 0;
-                            $classGroups = implode("", $classGroups);
-                            for($i=0; $i < $NUM_CLASSES; $i++) {
-                                if(isset($_REQUEST["class"][$i])) {
-                                    $tmp = str_replace(">".$_REQUEST["class"][$i], ' selected="selected">'.$_REQUEST["class"][$i], $classGroups);
-                                } else {
-                                    $tmp = $classGroups;
-                                }
-                                ?>
-                                <select name="class[]" onchange="selectChange(this, choice<?php echo $i?>);"><option value="0">----</option><?php echo $tmp?></select>
-                                <select id="choice<?php echo $i?>" name="choice[]">
-                                <?php
-                                $populated = false;
-                                if(!empty($_REQUEST["choice"][$i])) {
-                                    foreach($classes[$_REQUEST["class"][$i]] as $key=>$value) {
-                                        if(substr($key, strlen($key)-3) == "lab")
-                                            continue;
-                                        print '<option value="'.$key.'"';
-                                        if($_REQUEST["choice"][$i] == $key) {
-                                            print ' selected="selected"';
-                                            $hours += substr($key, 8);
-                                            $populated = $key;
-                                        }
-                                        print '>'.$value.'</option>';
-                                    }
-                                }
-                                ?>
-                                </select>
-                                <?php
-                                    if($populated !== false && $_REQUEST["showBooks"] == "on") {
-                                        print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
-                                    }
-                                    if($errors[$i]):
-                                ?>
-                                    <font color="red">Sorry, this class is not offered this semester</font>
-                                <?php endif;?>
-                                <br>
-                                <?php
-                            } ?>
-                            <?php echo $hours?> credit hours<br>
-                            <a href="index.php?ignore=true">Clear Classes</a>
-                    </div>
-                    <div class="rightcol print-no" style="text-align:right;">
-                        <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg" alt="LUSA"></a>
-                        <br>
-                            <em>Student Edition</em>
-                    </div>
-                    <div class="clear"></div>
-
-			<?php if(isset($_REQUEST["submit"])): ?>
-			<div class="print-no">
-                <?php
-                    $clear = "./?semester=".$_REQUEST["semester"];
-                    for($i = 0; $i < $NUM_CLASSES; $i++) {
-                        if(!empty($_REQUEST["choice"][$i])) {
-                            $clear .= "&amp;class[]=".$_REQUEST["class"][$i]."&amp;choice[]=".$_REQUEST["choice"][$i];
-                        } else {
-                            $clear .= "&amp;class[]=0";
-                        }
-                    }
-                    $clear .= "&amp;submit=Filter";
                 ?>
-                <a href="<?php print $clear; ?>">Clear Filters</a>
+                <div class="leftcol print-no">
+                            <?php
+                                //class hash
+                                //crc32 is fast and should be good enough here to distinguish different class sets,
+                                //and it keeps the url small
+                                if(array_key_exists("choice", $_REQUEST)) {
+                                    print '<input type="hidden" name="ch" value="'.crc32(implode($_REQUEST["choice"])).'">';
+                                }
+                                $hours = 0;
+                                $classGroups = implode("", $classGroups);
+                                for($i=0; $i < $NUM_CLASSES; $i++) {
+                                    if(isset($_REQUEST["class"][$i])) {
+                                        $tmp = str_replace(">".$_REQUEST["class"][$i], ' selected="selected">'.$_REQUEST["class"][$i], $classGroups);
+                                    } else {
+                                        $tmp = $classGroups;
+                                    }
+                                    ?>
+                                    <select name="class[]" onchange="selectChange(this, choice<?php echo $i?>);"><option value="0">----</option><?php echo $tmp?></select>
+                                    <select id="choice<?php echo $i?>" name="choice[]">
+                                    <?php
+                                    $populated = false;
+                                    if(!empty($_REQUEST["choice"][$i])) {
+                                        foreach($classes[$_REQUEST["class"][$i]] as $key=>$value) {
+                                            if(substr($key, strlen($key)-3) == "lab")
+                                                continue;
+                                            print '<option value="'.$key.'"';
+                                            if($_REQUEST["choice"][$i] == $key) {
+                                                print ' selected="selected"';
+                                                $hours += substr($key, 8);
+                                                $populated = $key;
+                                            }
+                                            print '>'.$value.'</option>';
+                                        }
+                                    }
+                                    ?>
+                                    </select>
+                                    <?php
+                                        if($populated !== false && $_REQUEST["showBooks"] == "on") {
+                                            print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
+                                        }
+                                        if($errors[$i]):
+                                    ?>
+                                        <font color="red">Sorry, this class is not offered this semester</font>
+                                    <?php endif;?>
+                                    <br>
+                                    <?php
+                                } ?>
+                                <?php echo $hours?> credit hours<br>
+                                <a href="index.php?ignore=true">Clear Classes</a>
+                        </div>
+                        <div class="rightcol print-no" style="text-align:right;">
+                            <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg" alt="LUSA"></a>
+                            <br>
+                                <em>Student Edition</em>
+                        </div>
+                        <div class="clear"></div>
+
+                <?php if(isset($_REQUEST["submit"])): ?>
+                <div class="print-no">
+                    <?php
+                        $clear = "./?semester=".$_REQUEST["semester"];
+                        for($i = 0; $i < $NUM_CLASSES; $i++) {
+                            if(!empty($_REQUEST["choice"][$i])) {
+                                $clear .= "&amp;class[]=".$_REQUEST["class"][$i]."&amp;choice[]=".$_REQUEST["choice"][$i];
+                            } else {
+                                $clear .= "&amp;class[]=0";
+                            }
+                        }
+                        $clear .= "&amp;submit=Filter";
+                    ?>
+                    <a href="<?php print $clear; ?>">Clear Filters</a>
+                    <br>
+                    </div>
+                <?php endif; ?>
+                <div class="print-no">
                 <br>
+                <input type="submit" name="submit" value="Update Schedule">
                 </div>
-            <?php endif; ?>
-            <div class="print-no">
-            <br>
-            <input type="submit" name="submit" value="Update Schedule">
-            </div>
-        </form>
-	</div>
-	<div id="footer">
-		<ul>
-            <li><b>To register for classes log into <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">my.letu.edu</a> and select "Web Services - Student"</b></li>
-			<li><b>Please remember that LUSA does <strong style="color:red;">not</strong> register you for classes</b></li>
-			<li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>)...</li>
-		</ul>
-	</div>
-</div>
-</body>
+            </form>
+        </div>
+        <div id="footer">
+            <ul>
+                <li><b>To register for classes log into <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">my.letu.edu</a> and select "Web Services - Student"</b></li>
+                <li><b>Please remember that LUSA does <strong style="color:red;">not</strong> register you for classes</b></li>
+                <li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>)...</li>
+            </ul>
+        </div>
+    </div>
+    </body>
 </html>
