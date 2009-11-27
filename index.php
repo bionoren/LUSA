@@ -24,15 +24,7 @@
             header("Location:./?".$_COOKIE["lastSchedule"]);
         }
     }
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<title>LUSA SE</title>
-<link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
-<link rel="stylesheet" type="text/css" href="print.css" media="print">
-<?php
+
     //for those of you wondering why this number is so high, I know an aviation major taking 11 classes next semester.
 	$NUM_CLASSES = 15;
     //the limit is in apache at ~4000 characters by my analysis
@@ -94,6 +86,13 @@
 	}
     //find possible schedules
 ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <title>LUSA SE</title>
+        <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
+        <link rel="stylesheet" type="text/css" href="print.css" media="print">
         <script type="text/javascript">
             <!--
             <?php
