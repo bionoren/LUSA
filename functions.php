@@ -486,15 +486,15 @@
         public function display($total, $filterable=false) {
             //>5 seats left
             if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
-                $color = 'rgb(136, 255, 136)';
+                $status = 'status-open';
             } elseif($this->getMaxRegistered()-$this->getCurrentRegistered() <= 5 && (int)$this->getMaxRegistered() > (int)$this->getCurrentRegistered()) {
             //<5 seats left
-                $color = 'rgb(255, 255, 136)';
+                $status = 'status-close';
             } else {
             //no seats left
-                $color = 'rgb(255, 136, 136)';
+                $status = 'status-full';
             }
-            print '<tr style="background-color:'.$color.';">';
+            print '<tr class="'.$status.'">';
                 if($filterable) {
                     $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter&amp;total='.$total;
                     print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a></td>';

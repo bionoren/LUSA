@@ -147,22 +147,19 @@
             // -->
         </script>
     </head>
-    <body>
-    <!--LUSA 2: A Dorm 41 Production-->
-    <!--Developed by: Wharf-->
-    <!--Design by: Shutter-->
-    <!--Lead Tester: Synk-->
-    <!--Special thanks to all the 41ers for their suggestions, bug reports, and encouragement!-->
-    <div id="container">
-        <div id="header">
-            <h1>LUSA</h1>
-        </div>
-        <div id="body">
-            <div id="semester">
-            <?php print $now; ?>
-            <br>
-            <form method="<?php print $method; ?>" action="./">
-                <select name="semester">
+<body>
+<!--LUSA 2: A Dorm 41 Production-->
+<!--Developed by: Wharf-->
+<!--Design by: Shutter-->
+<!--Lead Tester: Synk-->
+<!--Special thanks to all the 41ers for their suggestions, bug reports, and encouragement!-->
+<form method="<?php print $method; ?>" id="form" name="form" action="./">
+<div id="container">
+  <div id="header">
+    <h1>LUSA</h1>
+    <ul id="options">
+      <li class="first">
+                <select name="semester" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?semester=' + escape(this.value) + '&submit=Change'">
                     <?php
                         $files = getFileArray();
                         $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
@@ -177,13 +174,14 @@
                         }
                     ?>
                 </select>
-                <input type="submit" name="submit" value="Change">
-            </form>
-            </div>
-            <br>
-
-            <form method="<?php print $method; ?>" id="form" name="form" action="./">
-                <input type="checkbox" name="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") { print "checked"; } ?>>
+      </li>
+      <li>
+        <input type="checkbox" name="showBooks" id="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") print "checked"; ?>>
+        <label for="showBooks">Bookstore Links</label>
+      </li>
+    </ul>
+  </div>
+  <div id="body">
                 <?php
                     if(isset($_REQUEST["cf"])) {
                         foreach($_REQUEST["cf"] as $val) {
@@ -196,8 +194,6 @@
                         }
                     }
                 ?>
-                Show bookstore links
-                <br>
                 <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
                 <?php
                     if(isset($_REQUEST["submit"]) && empty($errors)) {
@@ -223,8 +219,8 @@
                             }
                         }
                     }
-                ?>
-                <div class="leftcol print-no">
+                ?><br>
+                <div class="print-no">
                             <?php
                                 //class hash
                                 //crc32 is fast and should be good enough here to distinguish different class sets,
@@ -271,18 +267,13 @@
                                     <br>
                                     <?php
                                 } ?>
-                                <?php echo $hours?> credit hours<br>
-                                <a href="index.php?ignore=true">Clear Classes</a>
-                        </div>
-                        <div class="rightcol print-no" style="text-align:right;">
-                            <a href="http://www.letu.edu/academics/catalog/" target="_new"><img src="splash2.jpg" alt="LUSA"></a>
-                            <br>
-                                <em>Student Edition</em>
-                        </div>
-                        <div class="clear"></div>
-
-                <?php if(isset($_REQUEST["submit"])): ?>
-                <div class="print-no">
+                                <?php echo $hours?> Credit Hours<br><br>
+                                
+                                
+                                
+                                <a href="index.php?ignore=true" class="button">Clear Classes</a>
+                                
+                                <?php if(isset($_REQUEST["submit"])): ?>
                     <?php
                         $clear = "./?semester=".$_REQUEST["semester"];
                         for($i = 0; $i < $NUM_CLASSES; $i++) {
@@ -294,23 +285,23 @@
                         }
                         $clear .= "&amp;submit=Filter";
                     ?>
-                    <a href="<?php print $clear; ?>">Clear Filters</a>
-                    <br>
-                    </div>
+                    <a href="<?php print $clear; ?>" class="button">Clear Filters</a>
                 <?php endif; ?>
+                                
+                        </div><br>
+
+                
                 <div class="print-no">
-                <br>
                 <input type="submit" name="submit" value="Update Schedule">
                 </div>
-            </form>
         </div>
         <div id="footer">
             <ul>
-                <li><b>To register for classes log into <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">my.letu.edu</a> and select "Web Services - Student"</b></li>
-                <li><b>Please remember that LUSA does <strong style="color:red;">not</strong> register you for classes</b></li>
-                <li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>)...</li>
+                <li>Remember that LUSA does not register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">log into MyLetu to register for classes</a>.</li>
+                <li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>).</li>
             </ul>
         </div>
-    </div>
-    </body>
+</div>
+</form>
+</body>
 </html>
