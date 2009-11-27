@@ -28,7 +28,7 @@
 					dump($name."[$key]", $val, $member);
 				else {
                     if($member == null) {
-    					print $name."[".$key."] = $val<br>";
+    					print $name."[".$key."] = ".$val."<br>";
                     } else {
                         print $name."[".$key."] = ".$val->{$member}()."<br>";
                     }
@@ -207,23 +207,23 @@
 	}
 
 	function displaySchedules($schedules, $total) {
-		if(is_array($schedules)) {
-            print "<br>";
-			print '<table class="full border">';
-				if($total != count($schedules)) {
-					print '<tr><td>Showing '.count($schedules).' of '.$total.' possible ways to take your other classes</td></tr>';
-				} else {
-    				print '<tr><td>There are '.count($schedules).' possible ways to take the rest of your classes</td></tr>';
-				}
-				foreach($schedules as $schedule) {
-					print '<tr><td style="border:0px;">';
-                        $schedule->display($total);
-                    print '</td></tr>';
-				}
-			print '</table>';
-		} else {
-			print '<font color="red">Sorry, '.$schedules.'</font><br>';
-		}
+		if(is_array($schedules)):?>
+            <br>
+			<table class="full border">
+				<?php if($total != count($schedules)):?>
+					<tr><td>Showing <?php echo count($schedules)?> of <?php $total?> possible ways to take your other classes</td></tr>
+				<?php else:?>
+    				<tr><td>There are <?php echo count($schedules)?> possible ways to take the rest of your classes</td></tr>
+				<?php endif;?>
+				<?php foreach($schedules as $schedule):?>
+					<tr><td style="border:0px;">
+                        <?php $schedule->display($total)?>
+                    </td></tr>
+				<?php endforeach;?>
+			</table>
+		<?php else:?>
+			<font color="red">Sorry, <?php echo $schedules ?></font><br>
+		<?php endif;
 	}
 
     class Schedule {
