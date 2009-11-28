@@ -159,6 +159,10 @@
     <h1>LUSA</h1>
     <ul id="options">
       <li class="first">
+        Traditional: <input type="radio" name="type" value="trad" checked="checked">
+        Non-Traditional: <input type="radio" name="type" value="non">
+      </li>
+      <li>
                 <select name="semester" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?semester=' + escape(this.value) + '&submit=Change'">
                     <?php
                         $files = getFileArray();
