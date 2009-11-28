@@ -38,13 +38,13 @@
     //do you want to teach at some other obscure hour?
     $hours = array(7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10);
 
+    //print the shell of the schedule sheet
     print '<table border="1" cellspacing="0"><tr><td></td>';
     foreach($days as $day) {
         print '<td width="100">'.$day.'</td>';
     }
     print '</tr>';
 
-    //print the shell of the schedule sheet
     foreach($hours as $hour) {
         print '<tr><td valign="top" height="50">'.$hour.':00</td>';
         foreach($days as $dayKey=>$day) {
@@ -62,7 +62,6 @@
     //$time is ##:##x
     function yFromTime($time) {
         $offset = -317;
-        //print "time = $time<br>";
         return $time*50+$offset;
     }
 
@@ -72,14 +71,11 @@
             if($class->getDays() & $nums[$i]) {
                 $start = yFromTime($class->getStartTime());
                 $end = yFromTime($class->getEndTime());
-                //print $class->getStartTime()." - ".$class->getEndTime()."<br>";
-                //print "$start - $end<br>";
                 print '<div style="position:absolute; top:'.$start.'; left:'.xFromDay($i).'; width:98; height:'.($end-$start).'; overflow:visible;';
                 print 'background-color:yellow; border-color:yellow; border-style:solid; border-width:2px;">';
                 print '<span style=\'font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif; font-size: 0.8em;\'>';
                 print str_replace("/", " ", $class->getTitle()."<br>");
                 print "</span>";
-                //print $class->displayTime($class->getStartTime())." - ".$class->displayTime($class->getEndTime())."<br>";
                 print '</div>';
             }
         }
