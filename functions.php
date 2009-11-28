@@ -14,10 +14,6 @@
 	 */
 
 
-    //WARNING
-    //This does not handle online classes. Basically, they always conflict with everything, because they are interpreted as
-    //lasting all day, every day, forever and ever amen.
-
 	//DEBUGGING FUNCTIONS
 	function dump($name, $array, $member=null) {
 		if(!is_array($array)) {
@@ -260,6 +256,9 @@
             $ret = "";
             for($i = 0; $i < count($this->classes)-1; $i++) {
                 $class1 = $this->classes[$i];
+                if($class1->isOnline()) {
+                    continue;
+                }
                 for($j = $i+1; $j < count($this->classes); $j++) {
                     $class2 = $this->classes[$j];
                     if(isDayOverlap($class1, $class2)) {
@@ -382,6 +381,8 @@
         protected $currentRegistered;
         protected $maxRegisterable;
         protected $campus;
+        protected $trad;
+        protected $type;
 
         public function __construct(array $dataArray) {
             $this->id = Course::$ID++;
@@ -401,11 +402,14 @@
                 $this->startDay = 1;
                 $this->endDay = 364;
                 $this->campus = "MAIN";
+                $this->trad = true;
             } else {
                 $this->startDay = $dataArray["start"];
                 $this->endDay = $dataArray["end"];
                 $this->campus = $dataArray["campus"];
+                $this->trad = false;
             }
+            $this->type = $dataArray["type"];
         }
 
         protected function convertTime($timestr) {
@@ -424,6 +428,9 @@
         }
 
         public function displayTime($time) {
+            if($this->isOnline()) {
+                return "-";
+            }
             if($time == "TBA")
                 return $time;
             //separate hours and minutes
@@ -493,6 +500,10 @@
             return $this->maxRegisterable;
         }
 
+        public function isOnline() {
+            return $this->type == "OL";
+        }
+
         public function display($total, $filterable=false) {
             //>5 seats left
             if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
@@ -521,6 +532,9 @@
         }
 
         function dayString() {
+            if($this->isOnline()) {
+                return "online";
+            }
             $temp = array("S", "M", "T", "W", "R", "F", "S");
             $nums = array(1, 2, 4, 8, 16, 32, 64);
             $ret = "";
