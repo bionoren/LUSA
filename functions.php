@@ -43,14 +43,17 @@
         setcookie("lastSchedule", $data, time()+60*60*24*7*8);
     }
 
-    function getCurrentSemester($year=null, $semester=null) {
+    function getCurrentSemester($year=null, $semester=null, $trad) {
         //get the current class schedule from LeTourneau
-		if(!file_exists($year.$semester.".txt")) {
+        if(!$trad) {
+            $prefix = "non";
+        }
+		if(!file_exists($prefix.$year.$semester.".txt")) {
             //send the user back after 5 seconds
             print '<script language="javascript">setTimeout("history.back()",5000);</script>';
             die("There is no data available for $semester $year");
         }
-        $file = fopen($year.$semester.".txt", "r");
+        $file = fopen($prefix.$year.$semester.".txt", "r");
         $title = fgets($file);
         fclose($file);
         return $title;
@@ -84,11 +87,14 @@
         return $files;
     }
 
-	function getClassData($year, $semester) {
-		if(!file_exists($year.$semester.".txt")) {
+	function getClassData($year, $semester, $trad) {
+        if(!$trad) {
+            $prefix = "non";
+        }
+		if(!file_exists($prefix.$year.$semester.".txt")) {
             die("There is no data available for $semester $year");
         }
-        $file = fopen($year.$semester.".txt", "r");
+        $file = fopen($prefix.$year.$semester.".txt", "r");
         $classes = array();
         fgets($file); //burn the title
         while(!feof($file)) {

@@ -36,7 +36,7 @@
     } else {
         $semester = explode(" ", $_REQUEST["semester"]);
     }
-    $now = getCurrentSemester($semester[0], $semester[1]);
+    $now = getCurrentSemester($semester[0], $semester[1], $_REQUEST["type"] != "non");
 
     //if the class hash changed, we need to unset the schedule filter array (sf[])
     //we keep the class filters, since if you didn't want it before, ... why would you want it now?
@@ -54,7 +54,7 @@
     }
 
     //generate select option values for display later
-	foreach(getClassData($semester[0], $semester[1]) as $class) {
+	foreach(getClassData($semester[0], $semester[1], $_REQUEST["type"] != "non") as $class) {
         if(isset($classFilter[$class->getID()])) {
             continue;
         }
@@ -159,8 +159,8 @@
     <h1>LUSA</h1>
     <ul id="options">
       <li class="first">
-        Traditional: <input type="radio" name="type" value="trad" checked="checked">
-        Non-Traditional: <input type="radio" name="type" value="non">
+        Traditional: <input type="radio" name="type" value="trad" <?php if(!isset($_REQUEST["type"]) || $_REQUEST["type"] == "trad") { print 'checked="checked"'; } ?>>
+        Non-Traditional: <input type="radio" name="type" value="non" <?php if(isset($_REQUEST["type"]) && $_REQUEST["type"] == "non") { print 'checked="checked"'; } ?>>
       </li>
       <li>
                 <select name="semester" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?semester=' + escape(this.value) + '&submit=Change'">
