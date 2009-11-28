@@ -92,7 +92,7 @@
         $classes = array();
         fgets($file); //burn the title
         while(!feof($file)) {
-            $classes[] = new Course(array_combine(Course::$EXPORT, explode("$$", fgets($file))));
+            $classes[] = unserialize(fgets($file));
         }
         fclose($file);
         return $classes;
@@ -355,10 +355,9 @@
         protected static $ID = 1;
         //diff - Crs Start, Crs End, Campus
         //non-traditional keys
-        public static $NON_KEYS = array("Course", "Sec", "Title", "Crs Start", "Crs End", "Professor", "Max Reg", "Cur Reg", "Type", "Days", "Times", "Campus", "Bldg", "Room");
+        public static $NON_KEYS = array("course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "campus", "bldg", "room");
         //traditional keys
         public static $KEYS = array("ref#", "course", "section", "title", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
-        public static $EXPORT = array("course", "section", "days", "start", "end", "title", "prof", "curReg", "maxReg");
         public static $QS = "";
 
         protected $id;
@@ -367,6 +366,8 @@
         protected $days;
         protected $startTime;
         protected $endTime;
+        protected $startDay;
+        protected $endDay;
         protected $title;
         protected $prof;
         protected $currentRegistered;
@@ -390,6 +391,15 @@
             $this->maxRegisterable = $dataArray["maxReg"];
             if(empty($this->currentRegistered)) {
                 $this->currentRegistered = 0;
+            }
+            if(!isset($dataArray["start"])) {
+                $this->startDay = 1;
+                $this->endDay = 364;
+                $this->campus = "MAIN";
+            } else {
+                $this->startDay = $dataArray["start"];
+                $this->endDay = $dataArray["end"];
+                $this->campus = $dataArray["campus"];
             }
         }
 
@@ -530,11 +540,6 @@
 
         public function isEmpty() {
             return $this->getDays() > 0;
-        }
-
-        public function export() {
-            return array($this->courseID, $this->section, $this->days, $this->startTime, $this->endTime, $this->title,
-                $this->prof, $this->currentRegistered, $this->maxRegisterable);
         }
 
         public function getID() {

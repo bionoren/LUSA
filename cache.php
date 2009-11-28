@@ -47,7 +47,11 @@
 		//seperate out each class
 		$classes = preg_split("/\<\/tr\>\<tr.*?\>/is", $courseSchedule);
 		//type: lb = lab, lc = class, ol = online
-		$keys = Course::$KEYS;
+		if($prefix == "non") {
+            $keys = Course::$NON_KEYS;
+        } else {
+            $keys = Course::$KEYS;
+        }
 		$classData = array();
 		foreach($classes as $val) {
             $classInfo = array();
@@ -95,7 +99,7 @@
         fwrite($file, $title."\n");
 		for($i = 0; $i < count($classData); $i++) {
             if(is_object($class)) {
-                fwrite($file, implode("$$", $classData[$i]->export()));
+                fwrite($file, serialize($classData[$i]));
                 if($i+1 < count($classData))
                     fwrite($file, "\n");
             }
