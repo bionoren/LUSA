@@ -84,7 +84,6 @@
 
             if(empty($sections["prof"])) {
                 $classInfo = $class->mergeLabWithClass($sections);
-                print "here!<br>";
             } else {
                 $classInfo = $sections;
             }

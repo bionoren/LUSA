@@ -388,13 +388,8 @@
             $this->courseID = $dataArray["course"];
             $this->section = $dataArray["section"];
             $this->days = $dataArray["days"];
-            if(array_key_exists("start", $dataArray)) {
-                $this->startTime = $dataArray["start"];
-                $this->endTime = $dataArray["end"];
-            } else {
-                $this->startTime = $this->convertTime($dataArray["times"][0]);
-                $this->endTime = $this->convertTime($dataArray["times"][1]);
-            }
+            $this->startTime = $this->convertTime($dataArray["times"][0]);
+            $this->endTime = $this->convertTime($dataArray["times"][1]);
             $this->title = $dataArray["title"];
             $this->prof = $dataArray["prof"];
             $this->currentRegistered = $dataArray["curReg"];
