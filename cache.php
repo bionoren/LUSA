@@ -15,6 +15,10 @@
 
     require_once("functions.php");
 
+    function func($val) {
+        return trim(substr($val, 1, strlen($val)-3));
+    }
+
     function fetchCurrentSemester($file, $year=2009, $semester="FA", $prefix="non") {
         //get the current class schedule from LeTourneau
 		if(!empty($year) && !empty($semester)) {
@@ -61,37 +65,30 @@
             $sections = $sections[0];
 
 			//evaluate and store each portion of a class' information
-			foreach($sections as $key2=>$val2) {
-				if(count($sections) < 11) { //handle labs
-					$key2 += 12-count($sections);
-				}
-				$val2 = trim(substr($val2, 1, strlen($val2)-3));
-				if($key2 == 8) {
-					$tmp = str_split($val2);
-                    $temp = 0;
-					for($i = 0; $i < count($tmp); $i++) {
-                        if($tmp[$i] != "-")
-    						$temp += pow(2, $i);
-					}
-					$val2 = $temp;
-				}
-				if($key2 == 9) {
-					$val2 = explode("-", $val2);
-				}
-				$classInfo[$keys[$key2]] = $val2;
-			}
+            $sections = array_map(func, $sections);
+            if(count($keys) != count($sections)) {
+                $class = $classData[count($classData)-1];
+                $sections = array_pad($sections, -count($keys), 0);
+                $sections = array_combine($keys, $sections);
+            } else {
+                $sections = array_combine($keys, $sections);
+            }
+            $tmp = str_split($sections["days"]);
+            $temp = 0;
+            for($i = 0; $i < count($tmp); $i++) {
+                if($tmp[$i] != "-")
+                    $temp += pow(2, $i);
+            }
+            $sections["days"] = $temp;
+            $sections["times"] = explode("-", $sections["times"]);
+
+            if(empty($sections["prof"])) {
+                $classInfo = $class->mergeLabWithClass($sections);
+                print "here!<br>";
+            } else {
+                $classInfo = $sections;
+            }
             $class = new Course($classInfo);
-
-            //handle labs
-			if(count($sections) < 11) {
-                //merge this lab into the last class listed
-                $class->mergeLabWithClass($classData[count($classData)-1]);
-			}
-
-            //classes with labs can get duplicated. Remove the duplicates.
-            if(count($classData) > 1 && $class->equal($classData[count($classData)-2]))
-                $classData[count($classData)-2] = null;
-
             $classData[] = $class;
 		}
 

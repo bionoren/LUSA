@@ -24,9 +24,12 @@
 			print "$name = $array<br>";
 		} else {
 			foreach($array as $key=>$val) {
-				if(is_array($val))
-					dump($name."[$key]", $val, $member);
-				else {
+				if(is_array($val)) {
+                    if($member == null)
+    					dump($name."[$key]", $val, $member);
+                    else
+                        dump($name."[$key]", $val);
+                } else {
                     if($member == null) {
     					print $name."[".$key."] = ".$val."<br>";
                     } else {
@@ -378,6 +381,7 @@
         protected $prof;
         protected $currentRegistered;
         protected $maxRegisterable;
+        protected $campus;
 
         public function __construct(array $dataArray) {
             $this->id = Course::$ID++;
@@ -446,25 +450,16 @@
         }
 
         //fills in the mising data of this lab with the given class information
-        public function mergeLabWithClass(Course $class) {
-            if(empty($this->courseID))
-                $this->courseID = $class->getCourseID()." lab";
-            if(empty($this->section))
-                $this->section = $class->getSection();
-            if(empty($this->days))
-                $this->days = $class->getDays();
-            if(empty($this->startTime))
-                $this->startTime = $class->getStartTime();
-            if(empty($this->endTime))
-                $this->endTime = $class->getEndTime();
-            if(empty($this->title))
-                $this->title = $class->getTitle()." lab";
-            if(empty($this->prof))
-                $this->prof = $class->getProf();
-            if(empty($this->currentRegistered))
-                $this->currentRegistered = $class->getCurrentRegistered();
-            if(empty($this->maxRegisterable))
-                $this->maxRegisterable = $class->getMaxRegistered();
+        public function mergeLabWithClass(array $class) {
+            //array("course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "campus", "bldg", "room");
+            $class["course"] = $this->courseID." lab";
+            $class["section"] = $this->section;
+            $class["title"] = $this->title." lab";
+            $class["prof"] = $this->prof;
+            $class["curReg"] = $this->currentRegistered;
+            $class["maxReg"] = $this->maxRegisterable;
+            $class["campus"] = $this->campus;
+            return $class;
         }
 
         public function getCourseID() {
