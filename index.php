@@ -159,8 +159,8 @@
     <h1>LUSA</h1>
     <ul id="options">
       <li class="first">
-        Traditional: <input type="radio" name="type" value="trad" <?php if(!isset($_REQUEST["type"]) || $_REQUEST["type"] == "trad") { print 'checked="checked"'; } ?>>
-        Non-Traditional: <input type="radio" name="type" value="non" <?php if(isset($_REQUEST["type"]) && $_REQUEST["type"] == "non") { print 'checked="checked"'; } ?>>
+        Traditional: <input type="radio" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?>>
+        Non-Traditional: <input type="radio" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?>>
       </li>
       <li>
                 <select name="semester" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?semester=' + escape(this.value) + '&submit=Change'">

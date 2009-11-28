@@ -37,6 +37,10 @@
 	}
 
 	//FUNCTIONS
+    function isTraditional() {
+        return isset($_REQUEST["type"]) && $_REQUEST["type"] == "trad";
+    }
+
     function save_cookie($data) {
         //set for ~2 months
         setcookie("lastSchedule", $data, time()+60*60*24*7*8);
@@ -287,19 +291,69 @@
             return dechex($this->id);
         }
 
+        protected function showTraditionalHeaders($common=false) {
+            if($common) {
+                ?>
+                <th colspan="2">Class</th>
+                <th>Prof</th>
+                <th>Days</th>
+                <th>Time</th>
+                <th>Section</th>
+                <th>Registered/Size</th>
+                <?php
+            } else {
+                ?>
+                <th style="width:10%;"></th>
+                <th style="width:30%;" colspan="2">Class</th>
+                <th style="width:10%;">Prof</th>
+                <th style="width:10%;">Days</th>
+                <th style="width:20%;">Time</th>
+                <th style="width:10%;">Section</th>
+                <th style="width:10%;">Registered/Size</th>
+                <?php
+            }
+        }
+
+        protected function showNonTraditionalHeaders($common=false) {
+            if($common) {
+                ?>
+                <th colspan="2">Class</th>
+                <th>Prof</th>
+                <th>Dates</th>
+                <th>Days</th>
+                <th>Time</th>
+                <th>Section</th>
+                <th>Campus</th>
+                <th>Registered/Size</th>
+                <?php
+            } else {
+                ?>
+                <th style="width:7%;"></th>
+                <th style="width:30%;" colspan="2">Class</th>
+                <th style="width:10%;">Prof</th>
+                <th style="width:12%;">Dates</th>
+                <th style="width:10%;">Days</th>
+                <th style="width:13%;">Time</th>
+                <th style="width:6%;">Section</th>
+                <th style="width:6%;">Campus</th>
+                <th style="width:10%;">Registered/Size</th>
+                <?php
+            }
+        }
+
         public function display($total) {
             $qs = Schedule::getPrintQS($this->classes);
             ?>
           <div class="line"></div>
           <table class="full border">
             <tr>
-              <th style="width:10%;"></th>
-              <th style="width:30%;" colspan="2">Class</th>
-              <th style="width:10%;">Prof</th>
-              <th style="width:10%;">Days</th>
-              <th style="width:20%;">Time</th>
-              <th style="width:10%;">Section</th>
-              <th style="width:10%;">Registered/Size</th>
+              <?php
+                if(isTraditional()) {
+                    $this->showTraditionalHeaders();
+                } else {
+                    $this->showNonTraditionalHeaders();
+                }
+              ?>
             </tr>
             <?php
             Course::generateQS();
@@ -325,12 +379,13 @@
                 <p><a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new">Week View</a></p>
                 <table class="full border">
                   <tr>
-                    <th colspan="2">Class</th>
-                    <th>Prof</th>
-                    <th>Days</th>
-                    <th>Time</th>
-                    <th>Section</th>
-                    <th>Registration/Size</th>
+                    <?php
+                        if(isTraditional()) {
+                            $this->showTraditionalHeaders(true);
+                        } else {
+                            $this->showNonTraditionalHeaders(true);
+                        }
+                    ?>
                   </tr>
                 <?php
                 foreach(Schedule::$common as $class) {
@@ -381,7 +436,6 @@
         protected $currentRegistered;
         protected $maxRegisterable;
         protected $campus;
-        protected $trad;
         protected $type;
 
         public function __construct(array $dataArray) {
@@ -402,14 +456,15 @@
                 $this->startDay = 1;
                 $this->endDay = 364;
                 $this->campus = "MAIN";
-                $this->trad = true;
             } else {
                 $this->startDay = $dataArray["start"];
                 $this->endDay = $dataArray["end"];
                 $this->campus = $dataArray["campus"];
-                $this->trad = false;
             }
             $this->type = $dataArray["type"];
+            if($this->isOnline()) {
+                $this->campus = "online";
+            }
         }
 
         protected function convertTime($timestr) {
@@ -523,9 +578,15 @@
                 print '<td>'.$this->getCourseID().'</td>';
                 print '<td>'.$this->getTitle().'</td>';
                 print '<td>'.$this->getProf().'</td>';
+                if(!isTraditional()) {
+                    print '<td>'.$this->startDay.' - '.$this->endDay.'</td>';
+                }
                 print '<td>'.$this->dayString().'</td>';
                 print '<td>'.$this->displayTime($this->getStartTime()).'-'.$this->displayTime($this->getEndTime()).'</td>';
                 print '<td>'.$this->getSection().'</td>';
+                if(!isTraditional()) {
+                    print '<td>'.$this->campus.'</td>';
+                }
                 print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
             print '</tr>';
             return $ret;
