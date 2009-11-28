@@ -287,6 +287,7 @@
                                 $clear .= "&amp;class[]=0";
                             }
                         }
+                        $clear .= "&amp;type=".$_REQUEST["type"];
                         $clear .= "&amp;submit=Filter";
                     ?>
                     <a href="<?php print $clear; ?>" class="button">Clear Filters</a>

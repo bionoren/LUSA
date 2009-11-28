@@ -216,7 +216,7 @@
             <br>
 			<table class="full border">
 				<?php if($total != count($schedules)):?>
-					<tr><td>Showing <?php echo count($schedules)?> of <?php $total?> possible ways to take your other classes</td></tr>
+					<tr><td>Showing <?php echo count($schedules)?> of <?php print $total; ?> possible ways to take your other classes</td></tr>
 				<?php else:?>
     				<tr><td>There are <?php echo count($schedules)?> possible ways to take the rest of your classes</td></tr>
 				<?php endif;?>
