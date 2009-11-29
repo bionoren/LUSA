@@ -105,8 +105,9 @@
                 print 'var arrItems = new Array();';
                 print "\n";
                 $i = 0;
+                print 'var arrItems = Array();';
                 foreach($classes as $group=>$class) {
-                    print 'var arrItems'.$i.' = Array();';
+                    print 'arrItems['.$i.'] = Array();';
                     print 'arrItems["'.$group.'"] = "'.$i++.'";';
                     print "\n";
                 }
@@ -115,7 +116,7 @@
                     foreach($class as $id=>$title) {
                         if(substr($id, strlen($id)-3) == "lab")
                             continue;
-                        print 'arrItems'.$i.'["'.$id.'"] = "'.$title.'";';
+                        print 'arrItems['.$i.']["'.$id.'"] = "'.$title.'";';
                         print "\n";
                     }
                     $i++;
@@ -141,7 +142,7 @@
                         controlToPopulate.options[q]=null;
                     return;
                 }
-                var foo = eval('arrItems'+group);
+                var foo = arrItems[group];
                 for(x in foo) {
                     myEle = document.createElement("option");
                     myEle.setAttribute("value",x);
