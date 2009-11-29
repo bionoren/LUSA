@@ -306,7 +306,7 @@
             return dechex($this->id);
         }
 
-        protected function showTraditionalHeaders($common=false) {
+        protected static function showTraditionalHeaders($common=false) {
             if($common) {
                 ?>
                 <th colspan="2">Class</th>
@@ -329,7 +329,7 @@
             }
         }
 
-        protected function showNonTraditionalHeaders($common=false) {
+        protected static function showNonTraditionalHeaders($common=false) {
             if($common) {
                 ?>
                 <th colspan="2">Class</th>
@@ -364,9 +364,9 @@
             <tr>
               <?php
                 if(isTraditional()) {
-                    $this->showTraditionalHeaders();
+                    Schedule::showTraditionalHeaders();
                 } else {
-                    $this->showNonTraditionalHeaders();
+                    Schedule::showNonTraditionalHeaders();
                 }
               ?>
             </tr>
@@ -396,9 +396,9 @@
                   <tr>
                     <?php
                         if(isTraditional()) {
-                            $this->showTraditionalHeaders(true);
+                            Schedule::showTraditionalHeaders(true);
                         } else {
-                            $this->showNonTraditionalHeaders(true);
+                            Schedule::showNonTraditionalHeaders(true);
                         }
                     ?>
                   </tr>
