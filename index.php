@@ -26,7 +26,7 @@
     }
 
     //for those of you wondering why this number is so high, I know an aviation major taking 11 classes next semester.
-	$NUM_CLASSES = 15;
+	$NUM_CLASSES = 20;
     //the limit is in apache at ~4000 characters by my analysis
     $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
 
@@ -102,20 +102,20 @@
         <script type="text/javascript">
             <!--
             <?php
-                print 'var arrItems = new Array();';
+                print 'var arrItems = new Hash();';
                 print "\n";
                 foreach($classes as $group=>$class) {
-                    print 'arrItems["'.$group.'"] = new Array();';
+                    print 'arrItems.set("'.$group.'", new Hash());';
                     print "\n";
                     foreach($class as $id=>$title) {
                         if(substr($id, strlen($id)-3) == "lab")
                             continue;
-                        print 'arrItems["'.$group.'"]["'.$id.'"] = "'.$title.'";';
+                        print 'arrItems.get("'.$group.'").set("'.$id.'", "'.$title.'");';
                         print "\n";
                     }
                 }
             ?>
-
+            
             function selectChange(control, controlToPopulate) {
                 // Empty the second drop down box of any choices
                 for(var q=controlToPopulate.options.length; q>=0; q--)
@@ -125,7 +125,7 @@
                 theText = document.createTextNode("----");
                 myEle.appendChild(theText);
                 controlToPopulate.appendChild(myEle);
-                if(arrItems[control.value] == null) {
+                if(arrItems.get(control.value) == null) {
                     //some browsers (read some versions of some browsers) feel obligated to pass
                     //on empty values if a select statement is populated with an empty option
                     //Therefore, we make empty fields truly empty here.
@@ -133,14 +133,13 @@
                         controlToPopulate.options[q]=null;
                     return;
                 }
-                var foo = arrItems[control.value];
-                for(x in foo) {
+                arrItems.get(control.value).each(function(pair) {
                     myEle = document.createElement("option");
-                    myEle.setAttribute("value",x);
-                    var txt = document.createTextNode(foo[x]);
+                    myEle.setAttribute("value", pair.key);
+                    var txt = document.createTextNode(pair.value);
                     myEle.appendChild(txt);
                     controlToPopulate.appendChild(myEle);
-                }
+                });
             }
             // -->
         </script>
@@ -149,6 +148,7 @@
 <!--LUSA 2: A Dorm 41 Production-->
 <!--Developed by: Wharf-->
 <!--Design by: Shutter-->
+<!--JavaScript Voodoo: Fjord-->
 <!--Lead Tester: Synk-->
 <!--Special thanks to all the 41ers for their suggestions, bug reports, and encouragement!-->
 <form method="<?php print $method; ?>" id="form" name="form" action="./">
@@ -247,6 +247,7 @@
                                 }
                                 $hours = 0;
                                 $classGroups = implode("", $classGroups);
+                                $activeSelect = 0;
                                 for($i=0; $i < $NUM_CLASSES; $i++) {
                                     if(isset($_REQUEST["class"][$i])) {
                                         $tmp = str_replace(">".$_REQUEST["class"][$i], ' selected="selected">'.$_REQUEST["class"][$i], $classGroups);
@@ -254,7 +255,8 @@
                                         $tmp = $classGroups;
                                     }
                                     ?>
-                                    <select name="class[]" onchange="selectChange(this, choice<?php echo $i?>);"><option value="0">----</option><?php echo $tmp?></select>
+                                    <div id="classChoice<?php echo $i?>">
+                                    <select name="class[]" onchange="selectChange(this, choice<?php echo $i?>);Element.show('classChoice<?php echo $i+1?>')"><option value="0">----</option><?php echo $tmp?></select>
                                     <select id="choice<?php echo $i?>" name="choice[]">
                                     <?php
                                     $populated = false;
@@ -273,6 +275,9 @@
                                     }
                                     ?>
                                     </select>
+                                    <?php if(empty($_REQUEST["choice"][$i])):?>
+                                    <script type="text/javascript">Element.hide('classChoice<?php echo $i?>');</script>
+                                    <?php else: $activeSelect = $i+1; endif;?>
                                     <?php
                                         if($populated !== false && $_REQUEST["showBooks"] == "on") {
                                             print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
@@ -281,9 +286,10 @@
                                     ?>
                                         <font color="red">Sorry, this class is not offered this semester</font>
                                     <?php endif;?>
-                                    <br>
+                                    </div>
                                     <?php
-                                } ?>
+                                } // foreach ?>
+                                <script type="text/javascript">Element.show('classChoice<?php echo $activeSelect?>');</script>
                                 <?php echo $hours?> Credit Hours<br><br>
 
 
@@ -318,7 +324,7 @@
         </div>
         <div id="footer">
             <ul>
-                <li>Remember that LUSA does not register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">log into MyLetu to register for classes</a>.</li>
+                <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">log into MyLetu to register for classes</a>.</li>
                 <li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>).</li>
             </ul>
         </div>
