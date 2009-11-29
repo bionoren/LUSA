@@ -162,22 +162,35 @@
         Traditional: <input type="radio" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?>>
         Non-Traditional: <input type="radio" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?>>
       </li>
+      <?php if(!isTraditional()) { ?>
+        <li>
+          <select name="campus">
+            <option value="AUS">Austin</option>
+            <option value="BED">Bedford</option>
+            <option value="DAL">Dallas</option>
+            <option value="HOU">Houston</option>
+            <option value="MAIN">Longview</option>
+            <option value="TYL">Tyler</option>
+            <option value="WES">Westchase</option>
+          </select>
+        </li>
+      <?php } ?>
       <li>
-                <select name="semester" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?semester=' + escape(this.value) + '&submit=Change'">
-                    <?php
-                        $files = getFileArray();
-                        $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
-                        $semesterStr = $semester[0].' '.$semester[1];
-                        for($i = 0; $i < count($files); $i++) {
-                            $key = $files[$i][0].' '.$files[$i][1];
-                            print '<option value="'.$key.'"';
-                            if($semesterStr == $key) {
-                                print "selected";
-                            }
-                            print '>'.$names[$files[$i][1]].' '.$files[$i][0].'</option>';
-                        }
-                    ?>
-                </select>
+        <select name="semester" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?semester=' + escape(this.value) + '&submit=Change'">
+            <?php
+                $files = getFileArray();
+                $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
+                $semesterStr = $semester[0].' '.$semester[1];
+                for($i = 0; $i < count($files); $i++) {
+                    $key = $files[$i][0].' '.$files[$i][1];
+                    print '<option value="'.$key.'"';
+                    if($semesterStr == $key) {
+                        print "selected";
+                    }
+                    print '>'.$names[$files[$i][1]].' '.$files[$i][0].'</option>';
+                }
+            ?>
+        </select>
       </li>
       <li>
         <input type="checkbox" name="showBooks" id="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") print "checked"; ?>>
