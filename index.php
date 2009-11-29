@@ -88,11 +88,12 @@
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-        <title>LUSA SE</title>
-        <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
-        <link rel="stylesheet" type="text/css" href="print.css" media="print">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>LUSA SE</title>
+    <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
+    <link rel="stylesheet" type="text/css" href="print.css" media="print">
+    <script type="text/javascript" src="prototype.js"></script>
         <script type="text/javascript">
             <!--
             <?php
@@ -159,13 +160,14 @@
     <h1>LUSA</h1>
     <ul id="options">
       <li class="first">
-        Traditional: <input type="radio" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?>>
-        Non-Traditional: <input type="radio" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?>>
+        <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=trad&amp;semester=' + escape($('semesterSelect').value) + '&amp;submit=Change'"> <label for="typeTraditional">Traditional</label>
+        &nbsp;&nbsp;
+        <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=non&amp;semester=' + escape($('semesterSelect').value) + '&amp;submit=Change'"> <label for="typeNonTraditional">Non-Traditional</label>
       </li>
       <?php if(!isTraditional()) { ?>
         <li>
-          Campus:
-          <select name="campus">
+          <label for="campusSelect">Campus</label>:
+          <select name="campus" id="campusSelect">
             <option value="AUS">Austin</option>
             <option value="BED">Bedford</option>
             <option value="DAL">Dallas</option>
@@ -177,7 +179,7 @@
         </li>
       <?php } ?>
       <li>
-        <select name="semester" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?semester=' + escape(this.value) + '&submit=Change'">
+        <select name="semester" id="semesterSelect" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&amp;semester=' + escape(this.value) + '&amp;submit=Change'">
             <?php
                 $files = getFileArray();
                 $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");

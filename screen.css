@@ -12,7 +12,7 @@ body {
 
 #container {
 	width: 900px;
-	margin: 0 auto;
+	margin: 0 auto 0 auto;
 	padding: 0;
 }
 
@@ -21,18 +21,19 @@ body {
 	padding: 4px 0 4px 0;
 	height: 34px;
 	color: white;
+	width: 100%;
 }
 #container #header h1 {
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 	font-size: 160%;
 	margin: 0;
-	width: 200px;
+	width: 150px;
 	float: left;
 }
 #container #header ul#options {
 	margin: 4px 0 0 0;
 	padding: 0;
-	width: 500px;
+	width: 700px;
 	float: right;
 	text-align: right;
 	list-style-type: none;
@@ -41,11 +42,15 @@ body {
 #container #header ul#options li {
 	display: inline;
 	border-left: 2px solid rgb(94,129,157);
-	padding-left: 5px;
+	padding-left: 8px;
 	margin-left: 5px;
 }
 #container #header ul#options li.first {
 	border-left: none;
+}
+#container #header ul#options li input {
+	margin-left: 0;
+	margin-right: 0;
 }
 
 #container #footer {
