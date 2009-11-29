@@ -104,22 +104,15 @@
             <?php
                 print 'var arrItems = new Array();';
                 print "\n";
-                $i = 0;
-                print 'var arrItems = Array();';
                 foreach($classes as $group=>$class) {
-                    print 'arrItems['.$i.'] = Array();';
-                    print 'arrItems["'.$group.'"] = "'.$i++.'";';
+                    print 'arrItems["'.$group.'"] = new Array();';
                     print "\n";
-                }
-                $i = 0;
-                foreach($classes as $group=>$class) {
                     foreach($class as $id=>$title) {
                         if(substr($id, strlen($id)-3) == "lab")
                             continue;
-                        print 'arrItems['.$i.']["'.$id.'"] = "'.$title.'";';
+                        print 'arrItems["'.$group.'"]["'.$id.'"] = "'.$title.'";';
                         print "\n";
                     }
-                    $i++;
                 }
             ?>
 
@@ -131,10 +124,8 @@
                 var myEle = document.createElement("option");
                 theText = document.createTextNode("----");
                 myEle.appendChild(theText);
-                myEle.setAttribute("value","0");
                 controlToPopulate.appendChild(myEle);
-                var group = arrItems[control.value];
-                if(group == null) {
+                if(arrItems[control.value] == null) {
                     //some browsers (read some versions of some browsers) feel obligated to pass
                     //on empty values if a select statement is populated with an empty option
                     //Therefore, we make empty fields truly empty here.
@@ -142,7 +133,7 @@
                         controlToPopulate.options[q]=null;
                     return;
                 }
-                var foo = arrItems[group];
+                var foo = arrItems[control.value];
                 for(x in foo) {
                     myEle = document.createElement("option");
                     myEle.setAttribute("value",x);
