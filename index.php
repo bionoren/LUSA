@@ -164,6 +164,7 @@
       </li>
       <?php if(!isTraditional()) { ?>
         <li>
+          Campus:
           <select name="campus">
             <option value="AUS">Austin</option>
             <option value="BED">Bedford</option>
