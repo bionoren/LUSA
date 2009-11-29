@@ -181,7 +181,10 @@
 
 	function classSort(Course $class1, Course $class2) {
         //if the classes aren't even on the same days, sort by days
-		if(!isDayOverlap($class1, $class2)) {
+		if(!isDateOverlap($class1, $class2)) {
+            return dateSort($class1, $class2);
+        }
+        if(!isDayOverlap($class1, $class2)) {
 			return daySort($class1, $class2);
 		}
         return timeSort($class1, $class2);
@@ -197,6 +200,10 @@
 	function daySort(Course $class1, Course $class2) {
 		return $class2->getDays() - $class1->getDays();
 	}
+
+    function dateSort(Course $class1, Course $class2) {
+        return $class1->getStartDate() - $class2->getStartDate();
+    }
 
 	function checkTimeConflict(Course $class1, Course $class2) {
 		$start1 = $class1->getStartTime();
@@ -214,6 +221,12 @@
 	function isDayOverlap(Course $class1, Course $class2) {
         return ((int)$class1->getDays() & (int)$class2->getDays()) > 0;
 	}
+
+    function isDateOverlap(Course $class1, Course $class2) {
+        if($class1->getEndDate() < $class2->getStartDate() || $class2->getEndDate() < $class1->getStartDate())
+            return false;
+        return true;
+    }
 
 	function displaySchedules($schedules, $total) {
 		if(is_array($schedules)):?>
@@ -265,10 +278,12 @@
                 }
                 for($j = $i+1; $j < count($this->classes); $j++) {
                     $class2 = $this->classes[$j];
-                    if(isDayOverlap($class1, $class2)) {
-                        $tmp = checkTimeConflict($class1, $class2);
-                        if($tmp !== false) {
-                            $ret .= $tmp."<br>";
+                    if(isDateOverlap($class1, $class2)) {
+                        if(isDayOverlap($class1, $class2)) {
+                            $tmp = checkTimeConflict($class1, $class2);
+                            if($tmp !== false) {
+                                $ret .= $tmp."<br>";
+                            }
                         }
                     }
                     if(substr_compare($class1->getCourseID(), $class2->getCourseID(), 0, 9) == 0
@@ -453,18 +468,25 @@
                 $this->currentRegistered = 0;
             }
             if(!isset($dataArray["start"])) {
-                $this->startDay = 1;
-                $this->endDay = 364;
+                $this->startDay = time();
+                $this->endDay = time()+60*60*24*30*3;
                 $this->campus = "MAIN";
             } else {
-                $this->startDay = $dataArray["start"];
-                $this->endDay = $dataArray["end"];
+                $this->startDay = $this->getDateStamp($dataArray["start"]);
+                $this->endDay = $this->getDateStamp($dataArray["end"]);
                 $this->campus = $dataArray["campus"];
             }
             $this->type = $dataArray["type"];
             if($this->isOnline()) {
                 $this->campus = "online";
             }
+        }
+
+        protected function getDateStamp($date) {
+            if(empty($date))
+                return time();
+            $date = explode("/", $date);
+            return mktime(1,1,1, $date[0], $date[1], $date[2]);
         }
 
         protected function convertTime($timestr) {
@@ -539,6 +561,14 @@
             return $this->endTime;
         }
 
+        public function getStartDate() {
+            return $this->startDay;
+        }
+
+        public function getEndDate() {
+            return $this->endDay;
+        }
+
         public function getTitle() {
             return $this->title;
         }
@@ -579,7 +609,7 @@
                 print '<td>'.$this->getTitle().'</td>';
                 print '<td>'.$this->getProf().'</td>';
                 if(!isTraditional()) {
-                    print '<td>'.$this->startDay.' - '.$this->endDay.'</td>';
+                    print '<td>'.date("n/j/y", $this->startDay).' - '.date("n/j/y", $this->endDay).'</td>';
                 }
                 print '<td>'.$this->dayString().'</td>';
                 print '<td>'.$this->displayTime($this->getStartTime()).'-'.$this->displayTime($this->getEndTime()).'</td>';
