@@ -38,7 +38,7 @@
 
 	//FUNCTIONS
     function isTraditional() {
-        return isset($_REQUEST["type"]) && $_REQUEST["type"] == "trad";
+        return !isset($_REQUEST["type"]) || $_REQUEST["type"] == "trad";
     }
 
     function save_cookie($data) {
