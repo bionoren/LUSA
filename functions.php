@@ -90,7 +90,7 @@
         return $files;
     }
 
-	function getClassData($year, $semester, $trad) {
+	function getClassData($year, $semester, $trad, $campus) {
         if(!$trad) {
             $prefix = "non";
         }
@@ -101,7 +101,10 @@
         $classes = array();
         fgets($file); //burn the title
         while(!feof($file)) {
-            $classes[] = unserialize(fgets($file));
+            $class = unserialize(fgets($file));
+            if($class->isOnline() || $class->getCampus() == $campus) {
+                $classes[] = $class;
+            }
         }
         fclose($file);
         return $classes;
@@ -583,6 +586,10 @@
 
         public function getMaxRegistered() {
             return $this->maxRegisterable;
+        }
+
+        public function getCampus() {
+            return $this->campus;
         }
 
         public function isOnline() {

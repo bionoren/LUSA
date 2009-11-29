@@ -1,4 +1,0 @@
-checkboxes next to class selection to quickly compare schedules?
-put email link in page
-
-talk to mark roedel (IT, familiar with PHP)?

@@ -53,8 +53,13 @@
         $classFilter = null;
     }
 
+    if(isset($_REQUEST["campus"])) {
+        $campus = $_REQUEST["campus"];
+    } else {
+        $campus = "MAIN";
+    }
     //generate select option values for display later
-	foreach(getClassData($semester[0], $semester[1], $_REQUEST["type"] != "non") as $class) {
+	foreach(getClassData($semester[0], $semester[1], $_REQUEST["type"] != "non", $campus) as $class) {
         if(isset($classFilter[$class->getID()])) {
             continue;
         }
@@ -160,21 +165,21 @@
     <h1>LUSA</h1>
     <ul id="options">
       <li class="first">
-        <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=trad&amp;semester=' + escape($('semesterSelect').value) + '&amp;submit=Change'"> <label for="typeTraditional">Traditional</label>
+        <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=trad&amp;semester=' + escape($('semesterSelect').value) + '&amp;ignore=true'"> <label for="typeTraditional">Traditional</label>
         &nbsp;&nbsp;
-        <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=non&amp;semester=' + escape($('semesterSelect').value) + '&amp;submit=Change'"> <label for="typeNonTraditional">Non-Traditional</label>
+        <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=non&amp;semester=' + escape($('semesterSelect').value) + '&amp;ignore=true'"> <label for="typeNonTraditional">Non-Traditional</label>
       </li>
       <?php if(!isTraditional()) { ?>
         <li>
-          <label for="campusSelect">Campus</label>:
-          <select name="campus" id="campusSelect">
-            <option value="AUS">Austin</option>
-            <option value="BED">Bedford</option>
-            <option value="DAL">Dallas</option>
-            <option value="HOU">Houston</option>
-            <option value="MAIN">Longview</option>
-            <option value="TYL">Tyler</option>
-            <option value="WES">Westchase</option>
+          <select name="campus">
+            <option value="AUS" <?php if($_REQUEST["campus"] == "AUS") print "selected"; ?>>Austin</option>
+            <option value="BED" <?php if($_REQUEST["campus"] == "BED") print "selected"; ?>>Bedford</option>
+            <option value="DAL" <?php if($_REQUEST["campus"] == "DAL") print "selected"; ?>>Dallas</option>
+            <option value="HOU" <?php if($_REQUEST["campus"] == "HOU") print "selected"; ?>>Houston</option>
+            <option value="MAIN" <?php if(!isset($_REQUEST["campus"]) || $_REQUEST["campus"] == "MAIN") print "selected"; ?>>Longview</option>
+            <option value="TYL" <?php if($_REQUEST["campus"] == "TYL") print "selected"; ?>>Tyler</option>
+            <option value="WES" <?php if($_REQUEST["campus"] == "WES") print "selected"; ?>>Westchase</option>
+            <option value="ONL" <?php if($_REQUEST["campus"] == "ONL") print "selected"; ?>>Online</option>
           </select>
         </li>
       <?php } ?>
@@ -304,6 +309,9 @@
                             }
                         }
                         $clear .= "&amp;type=".$_REQUEST["type"];
+                        if(isset($_REQUEST["campus"])) {
+                            $clear .= "&amp;campus=".$_REQUEST["campus"];
+                        }
                         $clear .= "&amp;submit=Filter";
                     ?>
                     <a href="<?php print $clear; ?>" class="button">Clear Filters</a>
