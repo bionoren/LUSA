@@ -226,6 +226,7 @@
                             }
 
                             if(is_array($schedules)) {
+                            	?><h2>Schedule</h2><?php
                                 Schedule::displayCommon($total)."<br>";
                                 if(count($schedules) > 1) {
                                     displaySchedules($schedules, $total);
@@ -238,6 +239,7 @@
                     }
                 ?><br>
                 <div class="print-no">
+                <h2>Selected Classes</h2>
                             <?php
                                 //class hash
                                 //crc32 is fast and should be good enough here to distinguish different class sets,
