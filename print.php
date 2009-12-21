@@ -13,6 +13,14 @@
 	 *	limitations under the License.
 	 */
 
+    function debug() {
+        $msg = "GET: ".var_export($_GET);
+        $msg .= "SERVER: ".var_export($_SERVER);
+        $msg .= "ENV: ".var_export($_ENV);
+        $msg .= "COOKIE: ".var_export($_COOKIE);
+        mail("bionoren@letu.edu", "IE8 BUG", $msg);
+    }
+
     #Div layers are the answer! Just create functions that map days to x position and hours to y position
     require_once("functions.php");
     $tmp = explode("&", $_SERVER["QUERY_STRING"]);
@@ -68,6 +76,13 @@
     $nums = array(1, 2, 4, 8, 16, 32, 64);
     foreach($classes as $class) {
         for($i = 0; $i < count($nums); $i++) {
+            if(!is_object($class)) {
+                debug();
+                print "If you are using IE8, I'm pretty sure you just encountered a memory issue with the preprocesor which the IE8 team has ";
+                print "decided \"has no impact on the end-user's experience with the web application\". http://stackoverflow.com/questions/835130/ie-8-dropping-memory-pages<br>";
+                print "But, just in case there is actually something that can be done about this, an email was just sent sent the developer about this problem.<br>";
+                die("Sorry, apparently the IE team doesn't think you're schedule is worth seeing. Better luck next time.");
+            }
             if($class->getDays() & $nums[$i]) {
                 $start = yFromTime($class->getStartTime());
                 $end = yFromTime($class->getEndTime());
