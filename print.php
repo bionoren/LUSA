@@ -14,10 +14,11 @@
 	 */
 
     function debug() {
-        $msg = "GET: ".var_export($_GET);
-        $msg .= "SERVER: ".var_export($_SERVER);
-        $msg .= "ENV: ".var_export($_ENV);
-        $msg .= "COOKIE: ".var_export($_COOKIE);
+        return;
+        $msg = "GET: ".var_export($_GET, true);
+        $msg .= "SERVER: ".var_export($_SERVER, true);
+        $msg .= "ENV: ".var_export($_ENV, true);
+        $msg .= "COOKIE: ".var_export($_COOKIE, true);
         mail("bionoren@letu.edu", "IE8 BUG", $msg);
     }
 

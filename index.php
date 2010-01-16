@@ -108,14 +108,14 @@
                     print 'arrItems.set("'.$group.'", new Hash());';
                     print "\n";
                     foreach($class as $id=>$title) {
-                        if(substr($id, strlen($id)-3) == "lab")
+                        if(substr($id, -3) == "lab")
                             continue;
                         print 'arrItems.get("'.$group.'").set("'.$id.'", "'.$title.'");';
                         print "\n";
                     }
                 }
             ?>
-            
+
             function selectChange(control, controlToPopulate) {
                 // Empty the second drop down box of any choices
                 for(var q=controlToPopulate.options.length; q>=0; q--)
@@ -150,6 +150,7 @@
 <!--Design by: Shutter-->
 <!--JavaScript Voodoo: Fjord-->
 <!--Lead Tester: Synk-->
+<!--This code hates Tom Kelley-->
 <!--Special thanks to all the 41ers for their suggestions, bug reports, and encouragement!-->
 <form method="<?php print $method; ?>" id="form" name="form" action="./">
 <div id="container">

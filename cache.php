@@ -28,7 +28,8 @@
 
         $matches = array();
         preg_match("/name=\"target_term\".+?<option[^\>]*?SELECTED.*?>([^\<]+?)<\/option>/is", $courseSchedule, $matches);
-        return $matches[1];
+        $ret = explode(" ", $matches[1]);
+        return strtoupper(substr($ret[0], 0, 2)).$ret[1];
     }
 
 	function writeClassData($file, $title, $year, $semester, $prefix="non") {
@@ -107,18 +108,16 @@
 	}
 
     $files = getFileArray(false);
-    $lastSemester = "";
     $trad = "http://www.letu.edu/academics/course-sched/index.html";
     $nontrad = "http://www.letu.edu/academics/course-sched/nontrad.html";
     for($i = 0; $i < count($files); $i++) {
         $year = $files[$i][0];
         $sem = $files[$i][1];
         $semester = fetchCurrentSemester($trad, $year, $sem, "");
-        if($semester == $lastSemester) {
-            break;
-        } else {
-            $lastSemester = $semester;
+        if($semester == $sem.$year) {
             writeClassData($trad, $semester, $year, $sem, "");
+        } else {
+            continue;
         }
         $semester = fetchCurrentSemester($nontrad, $year, $sem);
         writeClassData($nontrad, $semester, $year, $sem);
