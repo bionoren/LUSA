@@ -24,10 +24,10 @@
 
     #Div layers are the answer! Just create functions that map days to x position and hours to y position
     require_once("functions.php");
-    $tmp = explode("&", $_SERVER["QUERY_STRING"]);
+    $tmp = explode("&amp;", bzdecompress(base64_decode($_SERVER["QUERY_STRING"])));
     foreach($tmp as $key=>$class) {
         if(!empty($class)) {
-            $classes[$key] = unserialize(base64_decode($class));
+            $classes[$key] = unserialize($class);
         }
     }
     //add chapel
@@ -88,7 +88,7 @@
                 $start = yFromTime($class->getStartTime());
                 $end = yFromTime($class->getEndTime());
                 print '<div style="position:absolute; top:'.$start.'; left:'.xFromDay($i).'; width:98; height:'.($end-$start).'; overflow:visible;';
-                print 'background-color:yellow; border-color:yellow; border-style:solid; border-width:2px;">';
+                print 'background-color:yellow; border-color:rgb(43, 175, 160); border-style:solid; border-width:2px;">';
                 print '<span style=\'font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif; font-size: 0.8em;\'>';
                 print str_replace("/", " ", $class->getTitle()."<br>");
                 print "</span>";

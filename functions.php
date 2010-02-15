@@ -418,9 +418,10 @@
         public static function getPrintQS($classes=null) {
             $ret = '';
             foreach($classes as $class) {
-                $ret .= base64_encode(serialize($class))."&amp;";
+                $ret .= serialize($class)."&amp;";
             }
-            return substr($ret, 0, strlen($ret)-1);
+            $ret = base64_encode(bzcompress(substr($ret, 0, strlen($ret)-1)));
+            return $ret;
         }
 
         public function getClasses() {
