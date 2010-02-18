@@ -418,9 +418,9 @@
         public static function getPrintQS($classes=null) {
             $ret = '';
             foreach($classes as $class) {
-                $ret .= serialize($class)."&amp;";
+                $ret .= $class->getPrintQS()."&amp;";
             }
-            $ret = base64_encode(bzcompress(substr($ret, 0, strlen($ret)-1)));
+            $ret = substr($ret, 0, strlen($ret)-5);
             return $ret;
         }
 
@@ -671,6 +671,10 @@
             $course = $course[1];
 
             print '<a href="http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=null&storeId=10236&langId=-1&programId=1105&termId='.$term.'&divisionDisplayName=%20&departmentDisplayName='.$dep.'&courseDisplayName='.$course.'&sectionDisplayName=01&demoKey=d&purpose=browse" target="_blank">Get Books</a>';
+        }
+
+        public function getPrintQS() {
+            return implode("::", array($this->days,$this->startTime,$this->endTime,$this->title));
         }
 
         public static function generateQS() {

@@ -24,23 +24,18 @@
 
     #Div layers are the answer! Just create functions that map days to x position and hours to y position
     require_once("functions.php");
-    $tmp = explode("&amp;", bzdecompress(base64_decode($_SERVER["QUERY_STRING"])));
-    foreach($tmp as $key=>$class) {
-        if(!empty($class)) {
-            $classes[$key] = unserialize($class);
-        }
+    $tmp = explode("&", $_SERVER["QUERY_STRING"]);
+    $classes = array();
+    foreach($tmp as $class) {
+        $classes[] = explode("::", $class);
     }
     //add chapel
-    $dataArray["course"] = "LETU-1111";
-    $dataArray["section"] = "01";
-    $dataArray["days"] = 2+8+32;
-    $dataArray["times"][0] = "10:50a";
-    $dataArray["times"][1] = "11:30a";
-    $dataArray["title"] = "Chapel";
-    $dataArray["prof"] = "Chaplain Carl";
-    $dataArray["curReg"] = "0";
-    $dataArray["maxReg"] = "10000";
-    $classes["chapel"] = new Course($dataArray);
+    $tmp = array();
+    $tmp[] = 2+8+32;
+    $tmp[] = "10.83333333333";
+    $tmp[] = "11.5";
+    $tmp[] = "Chapel";
+    $classes[] = $tmp;
 
     //surely we'll never have class on Sunday...
     $days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
@@ -77,20 +72,13 @@
     $nums = array(1, 2, 4, 8, 16, 32, 64);
     foreach($classes as $class) {
         for($i = 0; $i < count($nums); $i++) {
-            if(!is_object($class)) {
-                debug();
-                print "If you are using IE8, I'm pretty sure you just encountered a memory issue with the preprocesor which the IE8 team has ";
-                print "decided \"has no impact on the end-user's experience with the web application\". http://stackoverflow.com/questions/835130/ie-8-dropping-memory-pages<br>";
-                print "But, just in case there is actually something that can be done about this, an email was just sent sent the developer about this problem.<br>";
-                die("Sorry, apparently the IE team doesn't think you're schedule is worth seeing. Better luck next time.");
-            }
-            if($class->getDays() & $nums[$i]) {
-                $start = yFromTime($class->getStartTime());
-                $end = yFromTime($class->getEndTime());
+            if($class[0] & $nums[$i]) {
+                $start = yFromTime($class[1]);
+                $end = yFromTime($class[2]);
                 print '<div style="position:absolute; top:'.$start.'; left:'.xFromDay($i).'; width:98; height:'.($end-$start).'; overflow:visible;';
                 print 'background-color:yellow; border-color:rgb(43, 175, 160); border-style:solid; border-width:2px;">';
                 print '<span style=\'font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif; font-size: 0.8em;\'>';
-                print str_replace("/", " ", $class->getTitle()."<br>");
+                print str_replace("/", " ", urldecode($class[3])."<br>");
                 print "</span>";
                 print '</div>';
             }
