@@ -386,7 +386,7 @@
             }
             ?></table>
             <div class="leftcol"><a href="print.php?<?php echo $qs?>" target="_new">Week View</a></div>
-          <div class="rightcol" style="text-align:right;"><label for="keep<?php echo $this->getID()?>">Remove this schedule:</label> <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" id="keep<?php echo $this->getID()?>"></div>
+<!--          <div class="rightcol" style="text-align:right;"><label for="keep<?php echo $this->getID()?>">Remove this schedule:</label> <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" id="keep<?php echo $this->getID()?>"></div>-->
             <?php
         }
 
