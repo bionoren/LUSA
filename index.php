@@ -13,6 +13,8 @@
 	 *	limitations under the License.
 	 */
 
+    require_once("Course.php");
+    require_once("Schedule.php");
     require_once("functions.php");
 
     //whatever happens, cookie stuff comes first
@@ -37,12 +39,6 @@
         $semester = explode(" ", $_REQUEST["semester"]);
     }
     $now = getCurrentSemester($semester[0], $semester[1], $_REQUEST["type"] != "non");
-
-    //if the class hash changed, we need to unset the schedule filter array (sf[])
-    //we keep the class filters, since if you didn't want it before, ... why would you want it now?
-    if(array_key_exists("sf", $_REQUEST) && crc32(implode($_REQUEST["choice"])) != $_REQUEST["ch"]) {
-        unset($_REQUEST["sf"]);
-    }
 
 	$classGroups = array();
     $classes = array();
@@ -69,9 +65,7 @@
 		$courseTitleNumbers[$class->getCourseID()][] = $class;
 	}
     //alphabetize the class list
-    foreach($classes as &$array) {
-        asort($array);
-    }
+    array_multisort($classes);
 
 	if(isset($_REQUEST["submit"]) && isset($_REQUEST["choice"])) {
         $_REQUEST["class"] = array_values(array_filter($_REQUEST["class"]));
@@ -206,17 +200,12 @@
                             print '<input type="hidden" name="cf[]" value="'.$val.'">';
                         }
                     }
-                    if(isset($_REQUEST["sf"])) {
-                        foreach($_REQUEST["sf"] as $val) {
-                            print '<input type="hidden" name="sf[]" value="'.$val.'">';
-                        }
-                    }
                 ?>
                 <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
                 <?php
                     if(isset($_REQUEST["submit"]) && empty($errors)) {
                         if(count($courses) > 0) {
-                            $schedules = findSchedules($courses, $_REQUEST["sf"]);
+                            $schedules = findSchedules($courses);
 
                             if(isset($_REQUEST["total"])) {
                                 $total = $_REQUEST["total"];
@@ -242,12 +231,6 @@
                 <div class="print-no">
                 <h2>Selected Classes</h2>
                             <?php
-                                //class hash
-                                //crc32 is fast and should be good enough here to distinguish different class sets,
-                                //and it keeps the url small
-                                if(array_key_exists("choice", $_REQUEST)) {
-                                    print '<input type="hidden" name="ch" value="'.crc32(implode($_REQUEST["choice"])).'">';
-                                }
                                 $hours = 0;
                                 $classGroups = implode("", $classGroups);
                                 $activeSelect = 0;
@@ -331,7 +314,7 @@
                 <li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>).</li>
             </ul>
         </div>
-</div>
-</form>
-</body>
+      </div>
+    </form>
+  </body>
 </html>

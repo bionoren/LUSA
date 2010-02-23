@@ -13,17 +13,9 @@
 	 *	limitations under the License.
 	 */
 
-    function debug() {
-        return;
-        $msg = "GET: ".var_export($_GET, true);
-        $msg .= "SERVER: ".var_export($_SERVER, true);
-        $msg .= "ENV: ".var_export($_ENV, true);
-        $msg .= "COOKIE: ".var_export($_COOKIE, true);
-        mail("bionoren@letu.edu", "IE8 BUG", $msg);
-    }
+    require_once("functions.php");
 
     #Div layers are the answer! Just create functions that map days to x position and hours to y position
-    require_once("functions.php");
     $tmp = explode("&", $_SERVER["QUERY_STRING"]);
     $classes = array();
     foreach($tmp as $class) {
