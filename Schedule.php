@@ -129,7 +129,7 @@
             <?php
         }
 
-        public static function displayCommon($total) {
+        public static function displayCommon($total, array $optionClasses=null) {
             if(count(Schedule::$common) != 0):
                 ?>
                 <p>These are the only times you can take these classes:</p>
@@ -147,6 +147,18 @@
                 <?php
                     foreach(Schedule::$common as $class) {
                         print $class->display($total);
+                    }
+
+                    if(!empty($optionClasses)) {
+                        print "<tr><td style='border-bottom-color:black;' colspan='7'>";
+                        print "These classes have some options:";
+                        print "</td></tr>";
+                    }
+                    foreach($optionClasses as $key=>$sections) {
+                        print "<tr><td>- ".$key."</td><td colspan='6'>".$sections[0]->getTitle()."</td></tr>";
+                        foreach($sections as $section) {
+                            print $section->display($total, true, true);
+                        }
                     }
                 ?>
                 </table>

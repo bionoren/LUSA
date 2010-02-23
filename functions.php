@@ -114,10 +114,13 @@
 	function findSchedules(array $courses) {
         //add course information for all the courses to be taken
         //classes with only one section must be common
+        $classOptions = array();
         foreach($courses as $i=>$sections) {
             if(count($sections) == 1) {
                 Schedule::$common[] = $sections[0];
                 unset($courses[$i]);
+            } else {
+                $classOptions[substr($sections[0], 0, -3)] = $sections;
             }
         }
         if(count($courses) == 0) {
@@ -167,8 +170,12 @@
                 break;
             }
         }
+        $tmp = array_diff($common, Schedule::$common);
+        foreach($tmp as $class) {
+            unset($classOptions[substr($class, 0, -3)]);
+        }
         Schedule::$common = array_merge(Schedule::$common, $common);
-		return $schedules;
+		return array($schedules, $classOptions);
 	}
 
 	function classSort(Course $class1, Course $class2) {

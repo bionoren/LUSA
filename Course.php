@@ -163,7 +163,7 @@
             return $this->type == "OL";
         }
 
-        public function display($total, $filterable=false) {
+        public function display($total, $filterable=false, $optional=false) {
             //>5 seats left
             if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
                 $status = 'status-open';
@@ -179,8 +179,12 @@
                     $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter&amp;total='.$total;
                     print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a></td>';
                 }
-                print '<td>'.$this->getCourseID().'</td>';
-                print '<td>'.$this->getTitle().'</td>';
+                if(!$optional) {
+                    print '<td>'.$this->getCourseID().'</td>';
+                    print '<td>'.$this->getTitle().'</td>';
+                } else {
+                    print "<td></td>";
+                }
                 print '<td>'.$this->getProf().'</td>';
                 if(!isTraditional()) {
                     print '<td>'.date("n/j/y", $this->startDay).' - '.date("n/j/y", $this->endDay).'</td>';
@@ -219,10 +223,6 @@
 
         public function getID() {
             return dechex($this->id);
-        }
-
-        public function __toString() {
-            return $this->getCourseID()."-".$this->getSection();
         }
 
         public static function displayBookStoreLink($classID) {
@@ -270,6 +270,10 @@
             if($this->getTitle() != $class->getTitle())
                 return false;
             return true;
+        }
+
+        public function __toString() {
+            return $this->getCourseID()."-".$this->getSection();
         }
     }
 ?>

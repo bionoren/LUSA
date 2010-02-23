@@ -206,7 +206,9 @@
                     if(isset($_REQUEST["submit"]) && empty($errors)) {
                         if(count($courses) > 0) {
                             //find possible schedules
-                            $schedules = findSchedules($courses);
+                            $data = findSchedules($courses);
+                            $schedules = $data[0];
+                            $optionClasses = $data[1];
 
                             if(isset($_REQUEST["total"])) {
                                 $total = $_REQUEST["total"];
@@ -218,12 +220,12 @@
 
                             if(is_array($schedules)) {
                             	?><h2>Schedule</h2><?php
-                                Schedule::displayCommon($total)."<br>";
+                                Schedule::displayCommon($total, $optionClasses)."<br>";
                                 if(count($schedules) > 1) {
                                     displaySchedules($schedules, $total);
                                 }
                             } else {
-                                //believe it or not, this also does error handling
+                                //believe it or not, this does error handling
                                 displaySchedules($schedules, $total);
                             }
                         }
