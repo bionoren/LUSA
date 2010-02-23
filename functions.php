@@ -138,11 +138,8 @@
         while(true) {
             $classes = array();
             foreach($courses as $i=>$sections) {
-                $class = $sections[$indexes[$i]];
-                $classes[] = $class;
+                $classes[] = $sections[$indexes[$i]];
             }
-            //for each course, if the index for this course is less than the max section index, shift it
-            //also handles rollover for previous indicies
             $temp = new Schedule($classes);
             $valid = $temp->isValid();
             if($valid === true) {
@@ -150,16 +147,17 @@
             } else {
                 $conflict = $valid;
             }
-            for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
+            for($i = 0; ++$indexes[$i] == count($courses[$i]); $i) {
                 $indexes[$i++] = 0;
                 //this exits the loop
-                if($i == count($courses)) break 2;
+                if($i == count($courses)) {
+                    break 2;
+                }
             }
         }
         if(count($schedules) == 0) {
             return $conflict;
         }
-        //die(dump("filters", $filters));
 
         //find classes that could have had options, but only one works
         $common = array_diff($schedules[0]->getClasses(), Schedule::$common);
@@ -170,7 +168,6 @@
             }
         }
         Schedule::$common = array_merge(Schedule::$common, $common);
-        //dump("classes", $courses);
 		return $schedules;
 	}
 

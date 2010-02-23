@@ -55,7 +55,8 @@
         $campus = "MAIN";
     }
     //generate select option values for display later
-	foreach(getClassData($semester[0], $semester[1], $_REQUEST["type"] != "non", $campus) as $class) {
+    $data = getClassData($semester[0], $semester[1], $_REQUEST["type"] != "non", $campus);
+	foreach($data as $class) {
         if(isset($classFilter[$class->getID()])) {
             continue;
         }
@@ -83,7 +84,6 @@
             }
 		}
 	}
-    //find possible schedules
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -205,6 +205,7 @@
                 <?php
                     if(isset($_REQUEST["submit"]) && empty($errors)) {
                         if(count($courses) > 0) {
+                            //find possible schedules
                             $schedules = findSchedules($courses);
 
                             if(isset($_REQUEST["total"])) {

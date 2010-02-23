@@ -7,16 +7,7 @@
 
         public function __construct(array $classes) {
             $this->id = Schedule::$ID++;
-            foreach($classes as $class) {
-                $this->addClass($class);
-            }
-            foreach(Schedule::$common as $class) {
-                $this->addClass($class);
-            }
-        }
-
-        protected function addClass(Course $class) {
-            $this->classes[] = $class;
+            $this->classes = array_merge(Schedule::$common, $classes);
         }
 
         public function isValid() {
