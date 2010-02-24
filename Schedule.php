@@ -153,6 +153,7 @@
                         print "<tr><td style='border-bottom-color:black;' colspan='7'>";
                         print "These classes have some options:";
                         print "</td></tr>";
+                        Course::generateQS();
                     }
                     foreach($optionClasses as $key=>$sections) {
                         print "<tr onclick='".Schedule::createJSToggle($sections)."'><td>+ ".$key."</td><td colspan='6'>".$sections[0]->getTitle()."</td></tr>";
