@@ -14,6 +14,7 @@
 	 */
 
     require_once("functions.php");
+    require_once("Course.php");
 
     function func($val) {
         return trim(substr($val, 1, strlen($val)-3));
@@ -54,11 +55,13 @@
 		//type: lb = lab, lc = class, ol = online
 		if($prefix == "non") {
             $keys = Course::$NON_KEYS;
-        } else {
+        } elseif($semester != "SU") {
             $keys = Course::$KEYS;
+        } else {
+            $keys = Course::$KEYS_SUMMER;
         }
 		$classData = array();
-		foreach($classes as $val) {
+        foreach($classes as $val) {
             $classInfo = array();
 			//break up the class into it's bits of information
 			$sections = array();
@@ -70,10 +73,9 @@
             if(count($keys) != count($sections)) {
                 $class = $classData[count($classData)-1];
                 $sections = array_pad($sections, -count($keys), 0);
-                $sections = array_combine($keys, $sections);
-            } else {
-                $sections = array_combine($keys, $sections);
+
             }
+            $sections = array_combine($keys, $sections);
             $tmp = str_split($sections["days"]);
             $temp = 0;
             for($i = 0; $i < count($tmp); $i++) {

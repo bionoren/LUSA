@@ -309,7 +309,7 @@
 
                 <div class="print-no">
                 <input type="submit" name="submit" value="Update Schedule">
-                </div>
+            </div>
         </div>
         <div id="footer">
             <ul>

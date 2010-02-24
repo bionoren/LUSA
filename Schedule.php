@@ -155,7 +155,7 @@
                         print "</td></tr>";
                     }
                     foreach($optionClasses as $key=>$sections) {
-                        print "<tr><td>- ".$key."</td><td colspan='6'>".$sections[0]->getTitle()."</td></tr>";
+                        print "<tr onclick='".Schedule::createJSToggle($sections)."'><td>+ ".$key."</td><td colspan='6'>".$sections[0]->getTitle()."</td></tr>";
                         foreach($sections as $section) {
                             print $section->display($total, true, true);
                         }
@@ -164,6 +164,15 @@
                 </table>
 			<?php
             endif;
+        }
+
+        protected static function createJSToggle($sections) {
+            $ret = "";
+            $state = "visible";
+            foreach($sections as $section) {
+                $ret .= '$("'.$section->getID().'").style.visibility = "'.$state.'";';
+            }
+            return $ret;
         }
 
         public static function getPrintQS($classes=null) {

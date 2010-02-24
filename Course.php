@@ -6,6 +6,7 @@
         public static $NON_KEYS = array("course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "campus", "bldg", "room");
         //traditional keys
         public static $KEYS = array("ref#", "course", "section", "title", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
+        public static $KEYS_SUMMER = array("ref#", "course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
         public static $QS = "";
 
         protected $id;
@@ -37,7 +38,7 @@
             if(empty($this->currentRegistered)) {
                 $this->currentRegistered = 0;
             }
-            if(!isset($dataArray["start"])) {
+            if(isset($dataArray["ref#"])) {
                 $this->startDay = time();
                 $this->endDay = time()+60*60*24*30*3;
                 $this->campus = "MAIN";
@@ -174,7 +175,11 @@
             //no seats left
                 $status = 'status-full';
             }
-            print '<tr class="'.$status.'">';
+            print '<tr id="'.$this->getID().'" class="'.$status.'"';
+            if($optional) {
+                print 'style="visibility:collapse;"';
+            }
+            print '>';
                 if($filterable) {
                     $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter&amp;total='.$total;
                     print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a></td>';

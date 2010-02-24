@@ -110,7 +110,6 @@
 	}
 
     //filters the master class list down to the courses we're interested in and organizes the data into something parsable by evaluateSchedules()
-    //just as a warning, this method took a lot of thought, but it really does work. Good luck...
 	function findSchedules(array $courses) {
         //add course information for all the courses to be taken
         //classes with only one section must be common
@@ -127,7 +126,7 @@
             $temp = new Schedule(array());
             $valid = $temp->isValid();
             if($valid === true) {
-                return array();
+                return array(array(), array());
             } else {
                 return $valid;
             }
@@ -243,7 +242,7 @@
 				<?php endforeach;?>
 			</table>
 		<?php else:?>
-			<font color="red">Sorry, <?php echo $schedules ?></font><br>
+			<font color="red">Sorry, <?php print $schedules ?></font><br>
 		<?php endif;
 	}
 ?>
