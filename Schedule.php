@@ -4,10 +4,12 @@
         public static $common = array();
         protected $id;
         protected $classes;
+        protected $uniqueClasses;
 
         public function __construct(array $classes) {
             $this->id = Schedule::$ID++;
             $this->classes = array_merge(Schedule::$common, $classes);
+            $this->uniqueClasses = $classes;
         }
 
         public function isValid() {
@@ -153,7 +155,7 @@
                         print "</td></tr>";
                     }
                     foreach($optionClasses as $key=>$sections) {
-                        print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".$sections[0]->getTitle()."</td></tr>";
+                        print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()."</td></tr>";
                         foreach($sections as $section) {
                             print $section->display($total, true, true);
                         }
@@ -166,7 +168,7 @@
 
         protected static function createJSToggle(array $sections, $key) {
             $ret = 'state = "visible";';
-            $ret .= 'if($("'.$sections[0]->getID().'").style.visibility == "visible") { state = "collapse"; }';
+            $ret .= 'if($("'.current($sections)->getID().'").style.visibility == "visible") { state = "collapse"; }';
             $ret .= 'if(state == "visible") { $("'.$key.'").innerHTML = "-"; } else { $("'.$key.'").innerHTML = "+"; }';
             foreach($sections as $section) {
                 $ret .= '$("'.$section->getID().'").style.visibility = state;';
@@ -185,6 +187,10 @@
 
         public function getClasses() {
             return $this->classes;
+        }
+
+        public function getUniqueClasses() {
+            return $this->uniqueClasses;
         }
 
         public function __toString() {
