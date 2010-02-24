@@ -165,6 +165,9 @@
         }
 
         public function display($total, $filterable=false, $optional=false) {
+            if(empty(Course::$QS)) {
+                Course::generateQS();
+            }
             //>5 seats left
             if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
                 $status = 'status-open';

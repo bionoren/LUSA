@@ -123,6 +123,8 @@
             }
         }
         if(count($courses) == 0) {
+            //the schedule still has common classes that need to be validated
+            //just because there are no options doesn't mean you can take these classes
             $temp = new Schedule(array());
             $valid = $temp->isValid();
             if($valid === true) {
@@ -149,7 +151,7 @@
             } else {
                 $conflict = $valid;
             }
-            for($i = 0; ++$indexes[$i] == count($courses[$i]); $i) {
+            for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
                 $indexes[$i++] = 0;
                 //this exits the loop
                 if($i == count($courses)) {

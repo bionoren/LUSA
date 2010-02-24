@@ -113,7 +113,6 @@
               ?>
             </tr>
             <?php
-            Course::generateQS();
             if(count($this->getClasses()) != count(Schedule::$common)) {
                 foreach(array_diff($this->classes, Schedule::$common) as $class) {
                     $class->display($total, true);
@@ -125,7 +124,6 @@
             }
             ?></table>
             <div class="leftcol"><a href="print.php?<?php echo $qs?>" target="_new">Week View</a></div>
-<!--          <div class="rightcol" style="text-align:right;"><label for="keep<?php echo $this->getID()?>">Remove this schedule:</label> <input type="checkbox" name="sf[]" value="<?php echo $this->getID()?>" id="keep<?php echo $this->getID()?>"></div>-->
             <?php
         }
 
@@ -153,10 +151,9 @@
                         print "<tr><td style='border-bottom-color:black;' colspan='7'>";
                         print "These classes have some options:";
                         print "</td></tr>";
-                        Course::generateQS();
                     }
                     foreach($optionClasses as $key=>$sections) {
-                        print "<tr onclick='".Schedule::createJSToggle($sections)."'><td>+ ".$key."</td><td colspan='6'>".$sections[0]->getTitle()."</td></tr>";
+                        print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".$sections[0]->getTitle()."</td></tr>";
                         foreach($sections as $section) {
                             print $section->display($total, true, true);
                         }
@@ -167,11 +164,12 @@
             endif;
         }
 
-        protected static function createJSToggle($sections) {
-            $ret = "";
-            $state = "visible";
+        protected static function createJSToggle(array $sections, $key) {
+            $ret = 'state = "visible";';
+            $ret .= 'if($("'.$sections[0]->getID().'").style.visibility == "visible") { state = "collapse"; }';
+            $ret .= 'if(state == "visible") { $("'.$key.'").innerHTML = "-"; } else { $("'.$key.'").innerHTML = "+"; }';
             foreach($sections as $section) {
-                $ret .= '$("'.$section->getID().'").style.visibility = "'.$state.'";';
+                $ret .= '$("'.$section->getID().'").style.visibility = state;';
             }
             return $ret;
         }
