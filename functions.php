@@ -127,7 +127,7 @@
             if($valid === true) {
                 return array(array(), array());
             } else {
-                return $valid;
+                return array($valid. array());
             }
         }
         //fix the indices unset messed up
@@ -157,7 +157,7 @@
             }
         }
         if(count($schedules) == 0) {
-            return $conflict;
+            return array($conflict, array());
         }
 
         //find classes that could have had options, but only one works
