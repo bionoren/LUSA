@@ -68,46 +68,46 @@
         }
 
         public static function displayCommon(array $optionClasses=null) {
-            if(count(Schedule::$common) != 0):
-                Schedule::createJSUpdate();
-                ?>
-                <table class="full border">
-                  <tr>
-                    <?php
-                        if(isTraditional()) {
-                            Schedule::showTraditionalHeaders();
-                        } else {
-                            Schedule::showNonTraditionalHeaders();
-                        }
-                    ?>
-                  </tr>
-                  <tr>
-                    <td style='border-bottom-color:black;' colspan='7'>
-                      These are the only times you can take these classes:
-                    </td>
-                  </tr>
+            Schedule::createJSUpdate();
+            ?>
+            <table class="full border">
+              <tr>
                 <?php
-                    foreach(Schedule::$common as $class) {
-                        print $class->display();
-                    }
-
-                    if(!empty($optionClasses)) {
-                        print "<tr><td style='border-bottom-color:black;' colspan='7'>";
-                        print "These classes have some options:";
-                        print "</td></tr>";
-                    }
-                    foreach($optionClasses as $key=>$sections) {
-                        print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()."</td></tr>";
-                        foreach($sections as $section) {
-                            print $section->display(true);
-                        }
+                    if(isTraditional()) {
+                        Schedule::showTraditionalHeaders();
+                    } else {
+                        Schedule::showNonTraditionalHeaders();
                     }
                 ?>
-                </table>
-                <br>
-                <a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new" id="printer">Printer Friendly</a>
-			<?php
-            endif;
+              </tr>
+              <?php if(count(Schedule::$common) > 0) { ?>
+                <tr>
+                  <td style='border-bottom-color:black;' colspan='7'>
+                    These are the only times you can take these classes:
+                  </td>
+                </tr>
+              <?php
+                }
+                foreach(Schedule::$common as $class) {
+                    print $class->display();
+                }
+
+                if(!empty($optionClasses)) {
+                    print "<tr><td style='border-bottom-color:black;' colspan='7'>";
+                    print "These classes have some options:";
+                    print "</td></tr>";
+                }
+                foreach($optionClasses as $key=>$sections) {
+                    print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()."</td></tr>";
+                    foreach($sections as $section) {
+                        print $section->display(true);
+                    }
+                }
+            ?>
+            </table>
+            <br>
+            <a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new" id="printer">Printer Friendly</a>
+        <?php
         }
 
         protected static function createJSUpdate() {
