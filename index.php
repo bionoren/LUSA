@@ -30,7 +30,8 @@
     //for those of you wondering why this number is so high, I know an aviation major taking 11 classes next semester.
 	$NUM_CLASSES = 20;
     //the limit is in apache at ~4000 characters by my analysis
-    $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
+//    $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
+    $method = "post";
 
     if(!isset($_REQUEST["semester"])) {
         $files = getFileArray();
@@ -142,10 +143,10 @@
 <!--LUSA 2: A Dorm 41 Production-->
 <!--Developed by: Wharf-->
 <!--Design by: Shutter-->
-<!--JavaScript Voodoo: Fjord-->
-<!--Lead Tester: Synk-->
+<!--JavaScript Magic: Fjord-->
+<!--QA and Lead Tester: Synk-->
 <!--This code hates Tom Kelley-->
-<!--Special thanks to all the 41ers for their suggestions, bug reports, and encouragement!-->
+<!--Special thanks to 41 and G2 for their suggestions, bug reports, and encouragement!-->
 <form method="<?php print $method; ?>" id="form" name="form" action="./">
 <div id="container">
   <div id="header">
@@ -206,31 +207,22 @@
                     if(isset($_REQUEST["submit"]) && empty($errors)) {
                         if(count($courses) > 0) {
                             //find possible schedules
-                            $data = findSchedules($courses);
-                            $schedules = $data[0];
-                            $optionClasses = $data[1];
+                            $optionClasses = findSchedules($courses);
 
-                            if(isset($_REQUEST["total"])) {
-                                $total = $_REQUEST["total"];
-                                print '<input type="hidden" name="total" value="'.$total.'">';
+                            if(is_array($optionClasses)) {
+                                ?><h2>Schedule</h2>
+                                <?php Schedule::displayCommon($optionClasses)."<br>"; ?>
+                                <br>
+                                <div style="text-align:center;">
+                                    <img id="schedule" src="print.php?<?php echo Schedule::getPrintQS(Schedule::$common); ?>" height="600"><br>
+                                </div>
+                            <?php
                             } else {
-                                print '<input type="hidden" name="total" value="'.count($schedules).'">';
-                                $total = count($schedules);
-                            }
-
-                            if(is_array($schedules)) {
-                            	?><h2>Schedule</h2><?php
-                                Schedule::displayCommon($total, $optionClasses)."<br>";
-                                if(count($schedules) > 1) {
-                                    displaySchedules($schedules, $total);
-                                }
-                            } else {
-                                //believe it or not, this does error handling
-                                displaySchedules($schedules, $total);
+                                print "<font color='red'>".$optionClasses."</font>";
                             }
                         }
                     }
-                ?><br>
+                ?>
                 <div class="print-no">
                 <h2>Selected Classes</h2>
                             <?php

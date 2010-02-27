@@ -1,13 +1,10 @@
 <?php
     class Schedule {
-        protected static $ID = 1;
         public static $common = array();
-        protected $id;
         protected $classes;
         protected $uniqueClasses;
 
         public function __construct(array $classes) {
-            $this->id = Schedule::$ID++;
             $this->classes = array_merge(Schedule::$common, $classes);
             $this->uniqueClasses = $classes;
         }
@@ -46,107 +43,52 @@
             return true;
         }
 
-        public function getID() {
-            return dechex($this->id);
-        }
-
-        protected static function showTraditionalHeaders($common=false) {
-            if($common) {
-                ?>
-                <th colspan="2">Class</th>
-                <th>Prof</th>
-                <th>Days</th>
-                <th>Time</th>
-                <th>Section</th>
-                <th>Registered/Size</th>
-                <?php
-            } else {
-                ?>
-                <th style="width:10%;"></th>
-                <th style="width:30%;" colspan="2">Class</th>
-                <th style="width:10%;">Prof</th>
-                <th style="width:10%;">Days</th>
-                <th style="width:20%;">Time</th>
-                <th style="width:10%;">Section</th>
-                <th style="width:10%;">Registered/Size</th>
-                <?php
-            }
-        }
-
-        protected static function showNonTraditionalHeaders($common=false) {
-            if($common) {
-                ?>
-                <th colspan="2">Class</th>
-                <th>Prof</th>
-                <th>Dates</th>
-                <th>Days</th>
-                <th>Time</th>
-                <th>Section</th>
-                <th>Campus</th>
-                <th>Registered/Size</th>
-                <?php
-            } else {
-                ?>
-                <th style="width:7%;"></th>
-                <th style="width:30%;" colspan="2">Class</th>
-                <th style="width:10%;">Prof</th>
-                <th style="width:12%;">Dates</th>
-                <th style="width:10%;">Days</th>
-                <th style="width:13%;">Time</th>
-                <th style="width:6%;">Section</th>
-                <th style="width:6%;">Campus</th>
-                <th style="width:10%;">Registered/Size</th>
-                <?php
-            }
-        }
-
-        public function display($total) {
-            $qs = Schedule::getPrintQS($this->classes);
+        protected static function showTraditionalHeaders() {
             ?>
-          <div class="line"></div>
-          <table class="full border">
-            <tr>
-              <?php
-                if(isTraditional()) {
-                    Schedule::showTraditionalHeaders();
-                } else {
-                    Schedule::showNonTraditionalHeaders();
-                }
-              ?>
-            </tr>
-            <?php
-            if(count($this->getClasses()) != count(Schedule::$common)) {
-                foreach(array_diff($this->classes, Schedule::$common) as $class) {
-                    $class->display($total, true);
-                }
-            } else {
-                foreach($this->classes as $class) {
-                    $class->display($total);
-                }
-            }
-            ?></table>
-            <div class="leftcol"><a href="print.php?<?php echo $qs?>" target="_new">Week View</a></div>
+            <th colspan="2">Class</th>
+            <th>Prof</th>
+            <th>Days</th>
+            <th>Time</th>
+            <th>Section</th>
+            <th>Registered/Size</th>
             <?php
         }
 
-        public static function displayCommon($total, array $optionClasses=null) {
+        protected static function showNonTraditionalHeaders() {
+            ?>
+            <th colspan="2">Class</th>
+            <th>Prof</th>
+            <th>Dates</th>
+            <th>Days</th>
+            <th>Time</th>
+            <th>Section</th>
+            <th>Campus</th>
+            <th>Registered/Size</th>
+            <?php
+        }
+
+        public static function displayCommon(array $optionClasses=null) {
             if(count(Schedule::$common) != 0):
+                Schedule::createJSUpdate();
                 ?>
-                <p>These are the only times you can take these classes:</p>
-                <p><a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new">Week View</a></p>
                 <table class="full border">
                   <tr>
                     <?php
                         if(isTraditional()) {
-                            Schedule::showTraditionalHeaders(true);
+                            Schedule::showTraditionalHeaders();
                         } else {
-                            Schedule::showNonTraditionalHeaders(true);
+                            Schedule::showNonTraditionalHeaders();
                         }
                     ?>
                   </tr>
+                  <tr>
+                    <td style='border-bottom-color:black;' colspan='7'>
+                      These are the only times you can take these classes:
+                    </td>
+                  </tr>
                 <?php
                     foreach(Schedule::$common as $class) {
-                        print $class->display($total);
+                        print $class->display();
                     }
 
                     if(!empty($optionClasses)) {
@@ -157,13 +99,37 @@
                     foreach($optionClasses as $key=>$sections) {
                         print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()."</td></tr>";
                         foreach($sections as $section) {
-                            print $section->display($total, true, true);
+                            print $section->display(true);
                         }
                     }
                 ?>
                 </table>
+                <br>
+                <a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new" id="printer">Printer Friendly</a>
 			<?php
             endif;
+        }
+
+        protected static function createJSUpdate() {
+            ?>
+            <script type="text/javascript">
+            <!--
+                var items = new Hash();
+                var url;
+                function load(class, str) {
+                    if(class != null) {
+                        items.set(class, str);
+                    }
+                    url = "print.php?"+"<?php print Schedule::getPrintQS(Schedule::$common); ?>";
+                    items.each(function(pair) {
+                        url += "&"+pair.value;
+                    });
+                    $('schedule').src = url;
+                    $('printer').href = url;
+                }
+            -->
+            </script>
+            <?php
         }
 
         protected static function createJSToggle(array $sections, $key) {
@@ -179,7 +145,7 @@
         public static function getPrintQS($classes=null) {
             $ret = '';
             foreach($classes as $class) {
-                $ret .= $class->getPrintQS()."&amp;";
+                $ret .= $class->getPrintQS()."&";
             }
             $ret = substr($ret, 0, strlen($ret)-5);
             return $ret;

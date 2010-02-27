@@ -29,8 +29,8 @@
             $this->courseID = $dataArray["course"];
             $this->section = $dataArray["section"];
             $this->days = $dataArray["days"];
-            $this->startTime = $this->convertTime($dataArray["times"][0]);
-            $this->endTime = $this->convertTime($dataArray["times"][1]);
+            $this->startTime = Course::convertTime($dataArray["times"][0]);
+            $this->endTime = Course::convertTime($dataArray["times"][1]);
             $this->title = $dataArray["title"];
             $this->prof = $dataArray["prof"];
             $this->currentRegistered = $dataArray["curReg"];
@@ -60,7 +60,7 @@
             return mktime(1,1,1, $date[0], $date[1], $date[2]);
         }
 
-        protected function convertTime($timestr) {
+        public static function convertTime($timestr) {
             if($timestr == "TBA")
                 return $timestr;
             $end = strlen($timestr)-1;
@@ -75,8 +75,8 @@
             return $time[0]+$time[1]/60;
         }
 
-        public function displayTime($time) {
-            if($this->isOnline()) {
+        public static function displayTime($time, $online=false) {
+            if($online) {
                 return "-";
             }
             if($time == "TBA")
@@ -164,7 +164,7 @@
             return $this->type == "OL";
         }
 
-        public function display($total, $filterable=false, $optional=false) {
+        public function display($optional=false) {
             if(empty(Course::$QS)) {
                 Course::generateQS();
             }
@@ -183,22 +183,20 @@
                 print 'style="visibility:collapse;"';
             }
             print '>';
-                if($filterable) {
-                    $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter&amp;total='.$total;
+                if($optional) {
+                    print "<td><input type='radio' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"load('".$this->getCourseID()."', '".$this->getPrintQS()."');\"></td>";
+                    $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter';
                     print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a></td>';
-                }
-                if(!$optional) {
+                } else {
                     print '<td>'.$this->getCourseID().'</td>';
                     print '<td>'.$this->getTitle().'</td>';
-                } else {
-                    print "<td></td>";
                 }
                 print '<td>'.$this->getProf().'</td>';
                 if(!isTraditional()) {
                     print '<td>'.date("n/j/y", $this->startDay).' - '.date("n/j/y", $this->endDay).'</td>';
                 }
                 print '<td>'.$this->dayString().'</td>';
-                print '<td>'.$this->displayTime($this->getStartTime()).'-'.$this->displayTime($this->getEndTime()).'</td>';
+                print '<td>'.Course::displayTime($this->getStartTime(), $this->isOnline()).'-'.Course::displayTime($this->getEndTime(), $this->isOnline()).'</td>';
                 print '<td>'.$this->getSection().'</td>';
                 if(!isTraditional()) {
                     print '<td>'.$this->campus.'</td>';

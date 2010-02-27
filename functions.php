@@ -125,9 +125,9 @@
             $temp = new Schedule(array());
             $valid = $temp->isValid();
             if($valid === true) {
-                return array(array(), array());
+                return array();
             } else {
-                return array($valid. array());
+                $valid;
             }
         }
         //fix the indices unset messed up
@@ -157,7 +157,7 @@
             }
         }
         if(count($schedules) == 0) {
-            return array($conflict, array());
+            return $conflict;
         }
 
         //find classes that could have had options, but only one works
@@ -178,7 +178,8 @@
                 }
             }
         }
-		return array($schedules, $classOptions);
+
+		return $classOptions;
 	}
 
 	function classSort(Course $class1, Course $class2) {
@@ -229,24 +230,4 @@
             return false;
         return true;
     }
-
-	function displaySchedules($schedules, $total) {
-		if(is_array($schedules)):?>
-            <br>
-			<table class="full border">
-				<?php if($total != count($schedules)):?>
-					<tr><td>Showing <?php echo count($schedules)?> of <?php print $total; ?> possible ways to take your other classes</td></tr>
-				<?php else:?>
-    				<tr><td>There are <?php echo count($schedules)?> possible ways to take the rest of your classes</td></tr>
-				<?php endif;?>
-				<?php foreach($schedules as $schedule):?>
-					<tr><td style="border:0px;">
-                        <?php $schedule->display($total)?>
-                    </td></tr>
-				<?php endforeach;?>
-			</table>
-		<?php else:?>
-			<font color="red">Sorry, <?php print $schedules ?></font><br>
-		<?php endif;
-	}
 ?>
