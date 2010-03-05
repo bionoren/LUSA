@@ -23,7 +23,7 @@
                         if(isDayOverlap($class1, $class2)) {
                             $tmp = checkTimeConflict($class1, $class2);
                             if($tmp !== false) {
-                                $ret .= $tmp."<br>";
+                                $ret .= $tmp."<br/>";
                             }
                         }
                     }
@@ -105,7 +105,7 @@
                 }
             ?>
             </table>
-            <br>
+            <br/>
             <a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new" id="printer">Printer Friendly</a>
         <?php
         }

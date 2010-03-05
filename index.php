@@ -13,7 +13,7 @@
 	 *	limitations under the License.
 	 */
 
-    ini_set("data.timezone", "America/Chicago");
+    date_default_timezone_set("America/Chicago");
     require_once("Course.php");
     require_once("Schedule.php");
     require_once("functions.php");
@@ -99,14 +99,15 @@
 		}
 	}
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <title>LUSA SE</title>
-    <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection">
-    <link rel="stylesheet" type="text/css" href="print.css" media="print">
-    <script type="text/javascript" src="prototype.js"></script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <title>LUSA SE</title>
+        <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection"/>
+        <link rel="stylesheet" type="text/css" href="print.css" media="print"/>
+        <script type="text/javascript" src="prototype.js"></script>
+        <script type="text/javascript" src="functions.js"></script>
         <script type="text/javascript">
             <!--
             <?php
@@ -123,32 +124,6 @@
                     }
                 }
             ?>
-
-            function selectChange(control, controlToPopulate) {
-                // Empty the second drop down box of any choices
-                for(var q=controlToPopulate.options.length; q>=0; q--)
-                    controlToPopulate.options[q]=null;
-                // ADD Default Choice - in case there are no values
-                var myEle = document.createElement("option");
-                theText = document.createTextNode("----");
-                myEle.appendChild(theText);
-                controlToPopulate.appendChild(myEle);
-                if(arrItems.get(control.value) == null) {
-                    //some browsers (read some versions of some browsers) feel obligated to pass
-                    //on empty values if a select statement is populated with an empty option
-                    //Therefore, we make empty fields truly empty here.
-                    for(var q=controlToPopulate.options.length; q>=0; q--)
-                        controlToPopulate.options[q]=null;
-                    return;
-                }
-                arrItems.get(control.value).each(function(pair) {
-                    myEle = document.createElement("option");
-                    myEle.setAttribute("value", pair.key);
-                    var txt = document.createTextNode(pair.value);
-                    myEle.appendChild(txt);
-                    controlToPopulate.appendChild(myEle);
-                });
-            }
             // -->
         </script>
     </head>
@@ -166,9 +141,9 @@
     <h1>LUSA</h1>
     <ul id="options">
       <li class="first">
-        <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=trad&amp;semester=' + escape($('semesterSelect').value) + '&amp;ignore=true'"> <label for="typeTraditional">Traditional</label>
+        <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=trad&amp;semester=' + escape($('semesterSelect').value) + '&amp;ignore=true'"/> <label for="typeTraditional">Traditional</label>
         &nbsp;&nbsp;
-        <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=non&amp;semester=' + escape($('semesterSelect').value) + '&amp;ignore=true'"> <label for="typeNonTraditional">Non-Traditional</label>
+        <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=non&amp;semester=' + escape($('semesterSelect').value) + '&amp;ignore=true'"/> <label for="typeNonTraditional">Non-Traditional</label>
       </li>
       <?php if(!isTraditional()) { ?>
         <li>
@@ -194,7 +169,7 @@
                     $key = $files[$i][0].' '.$files[$i][1];
                     print '<option value="'.$key.'"';
                     if($semesterStr == $key) {
-                        print "selected";
+                        print " selected='selected'";
                     }
                     print '>'.$names[$files[$i][1]].' '.$files[$i][0].'</option>';
                 }
@@ -202,7 +177,7 @@
         </select>
       </li>
       <li>
-        <input type="checkbox" name="showBooks" id="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") print "checked"; ?>>
+        <input type="checkbox" name="showBooks" id="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") print "checked"; ?>/>
         <label for="showBooks">Bookstore Links</label>
       </li>
     </ul>
@@ -211,11 +186,11 @@
                 <?php
                     if(isset($_REQUEST["cf"])) {
                         foreach($_REQUEST["cf"] as $val) {
-                            print '<input type="hidden" name="cf[]" value="'.$val.'">';
+                            print '<input type="hidden" name="cf[]" value="'.$val.'"/>';
                         }
                     }
                 ?>
-                <input type="hidden" name="semester" value="<?php print $semesterStr; ?>">
+                <input type="hidden" name="semester" value="<?php print $semesterStr; ?>"/>
                 <?php
                     if(isset($_REQUEST["submit"]) && empty($errors)) {
                         if(count($courses) > 0) {
@@ -225,9 +200,9 @@
                             if(is_array($optionClasses)) {
                                 ?><h2>Schedule</h2>
                                 <?php Schedule::displayCommon($optionClasses)."<br>"; ?>
-                                <br>
+                                <br/>
                                 <div style="text-align:center;">
-                                    <img id="schedule" src="print.php?<?php echo Schedule::getPrintQS(Schedule::$common); ?>" height="600"><br>
+                                    <img id="schedule" alt="Schedule" src="print.php?<?php echo Schedule::getPrintQS(Schedule::$common); ?>" height="600"/><br/>
                                 </div>
                             <?php
                             } else {
@@ -250,41 +225,43 @@
                                     }
                                     ?>
                                     <div id="classChoice<?php echo $i?>">
-                                    <select name="class[]" onchange="selectChange(this, choice<?php echo $i?>);Element.show('classChoice<?php echo $i+1?>')"><option value="0">----</option><?php echo $tmp?></select>
-                                    <select id="choice<?php echo $i?>" name="choice[]">
-                                    <?php
-                                    $populated = false;
-                                    if(!empty($_REQUEST["choice"][$i])) {
-                                        foreach($classes[$_REQUEST["class"][$i]] as $key=>$value) {
-                                            if(substr($key, strlen($key)-3) == "lab")
-                                                continue;
-                                            print '<option value="'.$key.'"';
-                                            if($_REQUEST["choice"][$i] == $key) {
-                                                print ' selected="selected"';
-                                                $hours += substr($key, 8);
-                                                $populated = $key;
+                                    <select name="class[]" onchange="selectChange(this, 'choice<?php echo $i?>');Element.show('classChoice<?php echo $i+1?>')"><option value="0">----</option><?php echo $tmp?></select>
+                                    <div id="choice<?php echo $i?>" style="display:inline;">
+                                        <?php
+                                        $populated = false;
+                                        if(!empty($_REQUEST["choice"][$i])) {
+                                            print "<select name='choice[]'>";
+                                            foreach($classes[$_REQUEST["class"][$i]] as $key=>$value) {
+                                                if(substr($key, strlen($key)-3) == "lab")
+                                                    continue;
+                                                print '<option value="'.$key.'"';
+                                                if($_REQUEST["choice"][$i] == $key) {
+                                                    print ' selected="selected"';
+                                                    $hours += substr($key, 8);
+                                                    $populated = $key;
+                                                }
+                                                print '>'.$value.'</option>';
                                             }
-                                            print '>'.$value.'</option>';
+                                            print "</select>";
                                         }
-                                    }
-                                    ?>
-                                    </select>
-                                    <?php if(empty($_REQUEST["choice"][$i])):?>
-                                    <script type="text/javascript">Element.hide('classChoice<?php echo $i?>');</script>
-                                    <?php else: $activeSelect = $i+1; endif;?>
-                                    <?php
-                                        if($populated !== false && $_REQUEST["showBooks"] == "on") {
-                                            print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
-                                        }
-                                        if($errors[$i]):
-                                    ?>
-                                        <font color="red">Sorry, this class is not offered this semester</font>
-                                    <?php endif;?>
+                                        ?>
+                                        </div>
+                                        <?php if(empty($_REQUEST["choice"][$i])):?>
+                                        <script type="text/javascript">Element.hide('classChoice<?php echo $i?>');</script>
+                                        <?php else: $activeSelect = $i+1; endif;?>
+                                        <?php
+                                            if($populated !== false && $_REQUEST["showBooks"] == "on") {
+                                                print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
+                                            }
+                                            if($errors[$i]):
+                                        ?>
+                                            <font color="red">Sorry, this class is not offered this semester</font>
+                                        <?php endif;?>
                                     </div>
                                     <?php
                                 } // foreach ?>
                                 <script type="text/javascript">Element.show('classChoice<?php echo $activeSelect?>');</script>
-                                <?php echo $hours?> Credit Hours<br><br>
+                                <?php echo $hours?> Credit Hours<br/><br/>
 
 
 
@@ -309,11 +286,11 @@
                     <a href="<?php print $clear; ?>" class="button">Clear Filters</a>
                 <?php endif; ?>
 
-                        </div><br>
+                        </div><br/>
 
 
                 <div class="print-no">
-                <input type="submit" name="submit" value="Update Schedule">
+                <input type="submit" name="submit" value="Update Schedule"/>
             </div>
         </div>
         <div id="footer">

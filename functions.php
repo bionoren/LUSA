@@ -16,7 +16,7 @@
 	//DEBUGGING FUNCTIONS
 	function dump($name, $array, $member=null) {
 		if(!is_array($array)) {
-			print "$name = $array<br>";
+			print "$name = $array<br/>";
 		} else {
 			foreach($array as $key=>$val) {
 				if(is_array($val)) {
@@ -26,9 +26,9 @@
                         dump($name."[$key]", $val);
                 } else {
                     if($member == null) {
-    					print $name."[".$key."] = ".$val."<br>";
+    					print $name."[".$key."] = ".$val."<br/>";
                     } else {
-                        print $name."[".$key."] = ".$val->{$member}()."<br>";
+                        print $name."[".$key."] = ".$val->{$member}()."<br/>";
                     }
                 }
 			}
