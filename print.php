@@ -30,11 +30,14 @@
         return substr($ret, 1);
     }
 
-    $tmp = explode("&", $_SERVER["QUERY_STRING"]);
+    $tmp = explode("~", $_SERVER["QUERY_STRING"]);
     $classes = array();
     foreach($tmp as $class) {
         if(!empty($class)) {
-            $classes[] = explode("::", $class);
+            $tmp = explode("::", $class);
+            if($tmp[1] != "TBA") {
+                $classes[] = $tmp;
+            }
         }
     }
     //add chapel

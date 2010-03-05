@@ -1,6 +1,5 @@
 <?php
     class Course {
-        protected static $ID = 1;
         //diff - Crs Start, Crs End, Campus
         //non-traditional keys
         public static $NON_KEYS = array("course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "campus", "bldg", "room");
@@ -9,7 +8,6 @@
         public static $KEYS_SUMMER = array("ref#", "course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
         public static $QS = "";
 
-        protected $id;
         protected $courseID;
         protected $section;
         protected $days;
@@ -25,7 +23,6 @@
         protected $type;
 
         public function __construct(array $dataArray) {
-            $this->id = Course::$ID++;
             $this->courseID = $dataArray["course"];
             $this->section = $dataArray["section"];
             $this->days = $dataArray["days"];
@@ -164,6 +161,10 @@
             return $this->type == "OL";
         }
 
+        public function getID() {
+            return $this->getCourseID().$this->getSection();
+        }
+
         public function display($optional=false) {
             if(empty(Course::$QS)) {
                 Course::generateQS();
@@ -185,8 +186,10 @@
             print '>';
                 if($optional) {
                     print "<td><input type='radio' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"load('".$this->getCourseID()."', '".$this->getPrintQS()."');\"></td>";
+                    $qstring = Course::$QS.'rf[]='.$this->getID().'&amp;submit=Filter';
+                    print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a>';
                     $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter';
-                    print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a></td>';
+                    print '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="'.$qstring.'" style="color:red; text-decoration:none;">Keep</a></td>';
                 } else {
                     print '<td>'.$this->getCourseID().'</td>';
                     print '<td>'.$this->getTitle().'</td>';
@@ -227,10 +230,6 @@
             return $this->getDays() > 0;
         }
 
-        public function getID() {
-            return dechex($this->id);
-        }
-
         public static function displayBookStoreLink($classID) {
             $terms = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105&_=");
             preg_match('/"data":\[\{(.+?)\}\]\}/', $terms, $groups);
@@ -251,7 +250,7 @@
 
         public static function generateQS() {
             //this string concatenation could take longer than I'd like, but we need to do it...
-            $qString = "./?";
+            $qString = $_SERVER["PHP_SELF"]."?";
             foreach($_REQUEST as $key=>$val) {
                 if(isset($_COOKIE[$key])) {
                     continue;

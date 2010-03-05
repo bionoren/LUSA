@@ -122,7 +122,7 @@
                     }
                     url = "print.php?"+"<?php print Schedule::getPrintQS(Schedule::$common); ?>";
                     items.each(function(pair) {
-                        url += "&"+pair.value;
+                        url += "~"+pair.value;
                     });
                     $('schedule').src = url;
                     $('printer').href = url;
@@ -145,9 +145,9 @@
         public static function getPrintQS($classes=null) {
             $ret = '';
             foreach($classes as $class) {
-                $ret .= $class->getPrintQS()."&";
+                $ret .= $class->getPrintQS()."~";
             }
-            $ret = substr($ret, 0, strlen($ret)-5);
+            $ret = substr($ret, 0, strlen($ret)-1);
             return $ret;
         }
 

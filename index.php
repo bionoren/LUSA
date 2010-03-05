@@ -24,7 +24,7 @@
     } else {
         //look for cookie data
         if(isset($_COOKIE["lastSchedule"]) && !isset($_REQUEST["ignore"])) {
-            header("Location:./?".$_COOKIE["lastSchedule"]);
+            header("Location:".$_SERVER["PHP_SELF"]."?".$_COOKIE["lastSchedule"]);
         }
     }
 
@@ -32,7 +32,7 @@
 	$NUM_CLASSES = 20;
     //the limit is in apache at ~4000 characters by my analysis
 //    $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
-    $method = "post";
+    $method = "get";
 
     if(!isset($_REQUEST["semester"])) {
         $files = getFileArray();
@@ -45,10 +45,19 @@
 	$classGroups = array();
     $classes = array();
 	$courseTitleNumbers = array();
-    if(isset($_REQUEST["cf"])) {
-        $classFilter = array_fill_keys($_REQUEST["cf"], true);
+    if(isset($_REQUEST["rf"])) {
+        $classFilter = array_fill_keys($_REQUEST["rf"], true);
     } else {
         $classFilter = null;
+    }
+
+    if(isset($_REQUEST["cf"])) {
+        $classFilter2 = array();
+        foreach($_REQUEST["cf"] as $class) {
+            $classFilter2[substr($class, 0, 9)] = substr($class, -2);
+        }
+    } else {
+        $classFilter2 = null;
     }
 
     if(isset($_REQUEST["campus"])) {
@@ -60,6 +69,9 @@
     $data = getClassData($semester[0], $semester[1], $_REQUEST["type"] != "non", $campus);
 	foreach($data as $class) {
         if(isset($classFilter[$class->getID()])) {
+            continue;
+        }
+        if(isset($classFilter2[$class->getCourseID()]) && $classFilter2[$class->getCourseID()] != $class->getSection()) {
             continue;
         }
 		$course = substr($class->getCourseID(), 0, 4);
@@ -148,7 +160,7 @@
 <!--QA and Lead Tester: Synk-->
 <!--This code hates Tom Kelley-->
 <!--Special thanks to 41 and G2 for their suggestions, bug reports, and encouragement!-->
-<form method="<?php print $method; ?>" id="form" name="form" action="./">
+<form method="<?php print $method; ?>" id="form" name="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
 <div id="container">
   <div id="header">
     <h1>LUSA</h1>
@@ -280,7 +292,7 @@
 
                                 <?php if(isset($_REQUEST["submit"])): ?>
                     <?php
-                        $clear = "./?semester=".$_REQUEST["semester"];
+                        $clear = $_SERVER["PHP_SELF"]."?semester=".$_REQUEST["semester"];
                         for($i = 0; $i < $NUM_CLASSES; $i++) {
                             if(!empty($_REQUEST["choice"][$i])) {
                                 $clear .= "&amp;class[]=".$_REQUEST["class"][$i]."&amp;choice[]=".$_REQUEST["choice"][$i];
