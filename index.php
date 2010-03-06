@@ -98,8 +98,11 @@
             }
 		}
 	}
+    //<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
@@ -114,14 +117,16 @@
             print 'var arrItems = new Hash();';
             print "\n";
             foreach($classes as $group=>$class) {
-                print 'arrItems.set("'.$group.'", new Hash());';
+                print 'var tmp = new Hash();';
                 print "\n";
                 foreach($class as $id=>$title) {
                     if(substr($id, -3) == "lab")
                         continue;
-                    print 'arrItems.get("'.$group.'").set("'.$id.'", "'.$title.'");';
+                    print 'tmp.set("'.$id.'", "'.$title.'");';
                     print "\n";
                 }
+                print 'arrItems.set("'.$group.'", tmp);';
+                print "\n";
             }
             ?>
             // -->
@@ -141,56 +146,48 @@
                 <form method="<?php print $method; ?>" id="optionForm" action="<?php print $_SERVER["PHP_SELF"]; ?>">
                     <ul id="options">
                         <li class="first">
-                            <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?>/>
-                            <label for="typeTraditional">Traditional</label>
-                            &nbsp;&nbsp;
-                            <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?>/>
-                            <label for="typeNonTraditional">Non-Traditional</label>
-                            <script type="text/javascript">
-                                <!--
-                                var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
-                                $('typeTraditional').observe('click', function(event) {
-                                    window.location = path + '?type=trad&semester=' + escape($('semesterSelect').value) + '&ignore=true';
-                                });
-                                $('typeNonTraditional').observe('click', function(event) {
-                                    window.location = path + '?type=non&semester=' + escape($('semesterSelect').value) + '&ignore=true';
-                                });
-                                $('semesterSelect').observe('change', function(event) {
-                                    window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value) + '&submit=Change';
-                                });
-                                //-->
-                            </script>
+                            <div style="display:inline">
+                                <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?>/>
+                                <label for="typeTraditional">Traditional</label>
+                                &nbsp;&nbsp;
+                                <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?>/>
+                                <label for="typeNonTraditional">Non-Traditional</label>
+                            </div>
                         </li>
                         <?php if(!isTraditional()) { ?>
                             <li>
-                                <select name="campus">
-                                    <option value="AUS" <?php if($_REQUEST["campus"] == "AUS") print "selected"; ?>>Austin</option>
-                                    <option value="BED" <?php if($_REQUEST["campus"] == "BED") print "selected"; ?>>Bedford</option>
-                                    <option value="DAL" <?php if($_REQUEST["campus"] == "DAL") print "selected"; ?>>Dallas</option>
-                                    <option value="HOU" <?php if($_REQUEST["campus"] == "HOU") print "selected"; ?>>Houston</option>
-                                    <option value="MAIN" <?php if(!isset($_REQUEST["campus"]) || $_REQUEST["campus"] == "MAIN") print "selected"; ?>>Longview</option>
-                                    <option value="TYL" <?php if($_REQUEST["campus"] == "TYL") print "selected"; ?>>Tyler</option>
-                                    <option value="WES" <?php if($_REQUEST["campus"] == "WES") print "selected"; ?>>Westchase</option>
-                                    <option value="ONL" <?php if($_REQUEST["campus"] == "ONL") print "selected"; ?>>Online</option>
-                                </select>
+                                <div style="display:inline">
+                                    <select name="campus">
+                                        <option value="AUS" <?php if($_REQUEST["campus"] == "AUS") print "selected"; ?>>Austin</option>
+                                        <option value="BED" <?php if($_REQUEST["campus"] == "BED") print "selected"; ?>>Bedford</option>
+                                        <option value="DAL" <?php if($_REQUEST["campus"] == "DAL") print "selected"; ?>>Dallas</option>
+                                        <option value="HOU" <?php if($_REQUEST["campus"] == "HOU") print "selected"; ?>>Houston</option>
+                                        <option value="MAIN" <?php if(!isset($_REQUEST["campus"]) || $_REQUEST["campus"] == "MAIN") print "selected"; ?>>Longview</option>
+                                        <option value="TYL" <?php if($_REQUEST["campus"] == "TYL") print "selected"; ?>>Tyler</option>
+                                        <option value="WES" <?php if($_REQUEST["campus"] == "WES") print "selected"; ?>>Westchase</option>
+                                        <option value="ONL" <?php if($_REQUEST["campus"] == "ONL") print "selected"; ?>>Online</option>
+                                    </select>
+                                </div>
                             </li>
                         <?php } ?>
                         <li>
-                            <select name="semester" id="semesterSelect">
-                                <?php
-                                $files = getFileArray();
-                                $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
-                                $semesterStr = $semester[0].' '.$semester[1];
-                                for($i = 0; $i < count($files); $i++) {
-                                    $key = $files[$i][0].' '.$files[$i][1];
-                                    print '<option value="'.$key.'"';
-                                    if($semesterStr == $key) {
-                                        print " selected='selected'";
+                            <div style="display:inline">
+                                <select name="semester" id="semesterSelect">
+                                    <?php
+                                    $files = getFileArray();
+                                    $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
+                                    $semesterStr = $semester[0].' '.$semester[1];
+                                    for($i = 0; $i < count($files); $i++) {
+                                        $key = $files[$i][0].' '.$files[$i][1];
+                                        print '<option value="'.$key.'"';
+                                        if($semesterStr == $key) {
+                                            print " selected='selected'";
+                                        }
+                                        print '>'.$names[$files[$i][1]].' '.$files[$i][0].'</option>';
                                     }
-                                    print '>'.$names[$files[$i][1]].' '.$files[$i][0].'</option>';
-                                }
-                                ?>
-                            </select>
+                                    ?>
+                                </select>
+                            </div>
                         </li>
                         <li>
                             <input type="checkbox" name="showBooks" id="showBooks" <?php if(isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") print "checked"; ?>/>
@@ -198,9 +195,23 @@
                         </li>
                     </ul>
                 </form>
+                <script type="text/javascript">
+                    <!--
+                    var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                    $('typeTraditional').observe('click', function(event) {
+                        window.location = path + '?type=trad&semester=' + escape($('semesterSelect').value) + '&ignore=true';
+                    });
+                    $('typeNonTraditional').observe('click', function(event) {
+                        window.location = path + '?type=non&semester=' + escape($('semesterSelect').value) + '&ignore=true';
+                    });
+                    $('semesterSelect').observe('change', function(event) {
+                        window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value) + '&submit=Change';
+                    });
+                    //-->
+                </script>
             </div>
-            <div id="body">
-                <form method="<?php print $method; ?>" id="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
+            <form method="<?php print $method; ?>" id="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
+                <div id="body">
                     <?php
                     if(isset($_REQUEST["cf"])) {
                         foreach($_REQUEST["cf"] as $val) {
@@ -303,15 +314,15 @@
                             print '<a href="'.$clear.'" class="button">Clear Filters</a>';
                         }
                         ?>
-                        <br/>
+                        <br/><br/>
                         <input type="submit" name="submit" value="Update Schedule"/>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
             <div id="footer">
                 <ul>
-                    <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">log into MyLetu to register for classes</a>.</li>
-                    <li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>).</li>
+                    <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi">log into MyLetu to register for classes</a>.</li>
+                    <li>By using this, you agree not to sue (<a href="tos.php">blah blah blah</a>).</li>
                 </ul>
             </div>
         </div>

@@ -106,7 +106,7 @@
             ?>
             </table>
             <br/>
-            <a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" target="_new" id="printer">Printer Friendly</a>
+            <a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" id="printer">Printer Friendly</a>
         <?php
         }
 
