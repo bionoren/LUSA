@@ -111,18 +111,18 @@
         <script type="text/javascript">
             <!--
             <?php
-                print 'var arrItems = new Hash();';
+            print 'var arrItems = new Hash();';
+            print "\n";
+            foreach($classes as $group=>$class) {
+                print 'arrItems.set("'.$group.'", new Hash());';
                 print "\n";
-                foreach($classes as $group=>$class) {
-                    print 'arrItems.set("'.$group.'", new Hash());';
+                foreach($class as $id=>$title) {
+                    if(substr($id, -3) == "lab")
+                        continue;
+                    print 'arrItems.get("'.$group.'").set("'.$id.'", "'.$title.'");';
                     print "\n";
-                    foreach($class as $id=>$title) {
-                        if(substr($id, -3) == "lab")
-                            continue;
-                        print 'arrItems.get("'.$group.'").set("'.$id.'", "'.htmlspecialchars($title).'");';
-                        print "\n";
-                    }
                 }
+            }
             ?>
             // -->
         </script>
@@ -135,17 +135,31 @@
         <!--QA and Lead Tester: Synk-->
         <!--This code hates Tom Kelley-->
         <!--Special thanks to 41 and G2 for their suggestions, bug reports, and encouragement!-->
-        <form method="<?php print $method; ?>" id="form" name="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
-            <div id="container">
-                <div id="header">
-                    <h1>LUSA</h1>
+        <div id="container">
+            <div id="header">
+                <h1>LUSA</h1>
+                <form method="<?php print $method; ?>" id="optionForm" action="<?php print $_SERVER["PHP_SELF"]; ?>">
                     <ul id="options">
                         <li class="first">
-                            <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=trad&amp;semester=' + escape($('semesterSelect').value) + '&amp;ignore=true'"/>
+                            <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(isTraditional()) { print 'checked="checked"'; } ?>/>
                             <label for="typeTraditional">Traditional</label>
                             &nbsp;&nbsp;
-                            <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?> onClick="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=non&amp;semester=' + escape($('semesterSelect').value) + '&amp;ignore=true'"/>
+                            <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!isTraditional()) { print 'checked="checked"'; } ?>/>
                             <label for="typeNonTraditional">Non-Traditional</label>
+                            <script type="text/javascript">
+                                <!--
+                                var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                                $('typeTraditional').observe('click', function(event) {
+                                    window.location = path + '?type=trad&semester=' + escape($('semesterSelect').value) + '&ignore=true';
+                                });
+                                $('typeNonTraditional').observe('click', function(event) {
+                                    window.location = path + '?type=non&semester=' + escape($('semesterSelect').value) + '&ignore=true';
+                                });
+                                $('semesterSelect').observe('change', function(event) {
+                                    window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value) + '&submit=Change';
+                                });
+                                //-->
+                            </script>
                         </li>
                         <?php if(!isTraditional()) { ?>
                             <li>
@@ -162,7 +176,7 @@
                             </li>
                         <?php } ?>
                         <li>
-                            <select name="semester" id="semesterSelect" onChange="window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&amp;semester=' + escape(this.value) + '&amp;submit=Change'">
+                            <select name="semester" id="semesterSelect">
                                 <?php
                                 $files = getFileArray();
                                 $names = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
@@ -183,8 +197,10 @@
                             <label for="showBooks">Bookstore Links</label>
                         </li>
                     </ul>
-                </div>
-                <div id="body">
+                </form>
+            </div>
+            <div id="body">
+                <form method="<?php print $method; ?>" id="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
                     <?php
                     if(isset($_REQUEST["cf"])) {
                         foreach($_REQUEST["cf"] as $val) {
@@ -287,19 +303,17 @@
                             print '<a href="'.$clear.'" class="button">Clear Filters</a>';
                         }
                         ?>
-                    </div>
-                    <br/>
-                    <div class="print-no">
+                        <br/>
                         <input type="submit" name="submit" value="Update Schedule"/>
                     </div>
-                </div>
-                <div id="footer">
-                    <ul>
-                        <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">log into MyLetu to register for classes</a>.</li>
-                        <li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>).</li>
-                    </ul>
-                </div>
+                </form>
             </div>
-        </form>
+            <div id="footer">
+                <ul>
+                    <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi" target="_blank">log into MyLetu to register for classes</a>.</li>
+                    <li>By using this, you agree not to sue (<a href="tos.php" target="_new">blah blah blah</a>).</li>
+                </ul>
+            </div>
+        </div>
     </body>
 </html>

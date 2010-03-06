@@ -28,7 +28,7 @@
             $this->days = $dataArray["days"];
             $this->startTime = Course::convertTime($dataArray["times"][0]);
             $this->endTime = Course::convertTime($dataArray["times"][1]);
-            $this->title = $dataArray["title"];
+            $this->title = htmlspecialchars($dataArray["title"]);
             $this->prof = $dataArray["prof"];
             $this->currentRegistered = $dataArray["curReg"];
             $this->maxRegisterable = $dataArray["maxReg"];
@@ -138,7 +138,7 @@
         }
 
         public function getTitle() {
-            return $this->title;
+            return htmlspecialchars($this->title);
         }
 
         public function getProf() {
