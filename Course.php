@@ -185,7 +185,7 @@
             }
             print '>';
                 if($optional) {
-                    print "<td><input type='radio' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"load('".$this->getCourseID()."', '".$this->getPrintQS()."');\"/></td>";
+                    print "<td><input type='radio' id='select".$this->getCourseID().$this->getSection()."' alt='Select' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"load('".$this->getCourseID()."', '".$this->getPrintQS()."');\"/><label for='select".$this->getCourseID().$this->getSection()."'>Select ".$this->getTitle()."</label></td>";
                     $qstring = Course::$QS.'rf[]='.$this->getID().'&amp;submit=Filter';
                     print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a>';
                     $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter';

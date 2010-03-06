@@ -103,9 +103,13 @@
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <meta http-equiv="content-language" content="en"/>
+        <meta name="language" content="en"/>
+        <meta name="description" content="Helps LETU students figure out their class schedules"/>
+        <meta name="keywords" content="LETU LeTourneau student schedule class classes"/>
         <title>LUSA SE</title>
         <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection"/>
         <link rel="stylesheet" type="text/css" href="print.css" media="print"/>
@@ -132,7 +136,7 @@
             // -->
         </script>
     </head>
-    <body>
+    <body lang="en">
         <!--LUSA 2: A Dorm 41 Production-->
         <!--Developed by: Wharf-->
         <!--Design by: Shutter-->
@@ -311,7 +315,7 @@
                                 $clear .= "&amp;campus=".$_REQUEST["campus"];
                             }
                             $clear .= "&amp;submit=Filter";
-                            print '<a href="'.$clear.'" class="button">Clear Filters</a>';
+                            print '|<a href="'.$clear.'" class="button">Clear Filters</a>';
                         }
                         ?>
                         <br/><br/>
