@@ -126,7 +126,7 @@
                 foreach($class as $id=>$title) {
                     if(substr($id, -3) == "lab")
                         continue;
-                    print 'tmp.set("'.$id.'", "'.$title.'");';
+                    print 'tmp.set("'.$id.'", "'.html_entity_decode(html_entity_decode($title)).'");';
                     print "\n";
                 }
                 print 'arrItems.set("'.$group.'", tmp);';
@@ -273,7 +273,7 @@
                                                 $hours += substr($key, 8);
                                                 $populated = $key;
                                             }
-                                            print '>'.$value.'</option>';
+                                            print '>'.html_entity_decode($value).'</option>';
                                         }
                                     print "</select>";
                                 }

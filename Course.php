@@ -186,13 +186,13 @@
             print '>';
                 if($optional) {
                     print "<td><input type='radio' id='select".$this->getCourseID().$this->getSection()."' alt='Select' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"load('".$this->getCourseID()."', '".$this->getPrintQS()."');\"/><label for='select".$this->getCourseID().$this->getSection()."'>Select ".$this->getTitle()."</label></td>";
-                    $qstring = Course::$QS.'rf[]='.$this->getID().'&amp;submit=Filter';
-                    print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a>';
                     $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter';
-                    print '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="'.$qstring.'" style="color:red; text-decoration:none;">Keep</a></td>';
+                    print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Choose</a>';
+                    $qstring = Course::$QS.'rf[]='.$this->getID().'&amp;submit=Filter';
+                    print ' or <a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a></td>';
                 } else {
                     print '<td>'.$this->getCourseID().'</td>';
-                    print '<td>'.$this->getTitle().'</td>';
+                    print '<td>'.html_entity_decode($this->getTitle()).'</td>';
                 }
                 print '<td>'.$this->getProf().'</td>';
                 if(!isTraditional()) {
