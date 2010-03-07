@@ -181,11 +181,12 @@
             }
             print '<tr id="'.$this->getID().'" class="'.$status.'"';
             if($optional) {
-                print 'style="visibility:collapse;"';
+                print ' style="visibility:collapse;"';
             }
             print '>';
                 if($optional) {
-                    print "<td><input type='radio' id='select".$this->getCourseID().$this->getSection()."' alt='Select' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"load('".$this->getCourseID()."', '".$this->getPrintQS()."');\"/><label for='select".$this->getCourseID().$this->getSection()."'>Select ".$this->getTitle()."</label></td>";
+                    print "<td><input type='radio' id='select".$this->getCourseID().$this->getSection()."' alt='Select' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"load('".$this->getCourseID()."', '".$this->getPrintQS()."');\"/>";
+                    print "<label for='select".$this->getCourseID().$this->getSection()."'>Select ".$this->getTitle()."</label></td>";
                     $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter';
                     print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Choose</a>';
                     $qstring = Course::$QS.'rf[]='.$this->getID().'&amp;submit=Filter';

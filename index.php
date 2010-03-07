@@ -98,11 +98,8 @@
             }
 		}
 	}
-    //<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 ?>
-<!DOCTYPE html
-     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
@@ -162,14 +159,14 @@
                             <li>
                                 <div style="display:inline">
                                     <select name="campus">
-                                        <option value="AUS" <?php if($_REQUEST["campus"] == "AUS") print "selected"; ?>>Austin</option>
-                                        <option value="BED" <?php if($_REQUEST["campus"] == "BED") print "selected"; ?>>Bedford</option>
-                                        <option value="DAL" <?php if($_REQUEST["campus"] == "DAL") print "selected"; ?>>Dallas</option>
-                                        <option value="HOU" <?php if($_REQUEST["campus"] == "HOU") print "selected"; ?>>Houston</option>
-                                        <option value="MAIN" <?php if(!isset($_REQUEST["campus"]) || $_REQUEST["campus"] == "MAIN") print "selected"; ?>>Longview</option>
-                                        <option value="TYL" <?php if($_REQUEST["campus"] == "TYL") print "selected"; ?>>Tyler</option>
-                                        <option value="WES" <?php if($_REQUEST["campus"] == "WES") print "selected"; ?>>Westchase</option>
-                                        <option value="ONL" <?php if($_REQUEST["campus"] == "ONL") print "selected"; ?>>Online</option>
+                                        <option value="AUS" <?php if($_REQUEST["campus"] == "AUS") print "selected='selected'"; ?>>Austin</option>
+                                        <option value="BED" <?php if($_REQUEST["campus"] == "BED") print "selected='selected'"; ?>>Bedford</option>
+                                        <option value="DAL" <?php if($_REQUEST["campus"] == "DAL") print "selected='selected'"; ?>>Dallas</option>
+                                        <option value="HOU" <?php if($_REQUEST["campus"] == "HOU") print "selected='selected'"; ?>>Houston</option>
+                                        <option value="MAIN" <?php if(!isset($_REQUEST["campus"]) || $_REQUEST["campus"] == "MAIN") print "selected='selected'"; ?>>Longview</option>
+                                        <option value="TYL" <?php if($_REQUEST["campus"] == "TYL") print "selected='selected'"; ?>>Tyler</option>
+                                        <option value="WES" <?php if($_REQUEST["campus"] == "WES") print "selected='selected'"; ?>>Westchase</option>
+                                        <option value="ONL" <?php if($_REQUEST["campus"] == "ONL") print "selected='selected'"; ?>>Online</option>
                                     </select>
                                 </div>
                             </li>
@@ -239,7 +236,7 @@
                                 </div>
                             <?php
                             } else {
-                                print "<font color='red'>".$optionClasses."</font>";
+                                print "<span style='color:red;'>".$optionClasses."</span>";
                             }
                         }
                     }
@@ -289,7 +286,7 @@
                                     print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
                                 }
                                 if($errors[$i]) {
-                                    print '<font color="red">Sorry, this class is not offered this semester</font>';
+                                    print '<span style="color:red;">Sorry, this class is not offered this semester</span>';
                                 }
                             print '</div>';
                         } // foreach
@@ -310,7 +307,9 @@
                                     $clear .= "&amp;class[]=0";
                                 }
                             }
-                            $clear .= "&amp;type=".$_REQUEST["type"];
+                            if(isset($_REQUEST["type"])) {
+                                $clear .= "&amp;type=".$_REQUEST["type"];
+                            }
                             if(isset($_REQUEST["campus"])) {
                                 $clear .= "&amp;campus=".$_REQUEST["campus"];
                             }

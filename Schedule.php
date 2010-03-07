@@ -68,7 +68,6 @@
         }
 
         public static function displayCommon(array $optionClasses=null) {
-            Schedule::createJSUpdate();
             ?>
             <table class="full border">
               <tr>
@@ -108,6 +107,7 @@
             <br/>
             <a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" id="printer">Printer Friendly</a>
         <?php
+            Schedule::createJSUpdate();
         }
 
         protected static function createJSUpdate() {
@@ -127,7 +127,7 @@
                     $('schedule').src = url;
                     $('printer').href = url;
                 }
-            -->
+            //-->
             </script>
             <?php
         }
