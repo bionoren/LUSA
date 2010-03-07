@@ -199,11 +199,12 @@
                 <script type="text/javascript">
                     <!--
                     var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                    var endPath = '&semester=' + escape($('semesterSelect').value) + '&ignore=true';
                     $('typeTraditional').observe('click', function(event) {
-                        window.location = path + '?type=trad&semester=' + escape($('semesterSelect').value) + '&ignore=true';
+                        window.location = path + '?type=trad' + endPath;
                     });
                     $('typeNonTraditional').observe('click', function(event) {
-                        window.location = path + '?type=non&semester=' + escape($('semesterSelect').value) + '&ignore=true';
+                        window.location = path + '?type=non' + endPath;
                     });
                     $('semesterSelect').observe('change', function(event) {
                         window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value) + '&submit=Change';
