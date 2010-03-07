@@ -275,6 +275,7 @@
                                     print "</select>";
                                 }
                                 print '</div>';
+                                //hide unused department dropdowns
                                 if(empty($_REQUEST["choice"][$i])) {
                                     print '<script type="text/javascript">';
                                         print 'Element.hide("classChoice'.$i.'");';
@@ -291,8 +292,9 @@
                             print '</div>';
                         } // foreach
                         ?>
+                        <!--show an extra empty department dropdown-->
                         <script type="text/javascript">
-                            Element.show('classChoice<?php echo $activeSelect?>');
+                            Element.show('classChoice<?php echo $activeSelect; ?>');
                         </script>
                         <?php echo $hours?> Credit Hours
                         <br/><br/>
