@@ -109,12 +109,11 @@
             <script type="text/javascript">
             <!--
                 var items = new Hash();
-                var url;
                 function load(class, str) {
                     if(class != null) {
                         items.set(class, str);
                     }
-                    url = "print.php?"+"<?php print Schedule::getPrintQS(Schedule::$common); ?>";
+                    var url = "print.php?"+"<?php print Schedule::getPrintQS(Schedule::$common); ?>";
                     items.each(function(pair) {
                         url += "~"+pair.value;
                     });
