@@ -29,3 +29,16 @@ function selectChange(control, controlToPopulate) {
     $(controlToPopulate).appendChild(select);
     select.focus();
 }
+
+var items = new Hash();
+function selectClass(course, str, QS) {
+    if(course != null) {
+        items.set(course, str);
+    }
+    var url = "print.php?"+QS;
+    items.each(function(pair) {
+        url += "~"+pair.value;
+    });
+    $('schedule').src = url;
+    $('printer').href = url;
+}

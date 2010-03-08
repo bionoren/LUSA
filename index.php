@@ -14,6 +14,8 @@
 	 */
 
     date_default_timezone_set("America/Chicago");
+    //page loads ~15% faster with compression
+    ob_start("ob_gzhandler");
     require_once("Course.php");
     require_once("Schedule.php");
     require_once("functions.php");
@@ -171,6 +173,7 @@
                                     <script type="text/javascript">
                                         <!--
                                         $('campusSelect').observe('change', function(event) {
+                                            var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
                                             window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&campus=' + escape(this.value) + '&submit=Change&semester=' + escape($('semesterSelect').value);
                                         });
                                         //-->
@@ -339,3 +342,4 @@
         </div>
     </body>
 </html>
+<?php ob_end_flush(); ?>

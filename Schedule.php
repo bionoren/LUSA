@@ -101,28 +101,6 @@
             print '</table>';
             print '<br/>';
             print '<a href="print.php?'.Schedule::getPrintQS(Schedule::$common).'" id="printer">Printer Friendly</a>';
-            Schedule::createJSUpdate();
-        }
-
-        protected static function createJSUpdate() {
-            ?>
-            <script type="text/javascript">
-            <!--
-                var items = new Hash();
-                function load(course, str) {
-                    if(course != null) {
-                        items.set(course, str);
-                    }
-                    var url = "print.php?"+"<?php print Schedule::getPrintQS(Schedule::$common); ?>";
-                    items.each(function(pair) {
-                        url += "~"+pair.value;
-                    });
-                    $('schedule').src = url;
-                    $('printer').href = url;
-                }
-            //-->
-            </script>
-            <?php
         }
 
         protected static function createJSToggle(array $sections, $key) {
