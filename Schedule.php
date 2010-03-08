@@ -68,24 +68,20 @@
         }
 
         public static function displayCommon(array $optionClasses=null) {
-            ?>
-            <table class="full border">
-              <tr>
-                <?php
+            print '<table class="full border">';
+                print '<tr>';
                     if(isTraditional()) {
                         Schedule::showTraditionalHeaders();
                     } else {
                         Schedule::showNonTraditionalHeaders();
                     }
-                ?>
-              </tr>
-              <?php if(count(Schedule::$common) > 0) { ?>
-                <tr>
-                  <td style='border-bottom-color:black;' colspan='7'>
-                    These are the only times you can take these classes:
-                  </td>
-                </tr>
-              <?php
+                print '</tr>';
+                if(count(Schedule::$common) > 0) {
+                    print '<tr>
+                        <td style="border-bottom-color:black;" colspan="7">
+                            These are the only times you can take these classes:
+                        </td>
+                    </tr>';
                 }
                 foreach(Schedule::$common as $class) {
                     print $class->display();
@@ -102,11 +98,9 @@
                         print $section->display(true);
                     }
                 }
-            ?>
-            </table>
-            <br/>
-            <a href="print.php?<?php echo Schedule::getPrintQS(Schedule::$common)?>" id="printer">Printer Friendly</a>
-        <?php
+            print '</table>';
+            print '<br/>';
+            print '<a href="print.php?'.Schedule::getPrintQS(Schedule::$common).'" id="printer">Printer Friendly</a>';
             Schedule::createJSUpdate();
         }
 
