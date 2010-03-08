@@ -168,6 +168,13 @@
                                         <option value="WES" <?php if($_REQUEST["campus"] == "WES") print "selected='selected'"; ?>>Westchase</option>
                                         <option value="ONL" <?php if($_REQUEST["campus"] == "ONL") print "selected='selected'"; ?>>Online</option>
                                     </select>
+                                    <script type="text/javascript">
+                                        <!--
+                                        $('campusSelect').observe('change', function(event) {
+                                            window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&campus=' + escape(this.value) + '&submit=Change&semester=' + escape($('semesterSelect').value);
+                                        });
+                                        //-->
+                                    </script>
                                 </div>
                             </li>
                         <?php } ?>
@@ -207,9 +214,6 @@
                         });
                         $('semesterSelect').observe('change', function(event) {
                             window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value) + '&submit=Change';
-                        });
-                        $('campusSelect').observe('change', function(event) {
-                            window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&campus=' + escape(this.value) + '&submit=Change&semester=' + escape($('semesterSelect').value);
                         });
                         //-->
                     </script>
