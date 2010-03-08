@@ -27,4 +27,5 @@ function selectChange(control, controlToPopulate) {
     });
     //add select box
     $(controlToPopulate).appendChild(select);
+    select.focus();
 }

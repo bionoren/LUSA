@@ -15,4 +15,5 @@ myEle.appendChild(txt);
 select.appendChild(myEle)
 });
 $(controlToPopulate).appendChild(select)
+select.focus()
 };
