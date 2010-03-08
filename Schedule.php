@@ -109,9 +109,9 @@
             <script type="text/javascript">
             <!--
                 var items = new Hash();
-                function load(class, str) {
-                    if(class != null) {
-                        items.set(class, str);
+                function load(course, str) {
+                    if(course != null) {
+                        items.set(course, str);
                     }
                     var url = "print.php?"+"<?php print Schedule::getPrintQS(Schedule::$common); ?>";
                     items.each(function(pair) {
