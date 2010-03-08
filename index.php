@@ -142,9 +142,9 @@
         <!--This code hates Tom Kelley-->
         <!--Special thanks to 41 and G2 for their suggestions, bug reports, and encouragement!-->
         <div id="container">
-            <div id="header">
-                <h1>LUSA</h1>
-                <form method="<?php print $method; ?>" id="optionForm" action="<?php print $_SERVER["PHP_SELF"]; ?>">
+            <form method="<?php print $method; ?>" id="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
+                <div id="header">
+                    <h1>LUSA</h1>
                     <ul id="options">
                         <li class="first">
                             <div style="display:inline">
@@ -158,7 +158,7 @@
                         <?php if(!isTraditional()) { ?>
                             <li>
                                 <div style="display:inline">
-                                    <select name="campus">
+                                    <select name="campus" id="campusSelect">
                                         <option value="AUS" <?php if($_REQUEST["campus"] == "AUS") print "selected='selected'"; ?>>Austin</option>
                                         <option value="BED" <?php if($_REQUEST["campus"] == "BED") print "selected='selected'"; ?>>Bedford</option>
                                         <option value="DAL" <?php if($_REQUEST["campus"] == "DAL") print "selected='selected'"; ?>>Dallas</option>
@@ -195,24 +195,25 @@
                             <label for="showBooks">Bookstore Links</label>
                         </li>
                     </ul>
-                </form>
-                <script type="text/javascript">
-                    <!--
-                    var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
-                    var endPath = '&semester=' + escape($('semesterSelect').value) + '&ignore=true';
-                    $('typeTraditional').observe('click', function(event) {
-                        window.location = path + '?type=trad' + endPath;
-                    });
-                    $('typeNonTraditional').observe('click', function(event) {
-                        window.location = path + '?type=non' + endPath;
-                    });
-                    $('semesterSelect').observe('change', function(event) {
-                        window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value) + '&submit=Change';
-                    });
-                    //-->
-                </script>
-            </div>
-            <form method="<?php print $method; ?>" id="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
+                    <script type="text/javascript">
+                        <!--
+                        var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                        var endPath = '&semester=' + escape($('semesterSelect').value) + '&ignore=true';
+                        $('typeTraditional').observe('click', function(event) {
+                            window.location = path + '?type=trad' + endPath;
+                        });
+                        $('typeNonTraditional').observe('click', function(event) {
+                            window.location = path + '?type=non' + endPath;
+                        });
+                        $('semesterSelect').observe('change', function(event) {
+                            window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value) + '&submit=Change';
+                        });
+                        $('campusSelect').observe('change', function(event) {
+                            window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&campus=' + escape(this.value) + '&submit=Change&semester=' + escape($('semesterSelect').value);
+                        });
+                        //-->
+                    </script>
+                </div>
                 <div id="body">
                     <?php
                     if(isset($_REQUEST["cf"])) {
