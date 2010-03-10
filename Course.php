@@ -185,12 +185,12 @@
             }
             print '>';
                 if($optional) {
+                    $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter';
+                    print '<td><a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>Choose</strong></a>';
+                    $qstring = Course::$QS.'rf[]='.$this->getID().'&amp;submit=Filter';
+                    print ' or <a href="'.$qstring.'" style="color:blue text-decoration:underline;"><strong>Remove</strong></a></td>';
                     print "<td><input type='radio' id='select".$this->getCourseID().$this->getSection()."' alt='Select' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getCourseID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
                     print "<label for='select".$this->getCourseID().$this->getSection()."'>Preview</label></td>";
-                    $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter';
-                    print '<td><a href="'.$qstring.'" style="color:red; text-decoration:none;">Choose</a>';
-                    $qstring = Course::$QS.'rf[]='.$this->getID().'&amp;submit=Filter';
-                    print ' or <a href="'.$qstring.'" style="color:red; text-decoration:none;">Remove</a></td>';
                 } else {
                     print '<td>'.$this->getCourseID().'</td>';
                     print '<td>'.html_entity_decode($this->getTitle()).'</td>';

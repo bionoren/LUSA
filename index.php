@@ -118,7 +118,7 @@
         <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection"/>
         <link rel="stylesheet" type="text/css" href="print.css" media="print"/>
         <script type="text/javascript" src="prototype.js"></script>
-        <script type="text/javascript" src="functions-orig.js"></script>
+        <script type="text/javascript" src="functions.js"></script>
         <script type="text/javascript">
             <!--
             <?php
@@ -140,7 +140,7 @@
                             }
                         }
                     }
-                    if($valid) {
+                    if($valid || !is_object($schedule)) {
                         print html_entity_decode(html_entity_decode($course->getTitle()));
                         print '", true';
                     } else {
