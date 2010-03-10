@@ -78,7 +78,7 @@
         }
 		$course = substr($class->getCourseID(), 0, 4);
 		$classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
-        $classes[$course][$class->getCourseID()] = $class->getTitle();
+        $classes[$course][$class->getCourseID()] = $class;
 		$courseTitleNumbers[$class->getCourseID()][] = $class;
 	}
     //alphabetize the class list
@@ -100,6 +100,11 @@
             }
 		}
 	}
+
+    if(isset($_REQUEST["submit"]) && empty($errors) && count($courses) > 0) {
+        //find possible schedules
+        $schedules = findSchedules($courses);
+    }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -113,7 +118,7 @@
         <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection"/>
         <link rel="stylesheet" type="text/css" href="print.css" media="print"/>
         <script type="text/javascript" src="prototype.js"></script>
-        <script type="text/javascript" src="functions.js"></script>
+        <script type="text/javascript" src="functions-orig.js"></script>
         <script type="text/javascript">
             <!--
             <?php
@@ -122,10 +127,27 @@
             foreach($classes as $group=>$class) {
                 print 'var tmp = new Hash();';
                 print "\n";
-                foreach($class as $id=>$title) {
+                foreach($class as $id=>$course) {
                     if(substr($id, -3) == "lab")
                         continue;
-                    print 'tmp.set("'.$id.'", "'.html_entity_decode(html_entity_decode($title)).'");';
+                    print 'tmp.set("'.$id.'", new Array("';
+                    print html_entity_decode(html_entity_decode($course->getTitle()));
+                    $valid = false;
+                    foreach($schedules as $schedule) {
+                        foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
+                            if($schedule->validate($section) === true) {
+                                $valid = true;
+                                break 2;
+                            }
+                        }
+                    }
+                    print '", ';
+                    if($valid) {
+                        print "true";
+                    } else {
+                        print "false";
+                    }
+                    print '));';
                     print "\n";
                 }
                 print 'arrItems.set("'.$group.'", tmp);';
@@ -231,22 +253,17 @@
                     ?>
                     <input type="hidden" name="semester" value="<?php print $semesterStr; ?>"/>
                     <?php
-                    if(isset($_REQUEST["submit"]) && empty($errors)) {
-                        if(count($courses) > 0) {
-                            //find possible schedules
-                            $schedules = findSchedules($courses);
-
-                            if(is_array($schedules)) {
-                                ?><h2>Schedule</h2>
-                                <?php Schedule::displayCommon($schedules)."<br>"; ?>
-                                <br/>
-                                <div style="text-align:center;">
-                                    <img id="schedule" alt="Schedule" src="print.php?<?php echo Schedule::getPrintQS(Schedule::$common); ?>" height="600"/><br/>
-                                </div>
-                            <?php
-                            } else {
-                                print "<span style='color:red;'>".$schedules."</span>";
-                            }
+                    if(isset($_REQUEST["submit"]) && empty($errors) && count($courses) > 0) {
+                        if(is_array($schedules)) {
+                            ?><h2>Schedule</h2>
+                            <?php Schedule::displayCommon($schedules)."<br>"; ?>
+                            <br/>
+                            <div style="text-align:center;">
+                                <img id="schedule" alt="Schedule" src="print.php?<?php echo Schedule::getPrintQS(Schedule::$common); ?>" height="600"/><br/>
+                            </div>
+                        <?php
+                        } else {
+                            print "<span style='color:red;'>".$schedules."</span>";
                         }
                     }
                     ?>
@@ -270,7 +287,7 @@
                                 $populated = false;
                                 if(!empty($_REQUEST["choice"][$i])) {
                                     print "<select name='choice[]'>";
-                                        foreach($classes[$_REQUEST["class"][$i]] as $key=>$value) {
+                                        foreach($classes[$_REQUEST["class"][$i]] as $key=>$class) {
                                             if(substr($key, strlen($key)-3) == "lab")
                                                 continue;
                                             print '<option value="'.$key.'"';
@@ -279,7 +296,9 @@
                                                 $hours += substr($key, 8);
                                                 $populated = $key;
                                             }
-                                            print '>'.html_entity_decode($value).'</option>';
+                                            print '>';
+                                            print html_entity_decode($class->getTitle());
+                                            print '</option>';
                                         }
                                     print "</select>";
                                 }

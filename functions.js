@@ -9,7 +9,8 @@ if(arrItems.get(control.value)==null){$(controlToPopulate).innerHTML="";
 return
 }arrItems.get($(control).value).each(function(pair){myEle=document.createElement("option");
 myEle.setAttribute("value",pair.key);
-var txt=document.createTextNode(pair.value);
+if(!pair.value[1]){myEle.setAttribute("disabled","disabled")
+}var txt=document.createTextNode(pair.value[0]);
 myEle.appendChild(txt);
 select.appendChild(myEle)
 });

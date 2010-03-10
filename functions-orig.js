@@ -1,3 +1,4 @@
+//java -jar yuicompressor-2.4.2.jar --type js -o functions.js --line-break 0 --nomunge functions-orig.js
 function selectChange(control, controlToPopulate) {
     // Empty the second drop down box of any choices
     if($(controlToPopulate).children != null) {
@@ -21,7 +22,10 @@ function selectChange(control, controlToPopulate) {
     arrItems.get($(control).value).each(function(pair) {
         myEle = document.createElement("option");
         myEle.setAttribute("value", pair.key);
-        var txt = document.createTextNode(pair.value);
+        if(!pair.value[1]) {
+            myEle.setAttribute("disabled", "disabled");
+        }
+        var txt = document.createTextNode(pair.value[0]);
         myEle.appendChild(txt);
         select.appendChild(myEle);
     });

@@ -1,4 +1,3 @@
-//java -jar yuicompressor-2.4.2.jar --type js -o prototype.js --line-break 0 --nomunge prototype-orig.js
 var Prototype={Version:"1.6.1",Browser:(function(){var ua=navigator.userAgent;
 var isOpera=Object.prototype.toString.call(window.opera)=="[object Opera]";
 return{IE:!!window.attachEvent&&!isOpera,Opera:isOpera,WebKit:ua.indexOf("AppleWebKit/")>-1,Gecko:ua.indexOf("Gecko")>-1&&ua.indexOf("KHTML")===-1,MobileSafari:/Apple.*Mobile.*Safari/.test(ua)}
