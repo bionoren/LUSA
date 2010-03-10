@@ -3,22 +3,47 @@
         public static $common = array();
         protected $classes;
         protected $uniqueClasses;
+        protected $valid;
 
         public function __construct(array $classes) {
             $this->classes = array_merge(Schedule::$common, $classes);
             $this->uniqueClasses = $classes;
+            $this->validate();
         }
 
-        public function isValid() {
+        public function addClass(Course $class) {
+            $this->classes[] = $class;
+            $this->uniqueClasses[] = $class;
+            return $this->isValid();
+        }
+
+        public function validate(Course $addClass=null) {
             //eliminate schedules that have overlaps
             $ret = "";
             for($i = 0; $i < count($this->classes)-1; $i++) {
-                $class1 = $this->classes[$i];
+                if($addClass == null) {
+                    $class1 = $this->classes[$i];
+                } else {
+                    if($addClass->isOnline()) {
+                        break;
+                    }
+                    $i = -1;
+                    $class1 = $addClass;
+                }
+                //you can always take online classes
                 if($class1->isOnline()) {
                     continue;
                 }
+                //check this class against all the others
                 for($j = $i+1; $j < count($this->classes); $j++) {
                     $class2 = $this->classes[$j];
+/*                    if(substr_compare($class1->getCourseID(), $class2->getCourseID(), 0, 9) == 0
+                            && $class1->getSection() != $class2->getSection()) {
+                        //if the course numbers are the same, but the sections don't match, fail
+                        $this->valid = false;
+                        return $this->isValid();
+                    }*/
+
                     if(isDateOverlap($class1, $class2)) {
                         if(isDayOverlap($class1, $class2)) {
                             $tmp = checkTimeConflict($class1, $class2);
@@ -27,20 +52,23 @@
                             }
                         }
                     }
-                    if(substr_compare($class1->getCourseID(), $class2->getCourseID(), 0, 9) == 0
-                            && $class1->getSection() != $class2->getSection()) {
-                        //if the course numbers are the same, but the sections don't match, fail
-                        return false;
-                    }
+                }
+
+                if($addClass != null) {
+                    break;
                 }
             }
             //return all the conflicts together
             if(!empty($ret)) {
-                return $ret;
+                $this->valid = $ret;
+                return $this->isValid();
             }
-            //this is slower than above, but it makes them look pretty
-            usort($this->classes, "classSort");
-            return true;
+            $this->valid = true;
+            return $this->isValid();
+        }
+
+        public function isValid() {
+            return $this->valid;
         }
 
         protected static function showTraditionalHeaders() {
@@ -68,6 +96,8 @@
         }
 
         public static function displayCommon(array $optionClasses=null) {
+            //this is slow, but it makes classes look pretty
+            usort(Schedule::$common, "classSort");
             print '<table class="full border">';
                 print '<tr>';
                     if(isTraditional()) {
@@ -93,7 +123,7 @@
                     print "</td></tr>";
                 }
                 foreach($optionClasses as $key=>$sections) {
-                    print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()."</td></tr>";
+                    print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()." (".count($sections).")</td></tr>";
                     foreach($sections as $section) {
                         print $section->display(true);
                     }

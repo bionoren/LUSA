@@ -119,56 +119,44 @@
                 unset($courses[$i]);
             }
         }
-        if(count($courses) == 0) {
-            //the schedule still has common classes that need to be validated
-            //just because there are no options doesn't mean you can take these classes
-            $temp = new Schedule(array());
-            $valid = $temp->isValid();
-            if($valid === true) {
-                return array();
-            } else {
-                return $valid;
-            }
+        $sched = new Schedule(array());
+        $valid = $sched->isValid();
+        //the schedule still has common classes that need to be validated
+        //just because there are no options doesn't mean you can take these classes
+        if($valid !== true) {
+            return $valid;
+        } elseif($courses == 0) {
+            return array();
         }
-        //fix the indices unset messed up
-        $courses = array_values($courses);
 
-        $indexes = array_fill(0, count($courses), 0);
-        $schedules = array();
+        $schedules = array($sched);
         $conflict = null;
-        while(true) {
-            $classes = array();
-            foreach($courses as $i=>$sections) {
-                $classes[] = $sections[$indexes[$i]];
-            }
-            $temp = new Schedule($classes);
-            $valid = $temp->isValid();
-            if($valid === true) {
-                $schedules[] = $temp;
-            } else {
-                $conflict = $valid;
-            }
-            for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
-                $indexes[$i++] = 0;
-                //this exits the loop
-                if($i == count($courses)) {
-                    break 2;
+        foreach($courses as $sections) {
+            $commonCandidate = false;
+            foreach($schedules as $key=>$sched) {
+                foreach($sections as $section) {
+                    if($sched->validate($section) === true) {
+                        $sched2 = clone $sched;
+                        $sched->addClass($section);
+                        $schedules[] = $sched;
+                        $sched = $sched2;
+                        if(!$commonCandidate || $commonCandidate === $section) {
+                            $commonCandidate = $section;
+                        } else {
+                            $commonCandidate = true;
+                        }
+                    } else {
+                        $conflict = $sched->isValid();
+                    }
                 }
+            }
+            if(is_object($commonCandidate)) {
+                Schedule::$common[] = $commonCandidate;
             }
         }
         if(count($schedules) == 0) {
             return $conflict;
         }
-
-        //find classes that could have had options, but only one works
-        $common = array_diff($schedules[0]->getClasses(), Schedule::$common);
-        foreach($schedules as $schedule) {
-            $common = array_intersect($common, $schedule->getClasses());
-            if(empty($common)) {
-                break;
-            }
-        }
-        Schedule::$common = array_merge(Schedule::$common, $common);
 
         $classOptions = array();
         foreach($schedules as $schedule) {

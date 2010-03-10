@@ -12,7 +12,7 @@
 	 *	See the License for the specific language governing permissions and
 	 *	limitations under the License.
 	 */
-
+    
     date_default_timezone_set("America/Chicago");
     //page loads ~15% faster with compression
     ob_start("ob_gzhandler");
