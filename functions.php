@@ -127,7 +127,7 @@
             if($valid === true) {
                 return array();
             } else {
-                $valid;
+                return $valid;
             }
         }
         //fix the indices unset messed up
