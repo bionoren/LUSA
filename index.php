@@ -131,7 +131,6 @@
                     if(substr($id, -3) == "lab")
                         continue;
                     print 'tmp.set("'.$id.'", new Array("';
-                    print html_entity_decode(html_entity_decode($course->getTitle()));
                     $valid = false;
                     foreach($schedules as $schedule) {
                         foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
@@ -141,11 +140,12 @@
                             }
                         }
                     }
-                    print '", ';
                     if($valid) {
-                        print "true";
+                        print html_entity_decode(html_entity_decode($course->getTitle()));
+                        print '", true';
                     } else {
-                        print "false";
+                        print html_entity_decode(html_entity_decode(substr($schedule->isValid(), 0, -5)));
+                        print '", false';
                     }
                     print '));';
                     print "\n";
