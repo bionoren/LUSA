@@ -67,6 +67,18 @@
             return $this->isValid();
         }
 
+        protected static function getOptionClasses(array $schedules) {
+            $classOptions = array();
+            foreach($schedules as $schedule) {
+                foreach($schedule->getUniqueClasses() as $class) {
+                    if(!in_array($class, Schedule::$common)) {
+                        $classOptions[substr($class, 0, -3)][$class->getSection()] = $class;
+                    }
+                }
+            }
+            return $classOptions;
+        }
+
         public function isValid() {
             return $this->valid;
         }
@@ -95,7 +107,8 @@
             <?php
         }
 
-        public static function displayCommon(array $optionClasses=null) {
+        public static function displayCommon(array $schedules) {
+            $optionClasses = Schedule::getOptionClasses($schedules);
             //this is slow, but it makes classes look pretty
             usort(Schedule::$common, "classSort");
             print '<table class="full border">';

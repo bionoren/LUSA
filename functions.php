@@ -158,16 +158,7 @@
             return $conflict;
         }
 
-        $classOptions = array();
-        foreach($schedules as $schedule) {
-            foreach($schedule->getUniqueClasses() as $class) {
-                if(!in_array($class, Schedule::$common)) {
-                    $classOptions[substr($class, 0, -3)][$class->getSection()] = $class;
-                }
-            }
-        }
-
-		return $classOptions;
+		return $schedules;
 	}
 
 	function classSort(Course $class1, Course $class2) {

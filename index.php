@@ -12,7 +12,7 @@
 	 *	See the License for the specific language governing permissions and
 	 *	limitations under the License.
 	 */
-    
+
     date_default_timezone_set("America/Chicago");
     //page loads ~15% faster with compression
     ob_start("ob_gzhandler");
@@ -234,18 +234,18 @@
                     if(isset($_REQUEST["submit"]) && empty($errors)) {
                         if(count($courses) > 0) {
                             //find possible schedules
-                            $optionClasses = findSchedules($courses);
+                            $schedules = findSchedules($courses);
 
-                            if(is_array($optionClasses)) {
+                            if(is_array($schedules)) {
                                 ?><h2>Schedule</h2>
-                                <?php Schedule::displayCommon($optionClasses)."<br>"; ?>
+                                <?php Schedule::displayCommon($schedules)."<br>"; ?>
                                 <br/>
                                 <div style="text-align:center;">
                                     <img id="schedule" alt="Schedule" src="print.php?<?php echo Schedule::getPrintQS(Schedule::$common); ?>" height="600"/><br/>
                                 </div>
                             <?php
                             } else {
-                                print "<span style='color:red;'>".$optionClasses."</span>";
+                                print "<span style='color:red;'>".$schedules."</span>";
                             }
                         }
                     }
