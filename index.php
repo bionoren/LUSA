@@ -312,7 +312,7 @@
                                                 print html_entity_decode($course->getTitle());
                                             } else {
                                                 print ' style="color:rgb(177, 177, 177);">';
-                                                print html_entity_decode($schedule->isValid());
+                                                print html_entity_decode(substr($schedule->isValid(), 0, -5));
                                             }
                                             print '</option>';
                                         }
