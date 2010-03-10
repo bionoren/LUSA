@@ -287,7 +287,7 @@
                                 $populated = false;
                                 if(!empty($_REQUEST["choice"][$i])) {
                                     print "<select name='choice[]'>";
-                                        foreach($classes[$_REQUEST["class"][$i]] as $key=>$class) {
+                                        foreach($classes[$_REQUEST["class"][$i]] as $key=>$course) {
                                             if(substr($key, strlen($key)-3) == "lab")
                                                 continue;
                                             print '<option value="'.$key.'"';
@@ -295,9 +295,25 @@
                                                 print ' selected="selected"';
                                                 $hours += substr($key, 8);
                                                 $populated = $key;
+                                                $valid = true;
+                                            } else {
+                                                $valid = false;
+                                                foreach($schedules as $schedule) {
+                                                    foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
+                                                        if($schedule->validate($section) === true) {
+                                                            $valid = true;
+                                                            break 2;
+                                                        }
+                                                    }
+                                                }
                                             }
-                                            print '>';
-                                            print html_entity_decode($class->getTitle());
+                                            if($valid || !is_object($schedule)) {
+                                                print '>';
+                                                print html_entity_decode($course->getTitle());
+                                            } else {
+                                                print ' style="color:rgb(177, 177, 177);">';
+                                                print html_entity_decode($schedule->isValid());
+                                            }
                                             print '</option>';
                                         }
                                     print "</select>";
