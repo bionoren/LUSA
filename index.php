@@ -131,12 +131,14 @@
                     if(substr($id, -3) == "lab")
                         continue;
                     print 'tmp.set("'.$id.'", new Array("';
-                    $valid = false;
-                    foreach($schedules as $schedule) {
-                        foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
-                            if($schedule->validate($section) === true) {
-                                $valid = true;
-                                break 2;
+                    if(!empty($schedules)) {
+                        $valid = false;
+                        foreach($schedules as $schedule) {
+                            foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
+                                if($schedule->validate($section) === true) {
+                                    $valid = true;
+                                    break 2;
+                                }
                             }
                         }
                     }
