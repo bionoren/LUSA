@@ -1,0 +1,201 @@
+/* -------------------------------------------------------------------------
+--  PAGE BODY --------------------------------------------------------------
+----------------------------------------------------------------------------*/
+body {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 80%;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	background: white url(images/background.png) repeat-x top left;
+}
+
+#container {
+	width: 900px;
+	margin: 0 auto 0 auto;
+	padding: 0;
+}
+
+#container #header {
+	margin: 0;
+	padding: 4px 0 4px 0;
+	height: 34px;
+	color: white;
+	width: 100%;
+}
+#container #header h1 {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-size: 160%;
+	margin: 0;
+	width: 150px;
+	float: left;
+}
+#container #header ul#options {
+	margin: 4px 0 0 0;
+	padding: 0;
+	width: 700px;
+	float: right;
+	text-align: right;
+	list-style-type: none;
+	display: inline;
+}
+#container #header ul#options li {
+	display: inline;
+	border-left: 2px solid rgb(94,129,157);
+	padding-left: 8px;
+	margin-left: 5px;
+}
+#container #header ul#options li.first {
+	border-left: none;
+}
+#container #header ul#options li input {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#container #footer {
+	margin-top: 10px;
+	border-top: 1px solid #CCCCCC;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: rgb(70,70,70);
+	line-height: 1.5em;
+	font-size: 90%;
+}
+#container #footer ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+/* -------------------------------------------------------------------------
+--  FLOATING STUFF ---------------------------------------------------------
+----------------------------------------------------------------------------*/
+
+#container #body .leftcol {
+	width: 50%;
+	float: left;
+	clear: left;
+}
+#container #body .rightcol {
+	width: 50%;
+	float: right;
+	clear: right;
+}
+
+div.clear {
+	clear: both;
+}
+
+#container div.line {
+	border-top: 1px solid rgb(190, 190, 190);
+	width: auto;
+	margin: 8px 0 8px 0;
+	padding: 0;
+	clear: both;
+}
+
+/* -------------------------------------------------------------------------
+--  TABLES -----------------------------------------------------------------
+----------------------------------------------------------------------------*/
+
+#container #body table {
+	font-size: 1em;
+	margin: 0 0 0 -2px;
+	padding: 0;
+	border-spacing: 1px;
+}
+#container #body table.collapsed {
+	border-collapse: collapse;
+}
+#container #body table td {
+	margin-top: 1px;
+}
+#container #body table th {
+	text-align: left;
+}
+#container #body table.full {
+	width: 100%;
+}
+#container #body table.border {
+	border-collapse: collapse;
+}
+#container #body table.border th {
+	border: none;
+}
+#container #body table.border td {
+	border: 1px solid rgb(220, 220, 220);
+}
+#container #body table.border td table td {
+	border: none;
+}
+#container #body table.padding td,
+#container #body table.padding th {
+	padding: 2px;
+}
+#container #body table tr.strong td {
+	font-weight: bold;
+}
+#container #body table tr.em td {
+	font-style: italic;
+}
+#container #body table.sortable tr th,
+#container #body table.server_sortable tr th {
+	cursor: pointer;
+	background-image: url(images/tr_back.gif);
+	background-repeat: repeat-x;
+	background-position: center center;
+	empty-cells: show;
+}
+#container #body table.sortable tr th:hover {
+	color: #0043B4;
+}
+
+/* -------------------------------------------------------------------------
+--  CLASS STATUSES ---------------------------------------------------------
+----------------------------------------------------------------------------*/
+
+tr.status-open {
+	background-color: rgb(136, 255, 136);
+}
+tr.status-close {
+	background-color: rgb(255, 255, 136);
+}
+tr.status-full {
+	background-color: rgb(255, 136, 136);
+}
+
+/* -------------------------------------------------------------------------
+--  BUTTONS ----------------------------------------------------------------
+----------------------------------------------------------------------------*/
+
+a.button {
+	line-height: 130%;
+	background-color: rgb(236,236,236);
+	border: 1px solid #dedede;
+	border-top: 1px solid #eee;
+	border-left: 1px solid #eee;
+	font-weight: bold;
+	font-size: 95%;
+	color: #000000;
+	text-decoration: none;
+	padding: 2px 6px 2px 6px;
+	cursor: pointer;
+}
+a.button {
+	margin: 4px 0 4px 0;
+}
+a.button:hover {
+	background-color: #dff4ff;
+	border: 1px solid #c2e1ef;
+	color: #336699;
+}
+a.button:active {
+	background-color: #6299c5;
+	border:1px solid  #6299c5;
+	color: #fff;
+}
+a.button.disabled {
+	background: #f6f6f6;
+	border-style: solid;
+}
