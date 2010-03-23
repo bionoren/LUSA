@@ -246,7 +246,7 @@
         }
 
         public function getPrintQS() {
-            return implode("::", array($this->days,$this->startTime,$this->endTime,$this->title));
+            return implode("::", array($this->days,$this->startTime,$this->endTime,addslashes($this->title)));
         }
 
         public static function generateQS() {
