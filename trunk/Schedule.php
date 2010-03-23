@@ -127,7 +127,7 @@
                     </tr>';
                 }
                 foreach(Schedule::$common as $class) {
-                    print $class->display();
+                    print $class->display()."\n";
                 }
 
                 if(!empty($optionClasses)) {
