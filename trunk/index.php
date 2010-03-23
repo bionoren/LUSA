@@ -131,7 +131,7 @@
                     if(substr($id, -3) == "lab")
                         continue;
                     print 'tmp.set("'.$id.'", new Array("';
-                    if(!empty($schedules)) {
+                    if(is_array($schedules)) {
                         $valid = false;
                         foreach($schedules as $schedule) {
                             foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
@@ -299,14 +299,18 @@
                                                 $populated = $key;
                                                 $valid = true;
                                             } else {
-                                                $valid = false;
-                                                foreach($schedules as $schedule) {
-                                                    foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
-                                                        if($schedule->validate($section) === true) {
-                                                            $valid = true;
-                                                            break 2;
+                                                if(is_array($schedules)) {
+                                                    $valid = false;
+                                                    foreach($schedules as $schedule) {
+                                                        foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
+                                                            if($schedule->validate($section) === true) {
+                                                                $valid = true;
+                                                                break 2;
+                                                            }
                                                         }
                                                     }
+                                                } else {
+                                                    $valid = true;
                                                 }
                                             }
                                             if($valid || !is_object($schedule)) {
