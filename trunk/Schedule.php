@@ -136,9 +136,9 @@
                     print "</td></tr>";
                 }
                 foreach($optionClasses as $key=>$sections) {
-                    print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()." (".count($sections).")</td></tr>";
+                    print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()." (".count($sections).")</td></tr>\n";
                     foreach($sections as $section) {
-                        print $section->display(true);
+                        print $section->display(true)."\n";
                     }
                 }
             print '</table>';
