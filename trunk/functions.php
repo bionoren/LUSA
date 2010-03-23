@@ -188,7 +188,7 @@
     }
 
 	function checkTimeConflict(Course $class1, Course $class2) {
-		$start1 = $class1->getStartTime();
+        $start1 = $class1->getStartTime();
 		$start2 = $class2->getStartTime();
 		$end1 = $class1->getEndTime();
 		$end2 = $class2->getEndTime();
@@ -196,6 +196,9 @@
         if($end1 < $start2 || $end2 < $start1) {
             return false;
         } else {
+            if($class1->getTitle() == $class2->getTitle()) {
+                return $class1->getTitle()." conflicts with itself";
+            }
             return $class1->getTitle()." conflicts with ".$class2->getTitle();
         }
 	}

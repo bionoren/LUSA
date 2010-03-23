@@ -61,9 +61,9 @@
             //return all the conflicts together
             if(!empty($ret)) {
                 $this->valid = $ret;
-                return $this->isValid();
+            } else {
+                $this->valid = true;
             }
-            $this->valid = true;
             return $this->isValid();
         }
 
