@@ -27,6 +27,9 @@
             $this->section = $dataArray["section"];
             $this->days = $dataArray["days"];
             $this->startTime = Course::convertTime($dataArray["times"][0]);
+            if(!isset($dataArray["times"][1])) {
+                $dataArray["times"][1] = 0;
+            }
             $this->endTime = Course::convertTime($dataArray["times"][1]);
             $this->title = htmlspecialchars($dataArray["title"]);
             $this->prof = $dataArray["prof"];
@@ -65,6 +68,9 @@
             $ap = substr($timestr, $end);
             //split minutes and hours
             $time = explode(":", substr($timestr, 0, $end));
+            if(!isset($time[1])) {
+                $time[1] = "00";
+            }
             //convert to 24 hour format
             if($ap == "p")
                 $time[0] = $time[0]%12 + 12;
@@ -85,13 +91,17 @@
             //if hours > 12, then put back into 12 hour format
             if($time[0] > 12)
                 $time[0] -= 12;
-            //make the minutes a decimal number again
-            $time[1] = ".".$time[1];
-            //convert the decimal back to minutes
-            $time[1] = round($time[1]*60);
-            //add a leading zero if 0-9 minutes
-            if($time[1] < 10)
-                $time[1] = "0".$time[1];
+            if(isset($time[1])) {
+                //make the minutes a decimal number again
+                $time[1] = ".".$time[1];
+                //convert the decimal back to minutes
+                $time[1] = round($time[1]*60);
+                //add a leading zero if 0-9 minutes
+                if($time[1] < 10)
+                    $time[1] = "0".$time[1];
+            } else {
+                $time[1] = "00";
+            }
             //return the time
             return $time[0].":".$time[1].$ap;
         }
@@ -207,7 +217,6 @@
                 }
                 print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
             print '</tr>';
-            return $ret;
         }
 
         function dayString() {

@@ -13,6 +13,7 @@
 	 *	limitations under the License.
 	 */
 
+    error_reporting(E_ALL);
     date_default_timezone_set("America/Chicago");
     //page loads ~15% faster with compression
     ob_start("ob_gzhandler");
@@ -333,10 +334,10 @@
                                 } else {
                                     $activeSelect = $i+1;
                                 }
-                                if($populated !== false && $_REQUEST["showBooks"] == "on") {
+                                if($populated !== false && isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on") {
                                     print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
                                 }
-                                if($errors[$i]) {
+                                if(isset($errors[$i])) {
                                     print '<span style="color:red;">Sorry, this class is not offered this semester</span>';
                                 }
                             print '</div>';

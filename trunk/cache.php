@@ -13,6 +13,7 @@
 	 *	limitations under the License.
 	 */
 
+    error_reporting(E_ALL);
     date_default_timezone_set("America/Chicago");
     require_once("functions.php");
     require_once("Course.php");
@@ -70,7 +71,7 @@
             $sections = $sections[0];
 
 			//evaluate and store each portion of a class' information
-            $sections = array_map(func, $sections);
+            $sections = array_map("func", $sections);
             if(count($keys) != count($sections)) {
                 $class = $classData[count($classData)-1];
                 $sections = array_pad($sections, -count($keys), 0);

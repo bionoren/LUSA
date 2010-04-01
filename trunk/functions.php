@@ -49,6 +49,8 @@
         //get the current class schedule from LeTourneau
         if(!$trad) {
             $prefix = "non";
+        } else {
+            $prefix = "";
         }
 		if(!file_exists($prefix.$year.$semester.".txt")) {
             //send the user back after 5 seconds
@@ -92,6 +94,8 @@
 	function getClassData($year, $semester, $trad, $campus) {
         if(!$trad) {
             $prefix = "non";
+        } else {
+            $prefix = "";
         }
 		if(!file_exists($prefix.$year.$semester.".txt")) {
             die("There is no data available for $semester $year");
