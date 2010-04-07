@@ -50,10 +50,10 @@
     $files = getFileArray(false);
     $trad = "http://gimme.letu.edu/courseschedule/trad/full/";
     $nontrad = "http://gimme.letu.edu/courseschedule/nontrad/full/";
-    for($i = 0; $i < count($files); $i++) {
-        $year = $files[$i][0];
-        $sem = $files[$i][1];
+    foreach($files as $file) {
+        $year = $file[0];
+        $sem = $file[1];
         writeClassData($trad, $year, $sem, "");
-        writeClassData($nontrad, $year, $sem);
+//        writeClassData($nontrad, $year, $sem);
     }
 ?>
