@@ -13,7 +13,7 @@
 	 *	limitations under the License.
 	 */
 
-    error_reporting(E_ALL);
+    error_reporting(E_ALL & E_STRICT);
     date_default_timezone_set("America/Chicago");
     //page loads ~15% faster with compression
     ob_start("ob_gzhandler");
@@ -93,9 +93,6 @@
 		foreach($_REQUEST["choice"] as $key) {
             if(isset($courseTitleNumbers[$key])) {
                 $courses[] = $courseTitleNumbers[$key];
-                if(isset($courseTitleNumbers[$key." lab"])) {
-                    $courses[] = $courseTitleNumbers[$key." lab"];
-                }
             } else {
                 $errors[$key] = true;
             }
@@ -296,7 +293,7 @@
                                             print '<option value="'.$key.'"';
                                             if($_REQUEST["choice"][$i] == $key) {
                                                 print ' selected="selected"';
-                                                $hours += substr($key, 8);
+                                                $hours += substr($key, -1);
                                                 $populated = $key;
                                                 $valid = true;
                                             } else {

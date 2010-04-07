@@ -6,15 +6,24 @@
         protected $valid;
 
         public function __construct(array $classes) {
-            $this->classes = array_merge(Schedule::$common, $classes);
-            $this->uniqueClasses = $classes;
+            $this->classes = Schedule::$common;
+            foreach($classes as $class) {
+                $this->addClass($class, false);
+            }
             $this->validate();
         }
 
-        public function addClass(Course $class) {
+        public function addClass(Course $class, $validate=true) {
             $this->classes[] = $class;
             $this->uniqueClasses[] = $class;
-            return $this->isValid();
+            if($class->getLab() != null) {
+                $this->classes[] = $class->getLab();
+                $this->uniqueClasses[] = $class->getLab();
+            }
+            if($validate) {
+                return $this->isValid();
+            }
+            return true;
         }
 
         public function validate(Course $addClass=null) {

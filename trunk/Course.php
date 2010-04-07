@@ -1,81 +1,85 @@
 <?php
     class Course {
-        //diff - Crs Start, Crs End, Campus
-        //non-traditional keys
-        public static $NON_KEYS = array("course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "campus", "bldg", "room");
-        //traditional keys
-        public static $KEYS = array("ref#", "course", "section", "title", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
-        public static $KEYS_SUMMER = array("ref#", "course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "bldg", "room");
         public static $QS = "";
 
+        //course specific
         protected $courseID;
         protected $section;
+        protected $title;
+        protected $currentRegistered = 0;
+        protected $maxRegisterable;
+        //lecture/lab specific
         protected $days;
         protected $startTime;
         protected $endTime;
         protected $startDay;
         protected $endDay;
-        protected $title;
-        protected $prof;
-        protected $currentRegistered;
-        protected $maxRegisterable;
-        protected $campus;
+        protected $prof = "Staff";
+        protected $campus = "MAIN";
         protected $type;
+        protected $lab = null;
 
-        public function __construct(array $dataArray) {
-            $this->courseID = $dataArray["course"];
-            $this->section = $dataArray["section"];
-            $this->days = $dataArray["days"];
-            $this->startTime = Course::convertTime($dataArray["times"][0]);
-            if(!isset($dataArray["times"][1])) {
-                $dataArray["times"][1] = 0;
-            }
-            $this->endTime = Course::convertTime($dataArray["times"][1]);
-            $this->title = htmlspecialchars($dataArray["title"]);
-            $this->prof = $dataArray["prof"];
-            $this->currentRegistered = $dataArray["curReg"];
-            $this->maxRegisterable = $dataArray["maxReg"];
-            if(empty($this->currentRegistered)) {
-                $this->currentRegistered = 0;
-            }
-            if(isset($dataArray["ref#"])) {
-                $this->startDay = time();
-                $this->endDay = time()+60*60*24*30*3;
-                $this->campus = "MAIN";
+        public function __construct(SimpleXMLElement $xml, $type="LC") {
+            //setup course info
+            $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
+            $this->section = (string)$xml->{"sectionnumber"};
+            if(empty($xml->{"sectiontitle"})) {
+                $this->title = htmlspecialchars($xml->{"coursetitle"});
             } else {
-                $this->startDay = $this->getDateStamp($dataArray["start"]);
-                $this->endDay = $this->getDateStamp($dataArray["end"]);
-                $this->campus = $dataArray["campus"];
+                $this->title = htmlspecialchars($xml->{"sectiontitle"});
             }
-            $this->type = $dataArray["type"];
+            $this->currentRegistered = (string)$xml->{"currentnumregistered"};
+            $this->maxRegisterable = (string)$xml->{"maxsize"};
+
+            //setup lab/lecture specific stuff
+            foreach($xml->{"meeting"} as $meet) {
+                if($meet->{"meetingtypecode"} == $type) {
+                    $meeting = $meet;
+                } elseif($meet->{"meetingtypecode"}) {
+                    $meeting = $meet;
+                } else {
+                    $lab = new Course($xml, "LB");
+                }
+            }
+            $this->type = (string)$meeting->{"meetingtypecode"};
+            $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
+            $temp = 0;
+            for($i = 0; $i < count($tmp); $i++) {
+                if($tmp[$i] != "-")
+                    $temp += pow(2, $i);
+            }
+            $this->days = $temp;
+            $this->startTime = Course::convertTime((string)$meeting->{"meetingstarttime"});
+            $this->endTime = Course::convertTime((string)$meeting->{"meetingendtime"});
+            $this->prof = (string)$meeting->{"profname"};
+            $this->startDay = Course::getDateStamp((string)$meeting->{"meetingstartdate"});
+            $this->endDay = Course::getDateStamp((string)$meeting->{"meetingenddate"});
+            if(isset($meeting->{"campus"})) {
+                $this->campus = (string)$meeting->{"campus"};
+            }
             if($this->isOnline()) {
                 $this->campus = "online";
             }
         }
 
-        protected function getDateStamp($date) {
+        public function getLab() {
+            return $this->lab;
+        }
+
+        public static function getDateStamp($date) {
             if(empty($date))
                 return time();
-            $date = explode("/", $date);
-            return mktime(1,1,1, $date[0], $date[1], $date[2]);
+            $date = explode("-", $date);
+            return mktime(1,1,1, $date[1], $date[2], $date[0]);
         }
 
         public static function convertTime($timestr) {
             if($timestr == "TBA")
                 return $timestr;
-            $end = strlen($timestr)-1;
-            //strip off the last character (a or p)
-            $ap = substr($timestr, $end);
-            //split minutes and hours
-            $time = explode(":", substr($timestr, 0, $end));
-            if(!isset($time[1])) {
-                $time[1] = "00";
-            }
-            //convert to 24 hour format
-            if($ap == "p")
-                $time[0] = $time[0]%12 + 12;
             //convert minutes into a decimal
-            return $time[0]+$time[1]/60;
+            $hours = substr($timestr, 0, strlen($timestr)-2);
+            $minutes = intval(substr($timestr, -2))/60;
+            return $hours+$minutes;
         }
 
         public static function displayTime($time, $online=false) {
@@ -104,19 +108,6 @@
             }
             //return the time
             return $time[0].":".$time[1].$ap;
-        }
-
-        //fills in the mising data of this lab with the given class information
-        public function mergeLabWithClass(array $class) {
-            //array("course", "section", "title", "start", "end", "prof", "maxReg", "curReg", "type", "days", "times", "campus", "bldg", "room");
-            $class["course"] = $this->courseID." lab";
-            $class["section"] = $this->section;
-            $class["title"] = $this->title." lab";
-            $class["prof"] = $this->prof;
-            $class["curReg"] = $this->currentRegistered;
-            $class["maxReg"] = $this->maxRegisterable;
-            $class["campus"] = $this->campus;
-            return $class;
         }
 
         public function getCourseID() {
@@ -179,17 +170,7 @@
             if(empty(Course::$QS)) {
                 Course::generateQS();
             }
-            //>5 seats left
-            if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
-                $status = 'status-open';
-            } elseif($this->getMaxRegistered()-$this->getCurrentRegistered() <= 5 && (int)$this->getMaxRegistered() > (int)$this->getCurrentRegistered()) {
-            //<5 seats left
-                $status = 'status-close';
-            } else {
-            //no seats left
-                $status = 'status-full';
-            }
-            print '<tr id="'.$this->getID().'" class="'.$status.'"';
+            print '<tr id="'.$this->getID().'" class="'.$this->getBackgroundStyle().'"';
             if($optional) {
                 print ' style="visibility:collapse;"';
             }
@@ -219,11 +200,23 @@
             print '</tr>';
         }
 
+        protected function getBackgroundStyle() {
+            //>5 seats left
+            if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
+                return 'status-open';
+            } elseif($this->getMaxRegistered()-$this->getCurrentRegistered() <= 5 && (int)$this->getMaxRegistered() > (int)$this->getCurrentRegistered()) {
+            //<5 seats left
+                return 'status-close';
+            }
+            //no seats left
+            return 'status-full';
+        }
+
         function dayString() {
             if($this->isOnline()) {
                 return "online";
             }
-            $temp = array("S", "M", "T", "W", "R", "F", "S");
+            $temp = array("U", "M", "T", "W", "R", "F", "S");
             $nums = array(1, 2, 4, 8, 16, 32, 64);
             $ret = "";
             for($i = 0; $i < count($temp); $i++) {

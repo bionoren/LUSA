@@ -73,6 +73,7 @@
     header('Content-type: image/gif');
     $imgWidth = 670;
     $imgHeight = 880;
+    $font = "./calibri.ttf";
     $img = imagecreate($imgWidth, $imgHeight);
     $white = imagecolorallocate($img, 255, 255, 255);
     imagefill($img, 0, 0, $white);
@@ -89,7 +90,7 @@
     $days = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
     for($i = 0; $i < $numDays; $i++) {
         imagerectangle($img, $offsetX+$incX*$i, 1, $offsetX+$incX*($i+1), $imgHeight-1, $black);
-        imagettftext($img, 14, 0, $offsetX+16+$incX*$i, 20, $black, "calibri.ttf", $days[$i+$startDay]);
+        imagettftext($img, 14, 0, $offsetX+16+$incX*$i, 20, $black, $font, $days[$i+$startDay]);
     }
 
     //hour headers
@@ -99,7 +100,7 @@
     $incY = ($imgHeight - $offsetY)/$numHours;
     for($i = 0; $i < $numHours; $i++) {
         imagerectangle($img, 0, $offsetY+$incY*$i, $imgWidth-1, $offsetY+$incY*($i+1), $black);
-        imagettftext($img, 12, 0, 4, $offsetY+17+$incY*$i, $black, "calibri.ttf", (($i+$startHour)%12+1).":00");
+        imagettftext($img, 12, 0, 4, $offsetY+17+$incY*$i, $black, $font, (($i+$startHour)%12+1).":00");
     }
 
     //draw the classes
@@ -123,9 +124,9 @@
                 //lr
                 imagefilledellipse($img, $offsetX+1-9+$incX*($i), $offsetY-5+$end*$incY, 10, 10, $bgcolor);
 
-                $pos = imagettftext($img, 13, 0, $offsetX+2+$incX*($i-1), $offsetY+16+$start*$incY, $black, "calibri.ttf", wrap(13, 0, "calibri.ttf", str_replace("/", "/ ", urldecode($class[3])), $incX));
+                $pos = imagettftext($img, 13, 0, $offsetX+2+$incX*($i-1), $offsetY+16+$start*$incY, $black, $font, wrap(13, 0, $font, str_replace("/", "/ ", urldecode($class[3])), $incX));
                 $tmp = $pos[1]-$pos[7]+16;
-                imagettftext($img, 10, 0, $offsetX+2+$incX*($i-1), $offsetY+$tmp+$start*$incY, $black, "calibri.ttf", Course::displayTime($class[1])." - ".Course::displayTime($class[2]));
+                imagettftext($img, 10, 0, $offsetX+2+$incX*($i-1), $offsetY+$tmp+$start*$incY, $black, $font, Course::displayTime($class[1])." - ".Course::displayTime($class[2]));
             }
         }
     }
