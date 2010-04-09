@@ -264,6 +264,7 @@
                     $qString .= $key."=".$val."&amp;";
                 }
             }
+            $qString = str_replace(" ", "%20", $qString);
             Course::$QS = $qString;
         }
 

@@ -171,6 +171,7 @@
                 $ret .= $class->getPrintQS()."~";
             }
             $ret = substr($ret, 0, strlen($ret)-1);
+            $ret = str_replace(" ", "%20", $ret);
             return $ret;
         }
 

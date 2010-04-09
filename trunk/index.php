@@ -109,6 +109,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
         <meta http-equiv="content-language" content="en"/>
+        <meta http-equiv="Content-Style-Type" content="text/css"/>
+        <meta http-equiv="Content-Script-Type" content="text/javascript"/>
         <meta name="language" content="en"/>
         <meta name="description" content="Helps LETU students figure out their class schedules"/>
         <meta name="keywords" content="LETU LeTourneau student schedule class classes"/>
@@ -122,6 +124,7 @@
             <?php
             print 'var arrItems = new Hash();';
             print "\n";
+            //this can't be included externally because it contains dynamic conflict checking
             foreach($classes as $group=>$class) {
                 print 'var tmp = new Hash();';
                 print "\n";
@@ -349,7 +352,7 @@
                         <a href="index.php?ignore=true" class="button">Clear Classes</a>
                         <?php
                         if(isset($_REQUEST["submit"])) {
-                            $clear = $_SERVER["PHP_SELF"]."?semester=".$_REQUEST["semester"];
+                            $clear = $_SERVER["PHP_SELF"]."?semester=".str_replace(" ", "%20", $_REQUEST["semester"]);
                             for($i = 0; $i < $NUM_CLASSES; $i++) {
                                 if(!empty($_REQUEST["choice"][$i])) {
                                     $clear .= "&amp;class[]=".$_REQUEST["class"][$i]."&amp;choice[]=".$_REQUEST["choice"][$i];
