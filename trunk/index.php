@@ -378,7 +378,6 @@
             <div id="footer">
                 <ul>
                     <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi">log into MyLetu to register for classes</a>.</li>
-                    <li>View <a href="font_license.txt">legal blah</a> for the font TinBird by Darren Rigby
                     <li>By using this, you agree not to sue (<a href="tos.php">blah blah blah</a>).</li>
                 </ul>
             </div>
