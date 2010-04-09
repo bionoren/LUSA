@@ -73,7 +73,7 @@
     header('Content-type: image/gif');
     $imgWidth = 670;
     $imgHeight = 880;
-    $font = "./calibri.ttf";
+    $font = "./TinBird.ttf";
     $img = imagecreate($imgWidth, $imgHeight);
     $white = imagecolorallocate($img, 255, 255, 255);
     imagefill($img, 0, 0, $white);
