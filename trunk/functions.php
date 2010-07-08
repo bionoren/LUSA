@@ -45,23 +45,28 @@
         setcookie("lastSchedule", $data, time()+60*60*24*7*8);
     }
 
-    function getCurrentSemester($year=null, $semester=null, $trad) {
+    function getCurrentSemester($year, $semester, $trad) {
         //get the current class schedule from LeTourneau
-        if(!$trad) {
-            $prefix = "non";
-        } else {
-            $prefix = "";
-        }
-		if(!file_exists($prefix.$year.$semester.".txt")) {
-            //send the user back after 5 seconds
-            print '<script language="javascript">setTimeout("history.back()",5000);</script>';
-            die("There is no data available for $semester $year");
-        }
-        $file = fopen($prefix.$year.$semester.".txt", "r");
+		$file = getCacheFile($year, $semester, $trad);
         $title = fgets($file);
         fclose($file);
         return $title;
     }
+
+	function getCacheFile($year, $semester, $trad) {
+		if(!$trad) {
+            $prefix = "non";
+        } else {
+            $prefix = "";
+        }
+		$name = "cache/".$prefix.$year.$semester.".txt";
+		if(!file_exists($name)) {
+            //send the user back after 5 seconds
+            print '<script language="javascript">setTimeout("history.back()",5000);</script>';
+            die("There is no data available for $semester $year");
+        }
+        return fopen($name, "r");
+	}
 
     function getFileArray($reject=true) {
         //rollover on May 1st, August 1st, and January 1st
@@ -69,22 +74,23 @@
         $month = date("n");
         $day = date("j");
         $files = array();
+		$prefix = "cache/";
         //order is important here!
         if($month < 5) {
             //this spring and try for this summer and fall
-            if(!$reject || file_exists($year."FA.txt"))
+            if(!$reject || file_exists($prefix.$year."FA.txt"))
                 $files[] = array($year, "FA");
-            if(!$reject || file_exists($year."SU.txt"))
+            if(!$reject || file_exists($prefix.$year."SU.txt"))
                 $files[] = array($year, "SU");
             $files[] = array($year, "SP");
         } elseif($month < 8) {
             //grab this summer and try for next fall
-            if(!$reject || file_exists($year."FA.txt"))
+            if(!$reject || file_exists($prefix.$year."FA.txt"))
                 $files[] = array($year, "FA");
             $files[] = array($year, "SU");
         } else {
             //grab this fall and try for next spring
-            if(!$reject || file_exists(($year+1)."SP.txt"))
+            if(!$reject || file_exists($prefix.($year+1)."SP.txt"))
                 $files[] = array($year+1, "SP");
             $files[] = array($year, "FA");
         }
@@ -92,15 +98,7 @@
     }
 
 	function getClassData($year, $semester, $trad, $campus) {
-        if(!$trad) {
-            $prefix = "non";
-        } else {
-            $prefix = "";
-        }
-		if(!file_exists($prefix.$year.$semester.".txt")) {
-            die("There is no data available for $semester $year");
-        }
-        $file = fopen($prefix.$year.$semester.".txt", "r");
+        $file = getCacheFile($year, $semester, $trad);
         $classes = array();
         fgets($file); //burn the title
         while(!feof($file)) {
@@ -139,7 +137,7 @@
             $commonCandidate = false;
             foreach($schedules as $key=>$sched) {
                 foreach($sections as $section) {
-                    if($sched->validate($section) === true) {
+                    if($sched->validateClass($section) === true) {
                         $sched2 = clone $sched;
                         $sched->addClass($section);
                         $schedules[] = $sched;
@@ -192,28 +190,20 @@
     }
 
 	function checkTimeConflict(Course $class1, Course $class2) {
-        $start1 = $class1->getStartTime();
-		$start2 = $class2->getStartTime();
-		$end1 = $class1->getEndTime();
-		$end2 = $class2->getEndTime();
         //if one of the classes ends before the other one starts, no overlap
-        if($end1 < $start2 || $end2 < $start1) {
+        if($class1->getEndTime() < $class2->getStartTime() || $class2->getEndTime() < $class1->getStartTime()) {
             return false;
-        } else {
-            if($class1->getTitle() == $class2->getTitle()) {
-                return $class1->getTitle()." conflicts with itself";
-            }
-            return $class1->getTitle()." conflicts with ".$class2->getTitle();
+        } elseif($class1->getCourseID() == $class2->getCourseID()) {
+            return $class1->getTitle()." conflicts with itself";
         }
+        return $class1->getTitle()." conflicts with ".$class2->getTitle();
 	}
 
 	function isDayOverlap(Course $class1, Course $class2) {
-        return ((int)$class1->getDays() & (int)$class2->getDays()) > 0;
+        return ($class1->getDays() & $class2->getDays()) > 0;
 	}
 
     function isDateOverlap(Course $class1, Course $class2) {
-        if($class1->getEndDate() < $class2->getStartDate() || $class2->getEndDate() < $class1->getStartDate())
-            return false;
-        return true;
+        return $class1->getEndDate() >= $class2->getStartDate() && $class2->getEndDate() >= $class1->getStartDate();
     }
 ?>

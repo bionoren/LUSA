@@ -17,6 +17,7 @@
     date_default_timezone_set("America/Chicago");
     //page loads ~15% faster with compression
     ob_start("ob_gzhandler");
+
     require_once("Course.php");
     require_once("Schedule.php");
     require_once("functions.php");
@@ -33,9 +34,6 @@
 
     //for those of you wondering why this number is so high, I know an aviation major taking 11 classes next semester.
 	$NUM_CLASSES = 20;
-    //the limit is in apache at ~4000 characters by my analysis
-//    $method = (strlen($_SERVER["QUERY_STRING"]) < 3500) ? "get" : "post";
-    $method = "get";
 
     if(!isset($_REQUEST["semester"])) {
         $files = getFileArray();
@@ -45,29 +43,24 @@
     }
     $now = getCurrentSemester($semester[0], $semester[1], $_REQUEST["type"] != "non");
 
+	$campus = (isset($_REQUEST["campus"]))?$_REQUEST["campus"]:"MAIN";
+
 	$classGroups = array();
     $classes = array();
 	$courseTitleNumbers = array();
+
+	$classFilter = array();
     if(isset($_REQUEST["rf"])) {
         $classFilter = array_fill_keys($_REQUEST["rf"], true);
-    } else {
-        $classFilter = null;
     }
 
+	$classFilter2 = array();
     if(isset($_REQUEST["cf"])) {
-        $classFilter2 = array();
         foreach($_REQUEST["cf"] as $class) {
             $classFilter2[substr($class, 0, 9)] = substr($class, -2);
         }
-    } else {
-        $classFilter2 = null;
     }
 
-    if(isset($_REQUEST["campus"])) {
-        $campus = $_REQUEST["campus"];
-    } else {
-        $campus = "MAIN";
-    }
     //generate select option values for display later
     $data = getClassData($semester[0], $semester[1], $_REQUEST["type"] != "non", $campus);
 	foreach($data as $class) {
@@ -115,10 +108,10 @@
         <meta name="description" content="Helps LETU students figure out their class schedules"/>
         <meta name="keywords" content="LETU LeTourneau student schedule class classes"/>
         <title>LUSA SE</title>
-        <link rel="stylesheet" type="text/css" href="screen.css" media="screen,projection"/>
-        <link rel="stylesheet" type="text/css" href="print.css" media="print"/>
-        <script type="text/javascript" src="prototype.js"></script>
-        <script type="text/javascript" src="functions.js"></script>
+        <link rel="stylesheet" type="text/css" href="layout/screen.css" media="screen,projection"/>
+        <link rel="stylesheet" type="text/css" href="layout/print.css" media="print"/>
+        <script type="text/javascript" src="layout/prototype.js"></script>
+        <script type="text/javascript" src="layout/functions.js"></script>
         <script type="text/javascript">
             <!--
             <?php
@@ -136,7 +129,7 @@
                         $valid = false;
                         foreach($schedules as $schedule) {
                             foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
-                                if($schedule->validate($section) === true) {
+                                if($schedule->validateClass($section) === true) {
                                     $valid = true;
                                     break 2;
                                 }
@@ -144,10 +137,10 @@
                         }
                     }
                     if($valid || !is_object($schedule)) {
-                        print html_entity_decode(html_entity_decode($course->getTitle()));
+                        print html_entity_decode($course->getTitle());
                         print '", true';
                     } else {
-                        print html_entity_decode(html_entity_decode(substr($schedule->isValid(), 0, -5)));
+                        print html_entity_decode(substr($schedule->isValid(), 0, -5));
                         print '", false';
                     }
                     print '));';
@@ -169,7 +162,7 @@
         <!--This code hates Tom Kelley-->
         <!--Special thanks to 41 and G2 for their suggestions, bug reports, and encouragement!-->
         <div id="container">
-            <form method="<?php print $method; ?>" id="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
+            <form method="get" id="form" action="<?php print $_SERVER["PHP_SELF"]; ?>">
                 <div id="header">
                     <h1>LUSA</h1>
                     <ul id="options">
@@ -186,21 +179,18 @@
                             <li>
                                 <div style="display:inline">
                                     <select name="campus" id="campusSelect">
-                                        <option value="AUS" <?php if($_REQUEST["campus"] == "AUS") print "selected='selected'"; ?>>Austin</option>
-                                        <option value="BED" <?php if($_REQUEST["campus"] == "BED") print "selected='selected'"; ?>>Bedford</option>
-                                        <option value="DAL" <?php if($_REQUEST["campus"] == "DAL") print "selected='selected'"; ?>>Dallas</option>
-                                        <option value="HOU" <?php if($_REQUEST["campus"] == "HOU") print "selected='selected'"; ?>>Houston</option>
-                                        <option value="MAIN" <?php if(!isset($_REQUEST["campus"]) || $_REQUEST["campus"] == "MAIN") print "selected='selected'"; ?>>Longview</option>
-                                        <option value="TYL" <?php if($_REQUEST["campus"] == "TYL") print "selected='selected'"; ?>>Tyler</option>
-                                        <option value="WES" <?php if($_REQUEST["campus"] == "WES") print "selected='selected'"; ?>>Westchase</option>
-                                        <option value="ONL" <?php if($_REQUEST["campus"] == "ONL") print "selected='selected'"; ?>>Online</option>
+                                        <option value="AUS" <?php if($campus == "AUS") print "selected='selected'"; ?>>Austin</option>
+                                        <option value="BED" <?php if($campus == "BED") print "selected='selected'"; ?>>Bedford</option>
+                                        <option value="DAL" <?php if($campus == "DAL") print "selected='selected'"; ?>>Dallas</option>
+                                        <option value="HOU" <?php if($campus == "HOU") print "selected='selected'"; ?>>Houston</option>
+                                        <option value="MAIN" <?php if($campus == "MAIN") print "selected='selected'"; ?>>Longview</option>
+                                        <option value="TYL" <?php if($campus == "TYL") print "selected='selected'"; ?>>Tyler</option>
+                                        <option value="WES" <?php if($campus == "WES") print "selected='selected'"; ?>>Westchase</option>
+                                        <option value="ONL" <?php if($campus == "ONL") print "selected='selected'"; ?>>Online</option>
                                     </select>
                                     <script type="text/javascript">
                                         <!--
-                                        $('campusSelect').observe('change', function(event) {
-                                            var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
-                                            window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&campus=' + escape(this.value) + '&submit=Change&semester=' + escape($('semesterSelect').value);
-                                        });
+                                        $('campusSelect').observe('change', selectCampusTrigger);
                                         //-->
                                     </script>
                                 </div>
@@ -304,7 +294,7 @@
                                                     $valid = false;
                                                     foreach($schedules as $schedule) {
                                                         foreach($courseTitleNumbers[$course->getCourseID()] as $section) {
-                                                            if($schedule->validate($section) === true) {
+                                                            if($schedule->validateClass($section) === true) {
                                                                 $valid = true;
                                                                 break 2;
                                                             }

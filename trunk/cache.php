@@ -18,10 +18,31 @@
     require_once("functions.php");
     require_once("Course.php");
 
+	function getCache($file) {
+        $name = "cache/".md5($file).".tmp";
+        if(file_exists($name)) {
+            return file_get_contents($name);
+        } else {
+            $ret = file_get_contents($file);
+            file_put_contents($name, $ret);
+            return $ret;
+        }
+    }
+
+    /**
+     * Writes cash data for all courses in the given semester and year using data from the
+     * provided root file path.
+     *
+     * @param STRING $file Root path to the xml class information.
+     * @param INTEGER $year The year to cash.
+     * @param STRING $semester One of ('SP', 'SU', 'FA') for Spring, Summer, and Fall semesters.
+     * @param STRING $prefix Optional prefix ('non' for non-traditional classes).
+     */
 	function writeClassData($file, $year, $semester, $prefix="non") {
 		//get the current class schedule from LeTourneau
 		$file .= $year."/".$semester;
-		$xml = simplexml_load_file($file);
+//		$xml = simplexml_load_file($file);
+		$xml = simplexml_load_string(getCache($file)); //TODO THIS IS FOR DEBUGGING ONLY!
         if($xml->count() == 0 || $xml === false) {
             //there's no data here, or there was an error
             return false;
@@ -36,24 +57,24 @@
         }
 
         $titleLookup = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
-        $file = fopen("temp.txt", "w");
+        $file = fopen("cache/temp.txt", "w");
         fwrite($file, $titleLookup[$semester]." ".$year);
 		foreach($classes as $class) {
             fwrite($file, "\n".serialize($class));
         }
         fclose($file);
         //seamlessly transition the new data
-        rename("temp.txt", $prefix.$year.$semester.".txt");
+        rename("cache/temp.txt", "cache/".$prefix.$year.$semester.".txt");
         return true;
 	}
 
     $files = getFileArray(false);
     $trad = "http://gimme.letu.edu/courseschedule/trad/full/";
-    $nontrad = "http://gimme.letu.edu/courseschedule/nontrad/full/";
+    $nontrad = "http://gimme.letu.edu/courseschedule/sgps/full/";
     foreach($files as $file) {
         $year = $file[0];
         $sem = $file[1];
         writeClassData($trad, $year, $sem, "");
-//        writeClassData($nontrad, $year, $sem);
+        writeClassData($nontrad, $year, $sem);
     }
 ?>

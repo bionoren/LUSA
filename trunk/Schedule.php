@@ -26,19 +26,11 @@
             return true;
         }
 
-        public function validate(Course $addClass=null) {
+        public function validate() {
             //eliminate schedules that have overlaps
             $ret = "";
             for($i = 0; $i < count($this->classes)-1; $i++) {
-                if($addClass == null) {
-                    $class1 = $this->classes[$i];
-                } else {
-                    if($addClass->isOnline()) {
-                        break;
-                    }
-                    $i = -1;
-                    $class1 = $addClass;
-                }
+                $class1 = $this->classes[$i];
                 //you can always take online classes
                 if($class1->isOnline()) {
                     continue;
@@ -46,25 +38,13 @@
                 //check this class against all the others
                 for($j = $i+1; $j < count($this->classes); $j++) {
                     $class2 = $this->classes[$j];
-/*                    if(substr_compare($class1->getCourseID(), $class2->getCourseID(), 0, 9) == 0
-                            && $class1->getSection() != $class2->getSection()) {
-                        //if the course numbers are the same, but the sections don't match, fail
-                        $this->valid = false;
-                        return $this->isValid();
-                    }*/
 
-                    if(isDateOverlap($class1, $class2)) {
-                        if(isDayOverlap($class1, $class2)) {
-                            $tmp = checkTimeConflict($class1, $class2);
-                            if($tmp !== false) {
-                                $ret .= $tmp."<br/>";
-                            }
+                    if(isDayOverlap($class1, $class2) && isDateOverlap($class1, $class2)) {
+                        $tmp = checkTimeConflict($class1, $class2);
+                        if($tmp !== false) {
+                            $ret .= $tmp."<br/>";
                         }
                     }
-                }
-
-                if($addClass != null) {
-                    break;
                 }
             }
             //return all the conflicts together
@@ -72,6 +52,29 @@
                 $this->valid = $ret;
             } else {
                 $this->valid = true;
+            }
+            return $this->isValid();
+        }
+
+        public function validateClass(Course $class1) {
+            //eliminate schedules that have overlaps
+            //you can always take online classes
+            if($class1->isOnline()) {
+                return true;
+            }
+            $ret = array();
+            //check this class against all the others
+            foreach($this->classes as $class2) {
+                if(isDayOverlap($class1, $class2) && isDateOverlap($class1, $class2)) {
+                    $tmp = checkTimeConflict($class1, $class2);
+                    if($tmp !== false) {
+                        $ret[] = $tmp;
+                    }
+                }
+            }
+            //return all the conflicts together
+            if(!empty($ret)) {
+                $this->valid = implode("<br/>", $ret);
             }
             return $this->isValid();
         }

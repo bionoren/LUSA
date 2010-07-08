@@ -74,7 +74,7 @@
     $imgWidth = 670;
     $imgHeight = 880;
     //taken from the WINE project
-    $font = "./tahoma.ttf";
+    $font = "layout/tahoma.ttf";
     $img = imagecreate($imgWidth, $imgHeight);
     $white = imagecolorallocate($img, 255, 255, 255);
     imagefill($img, 0, 0, $white);

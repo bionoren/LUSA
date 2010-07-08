@@ -1,28 +1,75 @@
 <?php
+    /*
+	 *	Copyright 2009 Bion Oren
+	 *
+	 *	Licensed under the Apache License, Version 2.0 (the "License");
+	 *	you may not use this file except in compliance with the License.
+	 *	You may obtain a copy of the License at
+	 *		http://www.apache.org/licenses/LICENSE-2.0
+	 *	Unless required by applicable law or agreed to in writing, software
+	 *	distributed under the License is distributed on an "AS IS" BASIS,
+	 *	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 *	See the License for the specific language governing permissions and
+	 *	limitations under the License.
+	 */
+
+    /**
+     * Stores information for an individual class.
+     *
+     * @author Bion Oren
+     * @version 2.0
+     */
     class Course {
+        /** Stores a cache of the querystring. */
+        //TODO why??
         public static $QS = "";
 
         //course specific
+        /** Course ID of the form DEPT-####. */
         protected $courseID;
+		/** Course ID with the section number appended. */
+		protected $id;
+        /** Course section number. */
         protected $section;
+        /** Title of this class. */
         protected $title;
+        /** Number of students currently registered for this class. */
         protected $currentRegistered = 0;
+        /** Maximum number of students that can register for this class. */
         protected $maxRegisterable;
+
         //lecture/lab specific
+        /** Bit string of days of the week (1 is Sunday). */
         protected $days;
+        /** Floating point representation of class start time. */
         protected $startTime;
+        /** Floating point representation of class end time. */
         protected $endTime;
+        /** Day of the year this class starts on. */
         protected $startDay;
+        /** Day of the year this class ends on. */
         protected $endDay;
+        /** Name of the professor teaching this course. */
         protected $prof = "Staff";
+        /** Name of the campus this class is offered at. */
         protected $campus = "MAIN";
+        /** Type of class (online, traditional, nontraditional). */
         protected $type;
+        /** Instance of Course representing a lab class associated with this course. */
         protected $lab = null;
 
+        /**
+         * Constructs a new course object from the provided xml information.
+         *
+         * @param SimpleXMLElement $xml XML information for this class.
+         * @param STRING $type One of LC for lecture or LB for lab.
+         * @return Course New class object.
+         */
         public function __construct(SimpleXMLElement $xml, $type="LC") {
             //setup course info
             $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
             $this->section = (string)$xml->{"sectionnumber"};
+			$this->id = $this->getCourseID().$this->getSection();
             if(empty($xml->{"sectiontitle"})) {
                 $this->title = htmlspecialchars($xml->{"coursetitle"});
             } else {
@@ -62,10 +109,22 @@
             }
         }
 
+        /**
+         * Returns the lab associated with this class.
+         *
+         * @return Course Lab class (or null if none).
+         */
         public function getLab() {
             return $this->lab;
         }
 
+        /**
+         * Returns the datestamp for the given date.
+         *
+         * @param STRING $date Date of the format YYYY-MM-DD
+         * @return INTEGER Timestamp associated with 1:01:01 AM of this day (system timezone),
+         *                  or the current time if $date is empty.
+         */
         public static function getDateStamp($date) {
             if(empty($date))
                 return time();
@@ -73,6 +132,14 @@
             return mktime(1,1,1, $date[1], $date[2], $date[0]);
         }
 
+        /**
+         * Converts a time string to its integer equivalent.
+         *
+         * Returns "TBA" for classes with a time of "TBA".
+         *
+         * @param STRING $timestr String in the format HH:MM.
+         * @return INTEGER Hours + minutes.
+         */
         public static function convertTime($timestr) {
             if($timestr == "TBA")
                 return $timestr;
@@ -82,6 +149,16 @@
             return $hours+$minutes;
         }
 
+        /**
+         * Displays the given time as a string.
+         *
+         * Returns "-" for online classes and "TBA" for classes with a
+         * time of "TBA".
+         *
+         * @param FLOAT $time Floating point representation of a time.
+         * @param BOOLEAN $online True if this is an online class.
+         * @return STRING Time in the format HH:MM('a'|'p')
+         */
         public static function displayTime($time, $online=false) {
             if($online) {
                 return "-";
@@ -110,26 +187,56 @@
             return $time[0].":".$time[1].$ap;
         }
 
+        /**
+         * Returns this class' course ID.
+         *
+         * @return STRING {@see $courseID}
+         */
         public function getCourseID() {
             return $this->courseID;
         }
 
+        /**
+         * Returns this class' section number.
+         *
+         * @return INTEGER {@see $sections}
+         */
         public function getSection() {
             return $this->section;
         }
 
+        /**
+         * Returns the days this class is offered.
+         *
+         * @return INTEGER {@see $days}
+         */
         public function getDays() {
             return $this->days;
         }
 
+        /**
+         * Returns this class' start time.
+         *
+         * @return FLOAT {@see $startTime}
+         */
         public function getStartTime() {
             return $this->startTime;
         }
 
+        /**
+         * Returns this class' end time.
+         *
+         * @return FLOAT {@see $endTime}
+         */
         public function getEndTime() {
             return $this->endTime;
         }
 
+        /**
+         * Returns this class' start date.
+         *
+         * @return INTEGER {@see $startDay}
+         */
         public function getStartDate() {
             return $this->startDay;
         }
