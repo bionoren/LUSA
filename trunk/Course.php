@@ -246,7 +246,7 @@
         }
 
         public function getTitle() {
-            return htmlspecialchars($this->title);
+            return $this->title;
         }
 
         public function getProf() {
@@ -270,7 +270,7 @@
         }
 
         public function getID() {
-            return $this->getCourseID().$this->getSection();
+            return $this->id;
         }
 
         public function display($optional=false) {
@@ -294,13 +294,13 @@
                     print '<td>'.html_entity_decode($this->getTitle()).'</td>';
                 }
                 print '<td>'.$this->getProf().'</td>';
-                if(!isTraditional()) {
+                if(!Main::isTraditional()) {
                     print '<td>'.date("n/j/y", $this->startDay).' - '.date("n/j/y", $this->endDay).'</td>';
                 }
                 print '<td>'.$this->dayString().'</td>';
                 print '<td>'.Course::displayTime($this->getStartTime(), $this->isOnline()).'-'.Course::displayTime($this->getEndTime(), $this->isOnline()).'</td>';
                 print '<td>'.$this->getSection().'</td>';
-                if(!isTraditional()) {
+                if(!Main::isTraditional()) {
                     print '<td>'.$this->campus.'</td>';
                 }
                 print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
@@ -355,7 +355,7 @@
         }
 
         public function getPrintQS() {
-            return implode("::", array($this->days,$this->startTime,$this->endTime,addslashes($this->title)));
+            return implode("::", array($this->days,$this->startTime,$this->endTime,addslashes($this->getTitle())));
         }
 
         public static function generateQS() {

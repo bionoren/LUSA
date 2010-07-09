@@ -72,8 +72,8 @@
     $trad = "http://gimme.letu.edu/courseschedule/trad/full/";
     $nontrad = "http://gimme.letu.edu/courseschedule/sgps/full/";
     foreach($files as $file) {
-        $year = $file[0];
-        $sem = $file[1];
+        $year = substr($file, 0, 4);
+        $sem = substr($file, -2);
         writeClassData($trad, $year, $sem, "");
         writeClassData($nontrad, $year, $sem);
     }

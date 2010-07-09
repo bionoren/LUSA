@@ -3,7 +3,7 @@
         public static $common = array();
         protected $classes;
         protected $uniqueClasses;
-        protected $valid;
+        protected $valid = true;
 
         public function __construct(array $classes) {
             $this->classes = Schedule::$common;
@@ -28,31 +28,8 @@
 
         public function validate() {
             //eliminate schedules that have overlaps
-            $ret = "";
-            for($i = 0; $i < count($this->classes)-1; $i++) {
-                $class1 = $this->classes[$i];
-                //you can always take online classes
-                if($class1->isOnline()) {
-                    continue;
-                }
-                //check this class against all the others
-                for($j = $i+1; $j < count($this->classes); $j++) {
-                    $class2 = $this->classes[$j];
-
-                    if(isDayOverlap($class1, $class2) && isDateOverlap($class1, $class2)) {
-                        $tmp = checkTimeConflict($class1, $class2);
-                        if($tmp !== false) {
-                            $ret .= $tmp."<br/>";
-                        }
-                    }
-                }
-            }
+            $this->isValid = array_reduce($this->classes, array("this", "validateClass"));
             //return all the conflicts together
-            if(!empty($ret)) {
-                $this->valid = $ret;
-            } else {
-                $this->valid = true;
-            }
             return $this->isValid();
         }
 
@@ -60,23 +37,20 @@
             //eliminate schedules that have overlaps
             //you can always take online classes
             if($class1->isOnline()) {
-                return true;
+                return false;
             }
-            $ret = array();
             //check this class against all the others
+            $ret = false;
             foreach($this->classes as $class2) {
                 if(isDayOverlap($class1, $class2) && isDateOverlap($class1, $class2)) {
                     $tmp = checkTimeConflict($class1, $class2);
                     if($tmp !== false) {
-                        $ret[] = $tmp;
+                        $ret .= $tmp."<br>";
                     }
                 }
             }
             //return all the conflicts together
-            if(!empty($ret)) {
-                $this->valid = implode("<br/>", $ret);
-            }
-            return $this->isValid();
+            return $ret;
         }
 
         protected static function getOptionClasses(array $schedules) {
@@ -119,13 +93,13 @@
             <?php
         }
 
-        public static function displayCommon(array $schedules) {
+        public static function display(array $schedules) {
             $optionClasses = Schedule::getOptionClasses($schedules);
             //this is slow, but it makes classes look pretty
             usort(Schedule::$common, "classSort");
             print '<table class="full border">';
                 print '<tr>';
-                    if(isTraditional()) {
+                    if(Main::isTraditional()) {
                         Schedule::showTraditionalHeaders();
                     } else {
                         Schedule::showNonTraditionalHeaders();

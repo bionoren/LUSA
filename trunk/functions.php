@@ -36,10 +36,6 @@
 	}
 
 	//FUNCTIONS
-    function isTraditional() {
-        return !isset($_REQUEST["type"]) || $_REQUEST["type"] == "trad";
-    }
-
     function save_cookie($data) {
         //set for ~2 months
         setcookie("lastSchedule", $data, time()+60*60*24*7*8);
@@ -53,17 +49,17 @@
         return $title;
     }
 
-	function getCacheFile($year, $semester, $trad) {
+	function getCacheFile($semester, $trad) {
 		if(!$trad) {
             $prefix = "non";
         } else {
             $prefix = "";
         }
-		$name = "cache/".$prefix.$year.$semester.".txt";
+		$name = "cache/".$prefix.$semester.".txt";
 		if(!file_exists($name)) {
             //send the user back after 5 seconds
             print '<script language="javascript">setTimeout("history.back()",5000);</script>';
-            die("There is no data available for $semester $year");
+            die("There is no data available for $semester");
         }
         return fopen($name, "r");
 	}
@@ -79,26 +75,26 @@
         if($month < 5) {
             //this spring and try for this summer and fall
             if(!$reject || file_exists($prefix.$year."FA.txt"))
-                $files[] = array($year, "FA");
+                $files[] = $year."FA";
             if(!$reject || file_exists($prefix.$year."SU.txt"))
-                $files[] = array($year, "SU");
-            $files[] = array($year, "SP");
+                $files[] = $year."SU";
+            $files[] = $year."SP";
         } elseif($month < 8) {
             //grab this summer and try for next fall
             if(!$reject || file_exists($prefix.$year."FA.txt"))
-                $files[] = array($year, "FA");
-            $files[] = array($year, "SU");
+                $files[] = $year."FA";
+            $files[] = $year."SU";
         } else {
             //grab this fall and try for next spring
             if(!$reject || file_exists($prefix.($year+1)."SP.txt"))
-                $files[] = array($year+1, "SP");
-            $files[] = array($year, "FA");
+                $files[] = ($year+1)."SP";
+            $files[] = $year."FA";
         }
         return $files;
     }
 
-	function getClassData($year, $semester, $trad, $campus) {
-        $file = getCacheFile($year, $semester, $trad);
+	function getClassData($semester, $trad, $campus) {
+        $file = getCacheFile($semester, $trad);
         $classes = array();
         fgets($file); //burn the title
         while(!feof($file)) {
