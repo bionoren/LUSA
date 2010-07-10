@@ -13,7 +13,7 @@
 	 *	limitations under the License.
 	 */
 
-    error_reporting(E_ALL & E_STRICT);
+	error_reporting(E_ALL);
 
     require_once("Course.php");
     require_once("Schedule.php");

@@ -13,7 +13,7 @@
 	 *	limitations under the License.
 	 */
 
-    error_reporting(E_ALL & E_STRICT);
+    error_reporting(E_ALL | E_STRICT);
     require_once("functions.php");
     require_once("Course.php");
 
@@ -43,13 +43,7 @@
             $classes[] = new Course($class);
         }
 
-        $titleLookup = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
-        $file = fopen("cache/temp.txt", "w");
-        fwrite($file, $titleLookup[$semester]." ".$year);
-		foreach($classes as $class) {
-            fwrite($file, "\n".serialize($class));
-        }
-        fclose($file);
+		file_put_contents("cache/temp.txt", serialize($classes));
         //seamlessly transition the new data
         rename("cache/temp.txt", "cache/".$prefix.$year.$semester.".txt");
         return true;

@@ -146,7 +146,9 @@
          * @return STRING ClassID.
          */
         protected function getClassChoice($i) {
-            return $_REQUEST["choice"][$i];
+            if(isset($_REQUEST["choice"][$i])) {
+                return $_REQUEST["choice"][$i];
+            }
         }
 
         /**
@@ -177,8 +179,8 @@
         public function getClearFilterLink() {
             $clear = false;
             if($this->isSubmitted()) {
-                $clear = $main."?semester=".Main::getSemester();
-                for($i = 0; $i < $NUM_CLASSES; $i++) {
+                $clear = $this."?semester=".Main::getSemester();
+                for($i = 0; $i < Main::NUM_CLASSES; $i++) {
                     $choice = $this->getClassChoice($i);
                     if(!empty($choice)) {
                         $clear .= "&amp;class[]=".$this->getClass($i)."&amp;choice[]=".$choice;
@@ -261,7 +263,7 @@
          * @return STRING Semester identifier.
          */
         public static function getSemester() {
-            return main::$semester;
+            return Main::$semester;
         }
 
         /**
@@ -289,7 +291,7 @@
          */
         protected function init() {
             //generate select option values for display later
-            $data = getClassData(Main::getSemester(), Main::isTraditional(), Main::getCampus());
+            $data = array_filter(getClassData(Main::getSemester(), Main::isTraditional()), create_function('Course $class', 'return $class->getCampus() == "'.$this->getCampus().'" || $class->isOnline();'));
             foreach($data as $class) {
                 if(!$this->isKept($class) || $this->isRemoved($class)) {
                     continue;
@@ -396,14 +398,14 @@
                                 } else {
                                     foreach($this->getSchedules() as $schedule) {
                                         foreach($ctn[$course->getID()] as $section) {
-                                            $invalid = $schedule->validateClass($section);
-                                            if($invalid === false) {
+                                            $invalid = $schedule->validateClass(null, $section);
+                                            if(empty($invalid)) {
                                                 break 2;
                                             }
                                         }
                                     }
                                 }
-                                if($invalid === false || !$this->getSchedules()) {
+                                if(empty($invalid) || !$this->getSchedules()) {
                                     print '>'.htmlspecialchars_decode($course->getTitle());
                                 } else {
                                     print ' style="color:rgb(177, 177, 177);">'.htmlspecialchars_decode(substr($invalid, 0, -4));
@@ -442,14 +444,14 @@
                     foreach($this->getSchedules() as $schedule) {
                         $ctn = $this->getCourseTitleNumbers();
                         foreach($ctn[$course->getID()] as $section) {
-                            $invalid = $schedule->validateClass($section);
-                            if($invalid === false) {
+                            $invalid = $schedule->validateClass(null, $section);
+                            if(empty($invalid)) {
                                 break 2;
                             }
                         }
                     }
                     print "t.set('".$id."',new Array('";
-                    if($invalid === false || !$this->getSchedules()) {
+                    if(empty($invalid) || !$this->getSchedules()) {
                         print addslashes(htmlspecialchars_decode($course->getTitle()))."', true";
                     } else {
                         print addslashes(htmlspecialchars_decode(substr($invalid, 0, -4)))."', false";

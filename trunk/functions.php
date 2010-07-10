@@ -13,57 +13,75 @@
 	 *	limitations under the License.
 	 */
 
-	//DEBUGGING FUNCTIONS
-	function dump($name, $array, $member=null) {
+	//-----------------------------
+	//	   DEBUGGING FUNCTIONS
+	//-----------------------------
+
+	/**
+     * useful debug function that displays variables or arrays in a pretty format.
+     *
+     * @param STRING $name Name of the array (for pretty display purposes).
+     * @param MIXED $array Array of data, but if it isn't an array we try to print it by itself.
+     * @return VOID
+     */
+	function dump($name, $array) {
 		if(!is_array($array)) {
-			print "$name = $array<br/>";
-		} else {
-			foreach($array as $key=>$val) {
-				if(is_array($val)) {
-                    if($member == null)
-    					dump($name."[$key]", $val, $member);
-                    else
-                        dump($name."[$key]", $val);
+			print "\$".$name." = ".$array."<br>";
+			return;
+		}
+		foreach($array as $key=>$val) {
+			if(is_array($val)) {
+				dump($name."[".$key."]", $val);
+			} else {
+				print $name."[".$key."] = ";
+                if(is_object($val)) {
+                    print get_class($val)."<br>";
                 } else {
-                    if($member == null) {
-    					print $name."[".$key."] = ".$val."<br/>";
-                    } else {
-                        print $name."[".$key."] = ".$val->{$member}()."<br/>";
-                    }
+                    print $val."<br>";
                 }
 			}
 		}
 	}
 
-	//FUNCTIONS
+	//-----------------------------
+	//			FUNCTIONS
+	//-----------------------------
+
+	/**
+	 * Saves a cookie with the current course selection information
+	 *
+	 * @param STRING $data Data to save.
+	 * @return VOID
+	 */
     function save_cookie($data) {
         //set for ~2 months
         setcookie("lastSchedule", $data, time()+60*60*24*7*8);
     }
 
-    function getCurrentSemester($year, $semester, $trad) {
-        //get the current class schedule from LeTourneau
-		$file = getCacheFile($year, $semester, $trad);
-        $title = fgets($file);
-        fclose($file);
-        return $title;
-    }
-
+	/**
+	 * Returns the data from the cache file for the given semester.
+	 *
+	 * @param STRING $semester Fully qualified semester name.
+	 * @param BOOLEAN $trad True if traditional class data should be fetched.
+	 * @return STRING cache data.
+	 */
 	function getCacheFile($semester, $trad) {
-		if(!$trad) {
-            $prefix = "non";
-        } else {
-            $prefix = "";
-        }
+		$prefix = ($trad)?"":"non";
 		$name = "cache/".$prefix.$semester.".txt";
 		if(!file_exists($name)) {
             //send the user back after 5 seconds
             print '<script language="javascript">setTimeout("history.back()",5000);</script>';
             die("There is no data available for $semester");
         }
-        return fopen($name, "r");
+        return file_get_contents($name);
 	}
 
+	/**
+	 * Returns an array of fully qualified semester names.
+	 *
+	 * @param BOOLEAN $reject If false, semesters without available data are included.
+	 * @return ARRAY List of semester names.
+	 */
     function getFileArray($reject=true) {
         //rollover on May 1st, August 1st, and January 1st
         $year = date("Y");
@@ -93,21 +111,23 @@
         return $files;
     }
 
-	function getClassData($semester, $trad, $campus) {
-        $file = getCacheFile($semester, $trad);
-        $classes = array();
-        fgets($file); //burn the title
-        while(!feof($file)) {
-            $class = unserialize(fgets($file));
-            if($class->isOnline() || $class->getCampus() == $campus) {
-                $classes[] = $class;
-            }
-        }
-        fclose($file);
-        return $classes;
+	/**
+	 * Returns an array of classes for the given options.
+	 *
+	 * @param STRING $semester Fully qualified semester name.
+	 * @param BOOLEAN $trad True for traditional classes.
+	 * @return ARRAY Array of Course objects.
+	 */
+	function getClassData($semester, $trad) {
+		return unserialize(getCacheFile($semester, $trad));
 	}
 
-    //filters the master class list down to the courses we're interested in and organizes the data into something parsable by evaluateSchedules()
+    /**
+	 * Creates a list of possible schedules from the given courses and filters out the invalid ones.
+	 *
+	 * @param ARRAY $courses List of course objects to consider.
+	 * @return MIXED A list of valid schedules or a string with the error message(s).
+	 */
 	function findSchedules(array $courses) {
         //add course information for all the courses to be taken
         //classes with only one section must be common
@@ -159,6 +179,13 @@
 		return $schedules;
 	}
 
+	/**
+	 * Sorts the two classes.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+	 */
 	function classSort(Course $class1, Course $class2) {
         //if the classes aren't even on the same days, sort by days
 		if(!isDateOverlap($class1, $class2)) {
@@ -170,6 +197,13 @@
         return timeSort($class1, $class2);
 	}
 
+	/**
+	 * Sorts the two classes by time.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+	 */
     function timeSort(Course $class1, Course $class2) {
         $start1 = $class1->getStartTime();
         $start2 = $class2->getStartTime();
@@ -177,14 +211,35 @@
         return ($start1 - $start2)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
     }
 
+	/**
+	 * Sorts the two classes by day.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+	 */
 	function daySort(Course $class1, Course $class2) {
 		return $class2->getDays() - $class1->getDays();
 	}
 
+	/**
+	 * Sorts the two classes by start date.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+	 */
     function dateSort(Course $class1, Course $class2) {
         return $class1->getStartDate() - $class2->getStartDate();
     }
 
+	/**
+	 * Checks if two classes overlap.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return MIXED False if no overlap, otherwise a string with the error message.
+	 */
 	function checkTimeConflict(Course $class1, Course $class2) {
         //if one of the classes ends before the other one starts, no overlap
         if($class1->getEndTime() < $class2->getStartTime() || $class2->getEndTime() < $class1->getStartTime()) {
@@ -195,10 +250,24 @@
         return $class1->getTitle()." conflicts with ".$class2->getTitle();
 	}
 
+	/**
+	 * Checks if two classes are offered on at least 1 common day of the week.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return BOOLEAN True if the classes overlap on at least 1 day.
+	 */
 	function isDayOverlap(Course $class1, Course $class2) {
-        return ($class1->getDays() & $class2->getDays()) > 0;
+        return $class1->getDays() & $class2->getDays();
 	}
 
+	/**
+	 * Checks if two classes are offered during at least 1 commond day of the year.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return BOOLEAN True if the classes overlap on at least 1 day.
+	 */
     function isDateOverlap(Course $class1, Course $class2) {
         return $class1->getEndDate() >= $class2->getStartDate() && $class2->getEndDate() >= $class1->getStartDate();
     }
