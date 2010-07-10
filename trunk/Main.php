@@ -13,26 +13,59 @@
 	 *	limitations under the License.
 	 */
 
+    /**
+     * Handles processing of the main page.
+     *
+     * Provides user input to other classes that need it and holds intermediary
+     * class information arrays used throughout this script.
+     *
+     * @author Bion Oren
+     * @version 1.0
+     */
     class Main {
-        //for those of you wondering why this number is so high, I know an aviation major taking 11 classes next semester.
+        /**
+         *  The maximum number of class dropdowns to display.
+         *
+         *  For those of you wondering why this number is so high, I know an aviation major
+         *  taking 11 classes next semester.
+         */
         const NUM_CLASSES = 20;
+        /** Mapping of semester abbreviations to long names. */
         public static $SEMESTER_NAMES = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
 
-        protected static $semester;
-        protected static $traditional;
+        /** The name of the campus we're getting courses for. */
         protected static $campus;
+        /** Array of the form classGroups[dept] = [select_option_block]. */
         protected $classGroups = array();
-        protected $classes = array();
-        protected $courseTitleNumbers = array();
-        protected $courses = array();
-        protected $submit = false;
-        protected $schedules = null;
-        protected $showBooks = false;
-        protected $errors = array();
-        protected $hours = 0;
-        protected $keepFilter = array();
-        protected $removeFilter = array();
+        /** The unique name of the current semester. */
+        protected static $semester;
+        /** True if we're dealing with traditional courses. */
+        protected static $traditional;
 
+        /** Sorted array of the form classes[dept][classUID] = [Course]. */
+        protected $classes = array();
+        /** Numeric array of course objects for the currently selected courses. */
+        protected $courses = array();
+        /** Array of the form courseTitleNumbers[dept.num.section] = [Course]. */
+        protected $courseTitleNumbers = array();
+        /** Array of error messages for classes keyed by the class' order of selection. */
+        protected $errors = array();
+        /** The total number of hours for the selected classes. */
+        protected $hours = 0;
+        /** Array of filters to keep classes - of the form keepFilter[classID] = [sectionNumber]. */
+        protected $keepFilter = array();
+        /** Array of filters to remove classes - of the form removeFilter[classUID]*/
+        protected $removeFilter = array();
+        /** Numeric array of generated schedules. */
+        protected $schedules = null;
+        /** True if links to the bookstore website should be shown (which is slow). */
+        protected $showBooks = false;
+        /** True if schedules should be generated. */
+        protected $submit = false;
+
+        /**
+         * Initializes all the class variables.
+         */
         public function __construct() {
             Main::$semester = $this->getCurrentSemester();
             Main::$traditional = !isset($_REQUEST["type"]) || $_REQUEST["type"] != "non";
@@ -45,6 +78,12 @@
             $this->init();
         }
 
+        /**
+         * Displays the generated schedule(s) to the user with all the pretty and error
+         * messages that may or may not go with that.
+         *
+         * @return VOID
+         */
         public function displaySchedules() {
             foreach($this->keepFilter as $val) {
                 print '<input type="hidden" name="cf[]" value="'.$val.'"/>';
@@ -65,10 +104,20 @@
             }
         }
 
+        /**
+         * Returns the campus classes are coming from.
+         *
+         * @return STRING {@see $campus}
+         */
         public static function getCampus() {
             return Main::$campus;
         }
 
+        /**
+         * Returns an array of the selected (via filter) classes.
+         *
+         * @return ARRAY Classes that should be selected.
+         */
         protected function getChosenClasses() {
             $classFilter = array();
             if(isset($_REQUEST["cf"])) {
@@ -79,22 +128,49 @@
             return $classFilter;
         }
 
+        /**
+         * Returns the department of the ith selected class.
+         *
+         * @param INTEGER $i The number of the class to get.
+         * @return STRING 4 letter department acronym.
+         */
         protected function getClass($i) {
             return $_REQUEST["class"][$i];
         }
 
+        /**
+         * Returns the classID of the ith selected class.
+         *
+         * @param INTEGER $i The number of the class to get.
+         * @return STRING ClassID.
+         */
         protected function getClassChoice($i) {
             return $_REQUEST["choice"][$i];
         }
 
+        /**
+         * Returns an internal array of classes.
+         *
+         * @return ARRAY {@see $classes}
+         */
         protected function getClasses() {
             return $this->classes;
         }
 
+        /**
+         * Returns an internal array of classes.
+         *
+         * @return ARRAY {@see $classGroups}
+         */
         protected function getClassGroups() {
             return $this->classGroups;
         }
 
+        /**
+         * Returns the link to use to clear all active filters.
+         *
+         * @return STRING Current URL minus filter vars.
+         */
         public function getClearFilterLink() {
             $clear = false;
             if($this->isSubmitted()) {
@@ -115,14 +191,29 @@
             return $clear;
         }
 
+        /**
+         * Returns an internal array of classes.
+         *
+         * @return ARRAY {@see $courses}
+         */
         protected function getCourses() {
             return $this->courses;
         }
 
+        /**
+         * Returns an internal array of classes.
+         *
+         * @return ARRAY {@see $courseTitleNumbers}
+         */
         protected function getCourseTitleNumbers() {
             return $this->courseTitleNumbers;
         }
 
+        /**
+         * Returns the name of the current semester.
+         *
+         * @return STRING Semester identifier.
+         */
         protected function getCurrentSemester() {
             if(empty($_REQUEST["sem"])) {
                 $files = getFileArray();
@@ -132,6 +223,11 @@
             }
         }
 
+        /**
+         * Returns the number of hours being taken.
+         *
+         * @return INTEGER {@see $hours}
+         */
         public function getHours() {
             return $this->hours;
         }
@@ -144,22 +240,47 @@
             return $classFilter;
         }
 
+        /**
+         * Returns all valid generated schedules.
+         *
+         * @return ARRAY Numeric array of schedules.
+         */
         public function getSchedules() {
             return $this->schedules;
         }
 
+        /**
+         * Returns the name of the current semester.
+         *
+         * @return STRING Semester identifier.
+         */
         public static function getSemester() {
             return main::$semester;
         }
 
+        /**
+         * Returns true if the ith input class caused an error.
+         *
+         * @return BOOLEAN True on error.
+         */
         protected function hasError($i) {
             return isset($this->errors[$i]);
         }
 
+        /**
+         * Returns true if there were no fatal errors generating schedules.
+         *
+         * @return BOOLEAN True if no errors.
+         */
         protected function hasNoErrors() {
             return empty($errors);
         }
 
+        /**
+         * Initilizes internal class arrays. Also fetches all valid schedules for the given input.
+         *
+         * @return VOID
+         */
         protected function init() {
             //generate select option values for display later
             $data = getClassData(Main::getSemester(), Main::isTraditional(), Main::getCampus());
@@ -193,22 +314,49 @@
             }
         }
 
+        /**
+         * Returns true if the given class is marked (by filters) to be kept for consideration in schedules.
+         *
+         * @param COURSE $class Class to evaluate.
+         * @return BOOLEAN True if kept.
+         */
         protected function isKept(Course $class) {
             return !isset($this->keepFilter[$class->getCourseID()]) || $this->keepFilter[$class->getCourseID()] == $class->getSection();
         }
 
+        /**
+         * Returns true if the given class is marked (by filters) to be removed from consideration in schedules.
+         *
+         * @param COURSE $class Class to evaluate.
+         * @return BOOLEAN True if kept.
+         */
         protected function isRemoved(Course $class) {
             return isset($this->removeFilter[$class->getID()]);
         }
 
+        /**
+         * Returns true if schedules should be generated.
+         *
+         * @return BOOLEAN True if the class form was submitted.
+         */
         public function isSubmitted() {
             return $this->submit;
         }
 
+        /**
+         * Returns true if traditional classes are being evaluated.
+         *
+         * @return BOOLEAN True if traditional classes are being used.
+         */
         public static function isTraditional() {
             return main::$traditional;
         }
 
+        /**
+         * Displays dropdowns to select which classes to take.
+         *
+         * @return VOID
+         */
         public function printClassDropdowns() {
             $classes = $this->getClasses();
             $ctn = $this->getCourseTitleNumbers();
@@ -216,7 +364,7 @@
                 $class = $this->getClass($i);;
                 $choice = $this->getClassChoice($i);
                 if(!empty($class)) {
-                    $tmp = str_replace('">', '" selected="selected">', $this->getClassGroups());
+                    $tmp = str_replace('>'.$class, ' selected="selected">'.$class, $this->getClassGroups());
                 } else {
                     $tmp = $this->getClassGroups();
                 }
@@ -274,6 +422,11 @@
             print '</script>';
         }
 
+        /**
+         * Prints javascript that builds a hash table of classes to use in the class selection dropdowns.
+         *
+         * @return VOID
+         */
         public function printHeaderJS() {
             print "var arrItems=new Hash();\n";
             foreach($this->getClasses() as $group=>$class) {
@@ -301,6 +454,11 @@
             }
         }
 
+        /**
+         * Prints options for a SELECT block with all available semesters.
+         *
+         * @return VOID
+         */
         public static function printSemesterOptions() {
             foreach(getFileArray() as $key) {
                 print '<option value="'.$key.'"';
@@ -311,10 +469,20 @@
             }
         }
 
+        /**
+         * Returns true if links to the bookstore should be shown.
+         *
+         * @return BOOLEAN True to show links.
+         */
         public function showBooks() {
             return $this->showBooks;
         }
 
+        /**
+         * Returns the full name (including path) for this script.
+         *
+         * @return STRING Fully-qualified PHP file path.
+         */
         public function __toString() {
             return $_SERVER["PHP_SELF"];
         }

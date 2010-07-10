@@ -21,7 +21,6 @@
      */
     class Course {
         /** Stores a cache of the querystring. */
-        //TODO why??
         public static $QS = "";
 
         //course specific
