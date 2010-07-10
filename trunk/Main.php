@@ -24,43 +24,43 @@
      */
     class Main {
         /**
-         *  The maximum number of class dropdowns to display.
+         *  INTEGER The maximum number of class dropdowns to display.
          *
          *  For those of you wondering why this number is so high, I know an aviation major
          *  taking 11 classes next semester.
          */
         const NUM_CLASSES = 20;
-        /** Mapping of semester abbreviations to long names. */
+        /** ARRAY Mapping of semester abbreviations to long names. */
         public static $SEMESTER_NAMES = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
 
-        /** The name of the campus we're getting courses for. */
+        /** STRING The name of the campus we're getting courses for. */
         protected static $campus;
-        /** Array of the form classGroups[dept] = [select_option_block]. */
+        /** ARRAY Array of the form classGroups[dept] = [select_option_block]. */
         protected $classGroups = array();
-        /** The unique name of the current semester. */
+        /** STRING The unique name of the current semester. */
         protected static $semester;
-        /** True if we're dealing with traditional courses. */
+        /** BOOLEAN True if we're dealing with traditional courses. */
         protected static $traditional;
 
-        /** Sorted array of the form classes[dept][classUID] = [Course]. */
+        /** ARRAY Sorted array of the form classes[dept][classUID] = [Course]. */
         protected $classes = array();
-        /** Numeric array of course objects for the currently selected courses. */
+        /** ARRAY Numeric array of course objects for the currently selected courses. */
         protected $courses = array();
-        /** Array of the form courseTitleNumbers[dept.num.section] = [Course]. */
+        /** ARRAY Array of the form courseTitleNumbers[dept.num.section] = [Course]. */
         protected $courseTitleNumbers = array();
-        /** Array of error messages for classes keyed by the class' order of selection. */
+        /** ARRAY Array of error messages for classes keyed by the class' order of selection. */
         protected $errors = array();
-        /** The total number of hours for the selected classes. */
+        /** INTEGER The total number of hours for the selected classes. */
         protected $hours = 0;
-        /** Array of filters to keep classes - of the form keepFilter[classID] = [sectionNumber]. */
+        /** ARRAY Array of filters to keep classes - of the form keepFilter[classID] = [sectionNumber]. */
         protected $keepFilter = array();
-        /** Array of filters to remove classes - of the form removeFilter[classUID]*/
+        /** ARRAY Array of filters to remove classes - of the form removeFilter[classUID]*/
         protected $removeFilter = array();
-        /** Numeric array of generated schedules. */
+        /** ARRAY Numeric array of generated schedules. */
         protected $schedules = null;
-        /** True if links to the bookstore website should be shown (which is slow). */
+        /** BOOLEAN True if links to the bookstore website should be shown (which is slow). */
         protected $showBooks = false;
-        /** True if schedules should be generated. */
+        /** BOOLEAN True if schedules should be generated. */
         protected $submit = false;
 
         /**

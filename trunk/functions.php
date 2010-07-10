@@ -48,15 +48,61 @@
 	//-----------------------------
 
 	/**
-	 * Saves a cookie with the current course selection information
+	 * Checks if two classes overlap.
 	 *
-	 * @param STRING $data Data to save.
-	 * @return VOID
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return MIXED False if no overlap, otherwise a string with the error message.
 	 */
-    function save_cookie($data) {
-        //set for ~2 months
-        setcookie("lastSchedule", $data, time()+60*60*24*7*8);
+	function checkTimeConflict(Course $class1, Course $class2) {
+        //if one of the classes ends before the other one starts, no overlap
+        if($class1->getEndTime() < $class2->getStartTime() || $class2->getEndTime() < $class1->getStartTime()) {
+            return false;
+        } elseif($class1->getID() == $class2->getID()) {
+            return $class1->getTitle()." conflicts with itself";
+        }
+        return $class1->getTitle()." conflicts with ".$class2->getTitle();
+	}
+
+	/**
+	 * Sorts the two classes.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+	 */
+	function classSort(Course $class1, Course $class2) {
+        //if the classes aren't even on the same days, sort by days
+		if(!isDateOverlap($class1, $class2)) {
+            return dateSort($class1, $class2);
+        }
+        if(!isDayOverlap($class1, $class2)) {
+			return daySort($class1, $class2);
+		}
+        return timeSort($class1, $class2);
+	}
+
+	/**
+	 * Sorts the two classes by start date.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+	 */
+    function dateSort(Course $class1, Course $class2) {
+        return $class1->getStartDate() - $class2->getStartDate();
     }
+
+	/**
+	 * Sorts the two classes by day.
+	 *
+	 * @param COURSE $class1 First class.
+	 * @param COURSE $class2 Second class.
+	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+	 */
+	function daySort(Course $class1, Course $class2) {
+		return $class2->getDays() - $class1->getDays();
+	}
 
 	/**
 	 * Returns the data from the cache file for the given semester.
@@ -74,6 +120,17 @@
             die("There is no data available for $semester");
         }
         return file_get_contents($name);
+	}
+
+	/**
+	 * Returns an array of classes for the given options.
+	 *
+	 * @param STRING $semester Fully qualified semester name.
+	 * @param BOOLEAN $trad True for traditional classes.
+	 * @return ARRAY Array of Course objects.
+	 */
+	function getClassData($semester, $trad) {
+		return unserialize(getCacheFile($semester, $trad));
 	}
 
 	/**
@@ -111,17 +168,6 @@
         return $files;
     }
 
-	/**
-	 * Returns an array of classes for the given options.
-	 *
-	 * @param STRING $semester Fully qualified semester name.
-	 * @param BOOLEAN $trad True for traditional classes.
-	 * @return ARRAY Array of Course objects.
-	 */
-	function getClassData($semester, $trad) {
-		return unserialize(getCacheFile($semester, $trad));
-	}
-
     /**
 	 * Creates a list of possible schedules from the given courses and filters out the invalid ones.
 	 *
@@ -137,7 +183,7 @@
                 unset($courses[$i]);
             }
         }
-        $sched = new Schedule(array());
+        $sched = new Schedule();
         $valid = $sched->isValid();
         //the schedule still has common classes that need to be validated
         //just because there are no options doesn't mean you can take these classes
@@ -180,75 +226,15 @@
 	}
 
 	/**
-	 * Sorts the two classes.
+	 * Checks if two classes are offered during at least 1 commond day of the year.
 	 *
 	 * @param COURSE $class1 First class.
 	 * @param COURSE $class2 Second class.
-	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+	 * @return BOOLEAN True if the classes overlap on at least 1 day.
 	 */
-	function classSort(Course $class1, Course $class2) {
-        //if the classes aren't even on the same days, sort by days
-		if(!isDateOverlap($class1, $class2)) {
-            return dateSort($class1, $class2);
-        }
-        if(!isDayOverlap($class1, $class2)) {
-			return daySort($class1, $class2);
-		}
-        return timeSort($class1, $class2);
-	}
-
-	/**
-	 * Sorts the two classes by time.
-	 *
-	 * @param COURSE $class1 First class.
-	 * @param COURSE $class2 Second class.
-	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
-	 */
-    function timeSort(Course $class1, Course $class2) {
-        $start1 = $class1->getStartTime();
-        $start2 = $class2->getStartTime();
-        //returns -1 if class1 is before class2
-        return ($start1 - $start2)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
+    function isDateOverlap(Course $class1, Course $class2) {
+        return $class1->getEndDate() >= $class2->getStartDate() && $class2->getEndDate() >= $class1->getStartDate();
     }
-
-	/**
-	 * Sorts the two classes by day.
-	 *
-	 * @param COURSE $class1 First class.
-	 * @param COURSE $class2 Second class.
-	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
-	 */
-	function daySort(Course $class1, Course $class2) {
-		return $class2->getDays() - $class1->getDays();
-	}
-
-	/**
-	 * Sorts the two classes by start date.
-	 *
-	 * @param COURSE $class1 First class.
-	 * @param COURSE $class2 Second class.
-	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
-	 */
-    function dateSort(Course $class1, Course $class2) {
-        return $class1->getStartDate() - $class2->getStartDate();
-    }
-
-	/**
-	 * Checks if two classes overlap.
-	 *
-	 * @param COURSE $class1 First class.
-	 * @param COURSE $class2 Second class.
-	 * @return MIXED False if no overlap, otherwise a string with the error message.
-	 */
-	function checkTimeConflict(Course $class1, Course $class2) {
-        //if one of the classes ends before the other one starts, no overlap
-        if($class1->getEndTime() < $class2->getStartTime() || $class2->getEndTime() < $class1->getStartTime()) {
-            return false;
-        } elseif($class1->getID() == $class2->getID()) {
-            return $class1->getTitle()." conflicts with itself";
-        }
-        return $class1->getTitle()." conflicts with ".$class2->getTitle();
-	}
 
 	/**
 	 * Checks if two classes are offered on at least 1 common day of the week.
@@ -262,13 +248,27 @@
 	}
 
 	/**
-	 * Checks if two classes are offered during at least 1 commond day of the year.
+	 * Saves a cookie with the current course selection information
+	 *
+	 * @param STRING $data Data to save.
+	 * @return VOID
+	 */
+    function save_cookie($data) {
+        //set for ~2 months
+        setcookie("lastSchedule", $data, time()+60*60*24*7*8);
+    }
+
+	/**
+	 * Sorts the two classes by time.
 	 *
 	 * @param COURSE $class1 First class.
 	 * @param COURSE $class2 Second class.
-	 * @return BOOLEAN True if the classes overlap on at least 1 day.
+	 * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
 	 */
-    function isDateOverlap(Course $class1, Course $class2) {
-        return $class1->getEndDate() >= $class2->getStartDate() && $class2->getEndDate() >= $class1->getStartDate();
+    function timeSort(Course $class1, Course $class2) {
+        $start1 = $class1->getStartTime();
+        $start2 = $class2->getStartTime();
+        //returns -1 if class1 is before class2
+        return ($start1 - $start2)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
     }
 ?>

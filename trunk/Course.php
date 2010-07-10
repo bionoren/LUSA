@@ -20,41 +20,41 @@
      * @version 2.0
      */
     class Course {
-        /** Stores a cache of the querystring. */
+        /** STRING Stores a cache of the querystring. */
         public static $QS = "";
 
         //course specific
-        /** Course ID of the form DEPT-####. */
+        /** STRING Course ID of the form DEPT-####. */
         protected $courseID;
-		/** Course ID with the section number appended. */
+		/** STRING Course ID with the section number appended. */
 		protected $id;
-        /** Course section number. */
+        /** STRING Course section number. */
         protected $section;
-        /** Title of this class. */
+        /** STRING Title of this class. */
         protected $title;
-        /** Number of students currently registered for this class. */
+        /** INTEGER Number of students currently registered for this class. */
         protected $currentRegistered = 0;
-        /** Maximum number of students that can register for this class. */
+        /** INTEGER Maximum number of students that can register for this class. */
         protected $maxRegisterable;
 
         //lecture/lab specific
-        /** Bit string of days of the week (1 is Sunday). */
+        /** INTEGER Bit string of days of the week (1 is Sunday). */
         protected $days;
-        /** Floating point representation of class start time. */
+        /** FLOAT Class start time. */
         protected $startTime;
-        /** Floating point representation of class end time. */
+        /** FLOAT Class end time. */
         protected $endTime;
-        /** Day of the year this class starts on. */
+        /** INTEGER Day of the year this class starts on. */
         protected $startDay;
-        /** Day of the year this class ends on. */
+        /** INTEGER Day of the year this class ends on. */
         protected $endDay;
-        /** Name of the professor teaching this course. */
+        /** STRING Name of the professor teaching this course. */
         protected $prof = "Staff";
-        /** Name of the campus this class is offered at. */
+        /** STRING Name of the campus this class is offered at. */
         protected $campus = "MAIN";
-        /** Type of class (online, traditional, nontraditional). */
+        /** STRING Type of class (online, traditional, nontraditional). */
         protected $type;
-        /** Instance of Course representing a lab class associated with this course. */
+        /** COURSE Represents a lab class associated with this course. */
         protected $lab = null;
 
         /**

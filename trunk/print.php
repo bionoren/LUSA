@@ -115,7 +115,7 @@
                 $end = $class[2]+$offset;
                 imagefilledrectangle($img, $offsetX+2+$incX*($i-1), $offsetY+5+$start*$incY, $offsetX-3+$incX*$i, $offsetY-5+$end*$incY, $bgcolor);
                 imagefilledrectangle($img, $offsetX+2+5+$incX*($i-1), $offsetY+$start*$incY, $offsetX-3-5+$incX*$i, $offsetY+$end*$incY, $bgcolor);
-                //dump rounded edges
+                //dumb rounded edges
                 //ul
                 imagefilledellipse($img, $offsetX+1+6+$incX*($i-1), $offsetY+5+$start*$incY, 10, 10, $bgcolor);
                 //ll

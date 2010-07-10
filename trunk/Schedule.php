@@ -20,20 +20,38 @@
      * @version 1.5
      */
     class Schedule {
+        /** ARRAY Array of classes that are common to all possible schedules. */
         public static $common = array();
 
+        /** ARRAY Array of all classes in this classes. */
         protected $classes = array();
+        /** ARRAY Array of classes that are unique to this schedule (ie not common). */
         protected $uniqueClasses = array();
+        /** MIXED True if this schedule is valid, otherwise a string with the error message(s). */
         protected $valid = true;
 
-        public function __construct(array $classes) {
+        /**
+         * Constructs a new schedule with the given classes.
+         *
+         * @param ARRAY $classes Optional list of classes to add.
+         */
+        public function __construct(array $classes=null) {
             $this->classes = Schedule::$common;
-            foreach($classes as $class) {
-                $this->addClass($class, false);
+            if(!empty($classes)) {
+                foreach($classes as $class) {
+                    $this->addClass($class, false);
+                }
+                $this->validate();
             }
-            $this->validate();
         }
 
+        /**
+         * Adds a class and optionally validates the schedule.
+         *
+         * @param COURSE $class Class to add.
+         * @param BOOLEAN $validate Validates the schedule if true.
+         * @return MIXED True if not validated or valid, error string on error.
+         */
         public function addClass(Course $class, $validate=true) {
             $this->classes[] = $class;
             $this->uniqueClasses[] = $class;
@@ -47,6 +65,13 @@
             return true;
         }
 
+        /**
+         * Creates the javascript to show/hide a set of optional classes.
+         *
+         * @param ARRAY $sections List of class sections in this optional list.
+         * @param STRING $key Class ID for these sections.
+         * @return STRING Javascript text.
+         */
         protected static function createJSToggle(array $sections, $key) {
             $ret = 'state = "visible";';
             $ret .= 'if($("'.current($sections)->getUID().'").style.visibility == "visible") { state = "collapse"; }';
@@ -57,6 +82,12 @@
             return $ret;
         }
 
+        /**
+         * Displays the given schedules.
+         *
+         * @param ARRAY $schedules List of schedules.
+         * @return VOID
+         */
         public static function display(array $schedules) {
             $optionClasses = Schedule::getOptionClasses($schedules);
             //this is slow, but it makes classes look pretty
@@ -96,27 +127,50 @@
             print '<a href="print.php?'.Schedule::getPrintQS(Schedule::$common).'" id="printer">Printer Friendly</a>';
         }
 
+        /**
+         * Returns this schedule's validation state.
+         *
+         * @return MIXED True if this schedule is valid, otherwise an error string.
+         */
         public function isValid() {
             return $this->valid;
         }
 
+        /**
+         * Returns an array of all the classes in this schedule.
+         *
+         * @return ARRAY Schedule classes.
+         */
         public function getClasses() {
             return $this->classes;
         }
 
+        /**
+         * Returns an array of all the classes in the given schedules that are optional.
+         *
+         * @param ARRAY $schedules List of schedules.
+         * @return ARRAY List of optional classes of the form $ret[classID][section] = class.
+         */
         protected static function getOptionClasses(array $schedules) {
             $classOptions = array();
             foreach($schedules as $schedule) {
                 foreach($schedule->getUniqueClasses() as $class) {
                     if(!in_array($class, Schedule::$common)) {
-                        $classOptions[substr($class, 0, -3)][$class->getSection()] = $class;
+                        $classOptions[$class->getID()][$class->getSection()] = $class;
                     }
                 }
             }
             return $classOptions;
         }
 
-        public static function getPrintQS($classes=null) {
+        /**
+         * Returns the querystring used to generate a picture of the given classes.
+         *
+         * @param ARRAY $classes List of classes to display.
+         * @return STRING Querystring for display.
+         * @see print.php
+         */
+        public static function getPrintQS($classes=array()) {
             $ret = '';
             foreach($classes as $class) {
                 $ret .= $class->getPrintQS()."~";
@@ -126,10 +180,21 @@
             return $ret;
         }
 
+        /**
+         * Returns an array of the classe that are unique to this schedule (not common).
+         *
+         * @return ARRAY
+         * @see $uniqueClasses
+         */
         public function getUniqueClasses() {
             return $this->uniqueClasses;
         }
 
+        /**
+         * Prints headers for non-traditional classes.
+         *
+         * @return VOID
+         */
         protected static function showNonTraditionalHeaders() {
             ?>
             <th colspan="2">Class</th>
@@ -143,6 +208,11 @@
             <?php
         }
 
+        /**
+         * Prints headers for traditional classes.
+         *
+         * @return VOID
+         */
         protected static function showTraditionalHeaders() {
             ?>
             <th colspan="2">Class</th>
@@ -154,6 +224,12 @@
             <?php
         }
 
+        /**
+         * Validates the schedule.
+         *
+         * @return MIXED
+         * @see isValid
+         */
         public function validate() {
             //eliminate schedules that have overlaps
             $this->isValid = array_reduce($this->classes, array("Schedule", "validateClass"));
@@ -161,6 +237,14 @@
             return $this->isValid();
         }
 
+        /**
+         * Validates the schedule with the addition of the given class (does NOT add the class!)
+         *
+         * @param MIXED $ret Like isValid.
+         * @param COURSE $class1 Class to validate with this schedule.
+         * @return MIXED
+         * @see isValid
+         */
         public function validateClass($ret, Course $class1) {
             //eliminate schedules that have overlaps
             //you can always take online classes
@@ -178,10 +262,6 @@
             }
             //return all the conflicts together
             return $ret;
-        }
-
-        public function __toString() {
-            return "Schedule object";
         }
     }
 ?>
