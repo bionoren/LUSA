@@ -333,34 +333,34 @@
 		 * @return VOID
 		 */
         public function display($optional=false) {
-            if(empty(Course::$QS)) {
-                Course::generateQS();
-            }
             print '<tr id="'.$this->getUID().'" class="'.$this->getBackgroundStyle().'"';
             if($optional) {
                 print ' style="visibility:collapse;"';
             }
             print '>';
                 if($optional) {
-                    $qstring = Course::$QS.'cf[]='.$this->getUID().'&amp;submit=Filter';
-                    print '<td><a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>Choose</strong></a>';
-                    $qstring = Course::$QS.'rf[]='.$this->getUID().'&amp;submit=Filter';
-                    print ' or <a href="'.$qstring.'" style="color:blue text-decoration:underline;"><strong>Remove</strong></a></td>';
-                    print "<td><input type='radio' id='select".$this->getID().$this->getSection()."' alt='Select' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
-                    print "<label for='select".$this->getID().$this->getSection()."'>Preview</label></td>";
+                    $qstring = Course::$QS.'%sf[]='.$this->getUID().'&amp;submit=Filter';
+					$filterLink = '<a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>%s</strong></a>';
+                    print '<td>';
+						print sprintf($filterLink, "c", "Choose").' or '.sprintf($filterLink, "r", "Remove");
+					print '</td>';
+                    print "<td>";
+						print "<input type='radio' id='select".$this->getUID()."' alt='Select' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
+						print "<label for='select".$this->getUID()."'>Preview</label>";
+					print "</td>";
                 } else {
                     print '<td>'.$this->getID().'</td>';
                     print '<td>'.html_entity_decode($this->getTitle()).'</td>';
                 }
                 print '<td>'.$this->getProf().'</td>';
                 if(!Main::isTraditional()) {
-                    print '<td>'.date("n/j/y", $this->startDay).' - '.date("n/j/y", $this->endDay).'</td>';
+                    print '<td>'.date("n/j/y", $this->getStartDate()).' - '.date("n/j/y", $this->getEndDate()).'</td>';
                 }
                 print '<td>'.$this->dayString().'</td>';
                 print '<td>'.Course::displayTime($this->getStartTime(), $this->isOnline()).'-'.Course::displayTime($this->getEndTime(), $this->isOnline()).'</td>';
                 print '<td>'.$this->getSection().'</td>';
                 if(!Main::isTraditional()) {
-                    print '<td>'.$this->campus.'</td>';
+                    print '<td>'.$this->getCampus().'</td>';
                 }
                 print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
             print '</tr>';
@@ -431,7 +431,7 @@
 		 * @return STRING Query string.
 		 */
         public function getPrintQS() {
-            return implode("::", array($this->days,$this->startTime,$this->endTime,addslashes($this->getTitle())));
+            return implode("::", array($this->getDays(),$this->getStartTime(),$this->getEndTime(),addslashes($this->getTitle())));
         }
 
 		/**

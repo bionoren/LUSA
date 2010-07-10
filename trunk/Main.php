@@ -75,6 +75,8 @@
             $this->keepFilter = $this->getChosenClasses();
             $this->removeFilter = $this->getRemovedClasses();
 
+            //setup query string cache for courses
+            Course::generateQS();
             $this->init();
         }
 
