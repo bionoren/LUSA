@@ -14,7 +14,6 @@
 	 */
 
     error_reporting(E_ALL & E_STRICT);
-    date_default_timezone_set("America/Chicago");
 
     require_once("Course.php");
     require_once("Schedule.php");

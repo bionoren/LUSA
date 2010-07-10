@@ -14,20 +14,8 @@
 	 */
 
     error_reporting(E_ALL & E_STRICT);
-    date_default_timezone_set("America/Chicago");
     require_once("functions.php");
     require_once("Course.php");
-
-	function getCache($file) {
-        $name = "cache/".md5($file).".tmp";
-        if(file_exists($name)) {
-            return file_get_contents($name);
-        } else {
-            $ret = file_get_contents($file);
-            file_put_contents($name, $ret);
-            return $ret;
-        }
-    }
 
     /**
      * Writes cash data for all courses in the given semester and year using data from the
@@ -41,8 +29,7 @@
 	function writeClassData($file, $year, $semester, $prefix="non") {
 		//get the current class schedule from LeTourneau
 		$file .= $year."/".$semester;
-//		$xml = simplexml_load_file($file);
-		$xml = simplexml_load_string(getCache($file)); //TODO THIS IS FOR DEBUGGING ONLY!
+		$xml = simplexml_load_file($file);
         if($xml->count() == 0 || $xml === false) {
             //there's no data here, or there was an error
             return false;

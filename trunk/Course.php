@@ -68,7 +68,7 @@
             //setup course info
             $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
             $this->section = (string)$xml->{"sectionnumber"};
-			$this->id = $this->getCourseID().$this->getSection();
+			$this->id = $this->getID().$this->getSection();
             if(empty($xml->{"sectiontitle"})) {
                 $this->title = htmlspecialchars($xml->{"coursetitle"});
             } else {
@@ -187,18 +187,20 @@
         }
 
         /**
-         * Returns this class' course ID.
+         * Returns this class' ID.
          *
-         * @return STRING {@see $courseID}
+         * @return STRING
+         * @see $courseID
          */
-        public function getCourseID() {
+        public function getID() {
             return $this->courseID;
         }
 
         /**
          * Returns this class' section number.
          *
-         * @return INTEGER {@see $sections}
+         * @return INTEGER
+         * @see $sections
          */
         public function getSection() {
             return $this->section;
@@ -207,7 +209,8 @@
         /**
          * Returns the days this class is offered.
          *
-         * @return INTEGER {@see $days}
+         * @return INTEGER
+         * @see $days
          */
         public function getDays() {
             return $this->days;
@@ -216,7 +219,8 @@
         /**
          * Returns this class' start time.
          *
-         * @return FLOAT {@see $startTime}
+         * @return FLOAT
+         * @see $startTime
          */
         public function getStartTime() {
             return $this->startTime;
@@ -225,7 +229,8 @@
         /**
          * Returns this class' end time.
          *
-         * @return FLOAT {@see $endTime}
+         * @return FLOAT
+         * @see $endTime
          */
         public function getEndTime() {
             return $this->endTime;
@@ -234,62 +239,117 @@
         /**
          * Returns this class' start date.
          *
-         * @return INTEGER {@see $startDay}
+         * @return INTEGER
+         * @see $startDay
          */
         public function getStartDate() {
             return $this->startDay;
         }
 
+		/**
+		 * Returns this class' end date.
+		 *
+		 * @return INTEGER
+		 * @see $endDay
+		 */
         public function getEndDate() {
             return $this->endDay;
         }
 
+		/**
+		 * Returns this class' title.
+		 *
+		 * @return STRING
+		 * @see $title
+		 */
         public function getTitle() {
             return $this->title;
         }
 
+		/**
+		 * Returns the name of the prof teaching this class.
+		 *
+		 * @return STRING
+		 * @see $prof
+		 */
         public function getProf() {
             return $this->prof;
         }
 
+		/**
+		 * Returns the number of people currently registered for this class.
+		 *
+		 * @return INTEGER
+		 * @see $currentRegistered
+		 */
         public function getCurrentRegistered() {
             return $this->currentRegistered;
         }
 
+		/**
+		 * Returns the maximum number of people that can be registered for this class.
+		 *
+		 * @return INTEGER
+		 * @see $maxRegisterable
+		 */
         public function getMaxRegistered() {
             return $this->maxRegisterable;
         }
 
+		/**
+		 * Returns the name of the campus this class is at.
+		 *
+		 * @return STRING
+		 * @see $campus
+		 */
         public function getCampus() {
             return $this->campus;
         }
 
+		/**
+		 * Returns true if this class is online.
+		 *
+		 * @return BOOLEAN
+		 * @see $type
+		 */
         public function isOnline() {
             return $this->type == "OL";
         }
 
-        public function getID() {
+		/**
+		 * Returns this class' UID.
+		 *
+		 * @return STRING
+		 * @see $id
+		 */
+        public function getUID() {
             return $this->id;
         }
 
+		/**
+		 * Displays this class in a table.
+		 *
+		 * @param BOOLEAN $optional True if this class is part of an optional set of classes.
+		 * @return VOID
+		 */
         public function display($optional=false) {
             if(empty(Course::$QS)) {
                 Course::generateQS();
             }
-            print '<tr id="'.$this->getID().'" class="'.$this->getBackgroundStyle().'"';
+            print '<tr id="'.$this->getUID().'" class="'.$this->getBackgroundStyle().'"';
             if($optional) {
                 print ' style="visibility:collapse;"';
             }
             print '>';
                 if($optional) {
-                    $qstring = Course::$QS.'cf[]='.$this->getID().'&amp;submit=Filter';
+                    $qstring = Course::$QS.'cf[]='.$this->getUID().'&amp;submit=Filter';
                     print '<td><a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>Choose</strong></a>';
-                    $qstring = Course::$QS.'rf[]='.$this->getID().'&amp;submit=Filter';
+                    $qstring = Course::$QS.'rf[]='.$this->getUID().'&amp;submit=Filter';
                     print ' or <a href="'.$qstring.'" style="color:blue text-decoration:underline;"><strong>Remove</strong></a></td>';
-                    print "<td><input type='radio' id='select".$this->getCourseID().$this->getSection()."' alt='Select' name='".$this->getCourseID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getCourseID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
-                    print "<label for='select".$this->getCourseID().$this->getSection()."'>Preview</label></td>";
+                    print "<td><input type='radio' id='select".$this->getID().$this->getSection()."' alt='Select' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
+                    print "<label for='select".$this->getID().$this->getSection()."'>Preview</label></td>";
                 } else {
-                    print '<td>'.$this->getCourseID().'</td>';
+                    print '<td>'.$this->getID().'</td>';
                     print '<td>'.html_entity_decode($this->getTitle()).'</td>';
                 }
                 print '<td>'.$this->getProf().'</td>';
@@ -306,6 +366,11 @@
             print '</tr>';
         }
 
+		/**
+		 * Returns the correct CSS style to use for this class' background.
+		 *
+		 * @return STRING CSS class.
+		 */
         protected function getBackgroundStyle() {
             //>5 seats left
             if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
@@ -318,6 +383,11 @@
             return 'status-full';
         }
 
+		/**
+		 * Returns the days this class is offered as a compact string.
+		 *
+		 * @return STRING String of days this class is offered.
+		 */
         function dayString() {
             if($this->isOnline()) {
                 return "online";
@@ -335,10 +405,12 @@
             return $ret;
         }
 
-        public function isEmpty() {
-            return $this->getDays() > 0;
-        }
-
+		/**
+		 * Displays a link to the bookstore for the given class.
+		 *
+		 * @param STRING $classID Class ID.
+		 * @return VOID
+		 */
         public static function displayBookStoreLink($classID) {
             $terms = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105&_=");
             preg_match('/"data":\[\{(.+?)\}\]\}/', $terms, $groups);
@@ -353,10 +425,20 @@
             print '<a href="http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=null&storeId=10236&langId=-1&programId=1105&termId='.$term.'&divisionDisplayName=%20&departmentDisplayName='.$dep.'&courseDisplayName='.$course.'&sectionDisplayName=01&demoKey=d&purpose=browse" target="_blank">Get Books</a>';
         }
 
+		/**
+		 * Returns the querystring used to show the print preview for this class.
+		 *
+		 * @return STRING Query string.
+		 */
         public function getPrintQS() {
             return implode("::", array($this->days,$this->startTime,$this->endTime,addslashes($this->getTitle())));
         }
 
+		/**
+		 * Generates the URL prefix querystring to use for classes.
+		 *
+		 * @return VOID
+		 */
         public static function generateQS() {
             //this string concatenation could take longer than I'd like, but we need to do it...
             $qString = $_SERVER["PHP_SELF"]."?";
@@ -374,21 +456,13 @@
             Course::$QS = $qString;
         }
 
-        //for some definition of equal... make sure you don't check num registered here!
-        public function equal($class) {
-            if($this->isEmpty())
-                return false;
-            if($this->getCourseID() != $class->getCourseID())
-                return false;
-            if($this->getSection() != $class->getSection())
-                return false;
-            if($this->getTitle() != $class->getTitle())
-                return false;
-            return true;
-        }
-
+		/**
+		 * Returns this class' UID with an extra dash between the number and section number.
+		 *
+		 * @return STRING Formatted class UID.
+		 */
         public function __toString() {
-            return $this->getCourseID()."-".$this->getSection();
+            return $this->getID()."-".$this->getSection();
         }
     }
 ?>

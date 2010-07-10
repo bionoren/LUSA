@@ -189,7 +189,7 @@
         //if one of the classes ends before the other one starts, no overlap
         if($class1->getEndTime() < $class2->getStartTime() || $class2->getEndTime() < $class1->getStartTime()) {
             return false;
-        } elseif($class1->getCourseID() == $class2->getCourseID()) {
+        } elseif($class1->getID() == $class2->getID()) {
             return $class1->getTitle()." conflicts with itself";
         }
         return $class1->getTitle()." conflicts with ".$class2->getTitle();

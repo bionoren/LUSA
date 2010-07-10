@@ -107,7 +107,8 @@
         /**
          * Returns the campus classes are coming from.
          *
-         * @return STRING {@see $campus}
+         * @return STRING
+         * @see $campus
          */
         public static function getCampus() {
             return Main::$campus;
@@ -151,7 +152,8 @@
         /**
          * Returns an internal array of classes.
          *
-         * @return ARRAY {@see $classes}
+         * @return ARRAY
+         * @see $classes
          */
         protected function getClasses() {
             return $this->classes;
@@ -160,7 +162,8 @@
         /**
          * Returns an internal array of classes.
          *
-         * @return ARRAY {@see $classGroups}
+         * @return ARRAY
+         * @see $classGroups
          */
         protected function getClassGroups() {
             return $this->classGroups;
@@ -194,7 +197,8 @@
         /**
          * Returns an internal array of classes.
          *
-         * @return ARRAY {@see $courses}
+         * @return ARRAY
+         * @see $courses
          */
         protected function getCourses() {
             return $this->courses;
@@ -203,7 +207,8 @@
         /**
          * Returns an internal array of classes.
          *
-         * @return ARRAY {@see $courseTitleNumbers}
+         * @return ARRAY
+         * @see $courseTitleNumbers
          */
         protected function getCourseTitleNumbers() {
             return $this->courseTitleNumbers;
@@ -226,7 +231,8 @@
         /**
          * Returns the number of hours being taken.
          *
-         * @return INTEGER {@see $hours}
+         * @return INTEGER
+         * @see $hours
          */
         public function getHours() {
             return $this->hours;
@@ -288,10 +294,10 @@
                 if(!$this->isKept($class) || $this->isRemoved($class)) {
                     continue;
                 }
-                $course = substr($class->getCourseID(), 0, 4);
+                $course = substr($class->getID(), 0, 4);
                 $this->classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
-                $this->classes[$course][$class->getCourseID()] = $class;
-                $this->courseTitleNumbers[$class->getCourseID()][] = $class;
+                $this->classes[$course][$class->getID()] = $class;
+                $this->courseTitleNumbers[$class->getID()][] = $class;
             }
             $this->classGroups = implode("", $this->getClassGroups());
             //alphabetize the class list
@@ -321,7 +327,7 @@
          * @return BOOLEAN True if kept.
          */
         protected function isKept(Course $class) {
-            return !isset($this->keepFilter[$class->getCourseID()]) || $this->keepFilter[$class->getCourseID()] == $class->getSection();
+            return !isset($this->keepFilter[$class->getID()]) || $this->keepFilter[$class->getID()] == $class->getSection();
         }
 
         /**
@@ -331,7 +337,7 @@
          * @return BOOLEAN True if kept.
          */
         protected function isRemoved(Course $class) {
-            return isset($this->removeFilter[$class->getID()]);
+            return isset($this->removeFilter[$class->getUID()]);
         }
 
         /**
@@ -389,7 +395,7 @@
                                     $populated = $key;
                                 } else {
                                     foreach($this->getSchedules() as $schedule) {
-                                        foreach($ctn[$course->getCourseID()] as $section) {
+                                        foreach($ctn[$course->getID()] as $section) {
                                             $invalid = $schedule->validateClass($section);
                                             if($invalid === false) {
                                                 break 2;
@@ -435,7 +441,7 @@
                     $invalid = false;
                     foreach($this->getSchedules() as $schedule) {
                         $ctn = $this->getCourseTitleNumbers();
-                        foreach($ctn[$course->getCourseID()] as $section) {
+                        foreach($ctn[$course->getID()] as $section) {
                             $invalid = $schedule->validateClass($section);
                             if($invalid === false) {
                                 break 2;

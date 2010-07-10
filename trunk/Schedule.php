@@ -134,10 +134,10 @@
 
         protected static function createJSToggle(array $sections, $key) {
             $ret = 'state = "visible";';
-            $ret .= 'if($("'.current($sections)->getID().'").style.visibility == "visible") { state = "collapse"; }';
+            $ret .= 'if($("'.current($sections)->getUID().'").style.visibility == "visible") { state = "collapse"; }';
             $ret .= 'if(state == "visible") { $("'.$key.'").innerHTML = "-"; } else { $("'.$key.'").innerHTML = "+"; }';
             foreach($sections as $section) {
-                $ret .= '$("'.$section->getID().'").style.visibility = state;';
+                $ret .= '$("'.$section->getUID().'").style.visibility = state;';
             }
             return $ret;
         }
