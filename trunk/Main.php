@@ -95,18 +95,19 @@
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(Course $course) {
+            $invalid = false;
             if($this->hasNoErrors()) {
                 $ctn = $this->getCourseTitleNumbers();
                 foreach($this->getSchedules() as $schedule) {
                     foreach($ctn[$course->getID()] as $section) {
                         $invalid = $schedule->validateClass(null, $section);
                         if(empty($invalid)) {
-                            return $invalid;
+                            break 2;
                         }
                     }
                 }
             }
-            return false;
+            return $invalid;
         }
 
         /**
@@ -447,7 +448,7 @@
                                     print ' selected="selected"';
                                 }
                                 $error = $this->checkValidClass($course);
-                                if($error && $this->getSchedules()) {
+                                if(!($error && $this->getSchedules())) {
                                     print '>'.htmlspecialchars_decode($course->getTitle());
                                 } else {
                                     print ' style="color:rgb(177, 177, 177);">'.htmlspecialchars_decode(substr($error, 0, -4));
@@ -478,7 +479,7 @@
                 foreach($class as $id=>$course) {
                     $error = $this->checkValidClass($course);
                     print "t.set('".$id."',new Array('";
-                    if($error && $this->getSchedules()) {
+                    if(!($error && $this->getSchedules())) {
                         print addslashes(htmlspecialchars_decode($course->getTitle()))."', true";
                     } else {
                         print addslashes(htmlspecialchars_decode(substr($error, 0, -4)))."', false";
