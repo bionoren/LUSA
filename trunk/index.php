@@ -17,18 +17,16 @@
 	date_default_timezone_set("America/Chicago");
 
 	require_once("Main.php");
+	$main = new Main();
 
-    //whatever happens, cookie stuff comes first
     if(isset($_REQUEST["submit"])) {
         save_cookie($_SERVER["QUERY_STRING"]);
     } else {
         //look for cookie data
-        if(isset($_COOKIE["lastSchedule"]) && !isset($_REQUEST["ignore"])) {
-            header("Location:".$_SERVER["PHP_SELF"]."?".$_COOKIE["lastSchedule"]);
+        if(isset($_COOKIE[Main::getSemester()]) && !isset($_REQUEST["ignore"])) {
+            header("Location:".$_SERVER["PHP_SELF"]."?".$_COOKIE[Main::getSemester()]);
         }
     }
-
-	$main = new Main();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -118,7 +116,7 @@
                             window.location = path + '?type=non' + endPath;
                         });
                         $('semesterSelect').observe('change', function(event) {
-                            window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value) + '&submit=Change';
+                            window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value);
                         });
                         //-->
                     </script>

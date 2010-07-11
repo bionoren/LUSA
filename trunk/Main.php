@@ -229,7 +229,7 @@
          * @return STRING Semester identifier.
          */
         protected function getCurrentSemester() {
-            if(empty($_REQUEST["sem"])) {
+            if(empty($_REQUEST["semester"])) {
                 $files = getFileArray();
                 return $files[0];
             } else {

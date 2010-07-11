@@ -13,6 +13,8 @@
 	 *	limitations under the License.
 	 */
 
+	require_once("Main.php");
+
 	//-----------------------------
 	//	   DEBUGGING FUNCTIONS
 	//-----------------------------
@@ -253,7 +255,7 @@
 	 */
     function save_cookie($data) {
         //set for ~2 months
-        setcookie("lastSchedule", $data, time()+60*60*24*7*8);
+        setcookie(Main::getSemester(), $data, time()+60*60*24*7*8);
     }
 
 	/**
