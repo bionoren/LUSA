@@ -55,6 +55,10 @@
         protected $removeFilter = array();
         /** ARRAY Numeric array of generated schedules. */
         protected $schedules = array();
+        /** ARRAY Associative array of selected classes (DEPT). */
+        protected $selectedClasses = array();
+        /** ARRAY Associative array of selected courses (DEPT####). */
+        protected $selectedChoices = array();
         /** BOOLEAN True if links to the bookstore website should be shown (which is slow). */
         protected $showBooks = false;
         /** BOOLEAN True if schedules should be generated. */
@@ -71,10 +75,38 @@
             $this->submit = isset($_REQUEST["submit"]);
             $this->keepFilter = $this->getChosenClasses();
             $this->removeFilter = $this->getRemovedClasses();
+            //removes duplicate entries
+            if($this->haveSelections()) {
+                $this->selectedClasses = $_REQUEST["class"];
+                foreach($_REQUEST["choice"] as $course) {
+                    $this->selectedChoices[$course] = $course;
+                }
+            }
 
             //setup query string cache for courses
             Course::generateQS();
             $this->init();
+        }
+
+        /**
+         * Checks if the given course is valid in at least one available schedule.
+         *
+         * @param COURSE $course Course object.
+         * @return MIXED False if no errors, error string otherwise.
+         */
+        function checkValidClass(Course $course) {
+            if($this->hasNoErrors()) {
+                $ctn = $this->getCourseTitleNumbers();
+                foreach($this->getSchedules() as $schedule) {
+                    foreach($ctn[$course->getID()] as $section) {
+                        $invalid = $schedule->validateClass(null, $section);
+                        if(empty($invalid)) {
+                            return $invalid;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         /**
@@ -88,8 +120,8 @@
                 print '<input type="hidden" name="cf[]" value="'.$val.'"/>';
             }
 
-            if($this->isSubmitted() && $this->hasNoErrors() && count($this->getCourses()) > 0) {
-                if($this->getSchedules()) {
+            if($this->isSubmitted() && $this->haveSelections()) {
+                if($this->hasNoErrors()) {
                     print '<h2>Schedule</h2>';
                     Schedule::display($this->getSchedules());
                     print '<br/>';
@@ -98,7 +130,7 @@
                         print '<br/>';
                     print '</div>';
                 } else {
-                    print "<span style='color:red;'>".$main->getSchedules()."</span>";
+                    print "<span style='color:red;'>".$this->getSchedules()."</span>";
                 }
             }
         }
@@ -126,26 +158,6 @@
                 }
             }
             return $classFilter;
-        }
-
-        /**
-         * Returns the department of the ith selected class.
-         *
-         * @param INTEGER $i The number of the class to get.
-         * @return STRING 4 letter department acronym.
-         */
-        protected function getClass($i) {
-            return $_REQUEST["class"][$i];
-        }
-
-        /**
-         * Returns the classID of the ith selected class.
-         *
-         * @param INTEGER $i The number of the class to get.
-         * @return STRING ClassID.
-         */
-        protected function getClassChoice($i) {
-            return $_REQUEST["choice"][$i];
         }
 
         /**
@@ -177,13 +189,10 @@
             $clear = false;
             if($this->isSubmitted()) {
                 $clear = $this."?semester=".Main::getSemester();
-                for($i = 0; $i < count($_REQUEST["choice"]); $i++) {
-                    $choice = $this->getClassChoice($i);
-                    if(!empty($choice)) {
-                        $clear .= "&amp;class[]=".$this->getClass($i)."&amp;choice[]=".$choice;
-                    } else {
-                        $clear .= "&amp;class[]=0";
-                    }
+                reset($this->selectedClasses);
+                foreach($this->getSelectedChoices() as $choice) {
+                    $clear .= "&amp;class[]=".current($this->selectedClasses)."&amp;choice[]=".$choice;
+                    next($this->selectedClasses);
                 }
                 if(isset($_REQUEST["type"])) {
                     $clear .= "&amp;type=".$_REQUEST["type"];
@@ -255,6 +264,26 @@
         }
 
         /**
+         * Returns an array of the unique selected courses.
+         *
+         * @return ARRAY
+         * @see $selectedChoices
+         */
+        protected function getSelectedChoices() {
+            return $this->selectedChoices;
+        }
+
+        /**
+         * Returns an array of the unique selected classes.
+         *
+         * @return ARRAY
+         * @see $selectedClasses
+         */
+        protected function getSelectedClasses() {
+            return $this->selectedClasses;
+        }
+
+        /**
          * Returns the name of the current semester.
          *
          * @return STRING Semester identifier.
@@ -264,12 +293,21 @@
         }
 
         /**
-         * Returns true if the ith input class caused an error.
+         * Returns true if the user has selected at least one class.
+         *
+         * @return BOOLEAN True on user selection.
+         */
+        protected function haveSelections() {
+            return isset($_REQUEST["choice"]);
+        }
+
+        /**
+         * Returns true if the given input class caused an error.
          *
          * @return BOOLEAN True on error.
          */
-        protected function hasError($i) {
-            return isset($this->errors[$i]);
+        protected function hasError($index) {
+            return isset($this->errors[$index]);
         }
 
         /**
@@ -302,9 +340,9 @@
             //alphabetize the class list
             array_multisort($this->classes);
 
-            if($this->isSubmitted() && isset($_REQUEST["choice"])) {
+            if($this->isSubmitted() && $this->haveSelections()) {
                 //gather input data
-                foreach($_REQUEST["choice"] as $key) {
+                foreach($this->getSelectedChoices() as $key) {
                     if(isset($this->courseTitleNumbers[$key])) {
                         $this->courses[] = $this->courseTitleNumbers[$key];
                     } else {
@@ -315,6 +353,9 @@
                 if($this->hasNoErrors()) {
                     //find possible schedules
                     $this->schedules = findSchedules($this->getCourses());
+                    if(!is_array($this->getSchedules())) {
+                        $this->errors = true;
+                    }
                 }
             }
         }
@@ -364,9 +405,11 @@
          */
         public function printClassDropdowns() {
             print '<div id="classDropdowns">';
-                if(isset($_REQUEST["choice"])) {
-                    for($i=0; $i < count($_REQUEST["choice"]); $i++) {
-                        $this->printClassDropdown($this->getClass($i), $this->getClassChoice($i));
+                if($this->haveSelections()) {
+                    reset($this->selectedClasses);
+                    foreach($this->getSelectedChoices() as $choice) {
+                        $this->printClassDropdown(current($this->selectedClasses), $choice);
+                        next($this->selectedClasses);
                     }
                 }
 
@@ -399,32 +442,22 @@
                         print "<select name='choice[]'>";
                             foreach($classes[$class] as $key=>$course) {
                                 print '<option value="'.$key.'"';
-                                $invalid = false;
                                 if($choice == $key) {
-                                    print ' selected="selected"';
                                     $this->hours += substr($key, -1);
-                                    $populated = $key;
-                                } else {
-                                    foreach($this->getSchedules() as $schedule) {
-                                        foreach($ctn[$course->getID()] as $section) {
-                                            $invalid = $schedule->validateClass(null, $section);
-                                            if(empty($invalid)) {
-                                                break 2;
-                                            }
-                                        }
-                                    }
+                                    print ' selected="selected"';
                                 }
-                                if(empty($invalid) || !$this->getSchedules()) {
+                                $error = $this->checkValidClass($course);
+                                if($error && $this->getSchedules()) {
                                     print '>'.htmlspecialchars_decode($course->getTitle());
                                 } else {
-                                    print ' style="color:rgb(177, 177, 177);">'.htmlspecialchars_decode(substr($invalid, 0, -4));
+                                    print ' style="color:rgb(177, 177, 177);">'.htmlspecialchars_decode(substr($error, 0, -4));
                                 }
                                 print '</option>';
                             }
                         print "</select>";
                     }
                 print '</div>';
-                if($populated !== false && $this->showBooks()) {
+                if($populated && $this->showBooks()) {
                     print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
                 }
                 if($this->hasError($choice)) {
@@ -443,21 +476,12 @@
             foreach($this->getClasses() as $group=>$class) {
                 print "var t=new Hash();\n";
                 foreach($class as $id=>$course) {
-                    $invalid = false;
-                    foreach($this->getSchedules() as $schedule) {
-                        $ctn = $this->getCourseTitleNumbers();
-                        foreach($ctn[$course->getID()] as $section) {
-                            $invalid = $schedule->validateClass(null, $section);
-                            if(empty($invalid)) {
-                                break 2;
-                            }
-                        }
-                    }
+                    $error = $this->checkValidClass($course);
                     print "t.set('".$id."',new Array('";
-                    if(empty($invalid) || !$this->getSchedules()) {
+                    if($error && $this->getSchedules()) {
                         print addslashes(htmlspecialchars_decode($course->getTitle()))."', true";
                     } else {
-                        print addslashes(htmlspecialchars_decode(substr($invalid, 0, -4)))."', false";
+                        print addslashes(htmlspecialchars_decode(substr($error, 0, -4)))."', false";
                     }
                     print "));\n";
                 }

@@ -108,30 +108,7 @@
             }
         }
 
-        /**
-         * Returns the lab associated with this class.
-         *
-         * @return Course Lab class (or null if none).
-         */
-        public function getLab() {
-            return $this->lab;
-        }
-
-        /**
-         * Returns the datestamp for the given date.
-         *
-         * @param STRING $date Date of the format YYYY-MM-DD
-         * @return INTEGER Timestamp associated with 1:01:01 AM of this day (system timezone),
-         *                  or the current time if $date is empty.
-         */
-        public static function getDateStamp($date) {
-            if(empty($date))
-                return time();
-            $date = explode("-", $date);
-            return mktime(1,1,1, $date[1], $date[2], $date[0]);
-        }
-
-        /**
+		/**
          * Converts a time string to its integer equivalent.
          *
          * Returns "TBA" for classes with a time of "TBA".
@@ -148,182 +125,26 @@
             return $hours+$minutes;
         }
 
-        /**
-         * Displays the given time as a string.
-         *
-         * Returns "-" for online classes and "TBA" for classes with a
-         * time of "TBA".
-         *
-         * @param FLOAT $time Floating point representation of a time.
-         * @param BOOLEAN $online True if this is an online class.
-         * @return STRING Time in the format HH:MM('a'|'p')
-         */
-        public static function displayTime($time, $online=false) {
-            if($online) {
-                return "-";
+		/**
+		 * Returns the days this class is offered as a compact string.
+		 *
+		 * @return STRING String of days this class is offered.
+		 */
+        function dayString() {
+            if($this->isOnline()) {
+                return "online";
             }
-            if($time == "TBA")
-                return $time;
-            //separate hours and minutes
-            $time = explode(".", $time);
-            //if hours >= 12, then pm
-            $ap = ($time[0]/12 >= 1)?"p":"a";
-            //if hours > 12, then put back into 12 hour format
-            if($time[0] > 12)
-                $time[0] -= 12;
-            if(isset($time[1])) {
-                //make the minutes a decimal number again
-                $time[1] = ".".$time[1];
-                //convert the decimal back to minutes
-                $time[1] = round($time[1]*60);
-                //add a leading zero if 0-9 minutes
-                if($time[1] < 10)
-                    $time[1] = "0".$time[1];
-            } else {
-                $time[1] = "00";
+            $temp = array("U", "M", "T", "W", "R", "F", "S");
+            $nums = array(1, 2, 4, 8, 16, 32, 64);
+            $ret = "";
+            for($i = 0; $i < count($temp); $i++) {
+                if($this->getDays() & $nums[$i]) {
+                    $ret .= $temp[$i];
+                } else {
+                    $ret .= "-";
+                }
             }
-            //return the time
-            return $time[0].":".$time[1].$ap;
-        }
-
-        /**
-         * Returns this class' ID.
-         *
-         * @return STRING
-         * @see $courseID
-         */
-        public function getID() {
-            return $this->courseID;
-        }
-
-        /**
-         * Returns this class' section number.
-         *
-         * @return INTEGER
-         * @see $sections
-         */
-        public function getSection() {
-            return $this->section;
-        }
-
-        /**
-         * Returns the days this class is offered.
-         *
-         * @return INTEGER
-         * @see $days
-         */
-        public function getDays() {
-            return $this->days;
-        }
-
-        /**
-         * Returns this class' start time.
-         *
-         * @return FLOAT
-         * @see $startTime
-         */
-        public function getStartTime() {
-            return $this->startTime;
-        }
-
-        /**
-         * Returns this class' end time.
-         *
-         * @return FLOAT
-         * @see $endTime
-         */
-        public function getEndTime() {
-            return $this->endTime;
-        }
-
-        /**
-         * Returns this class' start date.
-         *
-         * @return INTEGER
-         * @see $startDay
-         */
-        public function getStartDate() {
-            return $this->startDay;
-        }
-
-		/**
-		 * Returns this class' end date.
-		 *
-		 * @return INTEGER
-		 * @see $endDay
-		 */
-        public function getEndDate() {
-            return $this->endDay;
-        }
-
-		/**
-		 * Returns this class' title.
-		 *
-		 * @return STRING
-		 * @see $title
-		 */
-        public function getTitle() {
-            return $this->title;
-        }
-
-		/**
-		 * Returns the name of the prof teaching this class.
-		 *
-		 * @return STRING
-		 * @see $prof
-		 */
-        public function getProf() {
-            return $this->prof;
-        }
-
-		/**
-		 * Returns the number of people currently registered for this class.
-		 *
-		 * @return INTEGER
-		 * @see $currentRegistered
-		 */
-        public function getCurrentRegistered() {
-            return $this->currentRegistered;
-        }
-
-		/**
-		 * Returns the maximum number of people that can be registered for this class.
-		 *
-		 * @return INTEGER
-		 * @see $maxRegisterable
-		 */
-        public function getMaxRegistered() {
-            return $this->maxRegisterable;
-        }
-
-		/**
-		 * Returns the name of the campus this class is at.
-		 *
-		 * @return STRING
-		 * @see $campus
-		 */
-        public function getCampus() {
-            return $this->campus;
-        }
-
-		/**
-		 * Returns true if this class is online.
-		 *
-		 * @return BOOLEAN
-		 * @see $type
-		 */
-        public function isOnline() {
-            return $this->type == "OL";
-        }
-
-		/**
-		 * Returns this class' UID.
-		 *
-		 * @return STRING
-		 * @see $id
-		 */
-        public function getUID() {
-            return $this->id;
+            return $ret;
         }
 
 		/**
@@ -369,45 +190,6 @@
         }
 
 		/**
-		 * Returns the correct CSS style to use for this class' background.
-		 *
-		 * @return STRING CSS class.
-		 */
-        protected function getBackgroundStyle() {
-            //>5 seats left
-            if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
-                return 'status-open';
-            } elseif($this->getMaxRegistered()-$this->getCurrentRegistered() <= 5 && (int)$this->getMaxRegistered() > (int)$this->getCurrentRegistered()) {
-            //<5 seats left
-                return 'status-close';
-            }
-            //no seats left
-            return 'status-full';
-        }
-
-		/**
-		 * Returns the days this class is offered as a compact string.
-		 *
-		 * @return STRING String of days this class is offered.
-		 */
-        function dayString() {
-            if($this->isOnline()) {
-                return "online";
-            }
-            $temp = array("U", "M", "T", "W", "R", "F", "S");
-            $nums = array(1, 2, 4, 8, 16, 32, 64);
-            $ret = "";
-            for($i = 0; $i < count($temp); $i++) {
-                if($this->getDays() & $nums[$i]) {
-                    $ret .= $temp[$i];
-                } else {
-                    $ret .= "-";
-                }
-            }
-            return $ret;
-        }
-
-		/**
 		 * Displays a link to the bookstore for the given class.
 		 *
 		 * @param STRING $classID Class ID.
@@ -428,12 +210,41 @@
         }
 
 		/**
-		 * Returns the querystring used to show the print preview for this class.
-		 *
-		 * @return STRING Query string.
-		 */
-        public function getPrintQS() {
-            return implode("::", array($this->getDays(),$this->getStartTime(),$this->getEndTime(),addslashes($this->getTitle())));
+         * Displays the given time as a string.
+         *
+         * Returns "-" for online classes and "TBA" for classes with a
+         * time of "TBA".
+         *
+         * @param FLOAT $time Floating point representation of a time.
+         * @param BOOLEAN $online True if this is an online class.
+         * @return STRING Time in the format HH:MM('a'|'p')
+         */
+        public static function displayTime($time, $online=false) {
+            if($online) {
+                return "-";
+            }
+            if($time == "TBA")
+                return $time;
+            //separate hours and minutes
+            $time = explode(".", $time);
+            //if hours >= 12, then pm
+            $ap = ($time[0]/12 >= 1)?"p":"a";
+            //if hours > 12, then put back into 12 hour format
+            if($time[0] > 12)
+                $time[0] -= 12;
+            if(isset($time[1])) {
+                //make the minutes a decimal number again
+                $time[1] = ".".$time[1];
+                //convert the decimal back to minutes
+                $time[1] = round($time[1]*60);
+                //add a leading zero if 0-9 minutes
+                if($time[1] < 10)
+                    $time[1] = "0".$time[1];
+            } else {
+                $time[1] = "00";
+            }
+            //return the time
+            return $time[0].":".$time[1].$ap;
         }
 
 		/**
@@ -456,6 +267,196 @@
             }
             $qString = str_replace(" ", "%%20", $qString);
             Course::$QS = $qString;
+        }
+
+		/**
+		 * Returns the correct CSS style to use for this class' background.
+		 *
+		 * @return STRING CSS class.
+		 */
+        protected function getBackgroundStyle() {
+            //>5 seats left
+            if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
+                return 'status-open';
+            } elseif($this->getMaxRegistered()-$this->getCurrentRegistered() > 0) {
+            //<5 seats left
+                return 'status-close';
+            } else {
+			//no seats left
+				return 'status-full';
+			}
+        }
+
+		/**
+		 * Returns the name of the campus this class is at.
+		 *
+		 * @return STRING
+		 * @see $campus
+		 */
+        public function getCampus() {
+            return $this->campus;
+        }
+
+		/**
+		 * Returns the number of people currently registered for this class.
+		 *
+		 * @return INTEGER
+		 * @see $currentRegistered
+		 */
+        public function getCurrentRegistered() {
+            return $this->currentRegistered;
+        }
+
+		/**
+         * Returns the datestamp for the given date.
+         *
+         * @param STRING $date Date of the format YYYY-MM-DD
+         * @return INTEGER Timestamp associated with 1:01:01 AM of this day (system timezone),
+         *                  or the current time if $date is empty.
+         */
+        public static function getDateStamp($date) {
+            if(empty($date))
+                return time();
+            $date = explode("-", $date);
+            return mktime(1,1,1, $date[1], $date[2], $date[0]);
+        }
+
+		/**
+         * Returns the days this class is offered.
+         *
+         * @return INTEGER
+         * @see $days
+         */
+        public function getDays() {
+            return $this->days;
+        }
+
+		/**
+		 * Returns this class' end date.
+		 *
+		 * @return INTEGER
+		 * @see $endDay
+		 */
+        public function getEndDate() {
+            return $this->endDay;
+        }
+
+		/**
+         * Returns this class' end time.
+         *
+         * @return FLOAT
+         * @see $endTime
+         */
+        public function getEndTime() {
+            return $this->endTime;
+        }
+
+		/**
+         * Returns this class' ID.
+         *
+         * @return STRING
+         * @see $courseID
+         */
+        public function getID() {
+            return $this->courseID;
+        }
+
+        /**
+         * Returns the lab associated with this class.
+         *
+         * @return Course Lab class (or null if none).
+         */
+        public function getLab() {
+            return $this->lab;
+        }
+
+		/**
+		 * Returns the maximum number of people that can be registered for this class.
+		 *
+		 * @return INTEGER
+		 * @see $maxRegisterable
+		 */
+        public function getMaxRegistered() {
+            return $this->maxRegisterable;
+        }
+
+		/**
+		 * Returns the querystring used to show the print preview for this class.
+		 *
+		 * @return STRING Query string.
+		 */
+        public function getPrintQS() {
+            return implode("::", array($this->getDays(),$this->getStartTime(),$this->getEndTime(),addslashes($this->getTitle())));
+        }
+
+		/**
+		 * Returns the name of the prof teaching this class.
+		 *
+		 * @return STRING
+		 * @see $prof
+		 */
+        public function getProf() {
+            return $this->prof;
+        }
+
+        /**
+         * Returns this class' section number.
+         *
+         * @return INTEGER
+         * @see $sections
+         */
+        public function getSection() {
+            return $this->section;
+        }
+
+		/**
+         * Returns this class' start date.
+         *
+         * @return INTEGER
+         * @see $startDay
+         */
+        public function getStartDate() {
+            return $this->startDay;
+        }
+
+        /**
+         * Returns this class' start time.
+         *
+         * @return FLOAT
+         * @see $startTime
+         */
+        public function getStartTime() {
+            return $this->startTime;
+        }
+
+		/**
+		 * Returns this class' title.
+		 *
+		 * @return STRING
+		 * @see $title
+		 */
+        public function getTitle() {
+            return $this->title;
+        }
+
+		/**
+		 * Returns this class' UID.
+		 *
+		 * @return STRING
+		 * @see $id
+		 */
+        public function getUID() {
+            return $this->id;
+        }
+
+		/**
+		 * Returns true if this class is online.
+		 *
+		 * @return BOOLEAN
+		 * @see $type
+		 */
+        public function isOnline() {
+            return $this->type == "OL";
         }
 
 		/**

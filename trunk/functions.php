@@ -58,8 +58,6 @@
         //if one of the classes ends before the other one starts, no overlap
         if($class1->getEndTime() < $class2->getStartTime() || $class2->getEndTime() < $class1->getStartTime()) {
             return false;
-        } elseif($class1->getID() == $class2->getID()) {
-            return $class1->getTitle()." conflicts with itself";
         }
         return $class1->getTitle()." conflicts with ".$class2->getTitle();
 	}
@@ -184,11 +182,11 @@
             }
         }
         $sched = new Schedule();
-        $valid = $sched->isValid();
+		$invalid = $sched->validate();
         //the schedule still has common classes that need to be validated
         //just because there are no options doesn't mean you can take these classes
-        if($valid !== true) {
-            return $valid;
+        if($invalid) {
+            return $invalid;
         } elseif($courses == 0) {
             return array();
         }
@@ -226,14 +224,14 @@
 	}
 
 	/**
-	 * Checks if two classes are offered during at least 1 commond day of the year.
+	 * Checks if two classes are offered during at least 1 common day.
 	 *
 	 * @param COURSE $class1 First class.
 	 * @param COURSE $class2 Second class.
 	 * @return BOOLEAN True if the classes overlap on at least 1 day.
 	 */
     function isDateOverlap(Course $class1, Course $class2) {
-        return $class1->getEndDate() >= $class2->getStartDate() && $class2->getEndDate() >= $class1->getStartDate();
+        return !($class1->getEndDate() < $class2->getStartDate() || $class2->getEndDate() < $class1->getStartDate());
     }
 
 	/**

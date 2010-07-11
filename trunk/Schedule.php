@@ -27,8 +27,8 @@
         protected $classes = array();
         /** ARRAY Array of classes that are unique to this schedule (ie not common). */
         protected $uniqueClasses = array();
-        /** MIXED True if this schedule is valid, otherwise a string with the error message(s). */
-        protected $valid = true;
+        /** MIXED False if this schedule is valid, otherwise a string with the error message(s). */
+        protected $valid = false;
 
         /**
          * Constructs a new schedule with the given classes.
@@ -232,7 +232,7 @@
          */
         public function validate() {
             //eliminate schedules that have overlaps
-            $this->isValid = array_reduce($this->classes, array("Schedule", "validateClass"));
+            $this->valid = array_reduce($this->classes, array("Schedule", "validateClass"));
             //return all the conflicts together
             return $this->isValid();
         }
@@ -253,7 +253,7 @@
             }
             //check this class against all the others
             foreach($this->classes as $class2) {
-                if(isDayOverlap($class1, $class2) && isDateOverlap($class1, $class2)) {
+                if(isDayOverlap($class1, $class2) && $class1->getID() != $class2->getID() && isDateOverlap($class1, $class2)) {
                     $tmp = checkTimeConflict($class1, $class2);
                     if($tmp !== false) {
                         $ret .= $tmp."<br>";
