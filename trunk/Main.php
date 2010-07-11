@@ -13,6 +13,10 @@
 	 *	limitations under the License.
 	 */
 
+    require_once("Course.php");
+    require_once("Schedule.php");
+    require_once("functions.php");
+
     /**
      * Handles processing of the main page.
      *
@@ -23,13 +27,6 @@
      * @version 1.0
      */
     class Main {
-        /**
-         *  INTEGER The maximum number of class dropdowns to display.
-         *
-         *  For those of you wondering why this number is so high, I know an aviation major
-         *  taking 11 classes next semester.
-         */
-        const NUM_CLASSES = 20;
         /** ARRAY Mapping of semester abbreviations to long names. */
         public static $SEMESTER_NAMES = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
 
@@ -57,7 +54,7 @@
         /** ARRAY Array of filters to remove classes - of the form removeFilter[classUID]*/
         protected $removeFilter = array();
         /** ARRAY Numeric array of generated schedules. */
-        protected $schedules = null;
+        protected $schedules = array();
         /** BOOLEAN True if links to the bookstore website should be shown (which is slow). */
         protected $showBooks = false;
         /** BOOLEAN True if schedules should be generated. */
@@ -148,9 +145,7 @@
          * @return STRING ClassID.
          */
         protected function getClassChoice($i) {
-            if(isset($_REQUEST["choice"][$i])) {
-                return $_REQUEST["choice"][$i];
-            }
+            return $_REQUEST["choice"][$i];
         }
 
         /**
@@ -182,7 +177,7 @@
             $clear = false;
             if($this->isSubmitted()) {
                 $clear = $this."?semester=".Main::getSemester();
-                for($i = 0; $i < Main::NUM_CLASSES; $i++) {
+                for($i = 0; $i < count($_REQUEST["choice"]); $i++) {
                     $choice = $this->getClassChoice($i);
                     if(!empty($choice)) {
                         $clear .= "&amp;class[]=".$this->getClass($i)."&amp;choice[]=".$choice;
@@ -313,7 +308,7 @@
                     if(isset($this->courseTitleNumbers[$key])) {
                         $this->courses[] = $this->courseTitleNumbers[$key];
                     } else {
-                        $this->errors[$key] = true;
+                        $this->errors[$this->courseTitleNumbers[$key]->getID()] = true;
                     }
                 }
 
@@ -368,25 +363,37 @@
          * @return VOID
          */
         public function printClassDropdowns() {
+            print '<div id="classDropdowns">';
+                if(isset($_REQUEST["choice"])) {
+                    for($i=0; $i < count($_REQUEST["choice"]); $i++) {
+                        $this->printClassDropdown($this->getClass($i), $this->getClassChoice($i));
+                    }
+                }
+
+                //show an extra empty department dropdown
+                $this->printClassDropdown();
+            print '</div>';
+        }
+
+        /**
+         * Displays dropdown to select which class to take.
+         *
+         * @return VOID
+         */
+        public function printClassDropdown($class=null, $choice=null) {
+            $uid = microtime();
             $classes = $this->getClasses();
             $ctn = $this->getCourseTitleNumbers();
-            for($i=0; $i < Main::NUM_CLASSES; $i++) {
-                $class = $this->getClass($i);;
-                $choice = $this->getClassChoice($i);
-                if(!empty($class)) {
-                    $tmp = str_replace('>'.$class, ' selected="selected">'.$class, $this->getClassGroups());
-                } else {
-                    $tmp = $this->getClassGroups();
-                }
-                print '<div id="classChoice'.$i.'"';
-                if(empty($choice)) {
-                    print ' style="display:none;"';
-                }
-                print '>';
-                print '<select name="class[]" onchange="selectChange(this, \'choice'.$i.'\');Element.show(\'classChoice'.($i+1).'\')">';
+            if(!empty($class)) {
+                $tmp = str_replace('>'.$class, ' selected="selected">'.$class, $this->getClassGroups());
+            } else {
+                $tmp = $this->getClassGroups();
+            }
+            print '<div id="classChoice'.$uid.'">';
+                print '<select name="class[]" onchange="if($(\'choice'.$uid.'\').empty()){new Ajax.Updater(\'classDropdowns\',\'createClassDropdown.php\', {insertion: \'bottom\'});}selectChange(this, \'choice'.$uid.'\');">';
                     print '<option value="0">----</option>'.$tmp;
                 print '</select>';
-                print '<div id="choice'.$i.'" style="display:inline;">';
+                print '<div id="choice'.$uid.'" style="display:inline;">';
                     $populated = false;
                     if(!empty($choice)) {
                         print "<select name='choice[]'>";
@@ -416,20 +423,14 @@
                             }
                         print "</select>";
                     }
-                    print '</div>';
-                    if($populated !== false && $this->showBooks()) {
-                        print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
-                    }
-                    if($this->hasError($i)) {
-                        print '<span style="color:red;">Sorry, this class is not offered this semester</span>';
-                    }
                 print '</div>';
-            }
-
-            //show an extra empty department dropdown
-            print '<script type="text/javascript">';
-                print 'Element.show("classChoice'.(count($_REQUEST["choice"])+1).'");';
-            print '</script>';
+                if($populated !== false && $this->showBooks()) {
+                    print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
+                }
+                if($this->hasError($choice)) {
+                    print '<span style="color:red;">Sorry, this class is not offered this semester</span>';
+                }
+            print '</div>';
         }
 
         /**

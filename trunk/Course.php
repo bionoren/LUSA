@@ -342,7 +342,9 @@
                     $qstring = Course::$QS.'%sf[]='.$this->getUID().'&amp;submit=Filter';
 					$filterLink = '<a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>%s</strong></a>';
                     print '<td>';
-						print sprintf($filterLink, "c", "Choose").' or '.sprintf($filterLink, "r", "Remove");
+						printf($filterLink, "c", "Choose");
+						print ' or ';
+						printf($filterLink, "r", "Remove");
 					print '</td>';
                     print "<td>";
 						print "<input type='radio' id='select".$this->getUID()."' alt='Select' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
@@ -452,7 +454,7 @@
                     $qString .= $key."=".$val."&amp;";
                 }
             }
-            $qString = str_replace(" ", "%20", $qString);
+            $qString = str_replace(" ", "%%20", $qString);
             Course::$QS = $qString;
         }
 

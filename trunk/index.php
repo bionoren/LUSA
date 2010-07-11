@@ -15,9 +15,6 @@
 
 	error_reporting(E_ALL);
 
-    require_once("Course.php");
-    require_once("Schedule.php");
-    require_once("functions.php");
 	require_once("Main.php");
 
     //whatever happens, cookie stuff comes first

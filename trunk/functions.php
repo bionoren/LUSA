@@ -199,7 +199,9 @@
             $commonCandidate = false;
             foreach($schedules as $key=>$sched) {
                 foreach($sections as $section) {
-                    if($sched->validateClass($section) === true) {
+                    if($sched->validateClass(null, $section)) {
+                        $conflict = $sched->isValid();
+                    } else {
                         $sched2 = clone $sched;
                         $sched->addClass($section);
                         $schedules[] = $sched;
@@ -209,8 +211,6 @@
                         } else {
                             $commonCandidate = true;
                         }
-                    } else {
-                        $conflict = $sched->isValid();
                     }
                 }
             }
@@ -271,4 +271,8 @@
         //returns -1 if class1 is before class2
         return ($start1 - $start2)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
     }
+
+	function __toString() {
+		return $this->getUID();
+	}
 ?>
