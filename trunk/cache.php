@@ -14,6 +14,7 @@
 	 */
 
     error_reporting(E_ALL | E_STRICT);
+	date_default_timezone_set("America/Chicago");
     require_once("functions.php");
     require_once("Course.php");
 
@@ -30,7 +31,7 @@
 		//get the current class schedule from LeTourneau
 		$file .= $year."/".$semester;
 		$xml = simplexml_load_file($file);
-        if($xml->count() == 0 || $xml === false) {
+        if(count($xml->children()) == 0 || $xml === false) {
             //there's no data here, or there was an error
             return false;
         }

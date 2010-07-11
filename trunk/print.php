@@ -13,6 +13,8 @@
 	 *	limitations under the License.
 	 */
 
+	date_default_timezone_set("America/Chicago");
+
     require_once("functions.php");
     require_once("Course.php");
 
