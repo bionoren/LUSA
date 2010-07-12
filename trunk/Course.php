@@ -13,6 +13,8 @@
 	 *	limitations under the License.
 	 */
 
+	require_once("LabCourse.php");
+
     /**
      * Stores information for an individual class.
      *
@@ -61,10 +63,9 @@
          * Constructs a new course object from the provided xml information.
          *
          * @param SimpleXMLElement $xml XML information for this class.
-         * @param STRING $type One of LC for lecture or LB for lab.
          * @return Course New class object.
          */
-        public function __construct(SimpleXMLElement $xml, $type="LC") {
+        public function __construct(SimpleXMLElement $xml) {
             //setup course info
             $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
             $this->section = (string)$xml->{"sectionnumber"};
@@ -79,12 +80,10 @@
 
             //setup lab/lecture specific stuff
             foreach($xml->{"meeting"} as $meet) {
-                if($meet->{"meetingtypecode"} == $type) {
-                    $meeting = $meet;
-                } elseif($meet->{"meetingtypecode"}) {
+                if($meet->{"meetingtypecode"} != "LB" || count($xml->{"meeting"}) == 1) {
                     $meeting = $meet;
                 } else {
-                    $lab = new Course($xml, "LB");
+                    $this->lab = new LabCourse($xml, "LB");
                 }
             }
             $this->type = (string)$meeting->{"meetingtypecode"};
@@ -104,8 +103,10 @@
                 $this->campus = (string)$meeting->{"campus"};
             }
             if($this->isOnline()) {
-                $this->campus = "online";
-            }
+                $this->campus = "Online";
+            } elseif($this->isInternational()) {
+				$this->campus = "Far Away";
+			}
         }
 
 		/**
@@ -131,8 +132,8 @@
 		 * @return STRING String of days this class is offered.
 		 */
         function dayString() {
-            if($this->isOnline()) {
-                return "online";
+            if($this->isSpecial()) {
+                return $this->getCampus();
             }
             $temp = array("U", "M", "T", "W", "R", "F", "S");
             $nums = array(1, 2, 4, 8, 16, 32, 64);
@@ -154,39 +155,42 @@
 		 * @return VOID
 		 */
         public function display($optional=false) {
-            print '<tr id="'.$this->getUID().'" class="'.$this->getBackgroundStyle().'"';
+			print '<tr id="'.$this->getUID().'" class="'.$this->getBackgroundStyle().'"';
             if($optional) {
                 print ' style="visibility:collapse;"';
             }
             print '>';
-                if($optional) {
-                    $qstring = Course::$QS.'%sf[]='.$this->getUID().'&amp;submit=Filter';
+				if($optional) {
+					$qstring = Course::$QS.'%sf[]='.$this->getUID().'&amp;submit=Filter';
 					$filterLink = '<a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>%s</strong></a>';
-                    print '<td>';
+					print '<td>';
 						printf($filterLink, "c", "Choose");
 						print ' or ';
 						printf($filterLink, "r", "Remove");
 					print '</td>';
-                    print "<td>";
+					print '<td style="width:auto;">';
 						print "<input type='radio' id='select".$this->getUID()."' alt='Select' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
 						print "<label for='select".$this->getUID()."'>Preview</label>";
 					print "</td>";
-                } else {
-                    print '<td>'.$this->getID().'</td>';
-                    print '<td>'.html_entity_decode($this->getTitle()).'</td>';
-                }
-                print '<td>'.$this->getProf().'</td>';
-                if(!Main::isTraditional()) {
-                    print '<td>'.date("n/j/y", $this->getStartDate()).' - '.date("n/j/y", $this->getEndDate()).'</td>';
-                }
-                print '<td>'.$this->dayString().'</td>';
-                print '<td>'.Course::displayTime($this->getStartTime(), $this->isOnline()).'-'.Course::displayTime($this->getEndTime(), $this->isOnline()).'</td>';
-                print '<td>'.$this->getSection().'</td>';
-                if(!Main::isTraditional()) {
-                    print '<td>'.$this->getCampus().'</td>';
-                }
-                print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
-            print '</tr>';
+				} else {
+					print '<td>'.$this->getID().'</td>';
+					print '<td>'.html_entity_decode($this->getTitle()).'</td>';
+				}
+				print '<td>'.$this->getProf().'</td>';
+				if(!Main::isTraditional()) {
+					print '<td>'.date("n/j/y", $this->getStartDate()).' - '.date("n/j/y", $this->getEndDate()).'</td>';
+				}
+				print '<td>'.$this->dayString().'</td>';
+				print '<td>'.Course::displayTime($this->getStartTime(), $this->isSpecial()).'-'.Course::displayTime($this->getEndTime(), $this->isSpecial()).'</td>';
+				print '<td>'.$this->getSection().'</td>';
+				if(!Main::isTraditional()) {
+					print '<td>'.$this->getCampus().'</td>';
+				}
+				print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
+			print '</tr>';
+			if($this->getLab() != null) {
+				$this->lab->display($optional);
+			}
         }
 
 		/**
@@ -386,7 +390,11 @@
 		 * @return STRING Query string.
 		 */
         public function getPrintQS() {
-            return implode("::", array($this->getDays(),$this->getStartTime(),$this->getEndTime(),addslashes($this->getTitle())));
+            $ret = implode("::", array($this->getDays(),$this->getStartTime(),$this->getEndTime(),addslashes($this->getTitle())));
+			if($this->getLab() != null) {
+				$ret .= "~".$this->getLab()->getPrintQS();
+			}
+			return $ret;
         }
 
 		/**
@@ -450,14 +458,36 @@
         }
 
 		/**
+		 * Returns true if this class is an international class.
+		 *
+		 * @return BOOLEAN
+		 * @see $type
+		 */
+		protected function isInternational() {
+			return $this->type == "IE";
+		}
+
+		/**
 		 * Returns true if this class is online.
 		 *
 		 * @return BOOLEAN
 		 * @see $type
 		 */
-        public function isOnline() {
+        protected function isOnline() {
             return $this->type == "OL";
         }
+
+		/**
+		 * Returns true if nobody has a clue when this class is offered. This usually indicates an
+		 * online, study abroad, or similar class.
+		 *
+		 * Note that you should always be able to take special classes because they're special like that :).
+		 *
+		 * @return BOOLEAN
+		 */
+		public function isSpecial() {
+			return $this->getDays() == 0;
+		}
 
 		/**
 		 * Returns this class' UID with an extra dash between the number and section number.

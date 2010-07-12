@@ -272,7 +272,16 @@
         return ($start1 - $start2)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
     }
 
-	function __toString() {
-		return $this->getUID();
+	/**
+	 * Validates that you can take two classes together.
+	 *
+	 * @param COURSE $class1 The first class you're taking.
+	 * @param COURSE $class2 The second class you're taking.
+	 * @return BOOLEAN True if you can take both of these classes simultaneously.
+	 */
+	function validateClasses(Course $class1, Course $class2) {
+		if(isDayOverlap($class1, $class2) && $class1->getID() != $class2->getID() && isDateOverlap($class1, $class2)) {
+			return checkTimeConflict($class1, $class2);
+		}
 	}
 ?>

@@ -55,10 +55,6 @@
         public function addClass(Course $class, $validate=true) {
             $this->classes[] = $class;
             $this->uniqueClasses[] = $class;
-            if($class->getLab() != null) {
-                $this->classes[] = $class->getLab();
-                $this->uniqueClasses[] = $class->getLab();
-            }
             if($validate) {
                 return $this->isValid();
             }
@@ -78,6 +74,9 @@
             $ret .= 'if(state == "visible") { $("'.$key.'").innerHTML = "-"; } else { $("'.$key.'").innerHTML = "+"; }';
             foreach($sections as $section) {
                 $ret .= '$("'.$section->getUID().'").style.visibility = state;';
+                if($section->getLab() != null) {
+                    $ret .= '$("'.$section->getUID().'lab").style.visibility = state;';
+                }
             }
             return $ret;
         }
@@ -248,16 +247,17 @@
         public function validateClass($ret, Course $class1) {
             //eliminate schedules that have overlaps
             //you can always take online classes
-            if($class1->isOnline()) {
+            if($class1->isSpecial()) {
                 return false;
             }
             //check this class against all the others
             foreach($this->classes as $class2) {
-                if(isDayOverlap($class1, $class2) && $class1->getID() != $class2->getID() && isDateOverlap($class1, $class2)) {
-                    $tmp = checkTimeConflict($class1, $class2);
-                    if($tmp !== false) {
-                        $ret .= $tmp."<br>";
-                    }
+                $ret .= validateClasses($class1, $class2);
+                if($class1->getLab() != null) {
+                    $ret .= validateClasses($class1->getLab(), $class2);
+                }
+                if($class2->getLab() != null) {
+                    $ret .= validateClasses($class1, $class2->getLab());
                 }
             }
             //return all the conflicts together

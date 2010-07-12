@@ -327,7 +327,7 @@
          */
         protected function init() {
             //generate select option values for display later
-            $data = array_filter(getClassData(Main::getSemester(), Main::isTraditional()), create_function('Course $class', 'return $class->getCampus() == "'.$this->getCampus().'" || $class->isOnline();'));
+            $data = array_filter(getClassData(Main::getSemester(), Main::isTraditional()), create_function('Course $class', 'return $class->getCampus() == "'.$this->getCampus().'" || $class->isSpecial();'));
             foreach($data as $class) {
                 if(!$this->isKept($class) || $this->isRemoved($class)) {
                     continue;

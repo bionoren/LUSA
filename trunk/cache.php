@@ -31,7 +31,7 @@
 		//get the current class schedule from LeTourneau
 		$file .= $year."/".$semester;
 		$xml = simplexml_load_file($file);
-        if(count($xml->children()) == 0 || $xml === false) {
+		if(count($xml->children()) == 0 || $xml === false) {
             //there's no data here, or there was an error
             return false;
         }
