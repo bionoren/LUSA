@@ -32,7 +32,7 @@
         return substr($ret, 1);
     }
 
-    $tmp = explode("~", $_SERVER["QUERY_STRING"]);
+    $tmp = explode("~", $_REQUEST["classes"]);
     $classes = array();
     foreach($tmp as $class) {
         if(!empty($class)) {
@@ -42,13 +42,18 @@
             }
         }
     }
-    //add chapel
-    $tmp = array();
-    $tmp[] = 2+8+32;
-    $tmp[] = 10.83333333333;
-    $tmp[] = 11.5;
-    $tmp[] = "Chapel";
-    $classes[] = $tmp;
+	if(substr($_REQUEST["sem"], -2) != "SU") {
+		//add chapel
+		$tmp = array();
+		$tmp[] = 2+8+32;
+		$tmp[] = 10.83333333333;
+		$tmp[] = 11.5;
+		$tmp[] = "Chapel";
+		$classes[] = $tmp;
+	}
+	if(empty($classes)) {
+		die();
+	}
 
     //find the first and last class
     $min = 24;

@@ -280,7 +280,7 @@
 	 * @return BOOLEAN True if you can take both of these classes simultaneously.
 	 */
 	function validateClasses(Course $class1, Course $class2) {
-		if(isDayOverlap($class1, $class2) && $class1->getID() != $class2->getID() && isDateOverlap($class1, $class2)) {
+		if(isDayOverlap($class1, $class2) && isDateOverlap($class1, $class2)) {
 			return checkTimeConflict($class1, $class2);
 		}
 	}

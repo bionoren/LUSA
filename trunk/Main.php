@@ -77,7 +77,7 @@
             $this->removeFilter = $this->getRemovedClasses();
             //removes duplicate entries
             if($this->haveSelections()) {
-                $this->selectedClasses = $_REQUEST["class"];
+                $this->selectedClasses = array_filter($_REQUEST["class"]);
                 foreach($_REQUEST["choice"] as $course) {
                     $this->selectedChoices[$course] = $course;
                 }
@@ -101,8 +101,8 @@
                 foreach($this->getSchedules() as $schedule) {
                     foreach($ctn[$course->getID()] as $section) {
                         $invalid = $schedule->validateClass(null, $section);
-                        if(empty($invalid)) {
-                            break 2;
+                        if(!$invalid) {
+                            return false;
                         }
                     }
                 }

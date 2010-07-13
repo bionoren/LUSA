@@ -89,7 +89,7 @@
          */
         public static function display(array $schedules) {
             $optionClasses = Schedule::getOptionClasses($schedules);
-            //this is slow, but it makes classes look pretty
+            //make classes show up in a pretty order
             usort(Schedule::$common, "classSort");
             print '<table class="full border">';
                 print '<tr>';
@@ -170,11 +170,12 @@
          * @see print.php
          */
         public static function getPrintQS($classes=array()) {
-            $ret = '';
+            $ret = 'sem='.Main::getSemester().'&classes=';
+            $tmp = array();
             foreach($classes as $class) {
-                $ret .= $class->getPrintQS()."~";
+                $tmp[] = $class->getPrintQS();
             }
-            $ret = substr($ret, 0, strlen($ret)-1);
+            $ret .= implode("~", $tmp);
             $ret = str_replace(" ", "%20", $ret);
             return $ret;
         }
@@ -246,12 +247,16 @@
          */
         public function validateClass($ret, Course $class1) {
             //eliminate schedules that have overlaps
-            //you can always take online classes
+            //you can always take special classes
             if($class1->isSpecial()) {
                 return false;
             }
             //check this class against all the others
             foreach($this->classes as $class2) {
+                if($class1->getID() == $class2->getID()) {
+                    continue;
+                }
+
                 $ret .= validateClasses($class1, $class2);
                 if($class1->getLab() != null) {
                     $ret .= validateClasses($class1->getLab(), $class2);

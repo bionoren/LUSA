@@ -169,8 +169,10 @@
 						printf($filterLink, "r", "Remove");
 					print '</td>';
 					print '<td style="width:auto;">';
-						print "<input type='radio' id='select".$this->getUID()."' alt='Select' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
-						print "<label for='select".$this->getUID()."'>Preview</label>";
+						if(!$this->isSpecial()) {
+							print "<input type='radio' id='select".$this->getUID()."' alt='Select' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
+							print "<label for='select".$this->getUID()."'>Preview</label>";
+						}
 					print "</td>";
 				} else {
 					print '<td>'.$this->getID().'</td>';
