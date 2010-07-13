@@ -425,7 +425,7 @@
          * @return VOID
          */
         public function printClassDropdown($class=null, $choice=null) {
-            $uid = microtime();
+            $uid = md5(microtime());
             $classes = $this->getClasses();
             $ctn = $this->getCourseTitleNumbers();
             if(!empty($class)) {
@@ -434,13 +434,14 @@
                 $tmp = $this->getClassGroups();
             }
             print '<div id="classChoice'.$uid.'">';
-                print '<select name="class[]" onchange="if($(\'choice'.$uid.'\').empty()){new Ajax.Updater(\'classDropdowns\',\'createClassDropdown.php\', {insertion: \'bottom\'});}selectChange(this, \'choice'.$uid.'\');">';
+                print '<select name="class[]" id="classDD'.$uid.'" onchange="if($(\'choice'.$uid.'\').empty()){new Ajax.Updater(\'classDropdowns\',\'createClassDropdown.php\', {insertion: \'bottom\'});}selectChange(this, \'choice'.$uid.'\');">';
                     print '<option value="0">----</option>'.$tmp;
                 print '</select>';
+                print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
                 print '<div id="choice'.$uid.'" style="display:inline;">';
                     $populated = false;
                     if(!empty($choice)) {
-                        print "<select name='choice[]'>";
+                        print '<select name="choice[]" id="choiceDD'.$uid.'">';
                             foreach($classes[$class] as $key=>$course) {
                                 print '<option value="'.$key.'"';
                                 if($choice == $key) {
@@ -449,13 +450,14 @@
                                 }
                                 $error = $this->checkValidClass($course);
                                 if(!($error && $this->getSchedules())) {
-                                    print '>'.htmlspecialchars_decode($course->getTitle());
+                                    print '>'.$course->getTitle();
                                 } else {
-                                    print ' style="color:rgb(177, 177, 177);">'.htmlspecialchars_decode(substr($error, 0, -4));
+                                    print ' style="color:rgb(177, 177, 177);">'.$error;
                                 }
                                 print '</option>';
                             }
                         print "</select>";
+                        print '<label for="choiceDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
                     }
                 print '</div>';
                 if($populated && $this->showBooks()) {
@@ -480,9 +482,9 @@
                     $error = $this->checkValidClass($course);
                     print "t.set('".$id."',new Array('";
                     if(!($error && $this->getSchedules())) {
-                        print addslashes(htmlspecialchars_decode($course->getTitle()))."', true";
+                        print addslashes($course->getTitle())."', true";
                     } else {
-                        print addslashes(htmlspecialchars_decode(substr($error, 0, -4)))."', false";
+                        print addslashes($error)."', false";
                     }
                     print "));\n";
                 }

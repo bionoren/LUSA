@@ -170,7 +170,7 @@
          * @see print.php
          */
         public static function getPrintQS($classes=array()) {
-            $ret = 'sem='.Main::getSemester().'&classes=';
+            $ret = 'sem='.Main::getSemester().'&amp;classes=';
             $tmp = array();
             foreach($classes as $class) {
                 $tmp[] = $class->getPrintQS();
@@ -197,14 +197,14 @@
          */
         protected static function showNonTraditionalHeaders() {
             ?>
-            <th colspan="2">Class</th>
-            <th>Prof</th>
-            <th>Dates</th>
-            <th>Days</th>
-            <th>Time</th>
-            <th>Section</th>
-            <th>Campus</th>
-            <th>Registered/Size</th>
+            <th colspan="2" id="classHeader">Class</th>
+            <th id="profHeader">Prof</th>
+            <th id="dateHeader">Dates</th>
+            <th id="dayHeader">Days</th>
+            <th id="timeHeader">Time</th>
+            <th id="sectionHeader">Section</th>
+            <th id="campusHeader">Campus</th>
+            <th id="registeredHeader">Registered/Size</th>
             <?php
         }
 
@@ -215,12 +215,12 @@
          */
         protected static function showTraditionalHeaders() {
             ?>
-            <th colspan="2">Class</th>
-            <th>Prof</th>
-            <th>Days</th>
-            <th>Time</th>
-            <th>Section</th>
-            <th>Registered/Size</th>
+            <th colspan="2" id="classHeader">Class</th>
+            <th id="profHeader">Prof</th>
+            <th id="dayHeader">Days</th>
+            <th id="timeHeader">Time</th>
+            <th id="sectionHeader">Section</th>
+            <th id="registeredHeader">Registered/Size</th>
             <?php
         }
 

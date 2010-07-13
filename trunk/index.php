@@ -98,6 +98,7 @@
                                 <select name="semester" id="semesterSelect">
                                     <?php Main::printSemesterOptions(); ?>
                                 </select>
+								<label for="semesterSelect" style="display:none;">Select Semester</label>
                             </div>
                         </li>
                         <li>

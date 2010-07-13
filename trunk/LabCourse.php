@@ -80,22 +80,22 @@
 		 */
         public function display($optional=false) {
 			print '<tr id="'.$this->getUID().'lab" class="'.$this->getBackgroundStyle().'"';
-			if($optional) {
+            if($optional) {
                 print ' style="visibility:collapse;"';
             }
             print '>';
-				print "<td></td><td></td>";
-				print '<td>'.$this->getProf().'</td>';
+				print '<td colspan="2" headers="classHeader"></td>';
+				print '<td headers="profHeader">'.$this->getProf().'</td>';
 				if(!Main::isTraditional()) {
-					print '<td>'.date("n/j/y", $this->getStartDate()).' - '.date("n/j/y", $this->getEndDate()).'</td>';
+					print '<td headers="dateHeader">'.date("n/j/y", $this->getStartDate()).' - '.date("n/j/y", $this->getEndDate()).'</td>';
 				}
-				print '<td>'.$this->dayString().'</td>';
-				print '<td>'.Course::displayTime($this->getStartTime(), $this->isSpecial()).'-'.Course::displayTime($this->getEndTime(), $this->isSpecial()).'</td>';
-				print '<td>'.$this->getSection().'</td>';
+				print '<td headers="dayHeader">'.$this->dayString().'</td>';
+				print '<td headers="timeHeader">'.Course::displayTime($this->getStartTime(), $this->isSpecial()).'-'.Course::displayTime($this->getEndTime(), $this->isSpecial()).'</td>';
+				print '<td headers="sectionHeader">'.$this->getSection().'</td>';
 				if(!Main::isTraditional()) {
-					print '<td>'.$this->getCampus().'</td>';
+					print '<td headers="campusHeader">'.$this->getCampus().'</td>';
 				}
-				print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
+				print '<td headers="registeredHeader">'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
 			print '</tr>';
         }
     }

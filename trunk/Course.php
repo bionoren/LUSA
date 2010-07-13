@@ -163,32 +163,32 @@
 				if($optional) {
 					$qstring = Course::$QS.'%sf[]='.$this->getUID().'&amp;submit=Filter';
 					$filterLink = '<a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>%s</strong></a>';
-					print '<td>';
+					print '<td headers="classHeader">';
 						printf($filterLink, "c", "Choose");
 						print ' or ';
 						printf($filterLink, "r", "Remove");
 					print '</td>';
-					print '<td style="width:auto;">';
+					print '<td style="width:auto;" headers="classHeader">';
 						if(!$this->isSpecial()) {
-							print "<input type='radio' id='select".$this->getUID()."' alt='Select' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
+							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
 							print "<label for='select".$this->getUID()."'>Preview</label>";
 						}
 					print "</td>";
 				} else {
-					print '<td>'.$this->getID().'</td>';
-					print '<td>'.html_entity_decode($this->getTitle()).'</td>';
+					print '<td headers="classHeader">'.$this->getID().'</td>';
+					print '<td headers="classHeader">'.html_entity_decode($this->getTitle()).'</td>';
 				}
-				print '<td>'.$this->getProf().'</td>';
+				print '<td headers="profHeader">'.$this->getProf().'</td>';
 				if(!Main::isTraditional()) {
-					print '<td>'.date("n/j/y", $this->getStartDate()).' - '.date("n/j/y", $this->getEndDate()).'</td>';
+					print '<td headers="dateHeader">'.date("n/j/y", $this->getStartDate()).' - '.date("n/j/y", $this->getEndDate()).'</td>';
 				}
-				print '<td>'.$this->dayString().'</td>';
-				print '<td>'.Course::displayTime($this->getStartTime(), $this->isSpecial()).'-'.Course::displayTime($this->getEndTime(), $this->isSpecial()).'</td>';
-				print '<td>'.$this->getSection().'</td>';
+				print '<td headers="dayHeader">'.$this->dayString().'</td>';
+				print '<td headers="timeHeader">'.Course::displayTime($this->getStartTime(), $this->isSpecial()).'-'.Course::displayTime($this->getEndTime(), $this->isSpecial()).'</td>';
+				print '<td headers="sectionHeader">'.$this->getSection().'</td>';
 				if(!Main::isTraditional()) {
-					print '<td>'.$this->getCampus().'</td>';
+					print '<td headers="campusHeader">'.$this->getCampus().'</td>';
 				}
-				print '<td>'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
+				print '<td headers="registeredHeader">'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
 			print '</tr>';
 			if($this->getLab() != null) {
 				$this->lab->display($optional);
