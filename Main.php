@@ -204,6 +204,15 @@
         }
 
         /**
+         * Returns the name of the cookie that should store previous schedule information.
+         *
+         * @return STRING Cookie name.
+         */
+        public static function getCookieName() {
+            return Main::getSemester().Main::isTraditional().Main::getCampus();
+        }
+
+        /**
          * Returns an internal array of classes.
          *
          * @return ARRAY

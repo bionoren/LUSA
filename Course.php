@@ -83,7 +83,7 @@
                 if($meet->{"meetingtypecode"} != "LB" || count($xml->{"meeting"}) == 1) {
                     $meeting = $meet;
                 } else {
-                    $this->lab = new LabCourse($xml, "LB");
+                    $this->lab = new LabCourse($xml);
                 }
             }
             $this->type = (string)$meeting->{"meetingtypecode"};
@@ -99,8 +99,8 @@
             $this->prof = (string)$meeting->{"profname"};
             $this->startDay = Course::getDateStamp((string)$meeting->{"meetingstartdate"});
             $this->endDay = Course::getDateStamp((string)$meeting->{"meetingenddate"});
-            if(isset($meeting->{"campus"})) {
-                $this->campus = (string)$meeting->{"campus"};
+            if(isset($meeting->{"meetingcampus"})) {
+                $this->campus = (string)$meeting->{"meetingcampus"};
             }
             if($this->isOnline()) {
                 $this->campus = "Online";

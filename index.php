@@ -23,8 +23,8 @@
         save_cookie($_SERVER["QUERY_STRING"]);
     } else {
         //look for cookie data
-        if(isset($_COOKIE[Main::getSemester()]) && !isset($_REQUEST["ignore"])) {
-            header("Location:".$_SERVER["PHP_SELF"]."?".$_COOKIE[Main::getSemester()]);
+        if(isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
+            header("Location:".$_SERVER["PHP_SELF"]."?".$_COOKIE[Main::getCookieName()]);
         }
     }
 ?>
@@ -109,7 +109,7 @@
                     <script type="text/javascript">
                         <!--
                         var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
-                        var endPath = '&semester=' + escape($('semesterSelect').value) + '&ignore=true';
+                        var endPath = '&semester=' + escape($('semesterSelect').value);
                         $('typeTraditional').observe('click', function(event) {
                             window.location = path + '?type=trad' + endPath;
                         });

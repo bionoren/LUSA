@@ -89,6 +89,7 @@
          */
         public static function display(array $schedules) {
             $optionClasses = Schedule::getOptionClasses($schedules);
+            $span = (Main::isTraditional())?7:9;
             //make classes show up in a pretty order
             usort(Schedule::$common, "classSort");
             print '<table class="full border">';
@@ -100,23 +101,21 @@
                     }
                 print '</tr>';
                 if(count(Schedule::$common) > 0) {
-                    print '<tr>
-                        <td style="border-bottom-color:black;" colspan="7">
-                            These are the only times you can take these classes:
-                        </td>
-                    </tr>';
+                    print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                        print 'These are the only times you can take these classes:';
+                    print '</td></tr>';
                 }
                 foreach(Schedule::$common as $class) {
                     print $class->display()."\n";
                 }
 
                 if(!empty($optionClasses)) {
-                    print "<tr><td style='border-bottom-color:black;' colspan='7'>";
-                    print "These classes have some options:";
-                    print "</td></tr>";
+                    print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                        print 'These classes have some options:';
+                    print '</td></tr>';
                 }
                 foreach($optionClasses as $key=>$sections) {
-                    print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='6'>".current($sections)->getTitle()." (".count($sections).")</td></tr>\n";
+                    print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='".($span-1)."'>".current($sections)->getTitle()." (".count($sections).")</td></tr>\n";
                     foreach($sections as $section) {
                         print $section->display(true)."\n";
                     }
@@ -170,7 +169,7 @@
          * @see print.php
          */
         public static function getPrintQS($classes=array()) {
-            $ret = 'sem='.Main::getSemester().'&amp;classes=';
+            $ret = 'sem='.Main::getSemester().'&amp;trad='.Main::isTraditional().'&amp;classes=';
             $tmp = array();
             foreach($classes as $class) {
                 $tmp[] = $class->getPrintQS();

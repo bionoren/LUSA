@@ -255,7 +255,7 @@
 	 */
     function save_cookie($data) {
         //set for ~2 months
-        setcookie(Main::getSemester(), $data, time()+60*60*24*7*8);
+        setcookie(Main::getCookieName(), $data, time()+60*60*24*7*8);
     }
 
 	/**
