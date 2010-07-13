@@ -38,10 +38,23 @@
 
         $classes = array();
         foreach($xml as $class) {
-            if($class->{"sectionnumber"} == "HD") {
-                continue;
-            }
-            $classes[] = new Course($class);
+			foreach($class->{"meeting"} as $meet) {
+				if($meet->{"meetingcampus"} == "AUS") {
+					print "here!\n";
+					dump("meeting", $meet);
+				}
+				//NOTE
+				//If this becomes a problem with silly non-trad classes having multiple meetings
+				//in a section (sections within sections), you might be able to get away with
+				//using a hash of $meet in getUID() instead of the section code. Worth a try anyway...
+				if($meet->{"meetingtypecode"} != "LB" || count($class->{"meeting"}) == 1) {
+		            $lastClass = new Course($class, $meet);
+					$classes[] = $lastClass;
+				} else {
+					//I assume here that a lab follows the class it goes with
+					$lastClass->addLab(new LabCourse($class, $meet));
+				}
+			}
         }
 
 		file_put_contents("cache/temp.txt", serialize($classes));

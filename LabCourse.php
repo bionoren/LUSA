@@ -27,9 +27,10 @@
          * Constructs a new course object from the provided xml information.
          *
          * @param SimpleXMLElement $xml XML information for this class.
+         * @param SimpleXMLElement $meeting XML information for this class' location and time.
          * @return Course New class object.
          */
-        public function __construct($xml) {
+        public function __construct(SimpleXMLElement $xml, SimpleXMLElement $meeting) {
             //setup course info
             $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
             $this->section = (string)$xml->{"sectionnumber"};
@@ -43,12 +44,6 @@
             $this->maxRegisterable = (string)$xml->{"maxsize"};
 
             //setup lab/lecture specific stuff
-            foreach($xml->{"meeting"} as $meet) {
-                if($meet->{"meetingtypecode"} == "LB") {
-                    $meeting = $meet;
-                    break;
-                }
-            }
             $this->type = "LB";
             $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
             $temp = 0;
@@ -62,8 +57,8 @@
             $this->prof = (string)$meeting->{"profname"};
             $this->startDay = Course::getDateStamp((string)$meeting->{"meetingstartdate"});
             $this->endDay = Course::getDateStamp((string)$meeting->{"meetingenddate"});
-            if(isset($meeting->{"campus"})) {
-                $this->campus = (string)$meeting->{"campus"};
+            if(isset($meeting->{"meetingcampus"})) {
+                $this->campus = (string)$meeting->{"meetingcampus"};
             }
             if($this->isOnline()) {
                 $this->campus = "Online";

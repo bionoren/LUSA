@@ -76,14 +76,14 @@
                             <li>
                                 <div style="display:inline">
                                     <select name="campus" id="campusSelect">
-                                        <option value="AUS" <?php if(Main::getCampus() == "AUS") print "selected='selected'"; ?>>Austin</option>
+<!--                                        <option value="AUS" <?php if(Main::getCampus() == "AUS") print "selected='selected'"; ?>>Austin</option>-->
                                         <option value="BED" <?php if(Main::getCampus() == "BED") print "selected='selected'"; ?>>Bedford</option>
                                         <option value="DAL" <?php if(Main::getCampus() == "DAL") print "selected='selected'"; ?>>Dallas</option>
                                         <option value="HOU" <?php if(Main::getCampus() == "HOU") print "selected='selected'"; ?>>Houston</option>
                                         <option value="MAIN" <?php if(Main::getCampus() == "MAIN") print "selected='selected'"; ?>>Longview</option>
                                         <option value="TYL" <?php if(Main::getCampus() == "TYL") print "selected='selected'"; ?>>Tyler</option>
                                         <option value="WES" <?php if(Main::getCampus() == "WES") print "selected='selected'"; ?>>Westchase</option>
-                                        <option value="ONL" <?php if(Main::getCampus() == "ONL") print "selected='selected'"; ?>>Online</option>
+                                        <option value="XOL" <?php if(Main::getCampus() == "XOL") print "selected='selected'"; ?>>Online</option>
                                     </select>
                                     <script type="text/javascript">
                                         <!--

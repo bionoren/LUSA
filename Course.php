@@ -63,9 +63,10 @@
          * Constructs a new course object from the provided xml information.
          *
          * @param SimpleXMLElement $xml XML information for this class.
+         * @param SimpleXMLElement $meeting XML information for this class' location and time.
          * @return Course New class object.
          */
-        public function __construct(SimpleXMLElement $xml) {
+        public function __construct(SimpleXMLElement $xml, SimpleXMLElement $meeting) {
             //setup course info
             $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
             $this->section = (string)$xml->{"sectionnumber"};
@@ -79,13 +80,6 @@
             $this->maxRegisterable = (string)$xml->{"maxsize"};
 
             //setup lab/lecture specific stuff
-            foreach($xml->{"meeting"} as $meet) {
-                if($meet->{"meetingtypecode"} != "LB" || count($xml->{"meeting"}) == 1) {
-                    $meeting = $meet;
-                } else {
-                    $this->lab = new LabCourse($xml);
-                }
-            }
             $this->type = (string)$meeting->{"meetingtypecode"};
             $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
             $temp = 0;
@@ -108,6 +102,16 @@
 				$this->campus = "Far Away";
 			}
         }
+
+		/**
+		 * Adds a lab to this course.
+		 *
+		 * @param LabCourse $lab Lab for this course.
+		 * @return VOID
+		 */
+		public function addLab(LabCourse $lab) {
+			$this->lab = $lab;
+		}
 
 		/**
          * Converts a time string to its integer equivalent.
