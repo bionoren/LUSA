@@ -1,4 +1,4 @@
-//java -jar ../yuicompressor-2.4.2.jar --type js -o functions.js --line-break 0 --nomunge functions-orig.js
+//java -jar yuicompressor-2.4.2.jar --type js -o functions.js --line-break 0 --nomunge functions-orig.js
 function selectChange(control, controlToPopulate) {
     // Empty the second drop down box of any choices
     if($(controlToPopulate).children != null) {
