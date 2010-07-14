@@ -85,6 +85,7 @@
                                         <option value="WES" <?php if(Main::getCampus() == "WES") print "selected='selected'"; ?>>Westchase</option>
                                         <option value="XOL" <?php if(Main::getCampus() == "XOL") print "selected='selected'"; ?>>Online</option>
                                     </select>
+									<label for="campusSelect" style="display:none">Select Campus</label>
                                     <script type="text/javascript">
                                         <!--
                                         $('campusSelect').observe('change', selectCampusTrigger);
