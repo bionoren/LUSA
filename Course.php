@@ -400,7 +400,7 @@
 			if($this->getLab() != null) {
 				$ret .= "~".$this->getLab()->getPrintQS();
 			}
-			return $ret;
+			return rawurlencode(htmlspecialchars_decode($ret));
         }
 
 		/**

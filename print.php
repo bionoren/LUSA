@@ -32,7 +32,7 @@
         return substr($ret, 1);
     }
 
-    $tmp = explode("~", $_REQUEST["classes"]);
+    $tmp = explode("~", urldecode($_REQUEST["classes"]));
     $classes = array();
     foreach($tmp as $class) {
         if(!empty($class)) {
