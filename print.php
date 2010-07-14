@@ -37,7 +37,7 @@
     foreach($tmp as $class) {
         if(!empty($class)) {
             $tmp = explode("::", $class);
-            if($tmp[1] != "TBA") {
+            if($tmp[1] != "TBA" && $tmp[0] > 0) {
                 $classes[] = $tmp;
             }
         }
@@ -60,6 +60,7 @@
     $max = 0;
     $startDay = 1;
     $numDays = 5;
+	$haveData = false;
     foreach($classes as $class) {
         if($class[1] < $min) {
             $min = floor($class[1]);
