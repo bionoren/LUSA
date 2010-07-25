@@ -154,9 +154,7 @@
         protected function getChosenClasses() {
             $classFilter = array();
             if(isset($_REQUEST["cf"])) {
-                foreach($_REQUEST["cf"] as $class) {
-                    $classFilter[substr($class, 0, 9)] = substr($class, -2);
-                }
+                $classFilter = array_fill_keys($_REQUEST["cf"], true);
             }
             return $classFilter;
         }
@@ -377,7 +375,7 @@
          * @return BOOLEAN True if kept.
          */
         protected function isKept(Course $class) {
-            return !isset($this->keepFilter[$class->getID()]) || $this->keepFilter[$class->getID()] == $class->getSection();
+            return !isset($this->keepFilter[$class->getUID()]);
         }
 
         /**
