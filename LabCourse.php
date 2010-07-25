@@ -23,50 +23,6 @@
      * @version 1.0
      */
     class LabCourse extends Course {
-		/**
-         * Constructs a new course object from the provided xml information.
-         *
-         * @param SimpleXMLElement $xml XML information for this class.
-         * @param SimpleXMLElement $meeting XML information for this class' location and time.
-         * @return Course New class object.
-         */
-        public function __construct(SimpleXMLElement $xml, SimpleXMLElement $meeting) {
-            //setup course info
-            $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
-            $this->section = (string)$xml->{"sectionnumber"};
-			$this->id = $this->getID().$this->getSection();
-            if(empty($xml->{"sectiontitle"})) {
-                $this->title = htmlspecialchars($xml->{"coursetitle"});
-            } else {
-                $this->title = htmlspecialchars($xml->{"sectiontitle"});
-            }
-            $this->currentRegistered = (string)$xml->{"currentnumregistered"};
-            $this->maxRegisterable = (string)$xml->{"maxsize"};
-
-            //setup lab/lecture specific stuff
-            $this->type = "LB";
-            $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
-            $temp = 0;
-            for($i = 0; $i < count($tmp); $i++) {
-                if($tmp[$i] != "-")
-                    $temp += pow(2, $i);
-            }
-            $this->days = $temp;
-            $this->startTime = Course::convertTime((string)$meeting->{"meetingstarttime"});
-            $this->endTime = Course::convertTime((string)$meeting->{"meetingendtime"});
-            $this->prof = (string)$meeting->{"profname"};
-            $this->startDay = Course::getDateStamp((string)$meeting->{"meetingstartdate"});
-            $this->endDay = Course::getDateStamp((string)$meeting->{"meetingenddate"});
-            if(isset($meeting->{"meetingcampus"})) {
-                $this->campus = (string)$meeting->{"meetingcampus"};
-            }
-            if($this->isOnline()) {
-                $this->campus = "Online";
-            } elseif($this->isInternational()) {
-				$this->campus = "Far Away";
-			}
-        }
-
         /**
 		 * Displays this class in a table.
 		 *
@@ -74,7 +30,7 @@
 		 * @return VOID
 		 */
         public function display($optional=false) {
-			print '<tr id="'.$this->getUID().'lab" class="'.$this->getBackgroundStyle().'"';
+			print '<tr id="'.$this->getUID().'" class="'.$this->getBackgroundStyle().'"';
             if($optional) {
                 print ' style="visibility:collapse;"';
             }

@@ -70,7 +70,7 @@
             //setup course info
             $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
             $this->section = (string)$xml->{"sectionnumber"};
-			$this->id = $this->getID().$this->getSection();
+			$this->id = $this->courseID.$this->section.md5($meeting->asXML());
             if(empty($xml->{"sectiontitle"})) {
                 $this->title = htmlspecialchars($xml->{"coursetitle"});
             } else {

@@ -43,10 +43,6 @@
 					print "here!\n";
 					dump("meeting", $meet);
 				}
-				//NOTE
-				//If this becomes a problem with silly non-trad classes having multiple meetings
-				//in a section (sections within sections), you might be able to get away with
-				//using a hash of $meet in getUID() instead of the section code. Worth a try anyway...
 				if($meet->{"meetingtypecode"} != "LB" || count($class->{"meeting"}) == 1) {
 		            $lastClass = new Course($class, $meet);
 					$classes[] = $lastClass;

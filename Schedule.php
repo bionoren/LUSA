@@ -75,7 +75,7 @@
             foreach($sections as $section) {
                 $ret .= '$("'.$section->getUID().'").style.visibility = state;';
                 if($section->getLab() != null) {
-                    $ret .= '$("'.$section->getUID().'lab").style.visibility = state;';
+                    $ret .= '$("'.$section->getLab()->getUID().'").style.visibility = state;';
                 }
             }
             return $ret;
