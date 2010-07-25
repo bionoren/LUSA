@@ -250,15 +250,17 @@
             if($class1->isSpecial()) {
                 return false;
             }
+			$id = $class1->getID();
+			$lab = $class1->getLab();
             //check this class against all the others
             foreach($this->classes as $class2) {
-                if($class1->getID() == $class2->getID()) {
+                if($id == $class2->getID()) {
                     continue;
                 }
 
                 $ret .= validateClasses($class1, $class2);
-                if($class1->getLab() != null) {
-                    $ret .= validateClasses($class1->getLab(), $class2);
+                if($lab != null) {
+                    $ret .= validateClasses($lab, $class2);
                 }
                 if($class2->getLab() != null) {
                     $ret .= validateClasses($class1, $class2->getLab());

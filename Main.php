@@ -98,8 +98,9 @@
             $invalid = false;
             if($this->hasNoErrors()) {
                 $ctn = $this->getCourseTitleNumbers();
+				$classes = $ctn[$course->getID()];
                 foreach($this->getSchedules() as $schedule) {
-                    foreach($ctn[$course->getID()] as $section) {
+                    foreach($classes as $section) {
                         $invalid = $schedule->validateClass(null, $section);
                         if(!$invalid) {
                             return false;
