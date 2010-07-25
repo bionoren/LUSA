@@ -36,7 +36,7 @@
 				dump($name."[".$key."]", $val);
 			} else {
 				print $name."[".$key."] = ";
-                if(is_object($val)) {
+                if(is_object($val) && !method_exists($val, "__toString")) {
                     print get_class($val)."<br>";
                 } else {
                     print $val."<br>";

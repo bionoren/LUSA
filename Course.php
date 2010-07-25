@@ -30,6 +30,8 @@
         protected $courseID;
 		/** STRING Course ID with the section number appended. */
 		protected $id;
+		/** STRING Returns true if this class is special (irregular day value or online class). */
+		protected $special = false;
         /** STRING Course section number. */
         protected $section;
         /** STRING Title of this class. */
@@ -101,6 +103,7 @@
             } elseif($this->isInternational()) {
 				$this->campus = "Far Away";
 			}
+			$this->special = !is_numeric($this->getDays()) || $this->getDays() == 0 || $this->isOnline();
         }
 
 		/**
@@ -492,7 +495,7 @@
 		 * @return BOOLEAN
 		 */
 		public function isSpecial() {
-			return $this->getDays() == 0;
+			return $this->special;
 		}
 
 		/**
@@ -501,7 +504,7 @@
 		 * @return STRING Formatted class UID.
 		 */
         public function __toString() {
-            return $this->getID()."-".$this->getSection();
+            return $this->getUID();
         }
     }
 ?>

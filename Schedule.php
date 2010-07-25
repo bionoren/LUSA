@@ -154,7 +154,7 @@
             foreach($schedules as $schedule) {
                 foreach($schedule->getUniqueClasses() as $class) {
                     if(!in_array($class, Schedule::$common)) {
-                        $classOptions[$class->getID()][$class->getSection()] = $class;
+                        $classOptions[$class->getID()][$class->getUID()] = $class;
                     }
                 }
             }
