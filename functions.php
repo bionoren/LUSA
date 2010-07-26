@@ -177,14 +177,15 @@
 	function findSchedules(array $courses) {
         //add course information for all the courses to be taken
         //classes with only one section must be common
+		$sched = new Schedule();
+		$invalid = null;
         foreach($courses as $i=>$sections) {
             if(count($sections) == 1) {
                 Schedule::$common[] = $sections[0];
+				$invalid .= $sched->validateClass($sections[0], $invalid);
                 unset($courses[$i]);
             }
         }
-        $sched = new Schedule();
-		$invalid = $sched->validate();
         //the schedule still has common classes that need to be validated
         //just because there are no options doesn't mean you can take these classes
         if($invalid) {
@@ -193,13 +194,14 @@
             return array();
         }
 
+		$sched = new Schedule();
         $schedules = array($sched);
         $conflict = null;
         foreach($courses as $sections) {
             $commonCandidate = false;
             foreach($schedules as $key=>$sched) {
                 foreach($sections as $section) {
-                    if($sched->validateClass(null, $section)) {
+                    if($sched->validateClass($section)) {
                         $conflict = $sched->isValid();
                     } else {
                         $sched2 = clone $sched;

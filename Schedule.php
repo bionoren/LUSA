@@ -231,7 +231,10 @@
          */
         public function validate() {
             //eliminate schedules that have overlaps
-            $this->valid = array_reduce($this->classes, array("Schedule", "validateClass"));
+			foreach($this->classes as $class) {
+				$this->valid .= $this->validateClass($class, $this->valid);
+			}
+//            $this->valid = array_reduce($this->classes, array("Schedule", "validateClass"));
             //return all the conflicts together
             return $this->isValid();
         }
@@ -239,12 +242,12 @@
         /**
          * Validates the schedule with the addition of the given class (does NOT add the class!)
          *
-         * @param MIXED $ret Like isValid.
          * @param COURSE $class1 Class to validate with this schedule.
+         * @param MIXED $ret Like isValid.
          * @return MIXED
          * @see isValid
          */
-        public function validateClass($ret, Course $class1) {
+        public function validateClass(Course $class1, $ret=null) {
             //eliminate schedules that have overlaps
             //you can always take special classes
             if($class1->isSpecial()) {
@@ -254,10 +257,6 @@
 			$lab = $class1->getLab();
             //check this class against all the others
             foreach($this->classes as $class2) {
-                if($id == $class2->getID()) {
-                    continue;
-                }
-
                 $ret .= validateClasses($class1, $class2);
                 if($lab != null) {
                     $ret .= validateClasses($lab, $class2);

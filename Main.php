@@ -96,12 +96,13 @@
          */
         function checkValidClass(Course $course) {
             $invalid = false;
-            if($this->hasNoErrors()) {
+			$choices = $this->getSelectedChoices();
+            if($this->hasNoErrors() && !isset($choices[$course->getID()])) {
                 $ctn = $this->getCourseTitleNumbers();
 				$classes = $ctn[$course->getID()];
                 foreach($this->getSchedules() as $schedule) {
                     foreach($classes as $section) {
-                        $invalid = $schedule->validateClass(null, $section);
+                        $invalid = $schedule->validateClass($section);
                         if(!$invalid) {
                             return false;
                         }
@@ -456,7 +457,7 @@
                                     $this->hours += substr($key, -1);
                                     print ' selected="selected"';
                                 }
-                                $error = $this->checkValidClass($course);
+	                            $error = $this->checkValidClass($course);
                                 if(!($error && $this->getSchedules())) {
                                     print '>'.$course->getTitle();
                                 } else {
@@ -487,7 +488,7 @@
             foreach($this->getClasses() as $group=>$class) {
                 print "var t=new Hash();\n";
                 foreach($class as $id=>$course) {
-                    $error = $this->checkValidClass($course);
+					$error = $this->checkValidClass($course);
                     print "t.set('".$id."',new Array('";
                     if(!($error && $this->getSchedules())) {
                         print addslashes($course->getTitle())."', true";
