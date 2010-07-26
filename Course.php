@@ -209,17 +209,27 @@
 		 * @return VOID
 		 */
         public static function displayBookStoreLink($classID) {
-            $terms = file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105&_=");
-            preg_match('/"data":\[\{(.+?)\}\]\}/', $terms, $groups);
-            $terms = explode(",", $groups[1]);
-            $term = explode(":", $terms[0]);
-            $term = substr($term[1], 1, -1);
+/*
+http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105&_=
+http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=DIVISIONS&storeId=10236&demoKey=d&programId=1105&termId=100016417&_=
+http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=DEPARTMENTS&storeId=10236&demoKey=d&programId=1105&termId=100016417&divisionName=%20&_=
+http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=COURSES&storeId=10236&demoKey=d&programId=1105&termId=100016417&divisionName=%20&departmentName=COSC&_=
+http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=SECTIONS&storeId=10236&demoKey=d&programId=1105&termId=100016417&divisionName=%20&departmentName=COSC&courseName=1303&_=
+http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=9604&storeId=10236&langId=-1&programId=1105&termId=100016417&divisionDisplayName=%20&departmentDisplayName=COSC&courseDisplayName=1303&sectionDisplayName=01&demoKey=d&purpose=browse
+*/
+            $terms = @file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105");
+			if($terms !== false) {
+				preg_match('/"data":\[\{(.+?)\}\]\}/', $terms, $groups);
+				$terms = explode(",", $groups[1]);
+				$term = explode(":", $terms[0]);
+				$term = substr($term[1], 1, -1);
 
-            $course = explode("-", $classID);
-            $dep = $course[0];
-            $course = $course[1];
+				$course = explode("-", $classID);
+				$dep = $course[0];
+				$course = $course[1];
 
-            print '<a href="http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=null&storeId=10236&langId=-1&programId=1105&termId='.$term.'&divisionDisplayName=%20&departmentDisplayName='.$dep.'&courseDisplayName='.$course.'&sectionDisplayName=01&demoKey=d&purpose=browse" target="_blank">Get Books</a>';
+				print '<a href="http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=null&storeId=10236&langId=-1&programId=1105&termId='.$term.'&divisionDisplayName=%20&departmentDisplayName='.$dep.'&courseDisplayName='.$course.'&sectionDisplayName=01&demoKey=d&purpose=browse" target="_blank">Get Books</a>';
+			}
         }
 
 		/**

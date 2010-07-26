@@ -448,8 +448,8 @@
                 print '</select>';
                 print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
                 print '<div id="choice'.$uid.'" style="display:inline;">';
-                    $populated = false;
-                    if(!empty($choice)) {
+                    $populated = !empty($choice);
+                    if($populated) {
                         print '<select name="choice[]" id="choiceDD'.$uid.'">';
                             foreach($classes[$class] as $key=>$course) {
                                 print '<option value="'.$key.'"';
