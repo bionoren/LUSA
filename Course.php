@@ -409,7 +409,7 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
 		 * @return STRING Query string.
 		 */
         public function getPrintQS() {
-            $ret = implode("::", array($this->getDays(),$this->getStartTime(),$this->getEndTime(),addslashes($this->getTitle())));
+            $ret = implode("::", array($this->getDays(),$this->getStartTime(),$this->getEndTime(),$this->getTitle()));
 			if($this->getLab() != null) {
 				$ret .= "~".$this->getLab()->getPrintQS();
 			}
