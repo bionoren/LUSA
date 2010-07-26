@@ -204,6 +204,11 @@
                     } else {
                         $sched2 = clone $sched;
                         $sched->addClass($section);
+						/* http://us3.php.net/manual/en/control-structures.foreach.php#97945
+						   Basically, PHP makes a copy of the array before starting the foreach loop.
+						   So, when we append to it here, we won't actually loop over this time.
+						   So you can relax now, I didn't just create an infinite loop.
+						 */
                         $schedules[] = $sched;
                         $sched = $sched2;
                         if(!$commonCandidate || $commonCandidate === $section) {
