@@ -95,21 +95,13 @@
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(Course $course) {
-            $invalid = false;
 			$choices = $this->getSelectedChoices();
             if($this->hasNoErrors() && !isset($choices[$course->getID()])) {
                 $ctn = $this->getCourseTitleNumbers();
-				$classes = $ctn[$course->getID()];
-                foreach($this->getSchedules() as $schedule) {
-                    foreach($classes as $section) {
-                        $invalid = $schedule->validateClass($section);
-                        if(!$invalid) {
-                            return false;
-                        }
-                    }
-                }
+				$sections = $ctn[$course->getID()];
+				return Schedule::validateClassSections($this->getSchedules(), $sections);
             }
-            return $invalid;
+            return false;
         }
 
         /**

@@ -182,7 +182,7 @@
         foreach($courses as $i=>$sections) {
             if(count($sections) == 1) {
                 Schedule::$common[] = $sections[0];
-				$invalid .= $sched->validateClass($sections[0], $invalid);
+				$invalid .= $sched->validateClass($sections[0]);
                 unset($courses[$i]);
             }
         }
@@ -201,7 +201,7 @@
             $commonCandidate = false;
             foreach($schedules as $key=>$sched) {
                 foreach($sections as $section) {
-                    if($sched->validateClass($section)) {
+                    if(Schedule::validateClassSections(array($sched), array($section))) {
                         $conflict = $sched->isValid();
                     } else {
                         $sched2 = clone $sched;

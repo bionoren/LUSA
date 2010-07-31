@@ -31,7 +31,8 @@
         protected $valid = false;
 
         /**
-         * Constructs a new schedule with the given classes.
+         * Constructs a new schedule with the given classes. By default, the list of common classes
+         * is included.
          *
          * @param ARRAY $classes Optional list of classes to add.
          */
@@ -44,6 +45,17 @@
                 $this->validate();
             }
         }
+
+		/**
+		 * Returns a new schedule with the common classes as though it were a distinct schedule.
+		 *
+		 * @return SCHEDULE Common schedule.
+		 */
+		public static function commonSchedule() {
+			$common = new Schedule();
+			$common->uniqueClasses = $common->classes;
+			return $common;
+		}
 
         /**
          * Adds a class and optionally validates the schedule.
@@ -231,32 +243,33 @@
          */
         public function validate() {
             //eliminate schedules that have overlaps
+			$sched = array($this);
 			foreach($this->classes as $class) {
-				$this->valid .= $this->validateClass($class, $this->valid);
+				$this->valid .= Schedule::validateClassSections($sched, array($class));
 			}
-//            $this->valid = array_reduce($this->classes, array("Schedule", "validateClass"));
             //return all the conflicts together
             return $this->isValid();
         }
 
         /**
-         * Validates the schedule with the addition of the given class (does NOT add the class!)
+         * Validates this schedule's unique class set with the addition of the given class
+         * (does NOT add the class!)
          *
          * @param COURSE $class1 Class to validate with this schedule.
-         * @param MIXED $ret Like isValid.
-         * @return MIXED
+         * @return MIXED False if valid, String if there was a conflict.
          * @see isValid
          */
-        public function validateClass(Course $class1, $ret=null) {
+        public function validateClass(Course $class1) {
             //eliminate schedules that have overlaps
             //you can always take special classes
             if($class1->isSpecial()) {
                 return false;
             }
+			$ret = null;
 			$id = $class1->getID();
 			$lab = $class1->getLab();
-            //check this class against all the others
-            foreach($this->classes as $class2) {
+            //check this class against this schedule's unique set of classes
+            foreach($this->uniqueClasses as $class2) {
                 $ret .= validateClasses($class1, $class2);
                 if($lab != null) {
                     $ret .= validateClasses($lab, $class2);
@@ -265,8 +278,41 @@
                     $ret .= validateClasses($class1, $class2->getLab());
                 }
             }
-            //return all the conflicts together
-            return $ret;
+
+			return $ret;
         }
+
+		/**
+		 * Finds if at least one section will work with at least one existing schedule
+		 *
+		 * @param ARRAY $schedules List of schedules to validate against
+		 * @param ARRAY $sections List of course sections to validate
+		 * @return MIXED false if valid, String if there was a conflict.
+		 */
+		public static function validateClassSections(array $schedules, array $sections) {
+			$invalid = false;
+			$common = Schedule::commonSchedule();
+			//check the common classes first. If it works with the common classes,
+			//it will probably work with the rest too
+			foreach($sections as $section) {
+				$invalid = $common->validateClass($section);
+				if(!$invalid) {
+					break;
+				}
+			}
+			if($invalid) {
+				return $invalid;
+			}
+			//check against all the other schedule options
+			foreach($schedules as $schedule) {
+				foreach($sections as $section) {
+					$invalid = $schedule->validateClass($section);
+					if(!$invalid) {
+						return false;
+					}
+				}
+			}
+			return $invalid;
+		}
     }
 ?>
