@@ -79,7 +79,9 @@
             if($this->haveSelections()) {
                 $this->selectedClasses = array_filter($_REQUEST["class"]);
                 foreach($_REQUEST["choice"] as $course) {
-                    $this->selectedChoices[$course] = $course;
+					if($course != "----") {
+	                    $this->selectedChoices[$course] = $course;
+					}
                 }
             }
 

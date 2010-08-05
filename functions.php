@@ -155,7 +155,7 @@
                 $files[] = $year."SU";
             $files[] = $year."SP";
         } elseif($month < 8) {
-            //grab this summer and try for next fall
+            //grab this summer and try for this fall
             if(!$reject || file_exists($prefix.$year."FA.txt"))
                 $files[] = $year."FA";
             $files[] = $year."SU";

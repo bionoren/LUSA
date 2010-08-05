@@ -39,10 +39,6 @@
         $classes = array();
         foreach($xml as $class) {
 			foreach($class->{"meeting"} as $meet) {
-				if($meet->{"meetingcampus"} == "AUS") {
-					print "here!\n";
-					dump("meeting", $meet);
-				}
 				if($meet->{"meetingtypecode"} != "LB" || count($class->{"meeting"}) == 1) {
 		            $lastClass = new Course($class, $meet);
 					$classes[] = $lastClass;
@@ -53,9 +49,10 @@
 			}
         }
 
-		file_put_contents("cache/temp.txt", serialize($classes));
+		$filename = "cache/".$prefix.$year.$semester;
+		file_put_contents($filename.".tmp", serialize($classes));
         //seamlessly transition the new data
-        rename("cache/temp.txt", "cache/".$prefix.$year.$semester.".txt");
+        rename($filename.".tmp", $filename.".txt");
         return true;
 	}
 
