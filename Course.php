@@ -28,6 +28,8 @@
         //course specific
         /** STRING Course ID of the form DEPT-####. */
         protected $courseID;
+		/** INTEGER The number of this course. */
+		protected $number;
 		/** STRING Course ID with the section number appended. */
 		protected $id;
 		/** STRING Returns true if this class is special (irregular day value or online class). */
@@ -70,7 +72,8 @@
          */
         public function __construct(SimpleXMLElement $xml, SimpleXMLElement $meeting) {
             //setup course info
-            $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".substr($xml->{"coursenumber"}, -4);
+			$this->number = substr($xml->{"coursenumber"}, -4);
+            $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".$this->number;
             $this->section = (string)$xml->{"sectionnumber"};
 			$this->id = $this->courseID.$this->section.md5($meeting->asXML());
             if(empty($xml->{"sectiontitle"})) {
@@ -394,6 +397,15 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
         }
 
 		/**
+		 * Returns the label to use for this class in a dropdown.
+		 *
+		 * @return STRING Dropdown label text.
+		 */
+		public function getLabel() {
+			return $this->getNumber()." ".$this->getTitle();
+		}
+
+		/**
 		 * Returns the maximum number of people that can be registered for this class.
 		 *
 		 * @return INTEGER
@@ -402,6 +414,16 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
         public function getMaxRegistered() {
             return $this->maxRegisterable;
         }
+
+		/**
+		 * Returns the course number for this class.
+		 *
+		 * @return INTEGER
+		 * @see $number
+		 */
+		public function getNumber() {
+			return $this->number;
+		}
 
 		/**
 		 * Returns the querystring used to show the print preview for this class.

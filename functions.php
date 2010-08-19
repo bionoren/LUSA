@@ -61,7 +61,7 @@
         if($class1->getEndTime() < $class2->getStartTime() || $class2->getEndTime() < $class1->getStartTime()) {
             return false;
         }
-        return $class1->getTitle()." conflicts with ".$class2->getTitle();
+        return $class1->getLabel()." (conflicts with ".$class2->getTitle().")";
 	}
 
 	/**

@@ -61,7 +61,7 @@
         <div id="container">
             <form method="get" id="form" action="<?php print $main; ?>">
                 <div id="header">
-                    <h1>LUSA</h1>
+                    <h1><a href="<?php print $main; ?>" style="text-decoration:inherit; color:inherit;">LUSA</a></h1>
                     <ul id="options">
                         <li class="first">
                             <div style="display:inline">

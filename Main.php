@@ -455,7 +455,7 @@
                                 }
 	                            $error = $this->checkValidClass($course);
                                 if(!($error && $this->getSchedules())) {
-                                    print '>'.$course->getTitle();
+                                    print '>'.$course->getLabel();
                                 } else {
                                     print ' style="color:rgb(177, 177, 177);">'.$error;
                                 }
@@ -487,7 +487,7 @@
 					$error = $this->checkValidClass($course);
                     print "t.set('".$id."',new Array('";
                     if(!($error && $this->getSchedules())) {
-                        print addslashes($course->getTitle())."', true";
+                        print addslashes($course->getLabel())."', true";
                     } else {
                         print addslashes($error)."', false";
                     }
