@@ -37,6 +37,8 @@
         }
 
         $classes = array();
+		$campusMask = array();
+		$i = 1;
         foreach($xml as $class) {
 			foreach($class->{"meeting"} as $meet) {
 				if($meet->{"meetingtypecode"} != "LB" || count($class->{"meeting"}) == 1) {
@@ -46,8 +48,16 @@
 					//I assume here that a lab follows the class it goes with
 					$lastClass->addLab(new LabCourse($class, $meet));
 				}
+				//presumably if you have labs at a campus, you also have at least one class there too...
+				if(!isset($campusMask[$lastClass->getCampus()])) {
+					$campusMask[$lastClass->getCampus()] = $i;
+					$i = $i << 2;
+				}
+				$lastClass->setCampus($campusMask[$lastClass->getCampus()]);
 			}
         }
+		//add the campus bitmask at the end (so we can take it off quickly later).
+		$classes[] = $campusMask;
 
 		$filename = "cache/".$prefix.$year.$semester;
 		file_put_contents($filename.".tmp", serialize($classes));

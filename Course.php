@@ -89,8 +89,9 @@
             $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
             $temp = 0;
             for($i = 0; $i < count($tmp); $i++) {
-                if($tmp[$i] != "-")
+                if($tmp[$i] != "-") {
                     $temp += pow(2, $i);
+				}
             }
             $this->days = $temp;
             $this->startTime = Course::convertTime((string)$meeting->{"meetingstarttime"});
@@ -142,9 +143,9 @@
 		 * @return STRING String of days this class is offered.
 		 */
         function dayString() {
-            if($this->isSpecial()) {
-                return $this->getCampus();
-            }
+//            if($this->isSpecial()) {
+//                return $this->getCampus();
+//            }
             $temp = array("U", "M", "T", "W", "R", "F", "S");
             $nums = array(1, 2, 4, 8, 16, 32, 64);
             $ret = "";
@@ -528,6 +529,19 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
 		 */
 		public function isSpecial() {
 			return $this->special;
+		}
+
+		/**
+		 * Sets this classes' campus to the given campus
+		 *
+		 * @param $campus MIXED Campus name or bitmask value.
+		 * @return VOID
+		 */
+		public function setCampus($campus) {
+			$this->campus = $campus;
+			if($this->lab) {
+				$this->lab->setCampus($campus);
+			}
 		}
 
 		/**

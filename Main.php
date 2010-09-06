@@ -39,6 +39,8 @@
         /** BOOLEAN True if we're dealing with traditional courses. */
         protected static $traditional;
 
+		/** INTEGER Mask of valid campuses to display. */
+		protected $campusMask = 0;
         /** ARRAY Sorted array of the form classes[dept][classUID] = [Course]. */
         protected $classes = array();
         /** ARRAY Numeric array of course objects for the currently selected courses. */
@@ -331,8 +333,10 @@
          * @return VOID
          */
         protected function init() {
-            //generate select option values for display later
-            $data = array_filter(getClassData(Main::getSemester(), Main::isTraditional()), create_function('Course $class', 'return $class->getCampus() == "'.$this->getCampus().'" || $class->isSpecial();'));
+			$classData = getClassData(Main::getSemester(), Main::isTraditional());
+			$this->setMasterCampusMask(array_pop($classData));
+			//generate select option values for display later
+            $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() | "'.$this->campusMask.'";'));
             foreach($data as $class) {
                 if(!$this->isKept($class) || $this->isRemoved($class)) {
                     continue;
@@ -511,6 +515,22 @@
                 print '>'.Main::$SEMESTER_NAMES[substr($key, -2)].' '.substr($key, 0, 4).'</option>';
             }
         }
+
+		/**
+		 * Sets the bitmask that determines which campus' to display classes for.
+		 *
+		 * @param ARRAY $maskArray Mapping from campus name to bit value for all valid campuses
+		 * @return VOID
+		 */
+		protected function setMasterCampusMask($maskArray) {
+			if($this->getCampus() == "MAIN" && isset($maskArray["ARPT"])) {
+				$mask = $maskArray["MAIN"] | $maskArray["ARPT"];
+			} else {
+				$mask = $maskArray[$this->getCampus()];
+			}
+			$mask = $mask | $maskArray["Online"];
+			$this->campusMask = $mask;
+		}
 
         /**
          * Returns true if links to the bookstore should be shown.
