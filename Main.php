@@ -29,6 +29,8 @@
     class Main {
         /** ARRAY Mapping of semester abbreviations to long names. */
         public static $SEMESTER_NAMES = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
+		/** ARRAY Mapping from bit campus code to campus name. */
+		public static $CAMPUS_LOOKUP = array();
 
         /** STRING The name of the campus we're getting courses for. */
         protected static $campus;
@@ -530,6 +532,7 @@
 			}
 			$mask = $mask | $maskArray["Online"];
 			$this->campusMask = $mask;
+			Main::$CAMPUS_LOOKUP = array_flip($maskArray);
 		}
 
         /**

@@ -197,6 +197,8 @@
 		$sched = new Schedule();
         $schedules = array($sched);
         $conflict = null;
+//		dump("courses", $courses);
+//		die();
         foreach($courses as $sections) {
             $commonCandidate = false;
             foreach($schedules as $key=>$sched) {

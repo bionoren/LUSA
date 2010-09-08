@@ -321,7 +321,7 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
 		 * @see $campus
 		 */
         public function getCampus() {
-            return $this->campus;
+            return Main::$CAMPUS_LOOKUP[$this->campus];
         }
 
 		/**
