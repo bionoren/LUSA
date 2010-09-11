@@ -27,7 +27,7 @@
      * @param STRING $semester One of ('SP', 'SU', 'FA') for Spring, Summer, and Fall semesters.
      * @param STRING $prefix Optional prefix ('non' for non-traditional classes).
      */
-	function writeClassData($file, $year, $semester, $prefix="non") {
+	function writeClassData($file, $year, $semester, $prefix="Non") {
 		//get the current class schedule from LeTourneau
 		$file .= $year."/".$semester;
 		$xml = simplexml_load_file($file);
@@ -40,30 +40,29 @@
 		$campusMask = array();
 		$i = 1;
         foreach($xml as $class) {
+			$className = $prefix."TradCourse";
+			$obj = new $className($class);
 			foreach($class->{"meeting"} as $meet) {
-				if($meet->{"meetingtypecode"} != "LB" || count($class->{"meeting"}) == 1) {
-		            $lastClass = new Course($class, $meet);
-					$classes[] = $lastClass;
-				} else {
-					//I assume here that a lab follows the class it goes with
-					$lastClass->addLab(new LabCourse($class, $meet));
+				$campus = (string)$meet->{"meetingcampus"};
+				if($meet->{"meetingtypecode"} == "IE") {
+					$campus = "INTL";
 				}
-				//presumably if you have labs at a campus, you also have at least one class there too...
-				if(!isset($campusMask[$lastClass->getCampus()])) {
-					$campusMask[$lastClass->getCampus()] = $i;
-					$i = $i << 2;
+				if(empty($campus)) {
+					$campus = "N/A";
 				}
-				$lastClass->setCampus($campusMask[$lastClass->getCampus()]);
+				if(!isset($campusMask[$campus])) {
+					$campusMask[$campus] = $i;
+					$i <<= 1;
+				}
+				$obj->addMeeting($meet, $campus, $campusMask[$campus]);
 			}
+			$classes[] = $obj;
         }
-		//add the campus bitmask at the end (so we can take it off quickly later).
-		$classes[] = $campusMask;
 
 		$filename = "cache/".$prefix.$year.$semester;
 		file_put_contents($filename.".tmp", serialize($classes));
         //seamlessly transition the new data
         rename($filename.".tmp", $filename.".txt");
-        return true;
 	}
 
     $files = getFileArray(false);

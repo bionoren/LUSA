@@ -82,13 +82,12 @@
          */
         protected static function createJSToggle(array $sections, $key) {
             $ret = 'state = "visible";';
-            $ret .= 'if($("'.current($sections)->getUID().'").style.visibility == "visible") { state = "collapse"; }';
+            $ret .= 'if($("'.current($sections)->getUID().'0").style.visibility == "visible") { state = "collapse"; }';
             $ret .= 'if(state == "visible") { $("'.$key.'").innerHTML = "-"; } else { $("'.$key.'").innerHTML = "+"; }';
             foreach($sections as $section) {
-                $ret .= '$("'.$section->getUID().'").style.visibility = state;';
-                if($section->getLab() != null) {
-                    $ret .= '$("'.$section->getLab()->getUID().'").style.visibility = state;';
-                }
+				for($i = 0; $i < $section->getNumMeetings(); $i++) {
+	                $ret .= '$("'.$section->getUID().$i.'").style.visibility = state;';
+				}
             }
             return $ret;
         }
@@ -103,7 +102,7 @@
             $optionClasses = Schedule::getOptionClasses($schedules);
             $span = (Main::isTraditional())?7:9;
             //make classes show up in a pretty order
-            usort(Schedule::$common, "classSort");
+//            usort(Schedule::$common, array("Course", "classSort"));
             print '<table class="full border">';
                 print '<tr>';
                     if(Main::isTraditional()) {
@@ -209,13 +208,13 @@
         protected static function showNonTraditionalHeaders() {
             ?>
             <th colspan="2" id="classHeader">Class</th>
+			<th id="sectionHeader">Section</th>
+			<th id="campusHeader">Campus</th>
             <th id="profHeader">Prof</th>
             <th id="dateHeader">Dates</th>
             <th id="dayHeader">Days</th>
             <th id="timeHeader">Time</th>
-            <th id="sectionHeader">Section</th>
-            <th id="campusHeader">Campus</th>
-            <th id="registeredHeader">Registered/Size</th>
+			<th id="registeredHeader">Registered/Size</th>
             <?php
         }
 
@@ -227,11 +226,11 @@
         protected static function showTraditionalHeaders() {
             ?>
             <th colspan="2" id="classHeader">Class</th>
+			<th id="sectionHeader">Section</th>
             <th id="profHeader">Prof</th>
             <th id="dayHeader">Days</th>
             <th id="timeHeader">Time</th>
-            <th id="sectionHeader">Section</th>
-            <th id="registeredHeader">Registered/Size</th>
+			<th id="registeredHeader">Registered/Size</th>
             <?php
         }
 
@@ -266,17 +265,11 @@
                 return false;
             }
 			$ret = null;
-			$id = $class1->getID();
-			$lab = $class1->getLab();
             //check this class against this schedule's unique set of classes
             foreach($this->uniqueClasses as $class2) {
-                $ret .= validateClasses($class1, $class2);
-                if($lab != null) {
-                    $ret .= validateClasses($lab, $class2);
-                }
-                if($class2->getLab() != null) {
-                    $ret .= validateClasses($class1, $class2->getLab());
-                }
+                if(!$class1->validateClasses($class2)) {
+					$ret .= $class1->getLabel()." (conflicts with ".$class2->getTitle().")";
+				}
             }
 
 			return $ret;

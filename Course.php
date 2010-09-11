@@ -13,15 +13,17 @@
 	 *	limitations under the License.
 	 */
 
-	require_once("LabCourse.php");
+	require_once("TradCourse.php");
+	require_once("NonTradCourse.php");
+	require_once("Meeting.php");
 
     /**
      * Stores information for an individual class.
      *
      * @author Bion Oren
-     * @version 2.0
+     * @version 3.0
      */
-    class Course {
+    abstract class Course {
         /** STRING Stores a cache of the querystring. */
         public static $QS = "";
 
@@ -30,10 +32,8 @@
         protected $courseID;
 		/** INTEGER The number of this course. */
 		protected $number;
-		/** STRING Course ID with the section number appended. */
+		/** STRING Course ID with the section number and a hash of all class info appended. */
 		protected $id;
-		/** STRING Returns true if this class is special (irregular day value or online class). */
-		protected $special = false;
         /** STRING Course section number. */
         protected $section;
         /** STRING Title of this class. */
@@ -42,40 +42,23 @@
         protected $currentRegistered = 0;
         /** INTEGER Maximum number of students that can register for this class. */
         protected $maxRegisterable;
-
-        //lecture/lab specific
-        /** INTEGER Bit string of days of the week (1 is Sunday). */
-        protected $days;
-        /** FLOAT Class start time. */
-        protected $startTime;
-        /** FLOAT Class end time. */
-        protected $endTime;
-        /** INTEGER Day of the year this class starts on. */
-        protected $startDay;
-        /** INTEGER Day of the year this class ends on. */
-        protected $endDay;
-        /** STRING Name of the professor teaching this course. */
-        protected $prof = "Staff";
-        /** STRING Name of the campus this class is offered at. */
-        protected $campus = "MAIN";
-        /** STRING Type of class (online, traditional, nontraditional). */
-        protected $type;
-        /** COURSE Represents a lab class associated with this course. */
-        protected $lab = null;
+		/** MEETING List of meetings for this class (times, location, etc). */
+		protected $meetings = array();
+		/** BOOLEAN Returns true if this class is special (irregular day value or online class). */
+		protected $special = false;
 
         /**
          * Constructs a new course object from the provided xml information.
          *
          * @param SimpleXMLElement $xml XML information for this class.
-         * @param SimpleXMLElement $meeting XML information for this class' location and time.
          * @return Course New class object.
          */
-        public function __construct(SimpleXMLElement $xml, SimpleXMLElement $meeting) {
+        public function __construct(SimpleXMLElement $xml) {
             //setup course info
 			$this->number = substr($xml->{"coursenumber"}, -4);
             $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".$this->number;
             $this->section = (string)$xml->{"sectionnumber"};
-			$this->id = $this->courseID.$this->section.md5($meeting->asXML());
+			$this->id = $this->courseID.$this->section;
             if(empty($xml->{"sectiontitle"})) {
                 $this->title = htmlspecialchars($xml->{"coursetitle"});
             } else {
@@ -83,81 +66,23 @@
             }
             $this->currentRegistered = (string)$xml->{"currentnumregistered"};
             $this->maxRegisterable = (string)$xml->{"maxsize"};
-
-            //setup lab/lecture specific stuff
-            $this->type = (string)$meeting->{"meetingtypecode"};
-            $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
-            $temp = 0;
-            for($i = 0; $i < count($tmp); $i++) {
-                if($tmp[$i] != "-") {
-                    $temp += pow(2, $i);
-				}
-            }
-            $this->days = $temp;
-            $this->startTime = Course::convertTime((string)$meeting->{"meetingstarttime"});
-            $this->endTime = Course::convertTime((string)$meeting->{"meetingendtime"});
-            $this->prof = (string)$meeting->{"profname"};
-            $this->startDay = Course::getDateStamp((string)$meeting->{"meetingstartdate"});
-            $this->endDay = Course::getDateStamp((string)$meeting->{"meetingenddate"});
-            if(isset($meeting->{"meetingcampus"})) {
-                $this->campus = (string)$meeting->{"meetingcampus"};
-            }
-            if($this->isOnline()) {
-                $this->campus = "Online";
-            } elseif($this->isInternational()) {
-				$this->campus = "Far Away";
-			}
-			$this->special = !is_numeric($this->getDays()) || $this->getDays() == 0 || $this->isOnline();
         }
 
-		/**
-		 * Adds a lab to this course.
-		 *
-		 * @param LabCourse $lab Lab for this course.
-		 * @return VOID
-		 */
-		public function addLab(LabCourse $lab) {
-			$this->lab = $lab;
+//		* @param SimpleXMLElement $meeting XML information for this class' location and time.
+		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
+			$this->id .= md5($meeting->asXML());
+			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask);
 		}
 
 		/**
-         * Converts a time string to its integer equivalent.
-         *
-         * Returns "TBA" for classes with a time of "TBA".
-         *
-         * @param STRING $timestr String in the format HH:MM.
-         * @return INTEGER Hours + minutes.
-         */
-        public static function convertTime($timestr) {
-            if($timestr == "TBA")
-                return $timestr;
-            //convert minutes into a decimal
-            $hours = substr($timestr, 0, strlen($timestr)-2);
-            $minutes = intval(substr($timestr, -2))/60;
-            return $hours+$minutes;
-        }
-
-		/**
-		 * Returns the days this class is offered as a compact string.
-		 *
-		 * @return STRING String of days this class is offered.
+		 * Finishes cashing information relating to meeting data.
 		 */
-        function dayString() {
-//            if($this->isSpecial()) {
-//                return $this->getCampus();
-//            }
-            $temp = array("U", "M", "T", "W", "R", "F", "S");
-            $nums = array(1, 2, 4, 8, 16, 32, 64);
-            $ret = "";
-            for($i = 0; $i < count($temp); $i++) {
-                if($this->getDays() & $nums[$i]) {
-                    $ret .= $temp[$i];
-                } else {
-                    $ret .= "-";
-                }
-            }
-            return $ret;
-        }
+		public function finalize() {
+			$this->special = true;
+			foreach($this->meetings as $meeting) {
+				$this->special = $this->special && $meeting->isSpecial();
+			}
+		}
 
 		/**
 		 * Displays this class in a table.
@@ -165,114 +90,7 @@
 		 * @param BOOLEAN $optional True if this class is part of an optional set of classes.
 		 * @return VOID
 		 */
-        public function display($optional=false) {
-			print '<tr id="'.$this->getUID().'" class="'.$this->getBackgroundStyle().'"';
-            if($optional) {
-                print ' style="visibility:collapse;"';
-            }
-            print '>';
-				if($optional) {
-					$qstring = Course::$QS.'%sf[]='.$this->getUID().'&amp;submit=Filter';
-					$filterLink = '<a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>%s</strong></a>';
-					print '<td headers="classHeader">';
-						printf($filterLink, "c", "Choose");
-						print ' or ';
-						printf($filterLink, "r", "Remove");
-					print '</td>';
-					print '<td style="width:auto;" headers="classHeader">';
-						if(!$this->isSpecial()) {
-							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->getSection()."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
-							print "<label for='select".$this->getUID()."'>Preview</label>";
-						}
-					print "</td>";
-				} else {
-					print '<td headers="classHeader">'.$this->getID().'</td>';
-					print '<td headers="classHeader">'.html_entity_decode($this->getTitle()).'</td>';
-				}
-				print '<td headers="profHeader">'.$this->getProf().'</td>';
-				if(!Main::isTraditional()) {
-					print '<td headers="dateHeader">'.date("n/j/y", $this->getStartDate()).' - '.date("n/j/y", $this->getEndDate()).'</td>';
-				}
-				print '<td headers="dayHeader">'.$this->dayString().'</td>';
-				print '<td headers="timeHeader">'.Course::displayTime($this->getStartTime(), $this->isSpecial()).'-'.Course::displayTime($this->getEndTime(), $this->isSpecial()).'</td>';
-				print '<td headers="sectionHeader">'.$this->getSection().'</td>';
-				if(!Main::isTraditional()) {
-					print '<td headers="campusHeader">'.$this->getCampus().'</td>';
-				}
-				print '<td headers="registeredHeader">'.$this->getCurrentRegistered().'/'.$this->getMaxRegistered().'</td>';
-			print '</tr>';
-			if($this->getLab() != null) {
-				$this->lab->display($optional);
-			}
-        }
-
-		/**
-		 * Displays a link to the bookstore for the given class.
-		 *
-		 * @param STRING $classID Class ID.
-		 * @return VOID
-		 */
-        public static function displayBookStoreLink($classID) {
-/*
-http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105&_=
-http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=DIVISIONS&storeId=10236&demoKey=d&programId=1105&termId=100016417&_=
-http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=DEPARTMENTS&storeId=10236&demoKey=d&programId=1105&termId=100016417&divisionName=%20&_=
-http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=COURSES&storeId=10236&demoKey=d&programId=1105&termId=100016417&divisionName=%20&departmentName=COSC&_=
-http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=SECTIONS&storeId=10236&demoKey=d&programId=1105&termId=100016417&divisionName=%20&departmentName=COSC&courseName=1303&_=
-http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=9604&storeId=10236&langId=-1&programId=1105&termId=100016417&divisionDisplayName=%20&departmentDisplayName=COSC&courseDisplayName=1303&sectionDisplayName=01&demoKey=d&purpose=browse
-*/
-            $terms = @file_get_contents("http://www.bkstr.com/webapp/wcs/stores/servlet/LocateCourseMaterialsServlet?requestType=TERMS&storeId=10236&demoKey=d&programId=1105");
-			if($terms !== false) {
-				preg_match('/"data":\[\{(.+?)\}\]\}/', $terms, $groups);
-				$terms = explode(",", $groups[1]);
-				$term = explode(":", $terms[0]);
-				$term = substr($term[1], 1, -1);
-
-				$course = explode("-", $classID);
-				$dep = $course[0];
-				$course = $course[1];
-
-				print '<a href="http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalogId=10001&categoryId=null&storeId=10236&langId=-1&programId=1105&termId='.$term.'&divisionDisplayName=%20&departmentDisplayName='.$dep.'&courseDisplayName='.$course.'&sectionDisplayName=01&demoKey=d&purpose=browse" target="_blank">Get Books</a>';
-			}
-        }
-
-		/**
-         * Displays the given time as a string.
-         *
-         * Returns "-" for online classes and "TBA" for classes with a
-         * time of "TBA".
-         *
-         * @param FLOAT $time Floating point representation of a time.
-         * @param BOOLEAN $online True if this is an online class.
-         * @return STRING Time in the format HH:MM('a'|'p')
-         */
-        public static function displayTime($time, $online=false) {
-            if($online) {
-                return "-";
-            }
-            if($time == "TBA")
-                return $time;
-            //separate hours and minutes
-            $time = explode(".", $time);
-            //if hours >= 12, then pm
-            $ap = ($time[0]/12 >= 1)?"p":"a";
-            //if hours > 12, then put back into 12 hour format
-            if($time[0] > 12)
-                $time[0] -= 12;
-            if(isset($time[1])) {
-                //make the minutes a decimal number again
-                $time[1] = ".".$time[1];
-                //convert the decimal back to minutes
-                $time[1] = round($time[1]*60);
-                //add a leading zero if 0-9 minutes
-                if($time[1] < 10)
-                    $time[1] = "0".$time[1];
-            } else {
-                $time[1] = "00";
-            }
-            //return the time
-            return $time[0].":".$time[1].$ap;
-        }
+		abstract function display($optional=false);
 
 		/**
 		 * Generates the URL prefix querystring to use for classes.
@@ -303,9 +121,9 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
 		 */
         protected function getBackgroundStyle() {
             //>5 seats left
-            if($this->getMaxRegistered()-$this->getCurrentRegistered() > 5) {
+            if($this->maxRegisterable-$this->currentRegistered > 5) {
                 return 'status-open';
-            } elseif($this->getMaxRegistered()-$this->getCurrentRegistered() > 0) {
+            } elseif($this->maxRegisterable-$this->currentRegistered > 0) {
             //<5 seats left
                 return 'status-close';
             } else {
@@ -314,69 +132,13 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
 			}
         }
 
-		/**
-		 * Returns the name of the campus this class is at.
-		 *
-		 * @return STRING
-		 * @see $campus
-		 */
-        public function getCampus() {
-            return Main::$CAMPUS_LOOKUP[$this->campus];
-        }
-
-		/**
-		 * Returns the number of people currently registered for this class.
-		 *
-		 * @return INTEGER
-		 * @see $currentRegistered
-		 */
-        public function getCurrentRegistered() {
-            return $this->currentRegistered;
-        }
-
-		/**
-         * Returns the datestamp for the given date.
-         *
-         * @param STRING $date Date of the format YYYY-MM-DD
-         * @return INTEGER Timestamp associated with 1:01:01 AM of this day (system timezone),
-         *                  or the current time if $date is empty.
-         */
-        public static function getDateStamp($date) {
-            if(empty($date))
-                return time();
-            $date = explode("-", $date);
-            return mktime(1,1,1, $date[1], $date[2], $date[0]);
-        }
-
-		/**
-         * Returns the days this class is offered.
-         *
-         * @return INTEGER
-         * @see $days
-         */
-        public function getDays() {
-            return $this->days;
-        }
-
-		/**
-		 * Returns this class' end date.
-		 *
-		 * @return INTEGER
-		 * @see $endDay
-		 */
-        public function getEndDate() {
-            return $this->endDay;
-        }
-
-		/**
-         * Returns this class' end time.
-         *
-         * @return FLOAT
-         * @see $endTime
-         */
-        public function getEndTime() {
-            return $this->endTime;
-        }
+		public function getCampus() {
+			$ret = 0;
+			foreach($this->meetings as $meeting) {
+				$ret |= $meeting->getCampus();
+			}
+			return $ret;
+		}
 
 		/**
          * Returns this class' ID.
@@ -388,42 +150,17 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
             return $this->courseID;
         }
 
-        /**
-         * Returns the lab associated with this class.
-         *
-         * @return Course Lab class (or null if none).
-         */
-        public function getLab() {
-            return $this->lab;
-        }
-
 		/**
 		 * Returns the label to use for this class in a dropdown.
 		 *
 		 * @return STRING Dropdown label text.
 		 */
 		public function getLabel() {
-			return $this->getNumber()." ".$this->getTitle();
+			return $this->number." ".$this->title;
 		}
 
-		/**
-		 * Returns the maximum number of people that can be registered for this class.
-		 *
-		 * @return INTEGER
-		 * @see $maxRegisterable
-		 */
-        public function getMaxRegistered() {
-            return $this->maxRegisterable;
-        }
-
-		/**
-		 * Returns the course number for this class.
-		 *
-		 * @return INTEGER
-		 * @see $number
-		 */
-		public function getNumber() {
-			return $this->number;
+		public function getNumMeetings() {
+			return count($this->meetings);
 		}
 
 		/**
@@ -432,62 +169,16 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
 		 * @return STRING Query string.
 		 */
         public function getPrintQS() {
-            $ret = implode("::", array($this->getDays(),$this->getStartTime(),$this->getEndTime(),$this->getTitle()));
-			if($this->getLab() != null) {
-				$ret .= "~".$this->getLab()->getPrintQS();
+			$ret = array();
+			foreach($this->meetings as $meeting) {
+				$ret[] = $meeting->getPrintQS()."::".$this->title;
 			}
-			return rawurlencode(htmlspecialchars_decode($ret));
+			return rawurlencode(htmlspecialchars_decode(implode("~", $ret)));
         }
 
-		/**
-		 * Returns the name of the prof teaching this class.
-		 *
-		 * @return STRING
-		 * @see $prof
-		 */
-        public function getProf() {
-            return $this->prof;
-        }
-
-        /**
-         * Returns this class' section number.
-         *
-         * @return INTEGER
-         * @see $sections
-         */
-        public function getSection() {
-            return $this->section;
-        }
-
-		/**
-         * Returns this class' start date.
-         *
-         * @return INTEGER
-         * @see $startDay
-         */
-        public function getStartDate() {
-            return $this->startDay;
-        }
-
-        /**
-         * Returns this class' start time.
-         *
-         * @return FLOAT
-         * @see $startTime
-         */
-        public function getStartTime() {
-            return $this->startTime;
-        }
-
-		/**
-		 * Returns this class' title.
-		 *
-		 * @return STRING
-		 * @see $title
-		 */
-        public function getTitle() {
-            return $this->title;
-        }
+		public function getTitle() {
+			return $this->title;
+		}
 
 		/**
 		 * Returns this class' UID.
@@ -499,49 +190,24 @@ http://www.bkstr.com/webapp/wcs/stores/servlet/CourseMaterialsResultsView?catalo
             return $this->id;
         }
 
-		/**
-		 * Returns true if this class is an international class.
-		 *
-		 * @return BOOLEAN
-		 * @see $type
-		 */
-		protected function isInternational() {
-			return $this->type == "IE";
-		}
-
-		/**
-		 * Returns true if this class is online.
-		 *
-		 * @return BOOLEAN
-		 * @see $type
-		 */
-        protected function isOnline() {
-            return $this->type == "OL";
-        }
-
-		/**
-		 * Returns true if nobody has a clue when this class is offered. This usually indicates an
-		 * online, study abroad, or similar class.
-		 *
-		 * Note that you should always be able to take special classes because they're special like that :).
-		 *
-		 * @return BOOLEAN
-		 */
 		public function isSpecial() {
 			return $this->special;
 		}
 
 		/**
-		 * Sets this classes' campus to the given campus
+		 * Validates that you can take two classes together.
 		 *
-		 * @param $campus MIXED Campus name or bitmask value.
-		 * @return VOID
+		 * @param COURSE $class The other class you're taking.
+		 * @return BOOLEAN True if you can take both of these classes simultaneously.
 		 */
-		public function setCampus($campus) {
-			$this->campus = $campus;
-			if($this->lab) {
-				$this->lab->setCampus($campus);
+		function validateClasses(Course $class) {
+			$ret = false;
+			foreach($this->meetings as $meeting) {
+				foreach($class->meetings as $meeting2) {
+					$ret = $ret || !($meeting->isDayOverlap($meeting2) && $meeting->isDateOverlap($meeting2) && $meeting->isTimeConflict($meeting2));
+				}
 			}
+			return $ret;
 		}
 
 		/**
