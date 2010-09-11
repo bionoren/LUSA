@@ -14,6 +14,14 @@
         protected $campus;
         /** STRING Name of the campus this class is offered at. */
         protected $campusName;
+        protected $startDay;
+        protected $endDay;
+
+        protected $startDayString;
+        protected $endDayString;
+        protected $dayString;
+        protected $startTimeString;
+        protected $endTimeString;
 
         public function __construct(SimpleXMLElement $meeting, $campus, $campusBitMask) {
             $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
@@ -33,6 +41,12 @@
             $this->campusName = $campus;
 
 			$this->special = !is_numeric($this->days) || $this->days == 0 || $this->campusName == "XOL";
+
+            $this->startDayString = date("n/j/y", $this->startDay);
+            $this->endDayString = date("n/j/y", $this->endDay);
+            $this->dayString = Meeting::dayString($this->days);
+            $this->startTimeString = Meeting::displayTime($this->startTime, $this->isSpecial());
+            $this->endTimeString = Meeting::displayTime($this->endTime, $this->isSpecial());
         }
 
         public function display($nontrad) {
@@ -42,10 +56,10 @@
             }
             print '<td headers="profHeader">'.$this->prof.'</td>';
             if($nontrad) {
-                print '<td headers="dateHeader">'.date("n/j/y", $this->startDay).' - '.date("n/j/y", $this->endDay).'</td>';
+                print '<td headers="dateHeader">'.$this->startDayString.' - '.$this->endDayString.'</td>';
             }
-            print '<td headers="dayHeader">'.Meeting::dayString($this->days).'</td>';
-			print '<td headers="timeHeader">'.Meeting::displayTime($this->startTime, $this->isSpecial()).'-'.Meeting::displayTime($this->endTime, $this->isSpecial()).'</td>';
+            print '<td headers="dayHeader">'.$this->dayString.'</td>';
+			print '<td headers="timeHeader">'.$this->startTimeString.'-'.$this->endTimeString.'</td>';
         }
 
         /**
@@ -164,7 +178,7 @@
 		 * @param MEETING $class Other class.
 		 * @return BOOLEAN True if the classes overlap on at least 1 day.
 		 */
-		function isDayOverlap(MEETING $class) {
+		function isDayOverlap(Meeting $class) {
 		   return $this->days & $class->days;
 		}
 

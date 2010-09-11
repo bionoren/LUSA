@@ -201,13 +201,14 @@
 		 * @return BOOLEAN True if you can take both of these classes simultaneously.
 		 */
 		function validateClasses(Course $class) {
-			$ret = false;
 			foreach($this->meetings as $meeting) {
 				foreach($class->meetings as $meeting2) {
-					$ret = $ret || !($meeting->isDayOverlap($meeting2) && $meeting->isDateOverlap($meeting2) && $meeting->isTimeConflict($meeting2));
+					if(!($meeting->isDayOverlap($meeting2) && $meeting->isDateOverlap($meeting2) && $meeting->isTimeConflict($meeting2))) {
+						return true;
+					}
 				}
 			}
-			return $ret;
+			return false;
 		}
 
 		/**

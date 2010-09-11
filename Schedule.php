@@ -162,7 +162,8 @@
          */
         protected static function getOptionClasses(array $schedules) {
             $classOptions = array();
-            foreach($schedules as $schedule) {
+            reset($schedules);
+			while($schedule = next($schedules)) {
                 foreach($schedule->getUniqueClasses() as $class) {
                     if(!in_array($class, Schedule::$common)) {
                         $classOptions[$class->getID()][$class->getUID()] = $class;

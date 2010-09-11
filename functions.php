@@ -142,29 +142,21 @@
 		$sched = new Schedule();
         $schedules = array($sched);
         $conflict = null;
-//		dump("courses", $courses);
-//		die();
         foreach($courses as $sections) {
             $commonCandidate = false;
-            foreach($schedules as $key=>$sched) {
+			$length = count($schedules);
+			//careful with the length here! We're adding to this array while iterating over it!!
+            for($key = 0; $key < $length; $key++) {
+				$sched = $schedules[$key];
                 foreach($sections as $section) {
                     if(Schedule::validateClassSections(array($sched), array($section))) {
                         $conflict = $sched->isValid();
                     } else {
                         $sched2 = clone $sched;
                         $sched->addClass($section);
-						/* http://us3.php.net/manual/en/control-structures.foreach.php#97945
-						   Basically, PHP makes a copy of the array before starting the foreach loop.
-						   So, when we append to it here, we won't actually loop over it this time.
-						   So you can relax now, I didn't just create an infinite loop.
-						 */
                         $schedules[] = $sched;
-                        $sched = $sched2;
-                        if(!$commonCandidate || $commonCandidate === $section) {
-                            $commonCandidate = $section;
-                        } else {
-                            $commonCandidate = true;
-                        }
+						$commonCandidate = ($commonCandidate === $section)?$section:true;
+						$sched = $sched2;
                     }
                 }
             }
