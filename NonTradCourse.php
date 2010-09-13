@@ -9,7 +9,7 @@
 		 * @return VOID
 		 */
         public function display($optional=false) {
-			print '<tr id="'.$this->getUID().'" class="'.$this->getBackgroundStyle().'"';
+			print '<tr id="'.$this->getUID().'0" class="'.$this->getBackgroundStyle().'"';
             if($optional) {
                 print ' style="visibility:collapse;"';
             }
@@ -36,6 +36,16 @@
 				$this->meetings[0]->display(true);
                 print '<td headers="registeredHeader">'.$this->currentRegistered.'/'.$this->maxRegisterable.'</td>';
 			print '</tr>';
+            for($i = 1; $i < count($this->meetings); $i++) {
+                print '<tr id="'.$this->getUID().$i.'" class="'.$this->getBackgroundStyle().'"';
+                    if($optional) {
+                        print ' style="visibility:collapse;"';
+                    }
+                    print '<td colspan="3"></td>';
+                    $this->meetings[$i]->display(true);
+                    print '<td></td>';
+                print '</tr>';
+            }
         }
     }
 ?>

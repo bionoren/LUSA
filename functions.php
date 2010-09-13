@@ -120,55 +120,34 @@
 	 * @return MIXED A list of valid schedules or a string with the error message(s).
 	 */
 	function findSchedules(array $courses) {
-        //add course information for all the courses to be taken
-        //classes with only one section must be common
-		$sched = new Schedule();
-		$invalid = null;
-        foreach($courses as $i=>$sections) {
-            if(count($sections) == 1) {
-                Schedule::$common[] = $sections[0];
-				$invalid .= $sched->validateClass($sections[0]);
-                unset($courses[$i]);
-            }
-        }
-        //the schedule still has common classes that need to be validated
-        //just because there are no options doesn't mean you can take these classes
-        if($invalid) {
-            return $invalid;
-        } elseif($courses == 0) {
-            return array();
-        }
+        $conflict = array();
+		for($i = 0; $i < count($courses); $i++) {
+			foreach($courses[$i] as $key=>$section) {
+				for($j = $i+1; $j < count($courses); $j++) {
+					foreach($courses[$j] as $section2) {
+						if($section->validateClasses($section2)) {
+							$tmp = null;
+							break;
+						} else {
+							$tmp[] = $section->getLabel()." (conflicts with ".$section2->getTitle().")";
+						}
+					}
+					//if this section doesn't work with any sections of another course, remove this section
+					if(!empty($tmp)) {
+						if(count($courses[$i]) == 1) {
+							$conflict = array_merge($conflict, $tmp);
+							break 2;
+						}
+						unset($courses[$i][$key]);
+					}
+				}
+			}
+		}
+		if(!empty($conflict)) {
+			return implode("<br>", $conflict);
+		}
 
-		$sched = new Schedule();
-        $schedules = array($sched);
-        $conflict = null;
-        foreach($courses as $sections) {
-            $commonCandidate = false;
-			$length = count($schedules);
-			//careful with the length here! We're adding to this array while iterating over it!!
-            for($key = 0; $key < $length; $key++) {
-				$sched = $schedules[$key];
-                foreach($sections as $section) {
-                    if(Schedule::validateClassSections(array($sched), array($section))) {
-                        $conflict = $sched->isValid();
-                    } else {
-                        $sched2 = clone $sched;
-                        $sched->addClass($section);
-                        $schedules[] = $sched;
-						$commonCandidate = ($commonCandidate === $section)?$section:true;
-						$sched = $sched2;
-                    }
-                }
-            }
-            if(is_object($commonCandidate)) {
-                Schedule::$common[] = $commonCandidate;
-            }
-        }
-        if(count($schedules) == 0) {
-            return $conflict;
-        }
-
-		return $schedules;
+		return array_values($courses);
 	}
 
 	/**

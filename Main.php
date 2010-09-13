@@ -43,7 +43,7 @@
 		protected $campusMask = 0;
         /** ARRAY Sorted array of the form classes[dept][classUID] = [Course]. */
         protected $classes = array();
-        /** ARRAY Numeric array of course objects for the currently selected courses. */
+        /** MIXED Numeric array of course objects for the currently selected courses or an error string. */
         protected $courses = array();
         /** ARRAY Array of the form courseTitleNumbers[dept.num.section] = [Course]. */
         protected $courseTitleNumbers = array();
@@ -55,8 +55,6 @@
         protected $keepFilter = array();
         /** ARRAY Array of filters to remove classes - of the form removeFilter[classUID]*/
         protected $removeFilter = array();
-        /** ARRAY Numeric array of generated schedules. */
-        protected $schedules = array();
         /** ARRAY Associative array of selected classes (DEPT). */
         protected $selectedClasses = array();
         /** ARRAY Associative array of selected courses (DEPT####). */
@@ -101,9 +99,20 @@
         function checkValidClass(Course $course) {
 			$choices = $this->getSelectedChoices();
             if($this->hasNoErrors() && !isset($choices[$course->getID()])) {
-                $ctn = $this->getCourseTitleNumbers();
-				$sections = $ctn[$course->getID()];
-				return Schedule::validateClassSections($this->getSchedules(), $sections);
+                foreach($this->getCourses() as $sections) {
+					foreach($sections as $section) {
+						$valid = $section->validateClasses($course);
+						if($valid) {
+							$tmp = null;
+							break;
+						} else {
+							$tmp = $course->getLabel()." (conflicts with ".$section->getTitle().")";
+						}
+					}
+					if($tmp) {
+						return $tmp;
+					}
+				}
             }
             return false;
         }
@@ -122,14 +131,14 @@
             if($this->isSubmitted() && $this->haveSelections()) {
                 if($this->hasNoErrors()) {
                     print '<h2>Schedule</h2>';
-                    Schedule::display($this->getSchedules());
+                    Schedule::display($this->getCourses());
                     print '<br/>';
                     print '<div style="text-align:center;">';
                         print '<img id="schedule" alt="Schedule" src="print.php?'.Schedule::getPrintQS(Schedule::$common).'" height="600"/>';
                         print '<br/>';
                     print '</div>';
                 } else {
-                    print "<span style='color:red;'>".$this->getSchedules()."</span>";
+                    print "<span style='color:red;'>Conflicts were found :(<br>".$this->getCourses()."</span>";
                 }
             }
         }
@@ -213,7 +222,7 @@
         /**
          * Returns an internal array of classes.
          *
-         * @return ARRAY
+         * @return MIXED
          * @see $courses
          */
         protected function getCourses() {
@@ -260,15 +269,6 @@
                 $classFilter = array_fill_keys($_REQUEST["rf"], true);
             }
             return $classFilter;
-        }
-
-        /**
-         * Returns all valid generated schedules.
-         *
-         * @return ARRAY Numeric array of schedules.
-         */
-        public function getSchedules() {
-            return $this->schedules;
         }
 
         /**
@@ -324,7 +324,7 @@
          * @return BOOLEAN True if no errors.
          */
         protected function hasNoErrors() {
-            return empty($errors);
+            return empty($errors) && is_array($this->getCourses());
         }
 
         /**
@@ -361,8 +361,8 @@
 
                 if($this->hasNoErrors()) {
                     //find possible schedules
-                    $this->schedules = findSchedules($this->getCourses());
-                    if(!is_array($this->getSchedules())) {
+					$this->courses = findSchedules($this->getCourses());
+                    if(!is_array($this->getCourses())) {
                         $this->errors = true;
                     }
                 }
@@ -457,7 +457,7 @@
                                     print ' selected="selected"';
                                 }
 	                            $error = $this->checkValidClass($course);
-                                if(!($error && $this->getSchedules())) {
+                                if(!($error && $this->getCourses())) {
                                     print '>'.$course->getLabel();
                                 } else {
                                     print ' style="color:rgb(177, 177, 177);">'.$error;
@@ -489,7 +489,7 @@
                 foreach($class as $id=>$course) {
 					$error = $this->checkValidClass($course);
                     print "t.set('".$id."',new Array('";
-                    if(!($error && $this->getSchedules())) {
+                    if(!($error && $this->getCourses())) {
                         print addslashes($course->getLabel())."', true";
                     } else {
                         print addslashes($error)."', false";

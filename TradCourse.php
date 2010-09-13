@@ -30,7 +30,7 @@
 					print "</td>";
 				} else {
 					print '<td headers="classHeader">'.$this->getID().'</td>';
-					print '<td headers="classHeader">'.html_entity_decode($this->getTitle()).'</td>';
+					print '<td headers="classHeader">'.html_entity_decode($this->title).'</td>';
 				}
                 print '<td headers="sectionHeader">'.$this->section.'</td>';
                 $this->meetings[0]->display(false);

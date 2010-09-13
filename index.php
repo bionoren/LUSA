@@ -53,6 +53,7 @@
     <body lang="en">
         <!--LUSA 2: A Dorm 41 Production-->
         <!--Developed by: Wharf-->
+		<!--Revised Validation Algorithm: Zoot-->
         <!--Design by: Shutter-->
         <!--JavaScript Magic: Fjord-->
         <!--QA and Lead Tester: Synk-->

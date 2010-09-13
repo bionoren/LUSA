@@ -37,7 +37,7 @@
     foreach($tmp as $class) {
         if(!empty($class)) {
             $tmp = explode("::", $class);
-            if($tmp[1] != "TBA" && $tmp[0] > 0) {
+            if($tmp[1] != "TBA" && $tmp[1] > 0 && $tmp[0] > 0) {
                 $classes[] = $tmp;
             }
         }
