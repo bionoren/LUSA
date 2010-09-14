@@ -50,8 +50,6 @@
 					$campus = "XOL";
 				}
 				if(empty($campus)) {
-					print "meeting code = ".$meet->{"meetingtypecode"}."\n";
-					print "class = ".$obj->getTitle()."\n";
 					$campus = "N/A";
 				}
 				if(!isset($campusMask[$campus])) {
