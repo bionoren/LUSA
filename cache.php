@@ -46,8 +46,12 @@
 				$campus = (string)$meet->{"meetingcampus"};
 				if($meet->{"meetingtypecode"} == "IE") {
 					$campus = "INTL";
+				} elseif($meet->{"meetingtypecode"} == "OL") {
+					$campus = "XOL";
 				}
 				if(empty($campus)) {
+					print "meeting code = ".$meet->{"meetingtypecode"}."\n";
+					print "class = ".$obj->getTitle()."\n";
 					$campus = "N/A";
 				}
 				if(!isset($campusMask[$campus])) {
@@ -58,6 +62,7 @@
 			}
 			$classes[] = $obj;
         }
+		$classes[] = $campusMask;
 
 		$filename = "cache/".$prefix.$year.$semester;
 		file_put_contents($filename.".tmp", serialize($classes));

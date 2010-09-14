@@ -29,6 +29,8 @@
     class Main {
         /** ARRAY Mapping of semester abbreviations to long names. */
         public static $SEMESTER_NAMES = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
+		/** ARRAY Mapping from campus names to their bit value (for bitmasking campuses). */
+		public static $CAMPUS_MASK = 0;
 
         /** STRING The name of the campus we're getting courses for. */
         protected static $campus;
@@ -334,8 +336,10 @@
          */
         protected function init() {
 			$classData = getClassData(Main::getSemester(), Main::isTraditional());
+			Main::$CAMPUS_MASK = array_pop($classData);
+			$this->setCampusMask();
 			//generate select option values for display later
-            $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() | "'.$this->campusMask.'";'));
+            $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
             foreach($data as $class) {
                 if(!$this->isKept($class) || $this->isRemoved($class)) {
                     continue;
@@ -514,6 +518,19 @@
                 print '>'.Main::$SEMESTER_NAMES[substr($key, -2)].' '.substr($key, 0, 4).'</option>';
             }
         }
+
+		public function setCampusMask() {
+			$this->campusMask = Main::$CAMPUS_MASK[Main::$campus];
+			if(Main::$campus == "MAIN" && isset(Main::$CAMPUS_MASK["ARPT"])) {
+				$this->campusMask |= Main::$CAMPUS_MASK["ARPT"];
+			}
+			if(isset(Main::$CAMPUS_MASK["XOL"])) {
+				$this->campusMask |= Main::$CAMPUS_MASK["XOL"];
+			}
+			if(isset(Main::$CAMPUS_MASK["N/A"])) {
+				$this->campusMask |= Main::$CAMPUS_MASK["N/A"];
+			}
+		}
 
         /**
          * Returns true if links to the bookstore should be shown.

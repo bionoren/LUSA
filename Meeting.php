@@ -44,7 +44,7 @@
 
             $this->startDayString = date("n/j/y", $this->startDay);
             $this->endDayString = date("n/j/y", $this->endDay);
-            $this->dayString = Meeting::dayString($this->days);
+            $this->dayString = Meeting::dayString($this->days, $this->isSpecial());
             $this->startTimeString = Meeting::displayTime($this->startTime, $this->isSpecial());
             $this->endTimeString = Meeting::displayTime($this->endTime, $this->isSpecial());
         }
@@ -120,7 +120,11 @@
 		 * @param INTEGER $days Bit string of days of the week.
 		 * @return STRING String of days this class is offered.
 		 */
-        public static function dayString($days) {
+        public static function dayString($days, $online=false) {
+            if($online) {
+                return "Online";
+            }
+
             $temp = array("U", "M", "T", "W", "R", "F", "S");
             $nums = array(1, 2, 4, 8, 16, 32, 64);
             $ret = "";
