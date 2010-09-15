@@ -30,18 +30,19 @@
 					print "</td>";
 				} else {
 					print '<td headers="classHeader">'.$this->getID().'</td>';
-					print '<td headers="classHeader">'.html_entity_decode($this->title).'</td>';
+					print '<td headers="classHeader">'.$this->title.'</td>';
 				}
                 print '<td headers="sectionHeader">'.$this->section.'</td>';
                 $this->meetings[0]->display(false);
-				print '<td headers="registeredHeader">'.$this->currentRegistered.'/'.$this->maxRegisterable.'</td>';
+                print '<td headers="registeredHeader">'.$this->currentRegistered.'/'.$this->maxRegisterable.'</td>';
 			print '</tr>';
             for($i = 1; $i < count($this->meetings); $i++) {
                 print '<tr id="'.$this->getUID().$i.'" class="'.$this->getBackgroundStyle().'"';
                     if($optional) {
                         print ' style="visibility:collapse;"';
                     }
-                    print '<td colspan="3"></td>';
+                    print '>';
+                    print '<td colspan="3">&nbsp;</td>';
                     $this->meetings[$i]->display(false);
                     print '<td></td>';
                 print '</tr>';

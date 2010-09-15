@@ -41,7 +41,8 @@
                     if($optional) {
                         print ' style="visibility:collapse;"';
                     }
-                    print '<td colspan="3"></td>';
+                    print '>';
+                    print '<td colspan="3">&nbsp;</td>';
                     $this->meetings[$i]->display(true);
                     print '<td></td>';
                 print '</tr>';
