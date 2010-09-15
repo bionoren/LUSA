@@ -494,9 +494,9 @@
 					$error = $this->checkValidClass($course);
                     print "t.set('".$id."',new Array('";
                     if(!($error && $this->getCourses())) {
-                        print addslashes($course->getLabel())."', true";
+                        print htmlspecialchars_decode(addslashes($course->getLabel()))."', true";
                     } else {
-                        print addslashes($error)."', false";
+                        print htmlspecialchars_decode(addslashes($error))."', false";
                     }
                     print "));\n";
                 }
