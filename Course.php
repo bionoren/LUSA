@@ -75,21 +75,12 @@
 		 *
 		 * @param SimpleXMLElement $meeting XML information for this class' location and time.
 		 * @param STRING $campus Name of the campus this meeting is at.
-		 * 
+		 * @param INTEGER $campusBitMask Bit string value for the given campus
+		 * @return VOID
 		 */
 		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
 			$this->id .= md5($meeting->asXML());
 			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask);
-		}
-
-		/**
-		 * Finishes cashing information relating to meeting data.
-		 */
-		public function finalize() {
-			$this->special = true;
-			foreach($this->meetings as $meeting) {
-				$this->special = $this->special && $meeting->isSpecial();
-			}
 		}
 
 		/**
@@ -140,6 +131,18 @@
         }
 
 		/**
+		 * Finishes cashing information relating to meeting data.
+		 *
+		 * @return VOID
+		 */
+		public function finalize() {
+			$this->special = true;
+			foreach($this->meetings as $meeting) {
+				$this->special = $this->special && $meeting->isSpecial();
+			}
+		}
+
+		/**
 		 * Generates the URL prefix querystring to use for classes.
 		 *
 		 * @return VOID
@@ -179,6 +182,11 @@
 			}
         }
 
+		/**
+		 * Returns the bitmask for all campuses associated with this class.
+		 *
+		 * @return INTEGER Campus bitmask.
+		 */
 		public function getCampus() {
 			$ret = 0;
 			foreach($this->meetings as $meeting) {
@@ -206,6 +214,11 @@
 			return $this->number." ".$this->title;
 		}
 
+		/**
+		 * Returns the number of meetings for this class
+		 *
+		 * @return INTEGER Number of meetings.
+		 */
 		public function getNumMeetings() {
 			return count($this->meetings);
 		}
@@ -223,6 +236,11 @@
 			return rawurlencode(htmlspecialchars_decode(implode("~", $ret)));
         }
 
+		/**
+		 * Returns the title of this class.
+		 *
+		 * @return STRING Class title.
+		 */
 		public function getTitle() {
 			return $this->title;
 		}
@@ -237,6 +255,11 @@
             return $this->id;
         }
 
+		/**
+		 * Returns true if this class is special (can be taken at any time anywhere, as far as I can tell).
+		 *
+		 * @return BOOLEAN True if this class is special.
+		 */
 		public function isSpecial() {
 			return $this->special;
 		}

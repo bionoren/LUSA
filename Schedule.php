@@ -14,7 +14,7 @@
 	 */
 
     /**
-     * Stores information for a schedule.
+     * Processes and displays a schedule.
      *
      * @author Bion Oren
      * @version 2

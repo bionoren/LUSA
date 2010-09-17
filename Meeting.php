@@ -1,4 +1,18 @@
 <?php
+    /*
+	 *	Copyright 2009 Bion Oren
+	 *
+	 *	Licensed under the Apache License, Version 2.0 (the "License");
+	 *	you may not use this file except in compliance with the License.
+	 *	You may obtain a copy of the License at
+	 *		http://www.apache.org/licenses/LICENSE-2.0
+	 *	Unless required by applicable law or agreed to in writing, software
+	 *	distributed under the License is distributed on an "AS IS" BASIS,
+	 *	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 *	See the License for the specific language governing permissions and
+	 *	limitations under the License.
+	 */
+
     class Meeting {
         /** INTEGER Bit string of days of the week (1 is Sunday). */
         protected $days;
@@ -14,15 +28,30 @@
         protected $campus;
         /** STRING Name of the campus this class is offered at. */
         protected $campusName;
+        /** INTEGER Day of the year this meeting starts. */
         protected $startDay;
+        /** INTEGER Day of the year this meeting ends. */
         protected $endDay;
 
+        /** STRING String representation of $startDay cached for display. */
         protected $startDayString;
+        /** STRING String representation of $endDay cached for display. */
         protected $endDayString;
+        /** STRING String representation of $days cached for display. */
         protected $dayString;
+        /** STRING String representation of $startTime cached for display. */
         protected $startTimeString;
+        /** STRING String representation of $endTime cached for display. */
         protected $endTimeString;
 
+        /**
+         * Constructs a new meeting time.
+         *
+         * @param SimpleXMLElement $meeting XML describing the meeting information.
+         * @param STRING $campus Name of the campus this meeting is at.
+		 * @param INTEGER $campusBitMask Bit string value for the given campus
+		 * @return VOID
+         */
         public function __construct(SimpleXMLElement $meeting, $campus, $campusBitMask) {
             $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
             $temp = 0;
@@ -49,6 +78,90 @@
             $this->endTimeString = Meeting::displayTime($this->endTime, $this->isSpecial());
         }
 
+        /**
+         * Sorts the two classes.
+         *
+         * @param MEETING $class Other meeting.
+         * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+         */
+        function classSort(Meeting $class) {
+            //if the classes aren't even on the same days, sort by days
+            if(!$this->isDateOverlap($class)) {
+                return $this->dateSort($class);
+            }
+            if(!$this->isDayOverlap($class)) {
+                return $this->daySort($class);
+            }
+            return $this->timeSort($class1);
+        }
+
+        /**
+         * Converts a time string to its integer equivalent.
+         *
+         * Returns "TBA" for classes with a time of "TBA".
+         *
+         * @param STRING $timestr String in the format HH:MM.
+         * @return INTEGER Hours + minutes.
+         */
+        public static function convertTime($timestr) {
+            if($timestr == "TBA")
+                return $timestr;
+            //convert minutes into a decimal
+            $hours = substr($timestr, 0, strlen($timestr)-2);
+            $minutes = intval(substr($timestr, -2))/60;
+            return $hours+$minutes;
+        }
+
+        /**
+         * Sorts the two classes by start date.
+         *
+         * @param MEETING $class Other meeting.
+         * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+         */
+        function dateSort(Meeting $class) {
+            return $this->startDay - $class->startDay;
+        }
+
+        /**
+         * Sorts the two classes by day.
+         *
+         * @param MEETING $class Other meeting.
+         * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+         */
+        function daySort(Meeting $class) {
+            return $class->days - $this->days;
+        }
+
+        /**
+		 * Returns the days this class is offered as a compact string.
+		 *
+		 * @param INTEGER $days Bit string of days of the week.
+		 * @return STRING String of days this class is offered.
+		 */
+        public static function dayString($days, $online=false) {
+            if($online) {
+                return "Online";
+            }
+
+            $temp = array("U", "M", "T", "W", "R", "F", "S");
+            $nums = array(1, 2, 4, 8, 16, 32, 64);
+            $ret = "";
+            for($i = 0; $i < count($temp); $i++) {
+                if($days & $nums[$i]) {
+                    $ret .= $temp[$i];
+                } else {
+                    $ret .= "-";
+                }
+            }
+            return $ret;
+        }
+
+        /**
+         * Displays this meeting as part of a class' display.
+         *
+         * @param BOOLEAN $nontrad True if this is a nontraditional class.
+         * @return VOID
+         */
         public function display($nontrad) {
             if($nontrad) {
                 $campus = $this->campusName;
@@ -60,20 +173,6 @@
             }
             print '<td headers="dayHeader">'.$this->dayString.'</td>';
 			print '<td headers="timeHeader">'.$this->startTimeString.'-'.$this->endTimeString.'</td>';
-        }
-
-        /**
-         * Returns the datestamp for the given date.
-         *
-         * @param STRING $date Date of the format YYYY-MM-DD
-         * @return INTEGER Timestamp associated with 1:01:01 AM of this day (system timezone),
-         *                  or the current time if $date is empty.
-         */
-        public static function getDateStamp($date) {
-            if(empty($date))
-                return time();
-            $date = explode("-", $date);
-            return mktime(1,1,1, $date[1], $date[2], $date[0]);
         }
 
         /**
@@ -115,55 +214,35 @@
         }
 
         /**
-		 * Returns the days this class is offered as a compact string.
-		 *
-		 * @param INTEGER $days Bit string of days of the week.
-		 * @return STRING String of days this class is offered.
-		 */
-        public static function dayString($days, $online=false) {
-            if($online) {
-                return "Online";
-            }
-
-            $temp = array("U", "M", "T", "W", "R", "F", "S");
-            $nums = array(1, 2, 4, 8, 16, 32, 64);
-            $ret = "";
-            for($i = 0; $i < count($temp); $i++) {
-                if($days & $nums[$i]) {
-                    $ret .= $temp[$i];
-                } else {
-                    $ret .= "-";
-                }
-            }
-            return $ret;
+         * Returns the name of this campus this meeting is at.
+         *
+         * @return STRING Campus name.
+         */
+        public function getCampus() {
+            return $this->campus;
         }
 
         /**
-         * Converts a time string to its integer equivalent.
+         * Returns the datestamp for the given date.
          *
-         * Returns "TBA" for classes with a time of "TBA".
-         *
-         * @param STRING $timestr String in the format HH:MM.
-         * @return INTEGER Hours + minutes.
+         * @param STRING $date Date of the format YYYY-MM-DD
+         * @return INTEGER Timestamp associated with 1:01:01 AM of this day (system timezone),
+         *                  or the current time if $date is empty.
          */
-        public static function convertTime($timestr) {
-            if($timestr == "TBA")
-                return $timestr;
-            //convert minutes into a decimal
-            $hours = substr($timestr, 0, strlen($timestr)-2);
-            $minutes = intval(substr($timestr, -2))/60;
-            return $hours+$minutes;
+        public static function getDateStamp($date) {
+            if(empty($date))
+                return time();
+            $date = explode("-", $date);
+            return mktime(1,1,1, $date[1], $date[2], $date[0]);
         }
 
         /**
-         * Sorts the two classes by time.
+         * Returns the query string for this meeting to pass to to print.php.
          *
-         * @param MEETING $class Other meeting.
-         * @return INTEGER < 0 if this meeting is before, 0 if they are equal, > 0 if this meeting is after
+         * @return STRING Formatted course time information.
          */
-        function timeSort(Meeting $class) {
-            //returns -1 if class1 is before class2
-            return ($this->startTime - $class->startTime)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
+        public function getPrintQS() {
+            return implode("::", array($this->days,$this->startTime,$this->endTime));
         }
 
         /**
@@ -176,7 +255,7 @@
 		   return !($this->endDay < $class->startDay || $class->endDay < $this->startDay);
 		}
 
-		/**
+        /**
 		 * Checks if two classes are offered on at least 1 common day of the week.
 		 *
 		 * @param MEETING $class Other class.
@@ -184,6 +263,18 @@
 		 */
 		function isDayOverlap(Meeting $class) {
 		   return $this->days & $class->days;
+		}
+
+        /**
+		 * Returns true if nobody has a clue when this class is offered. This usually indicates an
+		 * online, study abroad, or similar class.
+		 *
+		 * Note that you should always be able to take special classes because they're special like that :).
+		 *
+		 * @return BOOLEAN
+		 */
+		public function isSpecial() {
+			return $this->special;
 		}
 
         /**
@@ -198,60 +289,14 @@
         }
 
         /**
-         * Sorts the two classes.
+         * Sorts the two classes by time.
          *
          * @param MEETING $class Other meeting.
-         * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
+         * @return INTEGER < 0 if this meeting is before, 0 if they are equal, > 0 if this meeting is after
          */
-        function classSort(Meeting $class) {
-            //if the classes aren't even on the same days, sort by days
-            if(!$this->isDateOverlap($class)) {
-                return $this->dateSort($class);
-            }
-            if(!$this->isDayOverlap($class)) {
-                return $this->daySort($class);
-            }
-            return $this->timeSort($class1);
-        }
-
-        /**
-         * Sorts the two classes by start date.
-         *
-         * @param MEETING $class Other meeting.
-         * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
-         */
-        function dateSort(Meeting $class) {
-            return $this->startDay - $class->startDay;
-        }
-
-        /**
-         * Sorts the two classes by day.
-         *
-         * @param MEETING $class Other meeting.
-         * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
-         */
-        function daySort(Meeting $class) {
-            return $class->days - $this->days;
-        }
-
-        /**
-		 * Returns true if nobody has a clue when this class is offered. This usually indicates an
-		 * online, study abroad, or similar class.
-		 *
-		 * Note that you should always be able to take special classes because they're special like that :).
-		 *
-		 * @return BOOLEAN
-		 */
-		public function isSpecial() {
-			return $this->special;
-		}
-
-        public function getCampus() {
-            return $this->campus;
-        }
-
-        public function getPrintQS() {
-            return implode("::", array($this->days,$this->startTime,$this->endTime));
+        function timeSort(Meeting $class) {
+            //returns -1 if class1 is before class2
+            return ($this->startTime - $class->startTime)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
         }
     }
 ?>

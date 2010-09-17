@@ -265,6 +265,11 @@
             return $this->hours;
         }
 
+		/**
+		 * Returns a list of classes that are removed by filters
+		 *
+		 * @return ARRAY List of removed class identifiers.
+		 */
         protected function getRemovedClasses() {
             $classFilter = array();
             if(isset($_REQUEST["rf"])) {
@@ -519,6 +524,11 @@
             }
         }
 
+		/**
+		 * Sets the bitmask for campuses that should be displayed.
+		 *
+		 * @return VOID
+		 */
 		public function setCampusMask() {
 			$this->campusMask = Main::$CAMPUS_MASK[Main::$campus];
 			if(Main::$campus == "MAIN" && isset(Main::$CAMPUS_MASK["ARPT"])) {
