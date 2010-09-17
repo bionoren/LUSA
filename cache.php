@@ -27,7 +27,7 @@
      * @param STRING $semester One of ('SP', 'SU', 'FA') for Spring, Summer, and Fall semesters.
      * @param STRING $prefix Optional prefix ('non' for non-traditional classes).
      */
-	function writeClassData($file, $year, $semester, $prefix="Non") {
+	function writeClassData($file, $year, $semester, $prefix="") {
 		//get the current class schedule from LeTourneau
 		$file .= $year."/".$semester;
 		$xml = simplexml_load_file($file);
@@ -40,8 +40,7 @@
 		$campusMask = array();
 		$i = 1;
         foreach($xml as $class) {
-			$className = $prefix."TradCourse";
-			$obj = new $className($class);
+			$obj = new Course($class, empty($prefix));
 			foreach($class->{"meeting"} as $meet) {
 				$campus = (string)$meet->{"meetingcampus"};
 				if($meet->{"meetingtypecode"} == "IE") {
@@ -74,7 +73,7 @@
     foreach($files as $file) {
         $year = substr($file, 0, 4);
         $sem = substr($file, -2);
-        writeClassData($trad, $year, $sem, "");
-        writeClassData($nontrad, $year, $sem);
+        writeClassData($trad, $year, $sem);
+        writeClassData($nontrad, $year, $sem, "Non");
     }
 ?>
