@@ -13,6 +13,12 @@
 	 *	limitations under the License.
 	 */
 
+    /**
+     * Stores information for an individual class meeting time.
+     *
+     * @author Bion Oren
+     * @version 1.0
+     */
     class Meeting {
         /** INTEGER Bit string of days of the week (1 is Sunday). */
         protected $days;
