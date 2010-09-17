@@ -446,7 +446,7 @@
                 $tmp = $this->getClassGroups();
             }
             print '<div id="classChoice'.$uid.'">';
-                print '<select name="class[]" id="classDD'.$uid.'" onchange="if($(\'choice'.$uid.'\').empty()){new Ajax.Updater(\'classDropdowns\',\'createClassDropdown.php\', {insertion: \'bottom\'});}selectChange(this, \'choice'.$uid.'\');">';
+                print '<select name="class[]" id="classDD'.$uid.'" onchange="if($(\'choice'.$uid.'\').empty()){new Ajax.Updater(\'classDropdowns\',\'createClassDropdown.php\', {parameters: { semester:\''.Main::getSemester().'\'}, insertion: \'bottom\'});}selectChange(this, \'choice'.$uid.'\');">';
                     print '<option value="0">----</option>'.$tmp;
                 print '</select>';
                 print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';

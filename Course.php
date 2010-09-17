@@ -51,6 +51,7 @@
          * Constructs a new course object from the provided xml information.
          *
          * @param SimpleXMLElement $xml XML information for this class.
+         * @param BOOLEAN $trad True if this is a traditional class.9
          * @return Course New class object.
          */
         public function __construct(SimpleXMLElement $xml, $trad=true) {
@@ -69,7 +70,13 @@
 			$this->trad = $trad;
         }
 
-//		* @param SimpleXMLElement $meeting XML information for this class' location and time.
+		/**
+		 * Adds a specific meeting time to this class.
+		 *
+		 * @param SimpleXMLElement $meeting XML information for this class' location and time.
+		 * @param STRING $campus Name of the campus this meeting is at.
+		 * 
+		 */
 		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
 			$this->id .= md5($meeting->asXML());
 			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask);
