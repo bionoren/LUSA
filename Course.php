@@ -47,6 +47,9 @@
 		/** BOOLEAN True if this is a traditional class. */
 		protected $trad = true;
 
+		public $valid = false;
+		public $conflicts = array();
+
         /**
          * Constructs a new course object from the provided xml information.
          *
@@ -273,12 +276,12 @@
 		function validateClasses(Course $class) {
 			foreach($this->meetings as $meeting) {
 				foreach($class->meetings as $meeting2) {
-					if(!($meeting->isDayOverlap($meeting2) && $meeting->isDateOverlap($meeting2) && $meeting->isTimeConflict($meeting2))) {
-						return true;
+					if($meeting->isDayOverlap($meeting2) && $meeting->isDateOverlap($meeting2) && $meeting->isTimeConflict($meeting2)) {
+						return false;
 					}
 				}
 			}
-			return false;
+			return true;
 		}
 
 		/**

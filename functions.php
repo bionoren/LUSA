@@ -114,40 +114,79 @@
     }
 
     /**
-	 * Creates a list of possible schedules from the given courses and filters out the invalid ones.
+	 * Creates a list of classes that can be taken (i.e. do not cause conflicts with other classes and can be used
+	 * in a valid schedule.) from the given courses.
 	 *
 	 * @param ARRAY $courses List of course objects to consider.
-	 * @return MIXED A list of valid schedules or a string with the error message(s).
+	 * @return MIXED A list of valid classes or a string with the error message(s).
 	 */
 	function findSchedules(array $courses) {
-        $conflict = array();
-		for($i = 0; $i < count($courses); $i++) {
-			foreach($courses[$i] as $key=>$section) {
-				for($j = $i+1; $j < count($courses); $j++) {
-					foreach($courses[$j] as $section2) {
-						if($section->validateClasses($section2)) {
-							$tmp = null;
-							break;
-						} else {
-							$tmp[] = $section->getLabel()." (conflicts with ".$section2->getTitle().")";
-						}
-					}
-					//if this section doesn't work with any sections of another course, remove this section
-					if(!empty($tmp)) {
-						if(count($courses[$i]) == 1) {
-							$conflict = array_merge($conflict, $tmp);
-							break 2;
-						}
-						unset($courses[$i][$key]);
-					}
+        $indexes = array_fill(0, count($courses), 0);
+		$classes = array();
+        while(true) {
+            foreach($courses as $i=>$sections) {
+                $classes[$i] = $sections[$indexes[$i]];;
+            }
+			if(isValidSchedule($classes)) {
+				foreach($classes as $class) {
+					$class->conflicts = array();
+					$class->valid = true;
+				}
+			}
+			//for each course, if the index for this course is less than the max section index, shift it
+            //also handles rollover for previous indicies
+            for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
+                $indexes[$i++] = 0;
+                //this exits the loop
+                if($i == count($courses)) break 2;
+            }
+        }
+
+		$conflict = array();
+		foreach($courses as $key1=>$sections) {
+			$tmp = array();
+			foreach($sections as $key2=>$section) {
+				if(!$section->valid) {
+					$tmp = array_merge($tmp, $section->conflicts);
+					unset($courses[$key1][$key2]);
+				}
+			}
+			if(empty($courses[$key1])) {
+				$conflict = array_merge($conflict, $tmp);
+			} else {
+				$courses[$key1] = array_values($courses[$key1]);
+			}
+		}
+        if(!empty($conflict)) {
+            return implode("<br>", $conflict);
+        }
+
+        return $courses;
+	}
+
+	/**
+	 * Validates a set of classes.
+	 *
+	 * @param ARRAY $classes List of classes to take together.
+	 * @return BOOLEAN True if the classes can be taken together.
+	 */
+	function isValidSchedule(array $classes) {
+		$ret = true;
+		foreach($classes as $k1=>$class1) {
+			if($class1->valid) {
+				continue;
+			}
+			foreach($classes as $k2=>$class2) {
+				if($k1 == $k2) {
+					continue;
+				}
+				if(!$class1->validateClasses($class2)) {
+					$class1->conflicts[] = $class2;
+					$ret = false;
 				}
 			}
 		}
-		if(!empty($conflict)) {
-			return implode("<br>", $conflict);
-		}
-
-		return array_values($courses);
+		return $ret;
 	}
 
 	/**

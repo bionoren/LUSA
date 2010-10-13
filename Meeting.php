@@ -304,5 +304,14 @@
             //returns -1 if class1 is before class2
             return ($this->startTime - $class->startTime)*10; //return value needs to be +- 1. Otherwise, interpreted as 0
         }
+
+        /**
+         * Returns a summary of this meeting for debugging purposes.
+         *
+         * @return STRING Meeting summary.
+         */
+        function __toString() {
+            return $this->startDayString."-".$this->endDayString.", ".$this->dayString.", ".$this->startTimeString." - ".$this->endTimeString;
+        }
     }
 ?>
