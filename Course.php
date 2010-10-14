@@ -53,8 +53,8 @@
         /**
          * Constructs a new course object from the provided xml information.
          *
-         * @param SimpleXMLElement $xml XML information for this class.
-         * @param BOOLEAN $trad True if this is a traditional class.9
+         * @param $xml SimpleXMLElement - XML information for this class.
+         * @param $trad BOOLEAN - True if this is a traditional class.9
          * @return Course New class object.
          */
         public function __construct(SimpleXMLElement $xml, $trad=true) {
@@ -76,9 +76,9 @@
 		/**
 		 * Adds a specific meeting time to this class.
 		 *
-		 * @param SimpleXMLElement $meeting XML information for this class' location and time.
-		 * @param STRING $campus Name of the campus this meeting is at.
-		 * @param INTEGER $campusBitMask Bit string value for the given campus
+		 * @param $meeting SimpleXMLElement - XML information for this class' location and time.
+		 * @param $campus STRING - Name of the campus this meeting is at.
+		 * @param $campusBitMask INTEGER - Bit string value for the given campus
 		 * @return VOID
 		 */
 		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
@@ -89,7 +89,7 @@
 		/**
 		 * Displays this class in a table.
 		 *
-		 * @param BOOLEAN $optional True if this class is part of an optional set of classes.
+		 * @param $optional BOOLEAN - True if this class is part of an optional set of classes.
 		 * @return VOID
 		 */
         public function display($optional=false) {
@@ -198,6 +198,11 @@
 			return $ret;
 		}
 
+		/**
+		 * Returns an array of error messages for all the conflicts this class has.
+		 *
+		 * @return ARRAY List of conflict messages.
+		 */
 		public function getConflicts() {
 			$ret = array();
 			foreach($this->conflicts as $conflict) {
@@ -278,7 +283,7 @@
 		/**
 		 * Validates that you can take two classes together.
 		 *
-		 * @param COURSE $class The other class you're taking.
+		 * @param $class COURSE - The other class you're taking.
 		 * @return BOOLEAN True if you can take both of these classes simultaneously.
 		 */
 		function validateClasses(Course $class) {

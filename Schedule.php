@@ -25,8 +25,8 @@
         /**
          * Creates the javascript to show/hide a set of optional classes.
          *
-         * @param ARRAY $sections List of class sections in this optional list.
-         * @param STRING $key Class ID for these sections.
+         * @param $sections ARRAY - List of class sections in this optional list.
+         * @param $key STRING - Class ID for these sections.
          * @return STRING Javascript text.
          */
         protected static function createJSToggle(array $sections, $key) {
@@ -44,7 +44,7 @@
         /**
          * Displays the given schedules.
          *
-         * @param ARRAY $schedules List of schedules.
+         * @param $classes ARRAY - List of lists of classes.
          * @return VOID
          */
         public static function display(array $classes) {
@@ -100,7 +100,7 @@
         /**
          * Returns the querystring used to generate a picture of the given classes.
          *
-         * @param ARRAY $classes List of classes to display.
+         * @param $classes ARRAY - List of classes to display.
          * @return STRING Querystring for display.
          * @see print.php
          */

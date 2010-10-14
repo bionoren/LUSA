@@ -95,7 +95,7 @@
         /**
          * Checks if the given course is valid in at least one available schedule.
          *
-         * @param COURSE $course Course object.
+         * @param $course COURSE - Course object.
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(Course $course) {
@@ -381,7 +381,7 @@
         /**
          * Returns true if the given class is marked (by filters) to be kept for consideration in schedules.
          *
-         * @param COURSE $class Class to evaluate.
+         * @param $class COURSE - Class to evaluate.
          * @return BOOLEAN True if kept.
          */
         protected function isKept(Course $class) {
@@ -391,7 +391,7 @@
         /**
          * Returns true if the given class is marked (by filters) to be removed from consideration in schedules.
          *
-         * @param COURSE $class Class to evaluate.
+         * @param $class COURSE - Class to evaluate.
          * @return BOOLEAN True if kept.
          */
         protected function isRemoved(Course $class) {

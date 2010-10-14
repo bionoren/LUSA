@@ -55,9 +55,9 @@
         /**
          * Constructs a new meeting time.
          *
-         * @param SimpleXMLElement $meeting XML describing the meeting information.
-         * @param STRING $campus Name of the campus this meeting is at.
-		 * @param INTEGER $campusBitMask Bit string value for the given campus
+         * @param $meeting SimpleXMLElement - XML describing the meeting information.
+         * @param $campus STRING - Name of the campus this meeting is at.
+		 * @param $campusBitMask INTEGER - Bit string value for the given campus
 		 * @return VOID
          */
         public function __construct(SimpleXMLElement $meeting, $campus, $campusBitMask) {
@@ -90,7 +90,7 @@
         /**
          * Sorts the two classes.
          *
-         * @param MEETING $class Other meeting.
+         * @param $class MEETING - Other meeting.
          * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
          */
         function classSort(Meeting $class) {
@@ -109,7 +109,7 @@
          *
          * Returns "TBA" for classes with a time of "TBA".
          *
-         * @param STRING $timestr String in the format HH:MM.
+         * @param $timestr STRING - String in the format HH:MM.
          * @return INTEGER Hours + minutes.
          */
         public static function convertTime($timestr) {
@@ -124,7 +124,7 @@
         /**
          * Sorts the two classes by start date.
          *
-         * @param MEETING $class Other meeting.
+         * @param $class MEETING - Other meeting.
          * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
          */
         function dateSort(Meeting $class) {
@@ -134,7 +134,7 @@
         /**
          * Sorts the two classes by day.
          *
-         * @param MEETING $class Other meeting.
+         * @param $class MEETING - Other meeting.
          * @return INTEGER < 0 if the first class is before, 0 if they are equal, > 0 if the first class is after
          */
         function daySort(Meeting $class) {
@@ -144,7 +144,8 @@
         /**
 		 * Returns the days this class is offered as a compact string.
 		 *
-		 * @param INTEGER $days Bit string of days of the week.
+		 * @param $days INTEGER - Bit string of days of the week.
+		 * @param $online BOOLEAN - True if this is an online class (day of the week doesn't apply).
 		 * @return STRING String of days this class is offered.
 		 */
         public static function dayString($days, $online=false) {
@@ -168,7 +169,7 @@
         /**
          * Displays this meeting as part of a class' display.
          *
-         * @param BOOLEAN $nontrad True if this is a nontraditional class.
+         * @param $nontrad BOOLEAN - True if this is a nontraditional class.
          * @return VOID
          */
         public function display($nontrad) {
@@ -190,8 +191,8 @@
          * Returns "-" for online classes and "TBA" for classes with a
          * time of "TBA".
          *
-         * @param FLOAT $time Floating point representation of a time.
-         * @param BOOLEAN $online True if this is an online class.
+         * @param $time FLOAT - Floating point representation of a time.
+         * @param $online BOOLEAN - True if this is an online class.
          * @return STRING Time in the format HH:MM('a'|'p')
          */
         public static function displayTime($time, $online=false) {
@@ -234,7 +235,7 @@
         /**
          * Returns the datestamp for the given date.
          *
-         * @param STRING $date Date of the format YYYY-MM-DD
+         * @param $date STRING - Date of the format YYYY-MM-DD
          * @return INTEGER Timestamp associated with 1:01:01 AM of this day (system timezone),
          *                  or the current time if $date is empty.
          */
@@ -257,7 +258,7 @@
         /**
 		 * Checks if two classes are offered during at least 1 common day.
 		 *
-		 * @param MEETING $class Other meeting.
+		 * @param $class MEETING - Other meeting.
 		 * @return BOOLEAN True if the classes overlap on at least 1 day.
 		 */
 		function isDateOverlap(Meeting $class) {
@@ -267,7 +268,7 @@
         /**
 		 * Checks if two classes are offered on at least 1 common day of the week.
 		 *
-		 * @param MEETING $class Other class.
+		 * @param $class MEETING - Other class.
 		 * @return BOOLEAN True if the classes overlap on at least 1 day.
 		 */
 		function isDayOverlap(Meeting $class) {
@@ -289,7 +290,7 @@
         /**
          * Checks if two classes overlap.
          *
-         * @param MEETING $class Other class.
+         * @param $class MEETING - Other class.
          * @return MIXED False if no overlap, otherwise a string with the error message.
          */
         function isTimeConflict(Meeting $class) {
@@ -300,7 +301,7 @@
         /**
          * Sorts the two classes by time.
          *
-         * @param MEETING $class Other meeting.
+         * @param $class MEETING - Other meeting.
          * @return INTEGER < 0 if this meeting is before, 0 if they are equal, > 0 if this meeting is after
          */
         function timeSort(Meeting $class) {

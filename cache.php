@@ -22,10 +22,10 @@
      * Writes cash data for all courses in the given semester and year using data from the
      * provided root file path.
      *
-     * @param STRING $file Root path to the xml class information.
-     * @param INTEGER $year The year to cash.
-     * @param STRING $semester One of ('SP', 'SU', 'FA') for Spring, Summer, and Fall semesters.
-     * @param STRING $prefix Optional prefix ('non' for non-traditional classes).
+     * @param $file STRING - Root path to the xml class information.
+     * @param $year INTEGER - The year to cash.
+     * @param $semester STRING - One of ('SP', 'SU', 'FA') for Spring, Summer, and Fall semesters.
+     * @param $prefix STRING - Optional prefix ('non' for non-traditional classes).
      */
 	function writeClassData($file, $year, $semester, $prefix="") {
 		//get the current class schedule from LeTourneau
