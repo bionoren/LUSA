@@ -91,25 +91,27 @@
         $day = date("j");
         $files = array();
 		$prefix = "cache/";
+		$semesters = array("SP", "SU", "FA");
         //order is important here!
         if($month < 5) {
-            //this spring and try for this summer and fall
-            if(!$reject || file_exists($prefix.$year."FA.txt"))
-                $files[] = $year."FA";
-            if(!$reject || file_exists($prefix.$year."SU.txt"))
-                $files[] = $year."SU";
-            $files[] = $year."SP";
+            $semester = 0;
         } elseif($month < 8) {
-            //grab this summer and try for this fall
-            if(!$reject || file_exists($prefix.$year."FA.txt"))
-                $files[] = $year."FA";
-            $files[] = $year."SU";
+            $semester = 1;
         } else {
-            //grab this fall and try for next spring
-            if(!$reject || file_exists($prefix.($year+1)."SP.txt"))
-                $files[] = ($year+1)."SP";
-            $files[] = $year."FA";
+            $semester = 2;
         }
+		//try to grab 2 semesters into the future, the current semester, and a year into the past
+		$numSem = count($semesters);
+		for($i = -2; $i <= 3; $i++) {
+			$index = ($semester-$i)%$numSem;
+			while($index < 0) {
+				$index += $numSem;
+			}
+			$sem = $semesters[$index];
+			$yr = $year-floor($i/$numSem);
+			if(!$reject || file_exists($prefix.$yr.$sem.".txt"))
+                $files[] = $yr.$sem;
+		}
         return $files;
     }
 
