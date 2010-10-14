@@ -53,12 +53,12 @@
     <body lang="en">
         <!--LUSA 2: A Dorm 41 Production-->
         <!--Developed by: Wharf-->
-		<!--Revised Validation Algorithm: Zoot-->
         <!--Design by: Shutter-->
+		<!--QA and Lead Tester: Synk-->
+		<!--Performance Consultants: Zoot, Gary Raduns-->
         <!--JavaScript Magic: Fjord-->
-        <!--QA and Lead Tester: Synk-->
         <!--This code hates Tom Kelley-->
-        <!--Special thanks to 41 and G2 for their suggestions, bug reports, and encouragement!-->
+        <!--Special thanks to all of 41 and G2 for their suggestions, bug reports, patience, and encouragement!-->
         <div id="container">
             <form method="get" id="form" action="<?php print $main; ?>">
                 <div id="header">

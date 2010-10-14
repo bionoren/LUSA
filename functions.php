@@ -121,13 +121,19 @@
 	 * @return MIXED A list of valid classes or a string with the error message(s).
 	 */
 	function findSchedules(array $courses) {
-        $indexes = array_fill(0, count($courses), 0);
+		usort($courses, create_function('$section1, $section2', 'return count($section1) - count($section2);'));
+		$numCourses = count($courses);
+        $indexes = array_fill(0, $numCourses, 0);
 		$classes = array();
         while(true) {
-            foreach($courses as $i=>$sections) {
-                $classes[$i] = $sections[$indexes[$i]];;
+			$tmp = false;
+            for($i = 0; $i < $numCourses; $i++) {
+                $classes[$i] = $courses[$i][$indexes[$i]];
+				if(!$classes[$i]->valid) {
+					$tmp = true;
+				}
             }
-			if(isValidSchedule($classes)) {
+			if($tmp && isValidSchedule($classes)) {
 				foreach($classes as $class) {
 					$class->conflicts = array();
 					$class->valid = true;
@@ -138,10 +144,19 @@
             for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
                 $indexes[$i++] = 0;
                 //this exits the loop
-                if($i == count($courses)) break 2;
+                if($i == $numCourses) break 2;
             }
         }
 
+		$conflict = findConflicts($courses);
+        if(!empty($conflict)) {
+            return implode("<br>", $conflict);
+        }
+
+        return $courses;
+	}
+
+	function findConflicts(array $courses) {
 		$conflict = array();
 		foreach($courses as $key1=>$sections) {
 			$tmp = array();
@@ -157,11 +172,6 @@
 				$courses[$key1] = array_values($courses[$key1]);
 			}
 		}
-        if(!empty($conflict)) {
-            return implode("<br>", $conflict);
-        }
-
-        return $courses;
 	}
 
 	/**
@@ -182,6 +192,7 @@
 				}
 				if(!$class1->validateClasses($class2)) {
 					$class1->conflicts[] = $class2;
+					return false;
 					$ret = false;
 				}
 			}
