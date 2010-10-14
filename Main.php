@@ -98,22 +98,16 @@
          * @param $course COURSE - Course object.
          * @return MIXED False if no errors, error string otherwise.
          */
-        function checkValidClass(Course $course) {
+        function checkValidClass(array $sections) {
 			$choices = $this->getSelectedChoices();
-            if($this->hasNoErrors() && !isset($choices[$course->getID()])) {
-                foreach($this->getCourses() as $sections) {
-					foreach($sections as $section) {
-						$valid = $section->validateClasses($course);
-						if($valid) {
-							$tmp = null;
-							break;
-						} else {
-							$tmp = $course->getLabel()." (conflicts with ".$section->getTitle().")";
-						}
-					}
-					if($tmp) {
-						return $tmp;
-					}
+            if($this->hasNoErrors() && !isset($choices[$sections[0]->getID()])) {
+                $courses = $this->getCourses();
+				$courses[] = $sections;
+				$conflict = findSchedules($courses);
+				if(is_array($conflict)) {
+					return false;
+				} else {
+					return $conflict;
 				}
             }
             return false;
@@ -351,7 +345,7 @@
                 }
                 $course = substr($class->getID(), 0, 4);
                 $this->classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
-                $this->classes[$course][$class->getID()] = $class;
+                $this->classes[$course][$class->getID()][] = $class;
                 $this->courseTitleNumbers[$class->getID()][] = $class;
             }
             $this->classGroups = implode("", $this->getClassGroups());
@@ -459,15 +453,15 @@
                     $populated = !empty($choice);
                     if($populated) {
                         print '<select name="choice[]" id="choiceDD'.$uid.'">';
-                            foreach($classes[$class] as $key=>$course) {
+                            foreach($classes[$class] as $key=>$sections) {
                                 print '<option value="'.$key.'"';
                                 if($choice == $key) {
                                     $this->hours += substr($key, -1);
                                     print ' selected="selected"';
                                 }
-	                            $error = $this->checkValidClass($course);
+	                            $error = $this->checkValidClass($sections);
                                 if(!($error && $this->getCourses())) {
-                                    print '>'.$course->getLabel();
+                                    print '>'.$sections[0]->getLabel();
                                 } else {
                                     print ' style="color:rgb(177, 177, 177);">'.$error;
                                 }
@@ -495,11 +489,11 @@
             print "var arrItems=new Hash();\n";
             foreach($this->getClasses() as $group=>$class) {
                 print "var t=new Hash();\n";
-                foreach($class as $id=>$course) {
-					$error = $this->checkValidClass($course);
+                foreach($class as $id=>$sections) {
+					$error = $this->checkValidClass($sections);
                     print "t.set('".$id."',new Array('";
                     if(!($error && $this->getCourses())) {
-                        print htmlspecialchars_decode(addslashes($course->getLabel()))."', true";
+                        print htmlspecialchars_decode(addslashes($sections[0]->getLabel()))."', true";
                     } else {
                         print htmlspecialchars_decode(addslashes($error))."', false";
                     }
