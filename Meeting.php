@@ -38,6 +38,8 @@
         protected $startDay;
         /** INTEGER Day of the year this meeting ends. */
         protected $endDay;
+        /** STRING The classroom this meeting is in. */
+        protected $room;
 
         /** STRING String representation of $startDay cached for display. */
         protected $startDayString;
@@ -74,6 +76,7 @@
             $this->endDay = Meeting::getDateStamp((string)$meeting->{"meetingenddate"});
             $this->campus = $campusBitMask;
             $this->campusName = $campus;
+            $this->room = $meeting->{"meetingbuilding"}." ".$meeting->{"meetingroom"};
 
 			$this->special = !is_numeric($this->days) || $this->days == 0 || $this->campusName == "XOL";
 
@@ -248,7 +251,7 @@
          * @return STRING Formatted course time information.
          */
         public function getPrintQS() {
-            return implode("::", array($this->days,$this->startTime,$this->endTime));
+            return implode("::", array($this->days,$this->startTime,$this->endTime,$this->room));
         }
 
         /**
