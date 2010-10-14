@@ -126,14 +126,10 @@
         $indexes = array_fill(0, $numCourses, 0);
 		$classes = array();
         while(true) {
-			$tmp = false;
             for($i = 0; $i < $numCourses; $i++) {
                 $classes[$i] = $courses[$i][$indexes[$i]];
-				if(!$classes[$i]->valid) {
-					$tmp = true;
-				}
             }
-			if($tmp && isValidSchedule($classes)) {
+			if(isValidSchedule($classes)) {
 				foreach($classes as $class) {
 					$class->conflicts = array();
 					$class->valid = true;
@@ -156,24 +152,6 @@
         return $courses;
 	}
 
-	function findConflicts(array $courses) {
-		$conflict = array();
-		foreach($courses as $key1=>$sections) {
-			$tmp = array();
-			foreach($sections as $key2=>$section) {
-				if(!$section->valid) {
-					$tmp = array_merge($tmp, $section->conflicts);
-					unset($courses[$key1][$key2]);
-				}
-			}
-			if(empty($courses[$key1])) {
-				$conflict = array_merge($conflict, $tmp);
-			} else {
-				$courses[$key1] = array_values($courses[$key1]);
-			}
-		}
-	}
-
 	/**
 	 * Validates a set of classes.
 	 *
@@ -181,7 +159,6 @@
 	 * @return BOOLEAN True if the classes can be taken together.
 	 */
 	function isValidSchedule(array $classes) {
-		$ret = true;
 		foreach($classes as $k1=>$class1) {
 			if($class1->valid) {
 				continue;
@@ -193,11 +170,34 @@
 				if(!$class1->validateClasses($class2)) {
 					$class1->conflicts[] = $class2;
 					return false;
-					$ret = false;
 				}
 			}
 		}
-		return $ret;
+		return true;
+	}
+
+	/**
+	 * Builds and returns an array of conflicts.
+	 *
+	 * @return ARRAY List of unresolvable conflicts.
+	 */
+	function findConflicts(array &$courses) {
+		$conflict = array();
+		foreach($courses as $key1=>$sections) {
+			$tmp = array();
+			foreach($sections as $key2=>$section) {
+				if(!$section->valid) {
+					$tmp = array_merge($tmp, $section->getConflicts());
+					unset($courses[$key1][$key2]);
+				}
+			}
+			if(empty($courses[$key1])) {
+				$conflict = array_merge($conflict, $tmp);
+			} else {
+				$courses[$key1] = array_values($courses[$key1]);
+			}
+		}
+		return $conflict;
 	}
 
 	/**

@@ -198,6 +198,14 @@
 			return $ret;
 		}
 
+		public function getConflicts() {
+			$ret = array();
+			foreach($this->conflicts as $conflict) {
+				$ret[] = $this->getTitle()." conflicts with ".$conflict->getLabel();
+			}
+			return $ret;
+		}
+
 		/**
          * Returns this class' ID.
          *

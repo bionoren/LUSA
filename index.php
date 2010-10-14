@@ -131,7 +131,7 @@
                         <?php $main->printClassDropdowns(); ?>
                         <?php print $main->getHours() ?> Credit Hours
                         <br/><br/>
-                        <a href="index.php?ignore=true" class="button">Clear Classes</a>
+                        <a href="index.php?<?php print "semester=".$main->getSemester(); ?>&ignore=true" class="button">Clear Classes</a>
                         <?php
 							$clear = $main->getClearFilterLink();
 							if($clear) {
