@@ -47,8 +47,10 @@
 		/** BOOLEAN True if this is a traditional class. */
 		protected $trad = true;
 
+		/** BOOLEAN True if this class is valid in the schedule. */
 		public $valid = false;
-		public $conflicts = array();
+		/** Course A course that this class conflicts with. */
+		public $conflict = null;
 
         /**
          * Constructs a new course object from the provided xml information.
@@ -201,14 +203,14 @@
 		/**
 		 * Returns an array of error messages for all the conflicts this class has.
 		 *
-		 * @return ARRAY List of conflict messages.
+		 * @return Mixed Conflict message or false if no conflict.
 		 */
-		public function getConflicts() {
-			$ret = array();
-			foreach($this->conflicts as $conflict) {
-				$ret[] = $this->getTitle()." conflicts with ".$conflict->getLabel();
+		public function getConflict() {
+			if($this->conflict instanceof this) {
+				return false;
+			} else {
+				return $this->getTitle()." conflicts with ".$this->conflict->getLabel();
 			}
-			return $ret;
 		}
 
 		/**

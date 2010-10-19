@@ -95,7 +95,7 @@
         /**
          * Checks if the given course is valid in at least one available schedule.
          *
-         * @param $course COURSE - Course object.
+         * @param $sections ARRAY - List of sections (a section list is a list of Course objects).
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(array $sections) {
@@ -103,7 +103,7 @@
             if($this->hasNoErrors() && !isset($choices[$sections[0]->getID()])) {
                 $courses = $this->getCourses();
 				$courses[] = $sections;
-				$conflict = findSchedules($courses);
+				$conflict = $this->findSchedules($courses);
 				if(is_array($conflict)) {
 					return false;
 				} else {
@@ -112,6 +112,30 @@
             }
             return false;
         }
+
+		function findSchedules(array $courses) {
+			$numCourses = count($courses);
+			$indexes = array_fill(0, $numCourses, 0);
+			$classes = array();
+			while(true) {
+				for($i = 0; $i < $numCourses; $i++) {
+					$classes[$i] = $courses[$i][$indexes[$i]];
+				}
+				if(isValidSchedule($classes)) {
+					return null;
+				}
+				//for each course, if the index for this course is less than the max section index, shift it
+				//also handles rollover for previous indicies
+				for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
+					$indexes[$i++] = 0;
+					//this exits the loop
+					if($i == $numCourses) break 2;
+				}
+			}
+
+			$conflict = findConflicts($courses, true);
+			return implode("<br>", $conflict);
+		}
 
         /**
          * Displays the generated schedule(s) to the user with all the pretty and error

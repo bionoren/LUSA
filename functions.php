@@ -150,7 +150,6 @@
         if(!empty($conflict)) {
             return implode("<br>", $conflict);
         }
-
         return $courses;
 	}
 
@@ -170,7 +169,7 @@
 					continue;
 				}
 				if(!$class1->validateClasses($class2)) {
-					$class1->conflicts[] = $class2;
+					$class1->conflict = $class2;
 					return false;
 				}
 			}
@@ -183,17 +182,22 @@
 	 *
 	 * @return ARRAY List of unresolvable conflicts.
 	 */
-	function findConflicts(array &$courses) {
+	function findConflicts(array &$courses, $fast=false) {
 		$conflict = array();
 		foreach($courses as $key1=>$sections) {
 			$tmp = array();
 			foreach($sections as $key2=>$section) {
 				if(!$section->valid) {
-					$tmp = array_merge($tmp, $section->getConflicts());
+					if($section->conflict) {
+						$tmp[] = $section->getConflict();
+					}
 					unset($courses[$key1][$key2]);
 				}
 			}
 			if(empty($courses[$key1])) {
+				if($fast) {
+					return array($tmp[0]);
+				}
 				$conflict = array_merge($conflict, $tmp);
 			} else {
 				$courses[$key1] = array_values($courses[$key1]);
