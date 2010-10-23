@@ -63,8 +63,15 @@
             <form method="get" id="form" action="<?php print $main; ?>">
                 <div id="header">
                     <h1><a href="<?php print $main; ?>" style="text-decoration:inherit; color:inherit;">LUSA</a></h1>
-                    <ul id="options">
-                        <li class="first">
+					<ul id="options">
+						<li class="first">
+							<input type="radio" id="typeStudent" name="role" value="student" <?php if(Main::isStudent()) { print 'checked="checked"'; } ?>/>
+							<label for="typeStudent">Student</label>
+							&nbsp;&nbsp;
+							<input type="radio" id="typeProf" name="role" value="prof" <?php if(!Main::isStudent()) { print 'checked="checked"'; } ?>/>
+							<label for="typeProf">Professor</label>
+						</li>
+                        <li class="second">
                             <div style="display:inline">
                                 <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(Main::isTraditional()) { print 'checked="checked"'; } ?>/>
                                 <label for="typeTraditional">Traditional</label>

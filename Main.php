@@ -40,6 +40,8 @@
         protected static $semester;
         /** BOOLEAN True if we're dealing with traditional courses. */
         protected static $traditional;
+		/** BOOLEAN True if we're looking at student schedules. */
+		protected static $student;
 
 		/** INTEGER Mask of valid campuses to display. */
 		protected $campusMask = 0;
@@ -72,6 +74,7 @@
         public function __construct() {
             Main::$semester = $this->getCurrentSemester();
             Main::$traditional = !isset($_REQUEST["type"]) || $_REQUEST["type"] != "non";
+			Main::$student = !isset($_REQUEST["role"]) || $_REQUEST["role"] == "student";
             Main::$campus = (isset($_REQUEST["campus"]))?$_REQUEST["campus"]:"MAIN";
             $this->showBooks = isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on";
             $this->submit = isset($_REQUEST["submit"]);
@@ -415,6 +418,15 @@
         protected function isRemoved(Course $class) {
             return isset($this->removeFilter[$class->getUID()]);
         }
+
+		/**
+		 * Returns true if the schedules to be displayed are for students.
+		 *
+		 * @return BOOLEAN True for student schedules.
+		 */
+		public function isStudent() {
+			return main::$student;
+		}
 
         /**
          * Returns true if schedules should be generated.
