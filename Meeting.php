@@ -40,6 +40,8 @@
         protected $endDay;
         /** STRING The classroom this meeting is in. */
         protected $room;
+        /** STRING The title of the class this meeting is in. */
+        protected $title;
 
         /** STRING String representation of $startDay cached for display. */
         protected $startDayString;
@@ -60,7 +62,7 @@
 		 * @param $campusBitMask INTEGER - Bit string value for the given campus
 		 * @return VOID
          */
-        public function __construct(SimpleXMLElement $meeting, $campus, $campusBitMask) {
+        public function __construct(SimpleXMLElement $meeting, $campus, $campusBitMask, $title) {
             $tmp = str_split((string)$meeting->{"meetingdaysofweek"});
             $temp = 0;
             for($i = 0; $i < count($tmp); $i++) {
@@ -68,6 +70,7 @@
                     $temp += pow(2, $i);
 				}
             }
+            $this->title = $title;
             $this->days = $temp;
             $this->startTime = Meeting::convertTime((string)$meeting->{"meetingstarttime"});
             $this->endTime = Meeting::convertTime((string)$meeting->{"meetingendtime"});
@@ -252,7 +255,16 @@
          * @return STRING Formatted course time information.
          */
         public function getPrintQS() {
-            return implode("::", array($this->days,$this->startTime,$this->endTime,$this->room));
+            return implode("::", array($this->days,$this->startTime,$this->endTime,$this->room,$this->title));
+        }
+
+        /**
+         * Returns the name of the professor teaching this meeting.
+         *
+         * @return STRING Professor name.
+         */
+        public function getProf() {
+            return $this->prof;
         }
 
         /**

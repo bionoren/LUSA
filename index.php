@@ -17,13 +17,18 @@
 	date_default_timezone_set("America/Chicago");
 
 	require_once("Main.php");
-	$main = new Main();
+	Main::init();
+	if(Main::isStudent()) {
+		$main = new Student();
+	} else {
+		$main = new Professor();
+	}
 
-    if(isset($_REQUEST["submit"])) {
+    if(Main::isSubmitted() && Main::isStudent()) {
         save_cookie($_SERVER["QUERY_STRING"]);
     } else {
         //look for cookie data
-        if(isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
+        if(Main::isStudent() && isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
             header("Location:".$_SERVER["PHP_SELF"]."?".$_COOKIE[Main::getCookieName()]);
         }
     }
@@ -128,26 +133,17 @@
                         $('semesterSelect').observe('change', function(event) {
                             window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value);
                         });
+						$('typeStudent').observe('click', function(event) {
+							window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&role=' + this.value + endPath;
+						});
+						$('typeProf').observe('click', function(event) {
+							window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&role=' + this.value + endPath;
+						});
                         //-->
                     </script>
                 </div>
                 <div id="body">
-                    <?php $main->displaySchedules(); ?>
-                    <div class="print-no">
-                        <h2>Selected Classes</h2>
-                        <?php $main->printClassDropdowns(); ?>
-                        <?php print $main->getHours() ?> Credit Hours
-                        <br/><br/>
-                        <a href="index.php?<?php print "semester=".$main->getSemester(); ?>&ignore=true" class="button">Clear Classes</a>
-                        <?php
-							$clear = $main->getClearFilterLink();
-							if($clear) {
-								print '&nbsp;&nbsp;<a href="'.$clear.'" class="button">Clear Filters</a>';
-							}
-                        ?>
-                        <br/><br/>
-                        <input type="submit" name="submit" value="Update Schedule"/>
-                    </div>
+                    <?php $main->display(); ?>
                 </div>
             </form>
             <div id="footer">

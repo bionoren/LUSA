@@ -85,7 +85,7 @@
 		 */
 		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
 			$this->id .= md5($meeting->asXML());
-			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask);
+			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask, $this->title);
 		}
 
 		/**
@@ -153,7 +153,6 @@
 		 * @return VOID
 		 */
         public static function generateQS() {
-            //this string concatenation could take longer than I'd like, but we need to do it...
             $qString = $_SERVER["PHP_SELF"]."?";
             foreach($_REQUEST as $key=>$val) {
                 if(isset($_COOKIE[$key])) {
@@ -249,10 +248,23 @@
         public function getPrintQS() {
 			$ret = array();
 			foreach($this->meetings as $meeting) {
-				$ret[] = $meeting->getPrintQS()."::".$this->title;
+				$ret[] = $meeting->getPrintQS();
 			}
 			return rawurlencode(htmlspecialchars_decode(implode("~", $ret)));
         }
+
+		/**
+		 * Gets an array of professors and the meetings they teach.
+		 *
+		 * @return ARRAY List of meetings keyed by prof name.
+		 */
+		public function getProfClassList() {
+			$ret = array();
+			foreach($this->meetings as $meeting) {
+				$ret[$meeting->getProf()] = $meeting;
+			}
+			return $ret;
+		}
 
 		/**
 		 * Returns the title of this class.

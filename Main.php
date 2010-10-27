@@ -17,6 +17,9 @@
     require_once("Schedule.php");
     require_once("functions.php");
 
+	require_once("Student.php");
+	require_once("Professor.php");
+
     /**
      * Handles processing of the main page.
      *
@@ -26,7 +29,7 @@
      * @author Bion Oren
      * @version 1.0
      */
-    class Main {
+    abstract class Main {
         /** ARRAY Mapping of semester abbreviations to long names. */
         public static $SEMESTER_NAMES = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
 		/** ARRAY Mapping from campus names to their bit value (for bitmasking campuses). */
@@ -38,10 +41,12 @@
         protected $classGroups = array();
         /** STRING The unique name of the current semester. */
         protected static $semester;
-        /** BOOLEAN True if we're dealing with traditional courses. */
-        protected static $traditional;
-		/** BOOLEAN True if we're looking at student schedules. */
+		/** BOOLEAN True if student information should be evaluated and displayed. */
 		protected static $student;
+		/** BOOLEAN True if schedules should be generated. */
+        protected static $submit = false;
+		/** BOOLEAN True if we're dealing with traditional courses. */
+        protected static $traditional;
 
 		/** INTEGER Mask of valid campuses to display. */
 		protected $campusMask = 0;
@@ -65,34 +70,11 @@
         protected $selectedChoices = array();
         /** BOOLEAN True if links to the bookstore website should be shown (which is slow). */
         protected $showBooks = false;
-        /** BOOLEAN True if schedules should be generated. */
-        protected $submit = false;
 
         /**
          * Initializes all the class variables.
          */
         public function __construct() {
-            Main::$semester = $this->getCurrentSemester();
-            Main::$traditional = !isset($_REQUEST["type"]) || $_REQUEST["type"] != "non";
-			Main::$student = !isset($_REQUEST["role"]) || $_REQUEST["role"] == "student";
-            Main::$campus = (isset($_REQUEST["campus"]))?$_REQUEST["campus"]:"MAIN";
-            $this->showBooks = isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on";
-            $this->submit = isset($_REQUEST["submit"]);
-            $this->keepFilter = $this->getChosenClasses();
-            $this->removeFilter = $this->getRemovedClasses();
-            //removes duplicate entries
-            if($this->haveSelections()) {
-                $this->selectedClasses = array_filter($_REQUEST["class"]);
-                foreach($_REQUEST["choice"] as $course) {
-					if($course != "----") {
-	                    $this->selectedChoices[$course] = $course;
-					}
-                }
-            }
-
-            //setup query string cache for courses
-            Course::generateQS();
-            $this->init();
         }
 
         /**
@@ -140,31 +122,12 @@
 			return implode("<br>", $conflict);
 		}
 
-        /**
-         * Displays the generated schedule(s) to the user with all the pretty and error
-         * messages that may or may not go with that.
-         *
-         * @return VOID
-         */
-        public function displaySchedules() {
-            foreach($this->keepFilter as $val) {
-                print '<input type="hidden" name="cf[]" value="'.$val.'"/>';
-            }
-
-            if($this->isSubmitted() && $this->haveSelections()) {
-                if($this->hasNoErrors()) {
-                    print '<h2>Schedule</h2>';
-                    Schedule::display($this->getCourses());
-                    print '<br/>';
-                    print '<div style="text-align:center;">';
-                        print '<img id="schedule" alt="Schedule" src="print.php?'.Schedule::getPrintQS(Schedule::$common).'" height="600"/>';
-                        print '<br/>';
-                    print '</div>';
-                } else {
-                    print "<span style='color:red;'>Conflicts were found :(<br>".$this->getCourses()."</span>";
-                }
-            }
-        }
+		/**
+		 * Displays the body of the page (forms, output, etc).
+		 *
+		 * @return VOID
+		 */
+		public abstract function display();
 
         /**
          * Returns the campus classes are coming from.
@@ -267,7 +230,7 @@
          *
          * @return STRING Semester identifier.
          */
-        protected function getCurrentSemester() {
+        protected static function getCurrentSemester() {
             if(empty($_REQUEST["semester"])) {
                 $files = getFileArray();
                 return $files[0];
@@ -333,7 +296,7 @@
          *
          * @return BOOLEAN True on user selection.
          */
-        protected function haveSelections() {
+        protected static function haveSelections() {
             return isset($_REQUEST["choice"]);
         }
 
@@ -355,49 +318,19 @@
             return empty($errors) && is_array($this->getCourses());
         }
 
-        /**
-         * Initilizes internal class arrays. Also fetches all valid schedules for the given input.
-         *
-         * @return VOID
-         */
-        protected function init() {
-			$classData = getClassData(Main::getSemester(), Main::isTraditional());
-			Main::$CAMPUS_MASK = array_pop($classData);
-			$this->setCampusMask();
-			//generate select option values for display later
-            $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
-            foreach($data as $class) {
-                if(!$this->isKept($class) || $this->isRemoved($class)) {
-                    continue;
-                }
-                $course = substr($class->getID(), 0, 4);
-                $this->classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
-                $this->classes[$course][$class->getID()][] = $class;
-                $this->courseTitleNumbers[$class->getID()][] = $class;
-            }
-            $this->classGroups = implode("", $this->getClassGroups());
-            //alphabetize the class list
-            array_multisort($this->classes);
-
-            if($this->isSubmitted() && $this->haveSelections()) {
-                //gather input data
-                foreach($this->getSelectedChoices() as $key) {
-                    if(isset($this->courseTitleNumbers[$key])) {
-                        $this->courses[] = $this->courseTitleNumbers[$key];
-                    } else {
-                        $this->errors[$this->courseTitleNumbers[$key]->getID()] = true;
-                    }
-                }
-
-                if($this->hasNoErrors()) {
-                    //find possible schedules
-					$this->courses = findSchedules($this->getCourses());
-                    if(!is_array($this->getCourses())) {
-                        $this->errors = true;
-                    }
-                }
-            }
-        }
+		/**
+		 * Sets up static environment variables.
+		 *
+		 * @return VOID
+		 */
+		public static function init() {
+			Main::$semester = Main::getCurrentSemester();
+            Main::$traditional = !isset($_REQUEST["type"]) || $_REQUEST["type"] != "non";
+			Main::$student = !isset($_REQUEST["role"]) || $_REQUEST["role"] == "student";
+            Main::$campus = (isset($_REQUEST["campus"]))?$_REQUEST["campus"]:"MAIN";
+//            $this->showBooks = isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on";
+            Main::$submit = isset($_REQUEST["submit"]);
+		}
 
         /**
          * Returns true if the given class is marked (by filters) to be kept for consideration in schedules.
@@ -424,8 +357,8 @@
 		 *
 		 * @return BOOLEAN True for student schedules.
 		 */
-		public function isStudent() {
-			return main::$student;
+		public static function isStudent() {
+			return Main::$student;
 		}
 
         /**
@@ -433,8 +366,8 @@
          *
          * @return BOOLEAN True if the class form was submitted.
          */
-        public function isSubmitted() {
-            return $this->submit;
+        public static function isSubmitted() {
+            return Main::$submit;
         }
 
         /**
@@ -443,7 +376,7 @@
          * @return BOOLEAN True if traditional classes are being used.
          */
         public static function isTraditional() {
-            return main::$traditional;
+            return Main::$traditional;
         }
 
         /**
@@ -453,7 +386,7 @@
          */
         public function printClassDropdowns() {
             print '<div id="classDropdowns">';
-                if($this->haveSelections()) {
+                if(Main::haveSelections()) {
                     reset($this->selectedClasses);
                     foreach($this->getSelectedChoices() as $choice) {
                         $this->printClassDropdown(current($this->selectedClasses), $choice);
@@ -463,56 +396,6 @@
 
                 //show an extra empty department dropdown
                 $this->printClassDropdown();
-            print '</div>';
-        }
-
-        /**
-         * Displays dropdown to select which class to take.
-         *
-         * @return VOID
-         */
-        public function printClassDropdown($class=null, $choice=null) {
-            $uid = md5(microtime());
-            $classes = $this->getClasses();
-            $ctn = $this->getCourseTitleNumbers();
-            if(!empty($class)) {
-                $tmp = str_replace('>'.$class, ' selected="selected">'.$class, $this->getClassGroups());
-            } else {
-                $tmp = $this->getClassGroups();
-            }
-            print '<div id="classChoice'.$uid.'">';
-                print '<select name="class[]" id="classDD'.$uid.'" onchange="if($(\'choice'.$uid.'\').empty()){new Ajax.Updater(\'classDropdowns\',\'createClassDropdown.php\', {parameters: { semester:\''.Main::getSemester().'\'}, insertion: \'bottom\'});}selectChange(this, \'choice'.$uid.'\');">';
-                    print '<option value="0">----</option>'.$tmp;
-                print '</select>';
-                print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
-                print '<div id="choice'.$uid.'" style="display:inline;">';
-                    $populated = !empty($choice);
-                    if($populated) {
-                        print '<select name="choice[]" id="choiceDD'.$uid.'">';
-                            foreach($classes[$class] as $key=>$sections) {
-                                print '<option value="'.$key.'"';
-                                if($choice == $key) {
-                                    $this->hours += substr($key, -1);
-                                    print ' selected="selected"';
-                                }
-	                            $error = $this->checkValidClass($sections);
-                                if(!($error && $this->getCourses())) {
-                                    print '>'.$sections[0]->getLabel();
-                                } else {
-                                    print ' style="color:rgb(177, 177, 177);">'.$error;
-                                }
-                                print '</option>';
-                            }
-                        print "</select>";
-                        print '<label for="choiceDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
-                    }
-                print '</div>';
-                if($populated && $this->showBooks()) {
-                    print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
-                }
-                if($this->hasError($choice)) {
-                    print '<span style="color:red;">Sorry, this class is not offered this semester</span>';
-                }
             print '</div>';
         }
 
