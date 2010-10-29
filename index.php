@@ -148,9 +148,9 @@
             </form>
             <div id="footer">
                 <ul>
-					<li><a href="#" onclick='window.open("http://www.letu.edu/academics/catalog/");'>Course Catalog</a></li>
+					<li class="print-no"><a href="#" onclick='window.open("http://www.letu.edu/academics/catalog/");'>Course Catalog</a></li>
                     <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi">log into MyLetu to register for classes</a>.</li>
-                    <li>By using this, you agree not to sue (<a href="tos.php">blah blah blah</a>).</li>
+                    <li class="print-no">By using this, you agree not to sue (<a href="tos.php">blah blah blah</a>).</li>
                 </ul>
             </div>
         </div>
