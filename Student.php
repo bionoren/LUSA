@@ -1,11 +1,13 @@
 <?php
-//so, the idea is that the Main class becomes in charge of the main stuff.
-//then, the student class becomes in charge of processing student schedule stuff
-//finally, the professor class becomes in charge of processing prof stuff.
-//Main needs to be abstract and have an abstract method display()
-//Main needs to have a static initialization method to setup the static variables in Main
-//Professors in the student view should be hyperlinked to their prof schedule in a new tab
-
+    /**
+     * Handles processing of the main page for studnet schedules.
+     *
+     * Provides user input to other classes that need it and holds intermediary
+     * class information arrays used throughout this script.
+     *
+     * @author Bion Oren
+     * @version 1.0
+     */
     class Student extends Main {
         /**
          * Initializes all the class variables.
@@ -42,7 +44,7 @@
                 $this->printClassDropdowns();
                 print $this->getHours().' Credit Hours';
                 print '<br/><br/>';
-                print '<a href="index.php?semester="'.$this->getSemester().'&ignore=true" class="button">Clear Classes</a>';
+                print '<a href="index.php?semester='.Main::getSemester().'&ignore=true" class="button">Clear Classes</a>';
                 $clear = $this->getClearFilterLink();
                 if($clear) {
                     print '&nbsp;&nbsp;<a href="'.$clear.'" class="button">Clear Filters</a>';

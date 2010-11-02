@@ -1,6 +1,17 @@
 <?php
+    /**
+     * Handles processing of the main professor schedule page.
+     *
+     * Provides user input to other classes that need it and holds intermediary
+     * class information arrays used throughout this script.
+     *
+     * @author Bion Oren
+     * @version 1.0
+     */
     class Professor extends Main {
+        /** ARRAY List of meetings times associated with a professor. $profClassList[PROF_NAME][] = Meeting */
         protected $profClassList = array();
+        /** STRING The name of the currently selected professor. */
         protected $prof;
 
         /**
@@ -14,21 +25,6 @@
                 $this->prof = $_REQUEST["prof"];
             }
             $this->generateProfList();
-        }
-
-        protected function generateProfList() {
-            $classData = getClassData(Main::getSemester(), Main::isTraditional());
-			Main::$CAMPUS_MASK = array_pop($classData);
-			$this->setCampusMask();
-			//generate select option values for display later
-            $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
-            foreach($data as $class) {
-                $list = $class->getProfClassList();
-                foreach($list as $prof=>$class2) {
-                    $this->profClassList[$prof][] = $class2;
-                }
-            }
-            ksort($this->profClassList);
         }
 
         /**
@@ -59,6 +55,26 @@
                     print '<br/>';
                 print '</div>';
             }
+        }
+
+        /**
+         * Generates a sorted list of meetings associated with and keyed by the professor teaching them.
+         *
+         * @return ARRAY $ret[PROF_NAME][] = Meeting
+         */
+        protected function generateProfList() {
+            $classData = getClassData(Main::getSemester(), Main::isTraditional());
+			Main::$CAMPUS_MASK = array_pop($classData);
+			$this->setCampusMask();
+			//generate select option values for display later
+            $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
+            foreach($data as $class) {
+                $list = $class->getProfClassList();
+                foreach($list as $prof=>$class2) {
+                    $this->profClassList[$prof][] = $class2;
+                }
+            }
+            ksort($this->profClassList);
         }
 
         /**
