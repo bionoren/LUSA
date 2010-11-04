@@ -380,26 +380,6 @@
         }
 
         /**
-         * Displays dropdowns to select which classes to take.
-         *
-         * @return VOID
-         */
-        public function printClassDropdowns() {
-            print '<div id="classDropdowns">';
-                if(Main::haveSelections()) {
-                    reset($this->selectedClasses);
-                    foreach($this->getSelectedChoices() as $choice) {
-                        $this->printClassDropdown(current($this->selectedClasses), $choice);
-                        next($this->selectedClasses);
-                    }
-                }
-
-                //show an extra empty department dropdown
-                $this->printClassDropdown();
-            print '</div>';
-        }
-
-        /**
          * Prints javascript that builds a hash table of classes to use in the class selection dropdowns.
          *
          * @return VOID

@@ -208,7 +208,7 @@
 			if($this->conflict instanceof this) {
 				return false;
 			} else {
-				return $this->getTitle()." conflicts with ".$this->conflict->getLabel();
+				return $this->getTitle()." conflicts with ".$this->conflict->getTitle();
 			}
 		}
 

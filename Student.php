@@ -95,7 +95,7 @@
                 $tmp = $this->getClassGroups();
             }
             print '<div id="classChoice'.$uid.'">';
-                print '<select name="class[]" id="classDD'.$uid.'" onchange="if($(\'choice'.$uid.'\').empty()){new Ajax.Updater(\'classDropdowns\',\'createClassDropdown.php\', {parameters: { semester:\''.Main::getSemester().'\'}, insertion: \'bottom\'});}selectChange(this, \'choice'.$uid.'\');">';
+                print '<select name="class[]" id="classDD'.$uid.'" onchange="classSelected(this, \''.$uid.'\', \''.Main::getSemester().'\')">';
                     print '<option value="0">----</option>'.$tmp;
                 print '</select>';
                 print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
@@ -127,6 +127,26 @@
                 if($this->hasError($choice)) {
                     print '<span style="color:red;">Sorry, this class is not offered this semester</span>';
                 }
+            print '</div>';
+        }
+
+        /**
+         * Displays dropdowns to select which classes to take.
+         *
+         * @return VOID
+         */
+        public function printClassDropdowns() {
+            print '<div id="classDropdowns">';
+                if(Main::haveSelections()) {
+                    reset($this->selectedClasses);
+                    foreach($this->getSelectedChoices() as $choice) {
+                        $this->printClassDropdown(current($this->selectedClasses), $choice);
+                        next($this->selectedClasses);
+                    }
+                }
+
+                //show an extra empty department dropdown
+                $this->printClassDropdown();
             print '</div>';
         }
 
