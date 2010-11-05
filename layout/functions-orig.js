@@ -52,14 +52,15 @@ function selectCampusTrigger(event) {
     window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&campus=' + escape(this.value) + '&submit=Change&semester=' + escape($('semesterSelect').value);
 }
 
-function classSelected(event, uid, semester) {
+function classSelected(ele, uid, semester) {
     if($('choice'+uid).empty()) {
         new Ajax.Updater('classDropdowns', 'createClassDropdown.php', {
             parameters: { semester: semester },
             insertion: 'bottom'
         });
     }
+    selectChange(ele, 'choice'+uid);
 /*    new Ajax.Updater('schedule', 'updateSchedule.php', {
-        parameters: { event: event }
+        parameters: { element: ele }
     });*/
 }

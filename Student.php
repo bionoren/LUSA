@@ -138,10 +138,8 @@
         public function printClassDropdowns() {
             print '<div id="classDropdowns">';
                 if(Main::haveSelections()) {
-                    reset($this->selectedClasses);
                     foreach($this->getSelectedChoices() as $choice) {
-                        $this->printClassDropdown(current($this->selectedClasses), $choice);
-                        next($this->selectedClasses);
+                        $this->printClassDropdown(substr($choice, 0, 4), $choice);
                     }
                 }
 
