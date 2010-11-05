@@ -183,10 +183,8 @@
             $clear = false;
             if($this->isSubmitted()) {
                 $clear = $this."?semester=".Main::getSemester();
-                reset($this->selectedClasses);
                 foreach($this->getSelectedChoices() as $choice) {
-                    $clear .= "&amp;class[]=".current($this->selectedClasses)."&amp;choice[]=".$choice;
-                    next($this->selectedClasses);
+                    $clear .= "&amp;class[]=".substr($choice, 0, 4)."&amp;choice[]=".$choice;
                 }
                 if(isset($_REQUEST["type"])) {
                     $clear .= "&amp;type=".$_REQUEST["type"];
@@ -270,16 +268,6 @@
          */
         protected function getSelectedChoices() {
             return $this->selectedChoices;
-        }
-
-        /**
-         * Returns an array of the unique selected classes.
-         *
-         * @return ARRAY
-         * @see $selectedClasses
-         */
-        protected function getSelectedClasses() {
-            return $this->selectedClasses;
         }
 
         /**
@@ -387,10 +375,9 @@
         public function printClassDropdowns() {
             print '<div id="classDropdowns">';
                 if(Main::haveSelections()) {
-                    reset($this->selectedClasses);
+					dump("choices", $this->getSelectedChoices());
                     foreach($this->getSelectedChoices() as $choice) {
-                        $this->printClassDropdown(current($this->selectedClasses), $choice);
-                        next($this->selectedClasses);
+                        $this->printClassDropdown(substr($choice, 0, 4), $choice);
                     }
                 }
 
