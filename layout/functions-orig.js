@@ -1,12 +1,12 @@
 //java -jar yuicompressor-2.4.2.jar --type js -o functions.js --line-break 0 --nomunge functions-orig.js
 function selectChange(semester, department, uid) {
     if(department != 0) {
-        new Ajax.Updater('classChoice'+uid, 'createClassDropdown.php', {
-            parameters: { semester: semester, department: department, selection: '----' }
+        new Ajax.Updater('classChoice'+uid, 'postback.php', {
+            parameters: { mode: 'createClassDropdown', semester: semester, department: department, selection: '----' }
         });
     } else {
-        new Ajax.Updater('classChoice'+uid, 'createClassDropdown.php', {
-            parameters: { }
+        new Ajax.Updater('classChoice'+uid, 'postback.php', {
+            parameters: { mode: 'createClassDropdown' }
         });
     }
 
@@ -31,8 +31,8 @@ function selectCampusTrigger(event) {
 
 function departmentSelected(ele, uid, semester) {
     if($('choice'+uid).empty()) {
-        new Ajax.Updater('classDropdowns', 'createClassDropdown.php', {
-            parameters: { semester: semester },
+        new Ajax.Updater('classDropdowns', 'postback.php', {
+            parameters: { mode: 'createClassDropdown', semester: semester },
             insertion: 'bottom'
         });
     }
@@ -40,15 +40,15 @@ function departmentSelected(ele, uid, semester) {
 }
 
 function courseSelected() {
-    new Ajax.Updater('schedule', 'updateSchedule.php', {
-        parameters: { data: $('form').serialize() }
+    new Ajax.Updater('schedule', 'postback.php', {
+        parameters: { mode: 'updateSchedule', data: $('form').serialize() }
     });
     document.location.hash = $('form').serialize()
 }
 
 function updateAll() {
-    new Ajax.Updater('body', 'updateAll.php', {
-        parameters: { data: $('form').serialize() }
+    new Ajax.Updater('body', 'postback.php', {
+        parameters: { mode: 'updateAll', data: $('form').serialize() }
     });
     document.location.hash = $('form').serialize()
 }
