@@ -21,9 +21,12 @@
             if(Main::haveSelections()) {
                 $this->selectedClasses = array_filter($_REQUEST["class"]);
                 foreach($_REQUEST["choice"] as $course) {
-					if($course != "----") {
+					if(!empty($course)) {
 	                    $this->selectedChoices[$course] = $course;
 					}
+                }
+                if(empty($this->selectedChoices)) {
+                    unset($_REQUEST["choice"]);
                 }
             }
 
@@ -38,7 +41,6 @@
 		 * @return VOID
 		 */
         public function display() {
-            $this->displaySchedules();
             print '<div class="print-no">';
                 print '<h2>Selected Classes</h2>';
                 $this->printClassDropdowns();
@@ -49,8 +51,9 @@
                 if($clear) {
                     print '&nbsp;&nbsp;<a href="'.$clear.'" class="button">Clear Filters</a>';
                 }
-                print '<br/><br/>';
-                print '<input type="submit" name="submit" value="Update Schedule"/>';
+            print '</div>';
+            print '<div id="schedule">';
+                $this->displaySchedules();
             print '</div>';
         }
 
@@ -71,7 +74,7 @@
                     Schedule::display($this->getCourses());
                     print '<br/>';
                     print '<div style="text-align:center;">';
-                        print '<img id="schedule" alt="Schedule" src="print.php?'.Schedule::getPrintQS(Schedule::$common).'" height="600"/>';
+                        print '<img id="schedule" alt="Schedule" src="print.php?'.Schedule::getPrintQS(Schedule::$common).'" height="880"/>';
                         print '<br/>';
                     print '</div>';
                 } else {
@@ -86,7 +89,7 @@
          * @return VOID
          */
         public function printClassDropdown($class=null, $choice=null) {
-            $uid = md5(microtime());
+            $uid = microtime();
             $classes = $this->getClasses();
             $ctn = $this->getCourseTitleNumbers();
             if(!empty($class)) {
@@ -95,14 +98,15 @@
                 $tmp = $this->getClassGroups();
             }
             print '<div id="classChoice'.$uid.'">';
-                print '<select name="class[]" id="classDD'.$uid.'" onchange="classSelected(this, \''.$uid.'\', \''.Main::getSemester().'\')">';
+                print '<select name="class[]" id="classDD'.$uid.'" onchange="departmentSelected(this, \''.$uid.'\', \''.Main::getSemester().'\')">';
                     print '<option value="0">----</option>'.$tmp;
                 print '</select>';
                 print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
                 print '<div id="choice'.$uid.'" style="display:inline;">';
                     $populated = !empty($choice);
                     if($populated) {
-                        print '<select name="choice[]" id="choiceDD'.$uid.'">';
+                        print '<select name="choice[]" id="choiceDD'.$uid.'" onchange="courseSelected()" >';
+                            print '<option value="0">----</option>';
                             foreach($classes[$class] as $key=>$sections) {
                                 print '<option value="'.$key.'"';
                                 if($choice == $key) {
@@ -137,14 +141,15 @@
          */
         public function printClassDropdowns() {
             print '<div id="classDropdowns">';
+                $i = 0;
                 if(Main::haveSelections()) {
                     foreach($this->getSelectedChoices() as $choice) {
-                        $this->printClassDropdown(substr($choice, 0, 4), $choice);
+                        $this->printClassDropdown($i++, substr($choice, 0, 4), $choice);
                     }
                 }
 
                 //show an extra empty department dropdown
-                $this->printClassDropdown();
+                $this->printClassDropdown($i++);
             print '</div>';
         }
 

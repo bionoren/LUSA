@@ -48,7 +48,7 @@
         <link rel="stylesheet" type="text/css" href="layout/screen.css" media="screen,projection"/>
         <link rel="stylesheet" type="text/css" href="layout/print.css" media="print"/>
         <script type="text/javascript" src="layout/prototype.js"></script>
-        <script type="text/javascript" src="layout/functions.js"></script>
+        <script type="text/javascript" src="layout/functions-orig.js"></script>
         <script type="text/javascript">
             <!--
             <?php $main->printHeaderJS(); ?>
@@ -61,7 +61,6 @@
         <!--Design by: Shutter-->
 		<!--QA and Lead Tester: Synk-->
 		<!--Performance Consultants: Zoot, Gary Raduns-->
-        <!--JavaScript Magic: Fjord-->
         <!--This code hates Tom Kelley-->
         <!--Special thanks to all of 41 and G2 for their suggestions, bug reports, patience, and encouragement!-->
         <div id="container">
@@ -120,25 +119,13 @@
                             <label for="showBooks">Bookstore Links</label>
                         </li>-->
                     </ul>
-                    <script type="text/javascript">
+					<script type="text/javascript">
                         <!--
-                        var path = window.location.protocol + '//' + window.location.host + window.location.pathname;
-                        var endPath = '&semester=' + escape($('semesterSelect').value);
-                        $('typeTraditional').observe('click', function(event) {
-                            window.location = path + '?type=trad' + endPath;
-                        });
-                        $('typeNonTraditional').observe('click', function(event) {
-                            window.location = path + '?type=non' + endPath;
-                        });
-                        $('semesterSelect').observe('change', function(event) {
-                            window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&semester=' + escape(this.value);
-                        });
-						$('typeStudent').observe('click', function(event) {
-							window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&role=' + this.value + endPath;
-						});
-						$('typeProf').observe('click', function(event) {
-							window.location = path + '?type=' + ($('typeTraditional').checked == true ? 'trad' : 'non') + '&role=' + this.value + endPath;
-						});
+                        $('typeTraditional').observe('click', updateAll);
+                        $('typeNonTraditional').observe('click', updateAll);
+                        $('semesterSelect').observe('change', updateAll);
+						$('typeStudent').observe('click', updateAll);
+						$('typeProf').observe('click', updateAll);
                         //-->
                     </script>
                 </div>

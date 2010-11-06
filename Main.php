@@ -98,6 +98,12 @@
             return false;
         }
 
+		/**
+		 * Used to validate classes in a dropdown list
+		 *
+		 * @param $courses ARRAY List of sections.
+		 * @return MIXED A conflict message if there was a conflict, null if there wasn't a conflict.
+		 */
 		function findSchedules(array $courses) {
 			$numCourses = count($courses);
 			$indexes = array_fill(0, $numCourses, 0);
@@ -373,20 +379,9 @@
          * @return VOID
          */
         public function printHeaderJS() {
-            print "var arrItems=new Hash();\n";
-            foreach($this->getClasses() as $group=>$class) {
-                print "var t=new Hash();\n";
-                foreach($class as $id=>$sections) {
-					$error = $this->checkValidClass($sections);
-                    print "t.set('".$id."',new Array('";
-                    if(!($error && $this->getCourses())) {
-                        print htmlspecialchars_decode(addslashes($sections[0]->getLabel()))."', true";
-                    } else {
-                        print htmlspecialchars_decode(addslashes($error))."', false";
-                    }
-                    print "));\n";
-                }
-                print "arrItems.set('".$group."',t);\n";
+            print "var classes = new Array();\n";
+            foreach($this->selectedChoices as $choice) {
+                print 'classes.push('.$choice.')';
             }
         }
 

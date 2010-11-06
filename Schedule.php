@@ -20,6 +20,7 @@
      * @version 2
      */
     class Schedule {
+		/** ARRAY List of common classes in the schedule. */
 		public static $common = array();
 
         /**
