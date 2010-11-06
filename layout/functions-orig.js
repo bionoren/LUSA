@@ -13,6 +13,7 @@ function selectChange(semester, department, uid) {
     $('choice'+uid).focus();
 }
 
+items = new Hash();
 function selectClass(course, str, QS) {
     if(course != null) {
         items.set(course, str);
@@ -21,7 +22,7 @@ function selectClass(course, str, QS) {
     items.each(function(pair) {
         url += "~"+pair.value;
     });
-    $('schedule').src = url;
+    $('scheduleImg').src = url;
     $('printer').href = url;
 }
 

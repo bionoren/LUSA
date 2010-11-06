@@ -74,7 +74,7 @@
                     Schedule::display($this->getCourses());
                     print '<br/>';
                     print '<div style="text-align:center;">';
-                        print '<img id="schedule" alt="Schedule" src="print.php?'.Schedule::getPrintQS(Schedule::$common).'" height="880"/>';
+                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Schedule::getPrintQS(Schedule::$common).'" height="880"/>';
                         print '<br/>';
                     print '</div>';
                 } else {
