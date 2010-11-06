@@ -41,7 +41,7 @@ function departmentSelected(ele, uid, semester) {
 
 function courseSelected() {
     new Ajax.Updater('schedule', 'postback.php', {
-        parameters: { mode: 'updateSchedule', data: $('form').serialize() }
+        parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
     });
     document.location.hash = $('form').serialize()
 }

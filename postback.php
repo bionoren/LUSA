@@ -4,7 +4,11 @@
     $mode = $_REQUEST["mode"];
     if(isset($_REQUEST["data"])) {
         $data = $_REQUEST["data"];
-        parse_str($data, $_REQUEST);
+        parse_str($data, $tmp);
+        if(isset($_REQUEST["submit"])) {
+            $tmp["submit"] = $_REQUEST["submit"];
+        }
+        $_REQUEST = $tmp;
     }
 
     Main::init();
