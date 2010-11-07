@@ -18,8 +18,10 @@
             $this->keepFilter = $this->getChosenClasses();
             $this->removeFilter = $this->getRemovedClasses();
             //removes duplicate entries
-            if(Main::haveSelections()) {
+            if(isset($_REQUEST["class"])) {
                 $this->selectedClasses = array_filter($_REQUEST["class"]);
+            }
+            if(Main::haveSelections()) {
                 foreach($_REQUEST["choice"] as $course) {
 					if(!empty($course)) {
 	                    $this->selectedChoices[$course] = $course;
@@ -46,7 +48,6 @@
                 $this->printClassDropdowns();
                 print $this->getHours().' Credit Hours';
                 print '<br/><br/>';
-                print '<a href="index.php?semester='.Main::getSemester().'&ignore=true" class="button">Clear Classes</a>';
                 $clear = $this->getClearFilterLink();
                 if($clear) {
                     print '&nbsp;&nbsp;<a href="'.$clear.'" class="button">Clear Filters</a>';
@@ -89,7 +90,7 @@
          * @return VOID
          */
         public function printClassDropdown($class=null, $choice=null) {
-            $uid = microtime();
+            $uid = md5(microtime());
             $classes = $this->getClasses();
             $ctn = $this->getCourseTitleNumbers();
             if(!empty($class)) {
@@ -97,8 +98,8 @@
             } else {
                 $tmp = $this->getClassGroups();
             }
-            print '<div id="classChoice'.$uid.'">';
-                print '<select name="class[]" id="classDD'.$uid.'" onchange="departmentSelected(this, \''.$uid.'\', \''.Main::getSemester().'\')">';
+            print '<div id="classChoice'.$uid.'" class="classDD">';
+                print '<select name="class[]" id="classDD'.$uid.'" onchange="departmentSelected(\''.$uid.'\', \''.Main::getSemester().'\')">';
                     print '<option value="0">----</option>'.$tmp;
                 print '</select>';
                 print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';

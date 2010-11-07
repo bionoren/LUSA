@@ -1,4 +1,4 @@
-//java -jar yuicompressor-2.4.2.jar --type js -o prototype.js --line-break 0 --nomunge prototype-orig.js
+//java -jar yuicompressor-2.4.2.jar --type js -o prototype.js --line-break 0 prototype-orig.js
 /*  Prototype JavaScript framework, version 1.6.1
  *  (c) 2005-2009 Sam Stephenson
  *

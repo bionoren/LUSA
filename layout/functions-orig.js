@@ -1,16 +1,11 @@
-//java -jar yuicompressor-2.4.2.jar --type js -o functions.js --line-break 0 --nomunge functions-orig.js
+//java -jar yuicompressor-2.4.2.jar --type js -o functions.js --line-break 0 functions-orig.js
 function selectChange(semester, department, uid) {
     if(department != 0) {
         new Ajax.Updater('classChoice'+uid, 'postback.php', {
             parameters: { mode: 'createClassDropdown', semester: semester, department: department, selection: '----' }
         });
-    } else {
-        new Ajax.Updater('classChoice'+uid, 'postback.php', {
-            parameters: { mode: 'createClassDropdown' }
-        });
+        $('choice'+uid).focus();
     }
-
-    $('choice'+uid).focus();
 }
 
 items = new Hash();
@@ -30,14 +25,29 @@ function selectCampusTrigger(event) {
     updateAll();
 }
 
-function departmentSelected(ele, uid, semester) {
+function departmentSelected(uid, semester) {
     if($('choice'+uid).empty()) {
         new Ajax.Updater('classDropdowns', 'postback.php', {
-            parameters: { mode: 'createClassDropdown', semester: semester },
+            parameters: { mode: 'createClassDropdown', data: $('form').serialize() },
             insertion: 'bottom'
         });
     }
-    selectChange(semester, $('classDD'+uid).value, uid);
+    if($('classDD'+uid).value == "0") {
+        blanks = false;
+        $$('.classDD').each(function(ele) {
+            if(blanks && ele.firstChild.value == "0") {
+                ele.remove();
+            }
+            if(ele.firstChild.value == "0") {
+                blanks = true;
+            }
+        });
+        if($('choice'+uid)) {
+            $('choice'+uid).innerHTML = "";
+        }
+    } else {
+        selectChange(semester, $('classDD'+uid).value, uid);
+    }
 }
 
 function courseSelected() {

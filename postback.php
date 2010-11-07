@@ -8,6 +8,7 @@
         if(isset($_REQUEST["submit"])) {
             $tmp["submit"] = $_REQUEST["submit"];
         }
+        unset($_REQUEST);
         $_REQUEST = $tmp;
     }
 
