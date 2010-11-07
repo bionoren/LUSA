@@ -37,8 +37,7 @@ function departmentSelected(uid, semester) {
         $$('.classDD').each(function(ele) {
             if(blanks && ele.firstChild.value == "0") {
                 ele.remove();
-            }
-            if(ele.firstChild.value == "0") {
+            } else if(!ele.firstChild || ele.firstChild.value == "0") {
                 blanks = true;
             }
         });
@@ -52,15 +51,20 @@ function departmentSelected(uid, semester) {
 }
 
 function courseSelected(ele) {
+    new Ajax.Updater('schedule', 'postback.php', {
+        parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
+    });
+    document.location.hash = $('form').serialize()
+
+    updateHours();
+}
+
+function updateHours() {
     hours = 0;
     $$('.choiceDD').each(function(ele) {
         hours += Number(ele.value.substr(-1));
     });
     $('schedHours').innerHTML = hours;
-    new Ajax.Updater('schedule', 'postback.php', {
-        parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
-    });
-    document.location.hash = $('form').serialize()
 }
 
 function updateAll() {

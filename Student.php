@@ -47,11 +47,6 @@
                 print '<h2>Selected Classes</h2>';
                 $this->printClassDropdowns();
                 print '<span id="schedHours">'.$this->getHours().'</span> Credit Hours';
-                print '<br/><br/>';
-                $clear = $this->getClearFilterLink();
-                if($clear) {
-                    print '&nbsp;&nbsp;<a href="'.$clear.'" class="button">Clear Filters</a>';
-                }
             print '</div>';
             print '<div id="schedule">';
                 $this->displaySchedules();
@@ -69,7 +64,6 @@
                 if($this->hasNoErrors()) {
                     print '<h2>Schedule</h2>';
                     Schedule::display($this->getCourses());
-                    print '<br/>';
                     print '<div style="text-align:center;">';
                         print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Schedule::getPrintQS(Schedule::$common).'" height="880"/>';
                         print '<br/>';
