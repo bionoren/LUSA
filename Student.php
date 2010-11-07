@@ -46,7 +46,7 @@
             print '<div class="print-no">';
                 print '<h2>Selected Classes</h2>';
                 $this->printClassDropdowns();
-                print $this->getHours().' Credit Hours';
+                print '<span id="schedHours">'.$this->getHours().'</span> Credit Hours';
                 print '<br/><br/>';
                 $clear = $this->getClearFilterLink();
                 if($clear) {
@@ -106,7 +106,7 @@
                 print '<div id="choice'.$uid.'" style="display:inline;">';
                     $populated = !empty($choice);
                     if($populated) {
-                        print '<select name="choice[]" id="choiceDD'.$uid.'" onchange="courseSelected()" >';
+                        print '<select name="choice[]" id="choiceDD'.$uid.'" class="choiceDD" onchange="courseSelected(this)" >';
                             print '<option value="0">----</option>';
                             foreach($classes[$class] as $key=>$sections) {
                                 print '<option value="'.$key.'"';

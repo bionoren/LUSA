@@ -51,7 +51,12 @@ function departmentSelected(uid, semester) {
     courseSelected();
 }
 
-function courseSelected() {
+function courseSelected(ele) {
+    hours = 0;
+    $$('.choiceDD').each(function(ele) {
+        hours += Number(ele.value.substr(-1));
+    });
+    $('schedHours').innerHTML = hours;
     new Ajax.Updater('schedule', 'postback.php', {
         parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
     });
