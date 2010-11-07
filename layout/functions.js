@@ -1,30 +1,27 @@
-function selectChange(control,controlToPopulate){if($(controlToPopulate).children!=null){$(controlToPopulate).innerHTML=""
-}var select=document.createElement("select");
-select.setAttribute("name","choice[]");
-var myEle=document.createElement("option");
-theText=document.createTextNode("----");
-myEle.appendChild(theText);
-select.appendChild(myEle);
-if(arrItems.get(control.value)==null){$(controlToPopulate).innerHTML="";
-return
-}arrItems.get($(control).value).each(function(pair){myEle=document.createElement("option");
-myEle.setAttribute("value",pair.key);
-if(!pair.value[1]){myEle.setAttribute("style","color:rgb(177, 177, 177);")
-}var txt=document.createTextNode(pair.value[0]);
-myEle.appendChild(txt);
-select.appendChild(myEle)
+function selectChange(c,a,b){if(a!=0){new Ajax.Updater("classChoice"+b,"postback.php",{parameters:{mode:"createClassDropdown",semester:c,department:a,selection:"----"}});
+$("choice"+b).focus()
+}}items=new Hash();
+function selectClass(a,d,b){if(a!=null){items.set(a,d)
+}var c="print.php?"+b;
+items.each(function(e){c+="~"+e.value
 });
-$(controlToPopulate).appendChild(select);
-select.focus()
-}var items=new Hash();
-function selectClass(course,str,QS){if(course!=null){items.set(course,str)
-}var url="print.php?"+QS;
-items.each(function(pair){url+="~"+pair.value
+$("scheduleImg").src=c;
+$("printer").href=c
+}function selectCampusTrigger(a){updateAll()
+}function departmentSelected(a,b){if($("choice"+a).empty()){new Ajax.Updater("classDropdowns","postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize()},insertion:"bottom"})
+}if($("classDD"+a).value=="0"){blanks=false;
+$$(".classDD").each(function(c){if(blanks&&c.firstChild.value=="0"){c.remove()
+}if(c.firstChild.value=="0"){blanks=true
+}});
+if($("choice"+a)){$("choice"+a).innerHTML=""
+}}else{selectChange(b,$("classDD"+a).value,a)
+}courseSelected()
+}function courseSelected(a){hours=0;
+$$(".choiceDD").each(function(b){hours+=Number(b.value.substr(-1))
 });
-$("schedule").src=url;
-$("printer").href=url
-}function selectCampusTrigger(event){var path=window.location.protocol+"//"+window.location.host+window.location.pathname;
-window.location=path+"?type="+($("typeTraditional").checked==true?"trad":"non")+"&campus="+escape(this.value)+"&submit=Change&semester="+escape($("semesterSelect").value)
-}function classSelected(ele,uid,semester){if($("choice"+uid).empty()){new Ajax.Updater("classDropdowns","createClassDropdown.php",{parameters:{semester:semester},insertion:"bottom"})
-}selectChange(ele,"choice"+uid)
+$("schedHours").innerHTML=hours;
+new Ajax.Updater("schedule","postback.php",{parameters:{mode:"updateSchedule",data:$("form").serialize(),submit:true}});
+document.location.hash=$("form").serialize()
+}function updateAll(){new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:$("form").serialize()}});
+document.location.hash=$("form").serialize()
 };

@@ -65,10 +65,6 @@
          * @return VOID
          */
         public function displaySchedules() {
-            foreach($this->keepFilter as $val) {
-                print '<input type="hidden" name="cf[]" value="'.$val.'"/>';
-            }
-
             if($this->isSubmitted() && Main::haveSelections()) {
                 if($this->hasNoErrors()) {
                     print '<h2>Schedule</h2>';

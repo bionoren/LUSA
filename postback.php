@@ -5,11 +5,8 @@
     if(isset($_REQUEST["data"])) {
         $data = $_REQUEST["data"];
         parse_str($data, $tmp);
-        if(isset($_REQUEST["submit"])) {
-            $tmp["submit"] = $_REQUEST["submit"];
-        }
-        unset($_REQUEST);
-        $_REQUEST = $tmp;
+        $_REQUEST = array_merge($tmp, $_REQUEST);
+        unset($_REQUEST["data"]);
     }
 
     Main::init();

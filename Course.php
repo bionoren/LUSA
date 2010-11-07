@@ -154,10 +154,7 @@
 		 */
         public static function generateQS() {
             $qString = $_SERVER["PHP_SELF"]."?";
-            foreach($_REQUEST as $key=>$val) {
-                if(isset($_COOKIE[$key])) {
-                    continue;
-                }
+            foreach(array_diff($_REQUEST, $_COOKIE) as $key=>$val) {
                 if(is_array($val)) {
                     $qString .= $key."[]=".implode("&amp;".$key."[]=", $val)."&amp;";
                 } else {
