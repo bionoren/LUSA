@@ -48,6 +48,7 @@ function departmentSelected(uid, semester) {
     } else {
         selectChange(semester, $('classDD'+uid).value, uid);
     }
+    courseSelected();
 }
 
 function courseSelected() {
