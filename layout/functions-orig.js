@@ -74,6 +74,12 @@ function updateAll() {
     setLocation($('form').serialize())
 }
 
+function updateAllNoCookie() {
+    new Ajax.Updater('body', 'postback.php', {
+        parameters: { mode: 'updateAll', data: $('form').serialize(), submit: true }
+    });
+}
+
 function setLocation(str) {
     str += "&submit=true";
     document.location.hash = str;

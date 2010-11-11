@@ -25,6 +25,7 @@ $$(".choiceDD").each(function(a){hours+=Number(a.value.substr(-1))
 $("schedHours").innerHTML=hours
 }function updateAll(){new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:$("form").serialize(),submit:true}});
 setLocation($("form").serialize())
+}function updateAllNoCookie(){new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:$("form").serialize(),submit:true}})
 }function setLocation(a){a+="&submit=true";
 document.location.hash=a;
 campus="MAIN";

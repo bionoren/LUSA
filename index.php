@@ -130,7 +130,7 @@
                         $('typeNonTraditional').observe('click', updateAll);
                         $('semesterSelect').observe('change', updateAll);
 						$('typeStudent').observe('click', updateAll);
-						$('typeProf').observe('click', updateAll);
+						$('typeProf').observe('click', updateAllNoCookie);
                         //-->
                     </script>
                 </div>
