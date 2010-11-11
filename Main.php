@@ -374,18 +374,6 @@
         }
 
         /**
-         * Prints javascript that builds a hash table of classes to use in the class selection dropdowns.
-         *
-         * @return VOID
-         */
-        public function printHeaderJS() {
-            print "var classes = new Array();\n";
-            foreach($this->selectedChoices as $choice) {
-                print 'classes.push('.$choice.')';
-            }
-        }
-
-        /**
          * Prints options for a SELECT block with all available semesters.
          *
          * @return VOID
