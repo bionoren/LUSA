@@ -28,7 +28,7 @@ function selectCampusTrigger(event) {
 function departmentSelected(uid, semester) {
     if($('choice'+uid).empty()) {
         new Ajax.Updater('classDropdowns', 'postback.php', {
-            parameters: { mode: 'createClassDropdown', data: $('form').serialize() },
+            parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true },
             insertion: 'bottom'
         });
     }
@@ -54,7 +54,7 @@ function courseSelected(ele) {
     new Ajax.Updater('schedule', 'postback.php', {
         parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
     });
-    document.location.hash = $('form').serialize()
+    setLocation($('form').serialize());
 
     updateHours();
 }
@@ -69,7 +69,17 @@ function updateHours() {
 
 function updateAll() {
     new Ajax.Updater('body', 'postback.php', {
-        parameters: { mode: 'updateAll', data: $('form').serialize() }
+        parameters: { mode: 'updateAll', data: $('form').serialize(), submit: true }
     });
-    document.location.hash = $('form').serialize()
+    setLocation($('form').serialize())
+}
+
+function setLocation(str) {
+    str += "&submit=true";
+    document.location.hash = str;
+    campus = "MAIN";
+    if($('campusSelect')) {
+        campus = $('campusSelect').value;
+    }
+    document.cookie = $('semesterSelect').value+Number($('typeTraditional').checked)+campus+"="+str;
 }

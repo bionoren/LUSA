@@ -132,15 +132,14 @@
          */
         public function printClassDropdowns() {
             print '<div id="classDropdowns">';
-                $i = 0;
                 if(Main::haveSelections()) {
                     foreach($this->getSelectedChoices() as $choice) {
-                        $this->printClassDropdown($i++, substr($choice, 0, 4), $choice);
+                        $this->printClassDropdown(substr($choice, 0, 4), $choice);
                     }
                 }
 
                 //show an extra empty department dropdown
-                $this->printClassDropdown($i++);
+                $this->printClassDropdown();
             print '</div>';
         }
 
