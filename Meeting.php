@@ -60,6 +60,7 @@
          * @param $meeting SimpleXMLElement - XML describing the meeting information.
          * @param $campus STRING - Name of the campus this meeting is at.
 		 * @param $campusBitMask INTEGER - Bit string value for the given campus
+		 * @param $title STRING - The name of the class this meeting is for.
 		 * @return VOID
          */
         public function __construct(SimpleXMLElement $meeting, $campus, $campusBitMask, $title) {
