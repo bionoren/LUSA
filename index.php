@@ -27,7 +27,7 @@
 			$_SERVER["QUERY_STRING"] = $_COOKIE[Main::getCookieName()];
 			$tmp = array();
 			parse_str($_SERVER["QUERY_STRING"], $tmp);
-			$_REQUEST = array_merge($_REQUEST, $tmp);
+			$_REQUEST = array_merge($tmp, $_REQUEST);
 			Main::init();
         }
     }
@@ -120,8 +120,8 @@
                         $('typeTraditional').observe('click', updateAll);
                         $('typeNonTraditional').observe('click', updateAll);
                         $('semesterSelect').observe('change', updateAll);
-						$('typeStudent').observe('click', updateAll);
-						$('typeProf').observe('click', updateAllNoCookie);
+						$('typeStudent').observe('click', updateAllFromCookie);
+						$('typeProf').observe('click', updateAllProf);
                         //-->
                     </script>
                 </div>

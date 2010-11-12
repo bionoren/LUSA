@@ -67,17 +67,25 @@ function updateHours() {
     $('schedHours').innerHTML = hours;
 }
 
-function updateAll() {
+function updateAll(noLocationUpdate, data) {
+    if(!data) {
+        data = $('form').serialize();
+    }
     new Ajax.Updater('body', 'postback.php', {
-        parameters: { mode: 'updateAll', data: $('form').serialize(), submit: true }
+        parameters: { mode: 'updateAll', data: data, submit: true }
     });
-    setLocation($('form').serialize())
+    if(!noLocationUpdate) {
+        alert("setting location with "+noLocationUpdate);
+        setLocation($('form').serialize())
+    }
 }
 
-function updateAllNoCookie() {
-    new Ajax.Updater('body', 'postback.php', {
-        parameters: { mode: 'updateAll', data: $('form').serialize(), submit: true }
-    });
+function updateAllFromCookie() {
+    updateAll(true, document.cookie);
+}
+
+function updateAllProf() {
+    updateAll(true);
 }
 
 function setLocation(str) {
