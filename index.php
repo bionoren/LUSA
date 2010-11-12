@@ -114,10 +114,6 @@
 								<label for="semesterSelect" style="display:none;">Select Semester</label>
                             </div>
                         </li>
-<!--                        <li>
-                            <input type="checkbox" name="showBooks" id="showBooks" <?php if($main->showBooks()) print "checked"; ?>/>
-                            <label for="showBooks">Bookstore Links</label>
-                        </li>-->
                     </ul>
 					<script type="text/javascript">
                         <!--

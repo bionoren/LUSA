@@ -20,7 +20,6 @@
         public function __construct() {
             parent::__construct();
 
-            Course::generateQS();
             if(isset($_REQUEST["prof"])) {
                 $this->prof = $_REQUEST["prof"];
             }
@@ -94,9 +93,6 @@
                     }
                 print '</select>';
                 print '<label for="profDD" style="display:none;">Professor selection dropdown</label>';
-                if($this->hasError($choice)) {
-                    print '<span style="color:red;">Sorry, this prof isn\'t teaching anything at this campus this semester</span>';
-                }
             print '</div>';
         }
     }
