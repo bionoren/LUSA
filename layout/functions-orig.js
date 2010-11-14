@@ -9,16 +9,19 @@ function selectChange(semester, department, uid) {
 }
 
 items = new Hash();
-function selectClass(course, str, QS) {
-    if(course != null) {
-        items.set(course, str);
+function selectClass(id, uid, str, QS) {
+    if(uid != null) {
+        items.set(id, str);
     }
     var url = "print.php?"+QS;
+    var filterStr = "";
     items.each(function(pair) {
         url += "~"+pair.value;
+        filterStr += "&cf[]="+uid;
     });
     $('scheduleImg').src = url;
     $('printer').href = url;
+    setLocation($('form').serialize()+filterStr)
 }
 
 function selectCampusTrigger(event) {

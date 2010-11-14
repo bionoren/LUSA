@@ -126,8 +126,9 @@
             Main::$traditional = !isset($_REQUEST["type"]) || $_REQUEST["type"] != "non";
 			Main::$student = !isset($_REQUEST["role"]) || $_REQUEST["role"] == "student";
             Main::$campus = (isset($_REQUEST["campus"]))?$_REQUEST["campus"]:"MAIN";
-//            $this->showBooks = isset($_REQUEST["showBooks"]) && $_REQUEST["showBooks"] == "on";
             Main::$submit = isset($_REQUEST["submit"]);
+
+			Student::init();
 		}
 
 		/**

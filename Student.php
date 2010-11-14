@@ -9,6 +9,9 @@
      * @version 1.0
      */
     class Student extends Main {
+        /** ARRAY Array of filters to keep classes - of the form keepFilter[classID] = [sectionNumber]. */
+        protected static $keepFilter = array();
+
         /** ARRAY Sorted array of the form classes[dept][classUID] = [Course]. */
         protected $classes = array();
         /** MIXED Numeric array of course objects for the currently selected courses or an error string. */
@@ -19,8 +22,6 @@
         protected $errors = array();
         /** INTEGER The total number of hours for the selected classes. */
         protected $hours = 0;
-        /** ARRAY Array of filters to keep classes - of the form keepFilter[classID] = [sectionNumber]. */
-        protected $keepFilter = array();
         /** ARRAY Associative array of selected classes (DEPT). */
         protected $selectedClasses = array();
         /** ARRAY Associative array of selected courses (DEPT####). */
@@ -34,7 +35,6 @@
         public function __construct() {
             parent::__construct();
 
-            $this->keepFilter = $this->getChosenClasses();
             //removes duplicate entries
             if(isset($_REQUEST["class"])) {
                 $this->selectedClasses = array_filter($_REQUEST["class"]);
@@ -146,7 +146,7 @@
          *
          * @return ARRAY Classes that should be selected.
          */
-        protected function getChosenClasses() {
+        protected static function getChosenClasses() {
             $classFilter = array();
             if(isset($_REQUEST["cf"])) {
 				foreach($_REQUEST["cf"] as $req) {
@@ -207,6 +207,15 @@
         }
 
         /**
+		 * Sets up static environment variables.
+		 *
+		 * @return VOID
+		 */
+        public static function init() {
+            Student::$keepFilter = Student::getChosenClasses();
+        }
+
+        /**
          * Returns an array of the unique selected courses.
          *
          * @return ARRAY
@@ -240,8 +249,8 @@
          * @param $class COURSE - Class to evaluate.
          * @return BOOLEAN True if kept.
          */
-        protected function isKept(Course $class) {
-            return !isset($this->keepFilter[$class->getID()]) || $this->keepFilter[$class->getID()] == $class->getUID();
+        public static function isKept(Course $class) {
+            return !isset(Student::$keepFilter[$class->getID()]) || Student::$keepFilter[$class->getID()] == $class->getUID();
         }
 
         /**
@@ -325,9 +334,6 @@
 			//generate select option values for display later
             $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
             foreach($data as $class) {
-                if(!$this->isKept($class)) {
-                    continue;
-                }
                 $course = substr($class->getID(), 0, 4);
                 $this->classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
                 $this->classes[$course][$class->getID()][] = $class;

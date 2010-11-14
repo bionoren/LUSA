@@ -106,7 +106,12 @@
 					print '</td>';
 					print '<td style="width:auto;" headers="classHeader">';
 						if(!$this->isSpecial()) {
-							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->section."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
+							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->section."' onclick=\"selectClass('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"";
+							if(Student::isKept($this)) {
+								Schedule::$common[] = $this;
+								print ' checked="checked"';
+							}
+							print "/>";
 							print "<label for='select".$this->getUID()."'>Choose</label>";
 						}
 					print "</td>";
