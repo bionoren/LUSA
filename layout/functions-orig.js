@@ -1,4 +1,26 @@
 //java -jar yuicompressor-2.4.2.jar --type js -o functions.js --line-break 0 functions-orig.js
+
+/**
+ * Toggles the visibility of class sections in the class defined by key.
+ *
+ * @param key STRING Class ID of the form DEPT-####
+ * @return VOID
+ */
+function createJSToggle(key) {
+    sections = $$('.'+key);
+    tmp = sections.first();
+    if(tmp.style.visibility == "visible") {
+        state = "collapse";
+        $(key).innerHTML = "+";
+    } else {
+        state = "visible";
+        $(key).innerHTML = "-";
+    }
+    sections.each(function(section) {
+        section.style.visibility = state;
+    });
+}
+
 /**
  * Displays a new class selection dropdown and focuses it.
  *

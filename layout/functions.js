@@ -1,4 +1,12 @@
-function selectChange(a,b){if(a!=0){new Ajax.Updater("classChoice"+b,"postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize(),submit:true,department:a,selection:"----"}});
+function createJSToggle(a){sections=$$("."+a);
+tmp=sections.first();
+if(tmp.style.visibility=="visible"){state="collapse";
+$(a).innerHTML="+"
+}else{state="visible";
+$(a).innerHTML="-"
+}sections.each(function(b){b.style.visibility=state
+})
+}function selectChange(a,b){if(a!=0){new Ajax.Updater("classChoice"+b,"postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize(),submit:true,department:a,selection:"----"}});
 $("choice"+b).focus()
 }}items=new Hash();
 function selectClass(f,c,d,a){if(f!=null){items.set(f,d)

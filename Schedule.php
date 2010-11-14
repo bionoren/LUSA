@@ -24,25 +24,6 @@
 		public static $common = array();
 
         /**
-         * Creates the javascript to show/hide a set of optional classes.
-         *
-         * @param $sections ARRAY - List of class sections in this optional list.
-         * @param $key STRING - Class ID for these sections.
-         * @return STRING Javascript text.
-         */
-        protected static function createJSToggle(array $sections, $key) {
-            $ret = 'state = "visible";';
-            $ret .= 'if($("'.current($sections)->getUID().'0").style.visibility == "visible") { state = "collapse"; }';
-            $ret .= 'if(state == "visible") { $("'.$key.'").innerHTML = "-"; } else { $("'.$key.'").innerHTML = "+"; }';
-            foreach($sections as $section) {
-				for($i = 0; $i < $section->getNumMeetings(); $i++) {
-	                $ret .= '$("'.$section->getUID().$i.'").style.visibility = state;';
-				}
-            }
-            return $ret;
-        }
-
-        /**
          * Displays the given schedules.
          *
          * @param $classes ARRAY - List of lists of classes.
@@ -51,7 +32,6 @@
         public static function display(array $classes) {
             $span = (Main::isTraditional())?7:9;
             //make classes show up in a pretty order
-//            usort($classes, array("Course", "classSort"));
             print '<table class="full border">';
                 print '<tr>';
                     if(Main::isTraditional()) {
@@ -86,9 +66,9 @@
 					foreach($classes as $sections) {
 						if(count($sections) > 1) {
 							$key = current($sections)->getID();
-							print "<tr style='cursor:pointer;' onclick='".Schedule::createJSToggle($sections, $key)."'><td><span id='".$key."'>+</span> ".$key."</td><td colspan='".($span-1)."'>".current($sections)->getTitle()." (".count($sections).")</td></tr>\n";
+							print '<tr style="cursor:pointer;" onclick="createJSToggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
 							foreach($sections as $section) {
-								print $section->display(true)."\n";
+								print $section->display(true);
 							}
 						}
 					}
