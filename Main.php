@@ -55,7 +55,6 @@
          * Initializes all the class variables.
          */
         public function __construct() {
-			Course::generateQS();
         }
 
 		/**

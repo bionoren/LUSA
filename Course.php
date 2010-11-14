@@ -22,9 +22,6 @@
      * @version 3.0
      */
     class Course {
-        /** STRING Stores a cache of the querystring. */
-        public static $QS = "";
-
         //course specific
         /** STRING Course ID of the form DEPT-####. */
         protected $courseID;
@@ -143,24 +140,6 @@
 				$this->special = $this->special && $meeting->isSpecial();
 			}
 		}
-
-		/**
-		 * Generates the URL prefix querystring to use for classes.
-		 *
-		 * @return VOID
-		 */
-        public static function generateQS() {
-            $qString = $_SERVER["PHP_SELF"]."?";
-            foreach(array_diff($_REQUEST, $_COOKIE) as $key=>$val) {
-                if(is_array($val)) {
-                    $qString .= $key."[]=".implode("&amp;".$key."[]=", $val)."&amp;";
-                } else {
-                    $qString .= $key."=".$val."&amp;";
-                }
-            }
-            $qString = str_replace(" ", "%%20", $qString);
-            Course::$QS = $qString;
-        }
 
 		/**
 		 * Returns the correct CSS style to use for this class' background.
