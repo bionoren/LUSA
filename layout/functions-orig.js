@@ -22,7 +22,7 @@ function selectClass(id, uid, str, QS) {
 }
 
 function selectCampusTrigger(event) {
-    updateAll();
+    updateAll(false);
 }
 
 function departmentSelected(uid, semester) {
@@ -75,13 +75,27 @@ function updateAll(noLocationUpdate, data) {
         parameters: { mode: 'updateAll', data: data, submit: true }
     });
     if(!noLocationUpdate) {
-        alert("setting location with "+noLocationUpdate);
         setLocation($('form').serialize())
     }
 }
 
 function updateAllFromCookie() {
-    updateAll(true, document.cookie);
+    updateAll(true, getCookie(getCookieName()));
+}
+
+function getCookie(c_name) {
+    if (document.cookie.length>0) {
+        c_start=document.cookie.indexOf(c_name + "=");
+        if (c_start!=-1) {
+            c_start=c_start + c_name.length+1;
+            c_end=document.cookie.indexOf(";",c_start);
+            if (c_end==-1) {
+                c_end=document.cookie.length;
+            }
+            return unescape(document.cookie.substring(c_start,c_end));
+        }
+    }
+return "";
 }
 
 function updateAllProf() {
@@ -91,9 +105,13 @@ function updateAllProf() {
 function setLocation(str) {
     str += "&submit=true";
     document.location.hash = str;
+    document.cookie = getCookieName()+"="+str;
+}
+
+function getCookieName() {
     campus = "MAIN";
     if($('campusSelect')) {
         campus = $('campusSelect').value;
     }
-    document.cookie = $('semesterSelect').value+Number($('typeTraditional').checked)+campus+"="+str;
+    return $('semesterSelect').value+Number($('typeTraditional').checked)+campus;
 }
