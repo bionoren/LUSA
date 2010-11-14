@@ -101,17 +101,13 @@
             }
             print '>';
 				if($optional) {
-					$qstring = Course::$QS.'%sf[]='.$this->getUID().'&amp;submit=Filter';
-					$filterLink = '<a href="'.$qstring.'" style="color:blue; text-decoration:underline;"><strong>%s</strong></a>';
 					print '<td headers="classHeader">';
-						printf($filterLink, "c", "Choose");
-						print ' or ';
-						printf($filterLink, "r", "Remove");
+						print "&nbsp;";
 					print '</td>';
 					print '<td style="width:auto;" headers="classHeader">';
 						if(!$this->isSpecial()) {
 							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->section."' onclick=\"selectClass('".$this->getID()."', '".$this->getPrintQS()."', '".Schedule::getPrintQS(Schedule::$common)."');\"/>";
-							print "<label for='select".$this->getUID()."'>Preview</label>";
+							print "<label for='select".$this->getUID()."'>Choose</label>";
 						}
 					print "</td>";
 				} else {

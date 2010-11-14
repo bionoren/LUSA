@@ -21,8 +21,6 @@
         protected $hours = 0;
         /** ARRAY Array of filters to keep classes - of the form keepFilter[classID] = [sectionNumber]. */
         protected $keepFilter = array();
-        /** ARRAY Array of filters to remove classes - of the form removeFilter[classUID]*/
-        protected $removeFilter = array();
         /** ARRAY Associative array of selected classes (DEPT). */
         protected $selectedClasses = array();
         /** ARRAY Associative array of selected courses (DEPT####). */
@@ -37,7 +35,6 @@
             parent::__construct();
 
             $this->keepFilter = $this->getChosenClasses();
-            $this->removeFilter = $this->getRemovedClasses();
             //removes duplicate entries
             if(isset($_REQUEST["class"])) {
                 $this->selectedClasses = array_filter($_REQUEST["class"]);
@@ -210,19 +207,6 @@
         }
 
         /**
-		 * Returns a list of classes that are removed by filters
-		 *
-		 * @return ARRAY List of removed class identifiers.
-		 */
-        protected function getRemovedClasses() {
-            $classFilter = array();
-            if(isset($_REQUEST["rf"])) {
-                $classFilter = array_fill_keys($_REQUEST["rf"], true);
-            }
-            return $classFilter;
-        }
-
-        /**
          * Returns an array of the unique selected courses.
          *
          * @return ARRAY
@@ -258,16 +242,6 @@
          */
         protected function isKept(Course $class) {
             return !isset($this->keepFilter[$class->getID()]) || $this->keepFilter[$class->getID()] == $class->getUID();
-        }
-
-        /**
-         * Returns true if the given class is marked (by filters) to be removed from consideration in schedules.
-         *
-         * @param $class COURSE - Class to evaluate.
-         * @return BOOLEAN True if kept.
-         */
-        protected function isRemoved(Course $class) {
-            return isset($this->removeFilter[$class->getUID()]);
         }
 
         /**
@@ -351,7 +325,7 @@
 			//generate select option values for display later
             $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
             foreach($data as $class) {
-                if(!$this->isKept($class) || $this->isRemoved($class)) {
+                if(!$this->isKept($class)) {
                     continue;
                 }
                 $course = substr($class->getID(), 0, 4);
