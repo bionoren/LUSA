@@ -268,14 +268,14 @@
                 $tmp = $this->getClassGroups();
             }
             print '<div id="classChoice'.$uid.'" class="classDD">';
-                print '<select name="class[]" id="classDD'.$uid.'" onchange="departmentSelected(\''.$uid.'\', \''.Main::getSemester().'\')">';
+                print '<select name="class[]" id="classDD'.$uid.'" onchange="departmentSelected(\''.$uid.'\')">';
                     print '<option value="0">----</option>'.$tmp;
                 print '</select>';
                 print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
                 print '<div id="choice'.$uid.'" style="display:inline;">';
                     $populated = !empty($choice);
                     if($populated) {
-                        print '<select name="choice[]" id="choiceDD'.$uid.'" class="choiceDD" onchange="courseSelected(this)" >';
+                        print '<select name="choice[]" id="choiceDD'.$uid.'" class="choiceDD" onchange="courseSelected()" >';
                             print '<option value="0">----</option>';
                             foreach($classes[$class] as $key=>$sections) {
                                 print '<option value="'.$key.'"';
