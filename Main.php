@@ -14,7 +14,6 @@
 	 */
 
     require_once("Course.php");
-    require_once("Schedule.php");
     require_once("functions.php");
 
 	require_once("Student.php");

@@ -148,7 +148,7 @@
                     print '</table>';
                     print '<br/>';
                     print '<div style="text-align:center;">';
-                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS().'" height="880"/>';
+                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).'" height="880"/>';
                         print '<br/>';
                     print '</div>';
                 } else {
@@ -259,10 +259,10 @@
          * @return STRING Querystring for display.
          * @see print.php
          */
-        public static function getPrintQS() {
+        public static function getPrintQS(array $classes) {
             $ret = 'sem='.Main::getSemester().'&amp;trad='.Main::isTraditional().'&amp;classes=';
             $tmp = array();
-            foreach(Student::$common as $class) {
+            foreach($classes as $class) {
                 $tmp[] = $class->getPrintQS();
             }
             $ret .= implode("~", $tmp);

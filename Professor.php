@@ -50,7 +50,7 @@
             if($this->isSubmitted() && !empty($this->prof)) {
                 print '<h2>Schedule</h2>';
                 print '<div style="text-align:center;">';
-                    print '<img id="schedule" alt="Schedule" src="print.php?'.Schedule::getPrintQS($this->profClassList[$this->prof]).'" height="600"/>';
+                    print '<img id="schedule" alt="Schedule" src="print.php?'.Student::getPrintQS($this->profClassList[$this->prof]).'" height="600"/>';
                     print '<br/>';
                 print '</div>';
             }
