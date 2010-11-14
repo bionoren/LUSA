@@ -35,10 +35,10 @@
             print '<div class="print-no">';
                 print 'Select a professor: ';
                 $this->printProfDropdown($this->prof);
-                print '<br/>';
-                print '<input type="submit" name="submit" value="Show Schedule"/>';
             print '</div>';
-            $this->displaySchedule();
+            print '<div id="schedule" style="text-align:center;">';
+                $this->displaySchedules();
+            print '</div>';
         }
 
         /**
@@ -46,13 +46,11 @@
          *
          * @return VOID
          */
-        public function displaySchedule() {
+        public function displaySchedules() {
             if($this->isSubmitted() && !empty($this->prof)) {
                 print '<h2>Schedule</h2>';
-                print '<div style="text-align:center;">';
-                    print '<img id="schedule" alt="Schedule" src="print.php?'.Student::getPrintQS($this->profClassList[$this->prof]).'" height="600"/>';
-                    print '<br/>';
-                print '</div>';
+                print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS($this->profClassList[$this->prof]).'" height="600"/>';
+                print '<br/>';
             }
         }
 
@@ -83,7 +81,8 @@
          */
         public function printProfDropdown($choice=null) {
             print '<div id="profChoice">';
-                print '<select name="prof" id="profDD">';
+                print '<select name="prof" id="profDD" onchange="profSelected(this)">';
+                    print '<option value="0">----</option>';
                     foreach($this->profClassList as $prof=>$classes) {
                         print '<option value="'.$prof.'"';
                         if($choice == $prof) {

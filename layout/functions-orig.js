@@ -234,3 +234,11 @@ function getCookieName() {
 function setQS(newQS) {
     QS = newQS.replace(/&amp;/g, "&");
 }
+
+function profSelected(ele) {
+    if(!ele.empty()) {
+        new Ajax.Updater('schedule', 'postback.php', {
+            parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
+        });
+    }
+}
