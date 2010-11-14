@@ -9,6 +9,8 @@
      * @version 1.0
      */
     class Student extends Main {
+        /** ARRAY List of common classes in the schedule. */
+		public static $common = array();
         /** ARRAY Array of filters to keep classes - of the form keepFilter[classID] = [sectionNumber]. */
         protected static $keepFilter = array();
 
@@ -100,9 +102,53 @@
             if($this->isSubmitted() && Main::haveSelections()) {
                 if($this->hasNoErrors()) {
                     print '<h2>Schedule</h2>';
-                    Schedule::display($this->getCourses());
+                    $span = (Main::isTraditional())?7:9;
+                    //make classes show up in a pretty order
+                    print '<table class="full border">';
+                        print '<tr>';
+                            if(Main::isTraditional()) {
+                                Student::showTraditionalHeaders();
+                            } else {
+                                Student::showNonTraditionalHeaders();
+                            }
+                        print '</tr>';
+
+                        $noCommon = true;
+                        $haveOthers = false;
+                        foreach($this->getCourses() as $sections) {
+                            if(count($sections) == 1) {
+                                if($noCommon) {
+                                    $noCommon = false;
+                                    print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                                        print 'These are the only times you can take these classes:';
+                                    print '</td></tr>';
+                                }
+                                print $sections[0]->display()."\n";
+                                Student::$common[] = $sections[0];
+                            } else {
+                                $haveOthers = true;
+                            }
+                        }
+
+                        if($haveOthers) {
+                            print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                                print 'These classes have some options:';
+                            print '</td></tr>';
+
+                            foreach($this->getCourses() as $sections) {
+                                if(count($sections) > 1) {
+                                    $key = current($sections)->getID();
+                                    print '<tr style="cursor:pointer;" onclick="createJSToggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
+                                    foreach($sections as $section) {
+                                        print $section->display(true);
+                                    }
+                                }
+                            }
+                        }
+                    print '</table>';
+                    print '<br/>';
                     print '<div style="text-align:center;">';
-                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Schedule::getPrintQS(Schedule::$common).'" height="880"/>';
+                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS().'" height="880"/>';
                         print '<br/>';
                     print '</div>';
                 } else {
@@ -207,12 +253,21 @@
         }
 
         /**
-		 * Sets up static environment variables.
-		 *
-		 * @return VOID
-		 */
-        public static function init() {
-            Student::$keepFilter = Student::getChosenClasses();
+         * Returns the querystring used to generate a picture of the given classes.
+         *
+         * @param $classes ARRAY - List of classes to display.
+         * @return STRING Querystring for display.
+         * @see print.php
+         */
+        public static function getPrintQS() {
+            $ret = 'sem='.Main::getSemester().'&amp;trad='.Main::isTraditional().'&amp;classes=';
+            $tmp = array();
+            foreach(Student::$common as $class) {
+                $tmp[] = $class->getPrintQS();
+            }
+            $ret .= implode("~", $tmp);
+            $ret = str_replace(" ", "%20", $ret);
+            return $ret;
         }
 
         /**
@@ -251,6 +306,15 @@
          */
         public static function isKept(Course $class) {
             return !isset(Student::$keepFilter[$class->getID()]) || Student::$keepFilter[$class->getID()] == $class->getUID();
+        }
+
+        /**
+		 * Sets up static environment variables.
+		 *
+		 * @return VOID
+		 */
+        public static function init() {
+            Student::$keepFilter = Student::getChosenClasses();
         }
 
         /**
@@ -370,6 +434,40 @@
          */
         public function showBooks() {
             return $this->showBooks;
+        }
+
+        /**
+         * Prints headers for non-traditional classes.
+         *
+         * @return VOID
+         */
+        protected static function showNonTraditionalHeaders() {
+            ?>
+            <th colspan="2" id="classHeader">Class</th>
+			<th id="sectionHeader">Section</th>
+			<th id="campusHeader">Campus</th>
+            <th id="profHeader">Prof</th>
+            <th id="dateHeader">Dates</th>
+            <th id="dayHeader">Days</th>
+            <th id="timeHeader">Time</th>
+			<th id="registeredHeader">Registered/Size</th>
+            <?php
+        }
+
+        /**
+         * Prints headers for traditional classes.
+         *
+         * @return VOID
+         */
+        protected static function showTraditionalHeaders() {
+            ?>
+            <th colspan="2" id="classHeader">Class</th>
+			<th id="sectionHeader">Section</th>
+            <th id="profHeader">Prof</th>
+            <th id="dayHeader">Days</th>
+            <th id="timeHeader">Time</th>
+			<th id="registeredHeader">Registered/Size</th>
+            <?php
         }
     }
 ?>
