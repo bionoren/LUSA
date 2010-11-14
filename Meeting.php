@@ -181,7 +181,7 @@
                 $campus = $this->campusName;
                 print '<td headers="campusHeader">'.$campus.'</td>';
             }
-            print '<td headers="profHeader"><a href="'.$_SERVER["SCRIPT_NAME"].'?role=professor&prof='.$this->prof.'&submit=Submit">'.$this->prof.'</a></td>';
+            print '<td headers="profHeader"><a href="'.$_SERVER["SCRIPT_NAME"].'#role=professor&amp;prof='.$this->prof.'&amp;submit=Submit">'.$this->prof.'</a></td>';
             if($nontrad) {
                 print '<td headers="dateHeader">'.$this->startDayString.' - '.$this->endDayString.'</td>';
             }

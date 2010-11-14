@@ -14,7 +14,7 @@
 	 */
 
     /**
-     * Processes and displays a schedule.
+     * Displays a schedule.
      *
      * @author Bion Oren
      * @version 2
@@ -74,7 +74,7 @@
 					}
                 }
             print '</table>';
-			print '<br>';
+			print '<br/>';
         }
 
         /**
