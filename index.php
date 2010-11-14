@@ -55,7 +55,7 @@
         <script type="text/javascript" src="layout/prototype.js"></script>
         <script type="text/javascript" src="layout/functions-orig.js"></script>
     </head>
-    <body lang="en">
+    <body lang="en" onload="selectClass()">
         <!--LUSA 2: A Dorm 41 Production-->
         <!--Developed by: Wharf-->
         <!--Design by: Shutter-->
@@ -137,5 +137,8 @@
                 </ul>
             </div>
         </div>
+		<script type="text/javascript">
+			setQS("<?php print Student::getPrintQS(Student::$common); ?>");
+		</script>
     </body>
 </html>

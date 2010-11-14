@@ -260,14 +260,14 @@
          * @see print.php
          */
         public static function getPrintQS(array $classes) {
-            $ret = 'sem='.Main::getSemester().'&amp;trad='.Main::isTraditional().'&amp;classes=';
+            $ret = 'sem='.Main::getSemester().'&trad='.Main::isTraditional().'&classes=';
             $tmp = array();
             foreach($classes as $class) {
                 $tmp[] = $class->getPrintQS();
             }
             $ret .= implode("~", $tmp);
-            $ret = str_replace(" ", "%20", $ret);
-            return $ret;
+            //return $ret;
+            return htmlspecialchars($ret);
         }
 
         /**

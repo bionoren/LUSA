@@ -79,7 +79,7 @@
         }
     }
 
-    header('Content-type: image/gif');
+	header('Content-type: image/gif');
     $imgWidth = 670;
     $imgHeight = 880;
     //taken from the WINE project

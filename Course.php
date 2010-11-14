@@ -103,7 +103,7 @@
 					print '</td>';
 					print '<td style="width:auto;" headers="classHeader">';
 						if(!$this->isSpecial()) {
-							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->section."' onclick=\"selectClass('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."', '".Student::getPrintQS(Student::$common)."');\"";
+							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->section."' onclick=\"selectClass('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."');\"";
 							if(Student::isKept($this)) {
 								print ' checked="checked"';
 							}
@@ -111,6 +111,11 @@
 							print "<label for='select".$this->getUID()."'>Choose</label>";
 						}
 					print "</td>";
+					if(!$this->isSpecial() && Student::isKept($this)) {
+						print '<script type="text/javascript">';
+							print "setClassInfo('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."');";
+						print '</script>';
+					}
 				} else {
 					print '<td headers="classHeader">'.$this->getID().'</td>';
 					print '<td headers="classHeader">'.$this->title.'</td>';
@@ -223,7 +228,7 @@
 			foreach($this->meetings as $meeting) {
 				$ret[] = $meeting->getPrintQS();
 			}
-			return rawurlencode(htmlspecialchars_decode(implode("~", $ret)));
+			return implode("~", $ret);
         }
 
 		/**

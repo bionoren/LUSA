@@ -38,6 +38,22 @@ function selectChange(department, uid) {
 }
 
 items = new Hash();
+QS = "";
+/**
+ * Sets class information in the items hash.
+ * NOTE: Requires a global items hash (above)
+ *
+ * @param id STRING - ID of the class
+ * @param uid STRING - Unique ID of the class section
+ * @param str STRING - The class info prepped for the print script
+ * @return VOID
+ */
+function setClassInfo(id, uid, str) {
+    if(id != null) {
+        items.set(id, [str, uid]);
+    }
+}
+
 /**
  * Updates the schedule preview to include the given selection
  * NOTE: Requires a global items hash (above)
@@ -45,18 +61,15 @@ items = new Hash();
  * @param id STRING - ID of the class
  * @param uid STRING - Unique ID of the class section
  * @param str STRING - The class info prepped for the print script
- * @param QS STRING - Any variables to prepend to the print request
  * @return VOID
  */
-function selectClass(id, uid, str, QS) {
-    if(id != null) {
-        items.set(id, str);
-    }
+function selectClass(id, uid, str) {
+    setClassInfo(id, uid, str);
     var url = "print.php?"+QS;
     var filterStr = "";
     items.each(function(pair) {
-        url += "~"+pair.value;
-        filterStr += "&cf[]="+uid;
+        url += "~"+pair.value[0];
+        filterStr += "&cf[]="+pair.value[1];
     });
     $('scheduleImg').src = url;
     setLocation($('form').serialize()+filterStr)
@@ -210,4 +223,14 @@ function getCookieName() {
         campus = $('campusSelect').value;
     }
     return $('semesterSelect').value+Number($('typeTraditional').checked)+campus;
+}
+
+/**
+ * Sets a static Query String variable with common class information.
+ *
+ * @param newQS STRING New query string.
+ * @return VOID
+ */
+function setQS(newQS) {
+    QS = newQS.replace(/&amp;/g, "&");
 }
