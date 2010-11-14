@@ -94,8 +94,7 @@
 					}
                 }
             print '</table>';
-            print '<br/>';
-            print '<a href="print.php?'.Schedule::getPrintQS(Schedule::$common).'" id="printer" class="print-no">Printer Friendly</a>';
+			print '<br>';
         }
 
         /**
