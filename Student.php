@@ -14,7 +14,7 @@
         /** ARRAY Array of filters to keep classes - of the form keepFilter[classID] = [sectionNumber]. */
         protected static $keepFilter = array();
 
-        /** ARRAY Sorted array of the form classes[dept][classUID] = [Course]. */
+        /** ARRAY Sorted array of the form classes[dept][classID][] = [Course]. */
         protected $classes = array();
         /** MIXED Numeric array of course objects for the currently selected courses or an error string. */
         protected $courses = array();
@@ -148,7 +148,17 @@
                     print '</table>';
                     print '<br/>';
                     print '<div style="text-align:center;">';
-                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).'" height="880"/>';
+                        $extra = array();
+                        foreach(Student::$keepFilter as $uid) {
+                            $dept = substr($uid, 0, 4);
+                            $id = substr($uid, 0, 9);
+                            $extra[] = $this->classes[$dept][$id][array_search($uid, $this->classes[$dept][$id])]->getPrintQS();
+                        }
+                        $extra = implode("~", $extra);
+                        if(!empty($extra)) {
+                            $extra = "~".$extra;
+                        }
+                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="880"/>';
                         print '<br/>';
                     print '</div>';
                 } else {
