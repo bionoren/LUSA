@@ -22,8 +22,8 @@ setLocation($("form").serialize()+d)
 }function selectCampusTrigger(a){updateAll(false)
 }function departmentSelected(a){if($("choice"+a).empty()){new Ajax.Updater("classDropdowns","postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize(),submit:true},insertion:"bottom"})
 }if($("classDD"+a).value=="0"){blanks=false;
-$$(".classDD").each(function(b){if(blanks&&b.firstChild.value=="0"){b.remove()
-}else{if(!b.firstChild||b.firstChild.value=="0"){blanks=true
+$$(".classDD").each(function(b){if(blanks&&b.firstChild&&b.firstChild.value=="0"){b.remove()
+}else{if(b.firstChild&&b.firstChild.value=="0"){blanks=true
 }}});
 if($("choice"+a)){$("choice"+a).innerHTML=""
 }}else{selectChange($("classDD"+a).value,a)

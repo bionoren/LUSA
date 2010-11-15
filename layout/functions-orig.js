@@ -100,9 +100,9 @@ function departmentSelected(uid) {
     if($('classDD'+uid).value == "0") {
         blanks = false;
         $$('.classDD').each(function(ele) {
-            if(blanks && ele.firstChild.value == "0") {
+            if(blanks && ele.firstChild && ele.firstChild.value == "0") {
                 ele.remove();
-            } else if(!ele.firstChild || ele.firstChild.value == "0") {
+            } else if(ele.firstChild && ele.firstChild.value == "0") {
                 blanks = true;
             }
         });
