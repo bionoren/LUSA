@@ -109,13 +109,11 @@
 							}
 							print "/>";
 							print "<label for='select".$this->getUID()."'>Choose</label>";
+							print '<script type="text/javascript">';
+								print "setClassInfo('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."');";
+							print '</script>';
 						}
 					print "</td>";
-					if(!$this->isSpecial() && Student::isKept($this)) {
-						print '<script type="text/javascript">';
-							print "setClassInfo('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."');";
-						print '</script>';
-					}
 				} else {
 					print '<td headers="classHeader">'.$this->getID().'</td>';
 					print '<td headers="classHeader">'.$this->title.'</td>';

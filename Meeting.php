@@ -256,7 +256,7 @@
          * @return STRING Formatted course time information.
          */
         public function getPrintQS() {
-            return implode("::", array($this->days,$this->startTime,$this->endTime,$this->room,$this->title));
+            return implode("::", array($this->days,$this->startTime,$this->endTime,$this->room,urlencode($this->title)));
         }
 
         /**
