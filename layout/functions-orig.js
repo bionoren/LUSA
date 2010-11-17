@@ -3,7 +3,7 @@
 /**
  * Toggles the visibility of class sections in the class defined by key.
  *
- * @param key STRING Class ID of the form DEPT-####
+ * @param key STRING - Class ID of the form DEPT-####
  * @return VOID
  */
 function createJSToggle(key) {
@@ -31,14 +31,15 @@ function createJSToggle(key) {
 function selectChange(department, uid) {
     if(department != 0) {
         new Ajax.Updater('classChoice'+uid, 'postback.php', {
-            parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true, department: department, selection: '----' }
+            parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true, department: department, selection: '----' },
+            onComplete: function() {
+                $('choice'+uid).focus();
+            }
         });
-        $('choice'+uid).focus();
     }
 }
 
 items = new Hash();
-QS = "";
 /**
  * Sets class information in the items hash.
  * NOTE: Requires a global items hash (above)
@@ -65,13 +66,15 @@ function setClassInfo(id, uid, str) {
  */
 function selectClass(id, uid, str) {
     setClassInfo(id, uid, str);
-    var url = "print.php?"+QS;
+    var url = "print.php?sem="+$('semesterSelect').value+"&trad="+$('typeTraditional').value+"&classes=";
     var filterStr = "";
     items.each(function(pair) {
         url += "~"+pair.value[0];
         filterStr += "&cf[]="+pair.value[1];
     });
-    $('scheduleImg').src = url;
+    if($('scheduleImg')) {
+        $('scheduleImg').src = url;
+    }
     setLocation($('form').serialize()+filterStr)
 }
 
@@ -87,7 +90,7 @@ function selectCampusTrigger(event) {
 /**
  * Called when a department dropdown is selected.
  *
- * @param uid The unique ID of the department dropdown.
+ * @param uid STRING - The unique ID of the department dropdown.
  * @return VOID
  */
 function departmentSelected(uid) {
@@ -99,10 +102,10 @@ function departmentSelected(uid) {
     }
     if($('classDD'+uid).value == "0") {
         blanks = false;
-        $$('.classDD').each(function(ele) {
-            if(blanks && ele.firstChild.value == "0") {
+        ($$('.classDD').reverse()).each(function(ele) {
+            if(blanks && ele.firstChild && ele.firstChild.value == "0") {
                 ele.remove();
-            } else if(!ele.firstChild || ele.firstChild.value == "0") {
+            } else if(ele.firstChild && ele.firstChild.value == "0") {
                 blanks = true;
             }
         });
@@ -122,11 +125,13 @@ function departmentSelected(uid) {
  */
 function courseSelected() {
     new Ajax.Updater('schedule', 'postback.php', {
-        parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
+        parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true },
+        evalScripts: true,
+        onComplete: function() {
+            setLocation($('form').serialize());
+            updateHours();
+        }
     });
-    setLocation($('form').serialize());
-
-    updateHours();
 }
 
 /**
@@ -145,36 +150,34 @@ function updateHours() {
 /**
  * Updates everything.
  *
- * @param noLocationUpdate BOOLEAN If false, updates the url.
- * @param data Optional data to send instead of the serialized form.
+ * @param update BOOLEAN - If true, updates the url.
+ * @param data STRING - Optional data to send instead of the serialized form.
  * @return VOID
  */
-function updateAll(noLocationUpdate, data) {
-    if(!data) {
+function updateAll(event) {
+    update = this['do'];
+    //try getting data from the parameter, falling back to the cookie, falling back to the form
+    if(update) {
+        foo = function() {
+            setLocation($('form').serialize())
+        }
+        data = getCookie(getCookieName());
+    } else {
+        foo = function () {}
         data = $('form').serialize();
     }
-    new Ajax.Updater('body', 'postback.php', {
-        parameters: { mode: 'updateAll', data: data, submit: true }
-    });
-    if(!noLocationUpdate) {
-        setLocation($('form').serialize())
-    }
-}
 
-/**
- * Updates everything with no location update from cookie data.
- *
- * @return VOID
- */
-function updateAllFromCookie() {
-    updateAll(true, getCookie(getCookieName()));
+    new Ajax.Updater('body', 'postback.php', {
+        parameters: { mode: 'updateAll', data: data, submit: true },
+        onComplete: foo
+    });
 }
 
 /**
  * Returns the contents of the named cookie.
  *
- * @param c_name STRING Name of the cookie to get data for.
- * @return STRING Cookie contents.
+ * @param c_name STRING - Name of the cookie to get data for.
+ * @return STRING - Cookie contents.
  */
 function getCookie(c_name) {
     if (document.cookie.length>0) {
@@ -192,15 +195,6 @@ function getCookie(c_name) {
 }
 
 /**
- * Updates everything without updating the current location.
- *
- * @return VOID
- */
-function updateAllProf() {
-    updateAll(true);
-}
-
-/**
  * Sets the user's current location in the URL and in a cookie.
  *
  * @param str STRING - the new location.
@@ -215,7 +209,7 @@ function setLocation(str) {
 /**
  * Returns the name of the cookie currently storing user data.
  *
- * @return STRING cookie name.
+ * @return STRING - cookie name.
  */
 function getCookieName() {
     campus = "MAIN";
@@ -226,15 +220,11 @@ function getCookieName() {
 }
 
 /**
- * Sets a static Query String variable with common class information.
+ * Called when a professor is selected
  *
- * @param newQS STRING New query string.
+ * @param ele OBJECT - The select dropdown that was changed
  * @return VOID
  */
-function setQS(newQS) {
-    QS = newQS.replace(/&amp;/g, "&");
-}
-
 function profSelected(ele) {
     if(!ele.empty()) {
         new Ajax.Updater('schedule', 'postback.php', {

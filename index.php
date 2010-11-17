@@ -117,11 +117,11 @@
                     </ul>
 					<script type="text/javascript">
                         <!--
-                        $('typeTraditional').observe('click', updateAll);
-                        $('typeNonTraditional').observe('click', updateAll);
-                        $('semesterSelect').observe('change', updateAll);
-						$('typeStudent').observe('click', updateAllFromCookie);
-						$('typeProf').observe('click', updateAllProf);
+                        $('typeTraditional').observe('click', updateAll.bindAsEventListener({'do': true}));
+                        $('typeNonTraditional').observe('click', updateAll.bindAsEventListener({'do': true}));
+                        $('semesterSelect').observe('change', updateAll.bindAsEventListener({'do': true}));
+						$('typeStudent').observe('click', updateAll.bindAsEventListener({'do': true}));
+						$('typeProf').observe('click', updateAll.bindAsEventListener({'do': false}));
                         //-->
                     </script>
                 </div>
@@ -137,8 +137,5 @@
                 </ul>
             </div>
         </div>
-		<script type="text/javascript">
-			setQS("<?php print Student::getPrintQS(Student::$common); ?>");
-		</script>
     </body>
 </html>

@@ -111,21 +111,22 @@
 							print "<label for='select".$this->getUID()."'>Choose</label>";
 						}
 					print "</td>";
-					if(!$this->isSpecial() && Student::isKept($this)) {
-						print '<script type="text/javascript">';
-							print "setClassInfo('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."');";
-						print '</script>';
-					}
 				} else {
 					print '<td headers="classHeader">'.$this->getID().'</td>';
 					print '<td headers="classHeader">'.$this->title.'</td>';
 				}
+				print '<script type="text/javascript">';
+					print "setClassInfo('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."');";
+				print '</script>';
                 print '<td headers="sectionHeader">'.$this->section.'</td>';
                 $this->meetings[0]->display(!$this->trad);
                 print '<td headers="registeredHeader">'.$this->currentRegistered.'/'.$this->maxRegisterable.'</td>';
 			print '</tr>';
             for($i = 1; $i < count($this->meetings); $i++) {
-                print '<tr id="'.$this->getUID().$i.'" class="'.$this->getBackgroundStyle().'"';
+                print '<tr id="'.$this->getUID().$i.'" class="'.$this->getBackgroundStyle().' '.$this->getID().'"';
+					if($optional) {
+						print ' style="visibility:collapse;"';
+					}
                     print '>';
                     print '<td colspan="3">&nbsp;</td>';
                     $this->meetings[$i]->display(!$this->trad);
