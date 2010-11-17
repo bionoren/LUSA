@@ -120,8 +120,8 @@
                         $('typeTraditional').observe('click', updateAll.bindAsEventListener(true));
                         $('typeNonTraditional').observe('click', updateAll.bindAsEventListener(true));
                         $('semesterSelect').observe('change', updateAll.bindAsEventListener(true));
-						$('typeStudent').observe('click', updateAll.bindAsEventListener(true, getCookie(getCookieName())));
-						$('typeProf').observe('click', updateAll.bindAsEventListener(false));
+						$('typeStudent').observe('click', updateAll.bindAsEventListener(true));
+						$('typeProf').observe('click', updateAll.bindAsEventListener(false, $('form').serialize()));
                         //-->
                     </script>
                 </div>
@@ -137,8 +137,5 @@
                 </ul>
             </div>
         </div>
-		<script type="text/javascript">
-			setQS("<?php print Student::getPrintQS(Student::$common); ?>");
-		</script>
     </body>
 </html>
