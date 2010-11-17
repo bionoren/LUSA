@@ -34,12 +34,13 @@ updateHours()
 $$(".choiceDD").each(function(a){hours+=Number(a.value.substr(-1))
 });
 $("schedHours").innerHTML=hours
-}function updateAll(b,a){if(!a){a=getCookie(getCookieName());
-if(!a){$("form").serialize()
-}}if(b){foo=function(){setLocation($("form").serialize())
-}
-}else{foo=function(){}
-}new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:a,submit:true},onComplete:foo})
+}function updateAll(a){update=this["do"];
+if(update){foo=function(){setLocation($("form").serialize())
+};
+data=getCookie(getCookieName())
+}else{foo=function(){};
+data=$("form").serialize()
+}new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:data,submit:true},onComplete:foo})
 }function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
 c_end=document.cookie.indexOf(";",c_start);

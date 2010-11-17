@@ -154,20 +154,17 @@ function updateHours() {
  * @param data STRING - Optional data to send instead of the serialized form.
  * @return VOID
  */
-function updateAll(update, data) {
+function updateAll(event) {
+    update = this['do'];
     //try getting data from the parameter, falling back to the cookie, falling back to the form
-    if(!data) {
-        data = getCookie(getCookieName());
-        if(!data) {
-            $('form').serialize();
-        }
-    }
     if(update) {
         foo = function() {
             setLocation($('form').serialize())
         }
+        data = getCookie(getCookieName());
     } else {
         foo = function () {}
+        data = $('form').serialize();
     }
 
     new Ajax.Updater('body', 'postback.php', {
