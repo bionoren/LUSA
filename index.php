@@ -53,7 +53,7 @@
         <link rel="stylesheet" type="text/css" href="layout/screen.css" media="screen,projection"/>
         <link rel="stylesheet" type="text/css" href="layout/print.css" media="print"/>
         <script type="text/javascript" src="layout/prototype.js"></script>
-        <script type="text/javascript" src="layout/functions.js"></script>
+        <script type="text/javascript" src="layout/functions-orig.js"></script>
     </head>
     <body lang="en" onload="selectClass()">
         <!--LUSA 2: A Dorm 41 Production-->
@@ -117,11 +117,11 @@
                     </ul>
 					<script type="text/javascript">
                         <!--
-                        $('typeTraditional').observe('click', updateAll);
-                        $('typeNonTraditional').observe('click', updateAll);
-                        $('semesterSelect').observe('change', updateAll);
-						$('typeStudent').observe('click', updateAllFromCookie);
-						$('typeProf').observe('click', updateAllProf);
+                        $('typeTraditional').observe('click', updateAll.bindAsEventListener(true));
+                        $('typeNonTraditional').observe('click', updateAll.bindAsEventListener(true));
+                        $('semesterSelect').observe('change', updateAll.bindAsEventListener(true));
+						$('typeStudent').observe('click', updateAll.bindAsEventListener(true, getCookie(getCookieName())));
+						$('typeProf').observe('click', updateAll.bindAsEventListener(false));
                         //-->
                     </script>
                 </div>

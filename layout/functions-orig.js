@@ -149,25 +149,16 @@ function updateHours() {
  * @param data Optional data to send instead of the serialized form.
  * @return VOID
  */
-function updateAll(noLocationUpdate, data) {
+function updateAll(update, data) {
     if(!data) {
         data = $('form').serialize();
     }
     new Ajax.Updater('body', 'postback.php', {
         parameters: { mode: 'updateAll', data: data, submit: true }
     });
-    if(!noLocationUpdate) {
+    if(update) {
         setLocation($('form').serialize())
     }
-}
-
-/**
- * Updates everything with no location update from cookie data.
- *
- * @return VOID
- */
-function updateAllFromCookie() {
-    updateAll(true, getCookie(getCookieName()));
 }
 
 /**
@@ -189,15 +180,6 @@ function getCookie(c_name) {
         }
     }
     return "";
-}
-
-/**
- * Updates everything without updating the current location.
- *
- * @return VOID
- */
-function updateAllProf() {
-    updateAll(true);
 }
 
 /**

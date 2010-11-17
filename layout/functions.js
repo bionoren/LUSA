@@ -35,17 +35,15 @@ updateHours()
 $$(".choiceDD").each(function(a){hours+=Number(a.value.substr(-1))
 });
 $("schedHours").innerHTML=hours
-}function updateAll(a,b){if(!b){b=$("form").serialize()
-}new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:b,submit:true}});
-if(!a){setLocation($("form").serialize())
-}}function updateAllFromCookie(){updateAll(true,getCookie(getCookieName()))
-}function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
+}function updateAll(b,a){if(!a){a=$("form").serialize()
+}new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:a,submit:true}});
+if(b){setLocation($("form").serialize())
+}}function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
 c_end=document.cookie.indexOf(";",c_start);
 if(c_end==-1){c_end=document.cookie.length
 }return unescape(document.cookie.substring(c_start,c_end))
 }}return""
-}function updateAllProf(){updateAll(true)
 }function setLocation(a){a+="&submit=true";
 document.location.hash=a;
 document.cookie=getCookieName()+"="+a
