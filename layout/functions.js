@@ -6,8 +6,8 @@ $(a).innerHTML="+"
 $(a).innerHTML="-"
 }sections.each(function(b){b.style.visibility=state
 })
-}function selectChange(a,b){if(a!=0){new Ajax.Updater("classChoice"+b,"postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize(),submit:true,department:a,selection:"----"}});
-$("choice"+b).focus()
+}function selectChange(a,b){if(a!=0){new Ajax.Updater("classChoice"+b,"postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize(),submit:true,department:a,selection:"----"},onComplete:function(){$("choice"+b).focus()
+}})
 }}items=new Hash();
 QS="";
 function setClassInfo(c,a,b){if(c!=null){items.set(c,[b,a])
@@ -22,23 +22,23 @@ setLocation($("form").serialize()+d)
 }function selectCampusTrigger(a){updateAll(false)
 }function departmentSelected(a){if($("choice"+a).empty()){new Ajax.Updater("classDropdowns","postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize(),submit:true},insertion:"bottom"})
 }if($("classDD"+a).value=="0"){blanks=false;
-$$(".classDD").each(function(b){if(blanks&&b.firstChild&&b.firstChild.value=="0"){b.remove()
+($$(".classDD").reverse()).each(function(b){if(blanks&&b.firstChild&&b.firstChild.value=="0"){b.remove()
 }else{if(b.firstChild&&b.firstChild.value=="0"){blanks=true
 }}});
 if($("choice"+a)){$("choice"+a).innerHTML=""
 }}else{selectChange($("classDD"+a).value,a)
 }courseSelected()
-}function courseSelected(){new Ajax.Updater("schedule","postback.php",{parameters:{mode:"updateSchedule",data:$("form").serialize(),submit:true}});
-setLocation($("form").serialize());
+}function courseSelected(){new Ajax.Updater("schedule","postback.php",{parameters:{mode:"updateSchedule",data:$("form").serialize(),submit:true},onComplete:function(){setLocation($("form").serialize());
 updateHours()
+}})
 }function updateHours(){hours=0;
 $$(".choiceDD").each(function(a){hours+=Number(a.value.substr(-1))
 });
 $("schedHours").innerHTML=hours
 }function updateAll(b,a){if(!a){a=$("form").serialize()
-}new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:a,submit:true}});
-if(b){setLocation($("form").serialize())
-}}function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
+}new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:a,submit:true},onComplete:function(){if(b){setLocation($("form").serialize())
+}}})
+}function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
 c_end=document.cookie.indexOf(";",c_start);
 if(c_end==-1){c_end=document.cookie.length

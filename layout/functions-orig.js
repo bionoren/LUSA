@@ -31,9 +31,11 @@ function createJSToggle(key) {
 function selectChange(department, uid) {
     if(department != 0) {
         new Ajax.Updater('classChoice'+uid, 'postback.php', {
-            parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true, department: department, selection: '----' }
+            parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true, department: department, selection: '----' },
+            onComplete: function() {
+                $('choice'+uid).focus();
+            }
         });
-        $('choice'+uid).focus();
     }
 }
 
@@ -99,7 +101,7 @@ function departmentSelected(uid) {
     }
     if($('classDD'+uid).value == "0") {
         blanks = false;
-        $$('.classDD').each(function(ele) {
+        ($$('.classDD').reverse()).each(function(ele) {
             if(blanks && ele.firstChild && ele.firstChild.value == "0") {
                 ele.remove();
             } else if(ele.firstChild && ele.firstChild.value == "0") {
@@ -122,11 +124,12 @@ function departmentSelected(uid) {
  */
 function courseSelected() {
     new Ajax.Updater('schedule', 'postback.php', {
-        parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
+        parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true },
+        onComplete: function() {
+            setLocation($('form').serialize());
+            updateHours();
+        }
     });
-    setLocation($('form').serialize());
-
-    updateHours();
 }
 
 /**
@@ -154,11 +157,13 @@ function updateAll(update, data) {
         data = $('form').serialize();
     }
     new Ajax.Updater('body', 'postback.php', {
-        parameters: { mode: 'updateAll', data: data, submit: true }
+        parameters: { mode: 'updateAll', data: data, submit: true },
+        onComplete: function() {
+            if(update) {
+                setLocation($('form').serialize())
+            }
+        }
     });
-    if(update) {
-        setLocation($('form').serialize())
-    }
 }
 
 /**
