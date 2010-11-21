@@ -164,38 +164,3 @@ tr.status-close {
 tr.status-full {
 	background-color: rgb(255, 136, 136);
 }
-
-/* -------------------------------------------------------------------------
---  BUTTONS ----------------------------------------------------------------
-----------------------------------------------------------------------------*/
-
-a.button {
-	line-height: 130%;
-	background-color: rgb(236,236,236);
-	border: 1px solid #dedede;
-	border-top: 1px solid #eee;
-	border-left: 1px solid #eee;
-	font-weight: bold;
-	font-size: 95%;
-	color: #000000;
-	text-decoration: none;
-	padding: 2px 6px 2px 6px;
-	cursor: pointer;
-}
-a.button {
-	margin: 4px 0 4px 0;
-}
-a.button:hover {
-	background-color: #dff4ff;
-	border: 1px solid #c2e1ef;
-	color: #336699;
-}
-a.button:active {
-	background-color: #6299c5;
-	border:1px solid  #6299c5;
-	color: #fff;
-}
-a.button.disabled {
-	background: #f6f6f6;
-	border-style: solid;
-}
