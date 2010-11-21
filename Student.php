@@ -82,7 +82,7 @@
 		 * @return VOID
 		 */
         public function display() {
-            print '<div class="print-no">';
+            print '<div id="schedule-select" class="print-no">';
                 print '<h2>Selected Classes</h2>';
                 $this->printClassDropdowns();
                 print '<span id="schedHours">'.$this->getHours().'</span> Credit Hours';
@@ -104,24 +104,23 @@
                     print '<h2>Schedule</h2>';
                     $span = (Main::isTraditional())?7:9;
                     //make classes show up in a pretty order
-                    print '<table class="full border">';
-                        print '<tr>';
-                            if(Main::isTraditional()) {
-                                Student::showTraditionalHeaders();
-                            } else {
-                                Student::showNonTraditionalHeaders();
-                            }
-                        print '</tr>';
-
+                    print '<table class="full">';
                         $noCommon = true;
                         $haveOthers = false;
                         foreach($this->getCourses() as $sections) {
                             if(count($sections) == 1) {
                                 if($noCommon) {
                                     $noCommon = false;
-                                    print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                                        print 'These are the only times you can take these classes:';
-                                    print '</td></tr>';
+                                    print '<thead><tr>';
+                                        print '<th style="font-size:117%;" colspan="'.$span.'">These are the only times you can take these classes:</th>';
+                                    print '</tr>';
+                                    print '<tr>';
+                                        if(Main::isTraditional()) {
+                                            Student::showTraditionalHeaders();
+                                        } else {
+                                            Student::showNonTraditionalHeaders();
+                                        }
+                                    print '</tr></thead>';
                                 }
                                 print $sections[0]->display()."\n";
                                 Student::$common[] = $sections[0];
@@ -131,19 +130,31 @@
                         }
 
                         if($haveOthers) {
-                            print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                                print 'These classes have some options:';
-                            print '</td></tr>';
-
+                            print '<thead><tr>';
+                                print '<th style="font-size:117%; padding-top:16px;" colspan="'.$span.'">These classes have some options:</th>';
+                            print '</tr>';
+                            print '<tr>';
+                                if(Main::isTraditional()) {
+                                    Student::showTraditionalHeaders();
+                                } else {
+                                    Student::showNonTraditionalHeaders();
+                                }
+                            print '</tr></thead>';
+                            
+                            print '<tbody>';
                             foreach($this->getCourses() as $sections) {
                                 if(count($sections) > 1) {
                                     $key = current($sections)->getID();
-                                    print '<tr style="cursor:pointer;" onclick="createJSToggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
+                                    print '<tr style="cursor:pointer;" onclick="createJSToggle(\''.$key.'\');">';
+                                        print '<td><span id="'.$key.'">+</span> '.$key.'</td>';
+                                        print '<td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td>';
+                                    print '</tr>';
                                     foreach($sections as $section) {
                                         print $section->display(true);
                                     }
                                 }
                             }
+                            print '</tbody>';
                         }
                     print '</table>';
                     print '<br/>';

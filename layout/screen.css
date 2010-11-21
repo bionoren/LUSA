@@ -22,6 +22,7 @@ body {
 	height: 34px;
 	color: white;
 	width: 100%;
+    -moz-user-select: none;
 }
 #container #header h1 {
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -103,7 +104,7 @@ div.clear {
 	font-size: 1em;
 	margin: 0 0 0 -2px;
 	padding: 0;
-	border-spacing: 1px;
+    border-collapse: collapse;
 }
 #container #body table.collapsed {
 	border-collapse: collapse;
@@ -111,27 +112,23 @@ div.clear {
 #container #body table td {
 	margin-top: 1px;
 }
+#container #body table tbody tr {
+    border: 1px solid #dddddd;
+}
 #container #body table th {
 	text-align: left;
 }
+#container #body table tbody tr:hover {
+    background-color: #A2D3FF;
+}
 #container #body table.full {
 	width: 100%;
-}
-#container #body table.border {
-	border-collapse: collapse;
-}
-#container #body table.border th {
-	border: none;
 }
 #container #body table.border td {
 	border: 1px solid rgb(220, 220, 220);
 }
 #container #body table.border td table td {
 	border: none;
-}
-#container #body table.padding td,
-#container #body table.padding th {
-	padding: 2px;
 }
 #container #body table tr.strong td {
 	font-weight: bold;
@@ -156,11 +153,11 @@ div.clear {
 ----------------------------------------------------------------------------*/
 
 tr.status-open {
-	background-color: rgb(136, 255, 136);
+    background: white url(../images/green_circle.png) no-repeat center right;
 }
 tr.status-close {
-	background-color: rgb(255, 255, 136);
+	background: white url(../images/yellow_circle.png) no-repeat center right;
 }
 tr.status-full {
-	background-color: rgb(255, 136, 136);
+	background: white url(../images/red_circle.png) no-repeat center right;
 }

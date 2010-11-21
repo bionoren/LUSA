@@ -123,7 +123,7 @@
                 print '<td headers="registeredHeader">'.$this->currentRegistered.'/'.$this->maxRegisterable.'</td>';
 			print '</tr>';
             for($i = 1; $i < count($this->meetings); $i++) {
-                print '<tr id="'.$this->getUID().$i.'" class="'.$this->getBackgroundStyle().' '.$this->getID().'"';
+                print '<tr id="'.$this->getUID().$i.'" class="'.$this->getID().'"';
 					if($optional) {
 						print ' style="visibility:collapse;"';
 					}
