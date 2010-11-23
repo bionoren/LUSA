@@ -31,7 +31,7 @@ function createJSToggle(key) {
 function selectChange(department, uid) {
     if(department != 0) {
         new Ajax.Updater('classChoice'+uid, 'postback.php', {
-            parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true, department: department, selection: '----' },
+            parameters: { mode: 'createClassDropdown', data: document.location.hash, submit: true, department: department, selection: '----' },
             onComplete: function() {
                 $('choice'+uid).focus();
             }
@@ -105,6 +105,7 @@ function departmentSelected(uid) {
     if($('classDD'+uid).value == "0") {
         $('classDD'+uid).parentNode.remove();
         setLocation($('form').serialize());
+        courseSelected();
     } else {
         //otherwise, we selected a dropdown and need to populate the course dropdown
         selectChange($('classDD'+uid).value, uid);
