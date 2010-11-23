@@ -22,7 +22,7 @@ function createJSToggle(key) {
 }
 
 /**
- * Displays a new class selection dropdown and focuses it.
+ * Displays a new class selection dropdown.
  *
  * @param department STRING - The name of the selected department
  * @param uid STRING - The unique ID for this department / class dropdown pair
@@ -94,28 +94,21 @@ function selectCampusTrigger(event) {
  * @return VOID
  */
 function departmentSelected(uid) {
+    //if there isn't a course dropdown with this department yet, create a new blank department dropdown
     if($('choice'+uid).empty()) {
         new Ajax.Updater('classDropdowns', 'postback.php', {
             parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true },
             insertion: 'bottom'
         });
     }
+    //if the selected department is blank, then we aren't selecting a department here
     if($('classDD'+uid).value == "0") {
-        blanks = false;
-        ($$('.classDD').reverse()).each(function(ele) {
-            if(blanks && ele.firstChild && ele.firstChild.value == "0") {
-                ele.remove();
-            } else if(ele.firstChild && ele.firstChild.value == "0") {
-                blanks = true;
-            }
-        });
-        if($('choice'+uid)) {
-            $('choice'+uid).innerHTML = "";
-        }
+        $('classDD'+uid).parentNode.remove();
+        setLocation($('form').serialize());
     } else {
+        //otherwise, we selected a dropdown and need to populate the course dropdown
         selectChange($('classDD'+uid).value, uid);
     }
-    courseSelected();
 }
 
 /**
