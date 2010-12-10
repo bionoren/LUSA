@@ -86,6 +86,24 @@
 		}
 
 		/**
+		 * Returns an instance of the course with the given ID.
+		 *
+		 * @param $id STRING - ID of the class to return.
+		 * @return Array List of courses matching the given ID.
+		 */
+		public static function getFromID($id) {
+			$classes = getClassData(Main::getSemester(), Main::isTraditional());
+			$ret = array();
+			array_pop($classes);
+			foreach($classes as $class) {
+				if($class->getID() == $id) {
+					$ret[] = $class;
+				}
+			}
+			return $ret;
+		}
+
+		/**
 		 * Displays this class in a table.
 		 *
 		 * @param $optional BOOLEAN - True if this class is part of an optional set of classes.
@@ -103,7 +121,7 @@
 					print '</td>';
 					print '<td style="width:auto;" headers="classHeader">';
 						if(!$this->isSpecial()) {
-							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->section."' onclick=\"selectClass('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."');\"";
+							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->section."'";
 							if(Student::isKept($this)) {
 								print ' checked="checked"';
 							}
@@ -115,12 +133,11 @@
 					print '<td headers="classHeader">'.$this->getID().'</td>';
 					print '<td headers="classHeader">'.$this->title.'</td>';
 				}
-				print '<script type="text/javascript">';
-					print "setClassInfo('".$this->getID()."', '".$this->getUID()."', '".$this->getPrintQS()."');";
-				print '</script>';
                 print '<td headers="sectionHeader">'.$this->section.'</td>';
                 $this->meetings[0]->display(!$this->trad);
-                print '<td headers="registeredHeader">'.$this->currentRegistered.'/'.$this->maxRegisterable.'</td>';
+                print '<td headers="registeredHeader">';
+					print $this->currentRegistered.'/'.$this->maxRegisterable;
+				print '</td>';
 			print '</tr>';
             for($i = 1; $i < count($this->meetings); $i++) {
                 print '<tr id="'.$this->getUID().$i.'" class="'.$this->getBackgroundStyle().' '.$this->getID().'"';

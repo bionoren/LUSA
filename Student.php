@@ -20,6 +20,8 @@
         protected $courses = array();
         /** ARRAY Array of the form courseTitleNumbers[dept.num.section] = [Course]. */
         protected $courseTitleNumbers = array();
+        /** ARRAY List of department names. */
+        protected $departments = array();
         /** ARRAY Array of error messages for classes keyed by the class' order of selection. */
         protected $errors = array();
         /** INTEGER The total number of hours for the selected classes. */
@@ -84,7 +86,8 @@
         public function display() {
             print '<div class="print-no">';
                 print '<h2>Selected Classes</h2>';
-                $this->printClassDropdowns();
+                print '<div id="classDropdowns">';
+                print '</div>';
                 print '<span id="schedHours">'.$this->getHours().'</span> Credit Hours';
             print '</div>';
             print '<div id="schedule">';
@@ -105,46 +108,49 @@
                     $span = (Main::isTraditional())?7:9;
                     //make classes show up in a pretty order
                     print '<table class="full border">';
-                        print '<tr>';
-                            if(Main::isTraditional()) {
-                                Student::showTraditionalHeaders();
-                            } else {
-                                Student::showNonTraditionalHeaders();
-                            }
-                        print '</tr>';
-
-                        $noCommon = true;
-                        $haveOthers = false;
-                        foreach($this->getCourses() as $sections) {
-                            if(count($sections) == 1) {
-                                if($noCommon) {
-                                    $noCommon = false;
-                                    print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                                        print 'These are the only times you can take these classes:';
-                                    print '</td></tr>';
+                        print '<thead>';
+                            print '<tr>';
+                                if(Main::isTraditional()) {
+                                    Student::showTraditionalHeaders();
+                                } else {
+                                    Student::showNonTraditionalHeaders();
                                 }
-                                print $sections[0]->display()."\n";
-                                Student::$common[] = $sections[0];
-                            } else {
-                                $haveOthers = true;
-                            }
-                        }
-
-                        if($haveOthers) {
-                            print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                                print 'These classes have some options:';
-                            print '</td></tr>';
-
+                            print '</tr>';
+                        print '</thead>';
+                        print '<tbody id="classes">';
+                            $noCommon = true;
+                            $haveOthers = false;
                             foreach($this->getCourses() as $sections) {
-                                if(count($sections) > 1) {
-                                    $key = current($sections)->getID();
-                                    print '<tr style="cursor:pointer;" onclick="createJSToggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
-                                    foreach($sections as $section) {
-                                        print $section->display(true);
+                                if(count($sections) == 1) {
+                                    if($noCommon) {
+                                        $noCommon = false;
+                                        print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                                            print 'These are the only times you can take these classes:';
+                                        print '</td></tr>';
+                                    }
+                                    print $sections[0]->display()."\n";
+                                    Student::$common[] = $sections[0];
+                                } else {
+                                    $haveOthers = true;
+                                }
+                            }
+
+                            if($haveOthers) {
+                                print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                                    print 'These classes have some options:';
+                                print '</td></tr>';
+
+                                foreach($this->getCourses() as $sections) {
+                                    if(count($sections) > 1) {
+                                        $key = current($sections)->getID();
+                                        print '<tr style="cursor:pointer;" onclick="createJSToggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
+                                        foreach($sections as $section) {
+                                            print $section->display(true);
+                                        }
                                     }
                                 }
                             }
-                        }
+                        print '</tbody>';
                     print '</table>';
                     print '<br/>';
                     print '<div style="text-align:center;">';
@@ -158,7 +164,7 @@
                         if(!empty($extra)) {
                             $extra = "~".$extra;
                         }
-                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="880"/>';
+                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="100%"/>';
                         print '<br/>';
                     print '</div>';
                 } else {
@@ -210,16 +216,6 @@
 				}
             }
             return $classFilter;
-        }
-
-        /**
-         * Returns an internal array of classes.
-         *
-         * @return ARRAY
-         * @see $classGroups
-         */
-        protected function getClassGroups() {
-            return $this->classGroups;
         }
 
         /**
@@ -327,73 +323,24 @@
             Student::$keepFilter = Student::getChosenClasses();
         }
 
-        /**
-         * Displays dropdown to select which class to take.
-         *
-         * @return VOID
-         */
-        public function printClassDropdown($class=null, $choice=null) {
-            $uid = md5(microtime());
-            $classes = $this->getClasses();
-            $ctn = $this->getCourseTitleNumbers();
-            if(!empty($class)) {
-                $tmp = str_replace('>'.$class, ' selected="selected">'.$class, $this->getClassGroups());
-            } else {
-                $tmp = $this->getClassGroups();
-            }
-            print '<div id="classChoice'.$uid.'" class="classDD">';
-                print '<select name="class[]" id="classDD'.$uid.'" onchange="departmentSelected(\''.$uid.'\')">';
-                    print '<option value="0">----</option>'.$tmp;
-                print '</select>';
-                print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
-                print '<div id="choice'.$uid.'" style="display:inline;">';
-                    $populated = !empty($choice);
-                    if($populated) {
-                        print '<select name="choice[]" id="choiceDD'.$uid.'" class="choiceDD" onchange="courseSelected()" >';
-                            print '<option value="0">----</option>';
-                            foreach($classes[$class] as $key=>$sections) {
-                                print '<option value="'.$key.'"';
-                                if($choice == $key) {
-                                    $this->hours += substr($key, -1);
-                                    print ' selected="selected"';
-                                }
-	                            $error = $this->checkValidClass($sections);
-                                if(!($error && $this->getCourses())) {
-                                    print '>'.$sections[0]->getLabel();
-                                } else {
-                                    print ' style="color:rgb(177, 177, 177);">'.$error;
-                                }
-                                print '</option>';
-                            }
-                        print "</select>";
-                        print '<label for="choiceDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
-                    }
-                print '</div>';
-                if($populated && $this->showBooks()) {
-                    print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
-                }
-                if($this->hasError($choice)) {
-                    print '<span style="color:red;">Sorry, this class is not offered this semester</span>';
-                }
-            print '</div>';
+        public function getDepartmentJSON($dept=null) {
+            return json_encode($this->getDepartments());
         }
 
-        /**
-         * Displays dropdowns to select which classes to take.
-         *
-         * @return VOID
-         */
-        public function printClassDropdowns() {
-            print '<div id="classDropdowns">';
-                if(Main::haveSelections()) {
-                    foreach($this->getSelectedChoices() as $choice) {
-                        $this->printClassDropdown(substr($choice, 0, 4), $choice);
-                    }
-                }
+        public function getCourseJSON($dept, $course=null) {
+            $classes = $this->getClasses();
+            $ret = array();
+            $tmp = array();
+            foreach($classes[$dept] as $key=>$sections) {
+                $tmp["class"] = $sections[0]->getLabel();
+                $tmp["error"] = $this->checkValidClass($sections);
+                $ret[$key] = $tmp;
+            }
+            return json_encode($ret);
+        }
 
-                //show an extra empty department dropdown
-                $this->printClassDropdown();
-            print '</div>';
+        protected function getDepartments() {
+            return $this->departments;
         }
 
         /**
@@ -408,12 +355,11 @@
 			//generate select option values for display later
             $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
             foreach($data as $class) {
-                $course = substr($class->getID(), 0, 4);
-                $this->classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
-                $this->classes[$course][$class->getID()][] = $class;
+                $dept = substr($class->getID(), 0, 4);
+                $this->departments[$dept] = $dept;
+                $this->classes[$dept][$class->getID()][] = $class;
                 $this->courseTitleNumbers[$class->getID()][] = $class;
             }
-            $this->classGroups = implode("", $this->getClassGroups());
             //alphabetize the class list
             array_multisort($this->classes);
 

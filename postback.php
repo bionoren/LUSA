@@ -20,8 +20,29 @@
         $main->displaySchedules();
     }
 
-    if($mode == "createClassDropdown") {
-        $main->printClassDropdown($_REQUEST["department"], $_REQUEST["selection"]);
+    if($mode == "addClass") {
+        $courses = Course::getFromID($_REQUEST["id"]);
+        print '{"classes":[';
+        $optional = count($courses) > 1;
+        for($i = 0; $i < count($courses);) {
+            ob_start();
+            $courses[$i++]->display($optional);
+            $data = ob_get_contents();
+            ob_end_clean();
+            print json_encode($data);
+            if($i < count($courses)) {
+                print ',';
+            }
+        }
+        print ']}';
+    }
+
+    if($mode == "getDepartmentData") {
+        print $main->getDepartmentJSON($_REQUEST["dept"]);
+    }
+
+    if($mode == "getCourseData") {
+        print $main->getCourseJSON($_REQUEST["dept"], $_REQUEST["course"]);
     }
 
     if($mode == "updateAll") {

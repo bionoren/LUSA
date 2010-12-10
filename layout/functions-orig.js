@@ -1,171 +1,238 @@
-//java -jar yuicompressor-2.4.2.jar --type js -o functions.js --line-break 0 functions-orig.js
+//java -jar layout/yuicompressor-2.4.2.jar --type js -o layout/functions.js --line-break 0 layout/functions-orig.js
 
-/**
- * Toggles the visibility of class sections in the class defined by key.
- *
- * @param key STRING - Class ID of the form DEPT-####
- * @return VOID
- */
-function createJSToggle(key) {
-    sections = $$('.'+key);
-    tmp = sections.first();
-    if(tmp.style.visibility == "visible") {
-        state = "collapse";
-        $(key).innerHTML = "+";
-    } else {
-        state = "visible";
-        $(key).innerHTML = "-";
-    }
-    sections.each(function(section) {
-        section.style.visibility = state;
-    });
-}
+var LUSA = Class.create({
+    initialize: function() {
+        /** BOOLEAN - True if this is the student view. */
+        this.student = null;
+        /** BOOLEAN - True if this is the trad view. */
+        this.trad = null;
+        /** STRING - The currently selected semester. */
+        this.semester = null;
+        /** STRING - The currently selected campus. */
+        this.campus = null;
 
-/**
- * Displays a new class selection dropdown.
- *
- * @param department STRING - The name of the selected department
- * @param uid STRING - The unique ID for this department / class dropdown pair
- * @return VOID
- */
-function selectChange(department, uid) {
-    if(department != 0) {
-        new Ajax.Updater('classChoice'+uid, 'postback.php', {
-            parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true, department: department, selection: '----' },
-            onComplete: function() {
-                $('choice'+uid).focus();
+        /** HASH - List of classes added to the schedule keyed by class ID. */
+        this.classes = new Array();
+
+        this.updateOptions();
+        this.loadClasses();
+    },
+
+    /**
+     * Updates the location in the URL hash.
+     *
+     * @return VOID
+     */
+    updateLocation: function() {
+
+        str += "&submit=true";
+        document.location.hash = str;
+        document.cookie = getCookieName()+"="+str;
+    },
+
+    updateCampus: function(campus) {
+        this.campus = campus;
+    },
+
+    /**
+     * Updates the number of credit hours.
+     *
+     * @return VOID
+     */
+    updateHours: function() {
+       hours = 0;
+       this.dropdowns.each(function(dropdown) {
+           hours += Number(dropdown.course.value.substr(-1));
+       });
+       $('schedHours').innerHTML = hours;
+    },
+
+    /**
+     * Updates the schedule with all the most recent class selections.
+     *
+     * @return VOID
+     */
+    updateSchedule: function() {
+        var url = "print.php?sem="+this.semester+"&trad="+this.trad+"&classes=";
+        this.dropdowns.each(function(dropdown) {
+            if(dropdown.course.value) {
+                url += "~"+dropdown.course.value;
             }
         });
+        if($('scheduleImg')) {
+            $('scheduleImg').src = url;
+        }
+        this.updateLocation();
+    },
+
+    updateOptions: function() {
+        this.student = $('typeStudent').value;
+        this.trad = $('typeTraditional').value;
+        if($('campusSelect')) {
+            this.campus = $('campusSelect').value;
+        }
+        if(!this.campus) {
+            this.campus = "MAIN";
+        }
+        this.semester = $('semesterSelect').value;
+    },
+
+    loadClasses: function() {
+        //create dropdowns
+        d = new Dropdown();
+        $('classDropdowns').appendChild(d.container);
+        //create classes
+        if($('classes')) {
+            $A($('classes').children).each(function(row) {
+                if(!row.id) {
+                    return;
+                }
+                cs = new Course(row, row.id);
+                this.classes.push(cs);
+            }.bind(this));
+        }
     }
-}
+});
 
-items = new Hash();
-/**
- * Sets class information in the items hash.
- * NOTE: Requires a global items hash (above)
- *
- * @param id STRING - ID of the class
- * @param uid STRING - Unique ID of the class section
- * @param str STRING - The class info prepped for the print script
- * @return VOID
- */
-function setClassInfo(id, uid, str) {
-    if(id != null) {
-        items.set(id, [str, uid]);
-    }
-}
+var Dropdown = Class.create({
+    /**
+     * Constructs a new department dropdown in a div container.
+     */
+    initialize: function() {
+        /** @var OBJECT - Container div for these options. */
+        this.container = document.createElement("div");
+        /** @var OBJECT - Reference to the department dropdown. */
+        this.dept = document.createElement("select");
+        /** @var OBJECT - Reference to the class dropdown. */
+        this.course = document.createElement("select");
+        /** @var INTEGER - The number of hours the current class is worth. */
+        this.hours = 0;
+        /** @var COURSE - An object to manage the actual display of course info. */
+        this.courseMgr = null;
 
-/**
- * Updates the schedule preview to include the given selection
- * NOTE: Requires a global items hash (above)
- *
- * @param id STRING - ID of the class
- * @param uid STRING - Unique ID of the class section
- * @param str STRING - The class info prepped for the print script
- * @return VOID
- */
-function selectClass(id, uid, str) {
-    setClassInfo(id, uid, str);
-    var url = "print.php?sem="+$('semesterSelect').value+"&trad="+$('typeTraditional').value+"&classes=";
-    var filterStr = "";
-    items.each(function(pair) {
-        url += "~"+pair.value[0];
-        filterStr += "&cf[]="+pair.value[1];
-    });
-    if($('scheduleImg')) {
-        $('scheduleImg').src = url;
-    }
-    setLocation($('form').serialize()+filterStr)
-}
+        this.container.appendChild(this.dept);
+        this.courseMgr = new Course(this.course);
+        option = document.createElement("option");
+        option.setAttribute("value", "");
+        option.appendChild(document.createTextNode("----"));
+        this.dept.appendChild(option);
+        new Ajax.Request('postback.php', {
+            method: 'post',
+            parameters: { mode: 'getDepartmentData', data: $('form').serialize(), submit: true },
+            onSuccess: function(transport) {
+                data = transport.responseText.evalJSON();
+                Object.values(data).each(function(dept) {
+                    option = document.createElement("option");
+                    option.setAttribute("value", dept);
+                    option.appendChild(document.createTextNode(dept));
+                    this.dept.appendChild(option);
+                }.bind(this));
 
-/**
- * Updates everything with a new campus.
- *
- * @return VOID
- */
-function selectCampusTrigger(event) {
-    updateAll(false);
-}
+                Event.observe(this.dept, 'change', this.departmentSelected.bind(this));
+            }.bind(this)
+        });
 
-/**
- * Called when a department dropdown is selected.
- *
- * @param uid STRING - The unique ID of the department dropdown.
- * @return VOID
- */
-function departmentSelected(uid) {
-    //if there isn't a course dropdown with this department yet, create a new blank department dropdown
-    if($('choice'+uid).empty()) {
-        new Ajax.Updater('classDropdowns', 'postback.php', {
-            parameters: { mode: 'createClassDropdown', data: $('form').serialize(), submit: true },
-            insertion: 'bottom'
+        Event.observe(this.course, 'change', this.courseSelected.bind(this));
+    },
+
+    /**
+     * Called when a department dropdown is selected.
+     *
+     * @return VOID
+     */
+    departmentSelected: function() {
+        if(this.dept.value) {
+            if(!this.course.firstChild) {
+                d = new Dropdown();
+                $('classDropdowns').appendChild(d.container);
+                this.container.appendChild(this.course);
+            }
+            this.populateCourse();
+        } else {
+            Form.Element.setValue(this.course, 0);
+            this.courseSelected();
+            Element.remove(this.container);
+        }
+    },
+
+    /**
+     * Called when a specific course is selected.
+     *
+     * @return VOID
+     */
+    courseSelected: function() {
+        //update hours
+        hours = this.course.value.substr(-1);
+        $('schedHours').innerHTML = parseInt($('schedHours').innerHTML) + parseInt(hours) - this.hours;
+        this.hours = hours;
+
+        //update class list (call to another helper class)
+
+        //update schedule preview (if necessary) (call to another helper class)
+
+        //update url (call to another helper class)
+    },
+
+    /**
+     * Populates the course dropdown list with the currently selected department.
+     *
+     * @return VOID
+     */
+    populateCourse: function() {
+        new Ajax.Request('postback.php', {
+            method: 'post',
+            parameters: { mode: 'getCourseData', data: $('form').serialize(), submit: true, dept: this.dept.value },
+            onSuccess: function(transport) {
+                data = transport.responseText.evalJSON();
+                if(this.course.children) {
+                    $A(this.course.children).each(function(ele) {
+                        Element.remove(ele);
+                    });
+                }
+                option = document.createElement("option");
+                option.setAttribute("value", 0);
+                option.appendChild(document.createTextNode("----"));
+                this.course.appendChild(option);
+                Object.keys(data).each(function(course) {
+                    option = document.createElement("option");
+                    option.setAttribute("value", course);
+                    if(data[course]["error"]) {
+                        option.setAttribute("style", "color:rgb(177, 177, 177);");
+                    }
+                    option.appendChild(document.createTextNode(data[course]["class"]));
+                    this.course.appendChild(option);
+                }.bind(this));
+                this.course.activate();
+            }.bind(this)
         });
     }
-    //if the selected department is blank, then we aren't selecting a department here
-    if($('classDD'+uid).value == "0") {
-        $('classDD'+uid).parentNode.remove();
-        setLocation($('form').serialize());
-        courseSelected();
-    } else {
-        //otherwise, we selected a dropdown and need to populate the course dropdown
-        selectChange($('classDD'+uid).value, uid);
-    }
-}
+});
 
-/**
- * Called when a specific course is selected.
- *
- * @return VOID
- */
-function courseSelected() {
-    new Ajax.Updater('schedule', 'postback.php', {
-        parameters: { mode: 'updateSchedule', data: document.location.hash, submit: true },
-        evalScripts: true,
-        onComplete: function() {
-            setLocation($('form').serialize());
-            updateHours();
+var Course = Class.create({
+    initialize: function(course) {
+        this.course = course;
+    },
+
+    /**
+     * Toggles the visibility of class sections in the class defined by key.
+     *
+     * @return VOID
+     */
+    toggle: function() {
+        sections = $$('.'+this.id);
+        tmp = sections.first();
+        if(tmp.style.visibility == "visible") {
+            state = "collapse";
+            $(this.id).innerHTML = "+";
+        } else {
+            state = "visible";
+            $(this.id).innerHTML = "-";
         }
-    });
-}
-
-/**
- * Updates the number of credit hours.
- *
- * @return VOID
- */
-function updateHours() {
-    hours = 0;
-    $$('.choiceDD').each(function(ele) {
-        hours += Number(ele.value.substr(-1));
-    });
-    $('schedHours').innerHTML = hours;
-}
-
-/**
- * Updates everything.
- *
- * @param update BOOLEAN - If true, updates the url.
- * @param data STRING - Optional data to send instead of the serialized form.
- * @return VOID
- */
-function updateAll(event) {
-    update = this['do'];
-    //try getting data from the parameter, falling back to the cookie, falling back to the form
-    if(update) {
-        foo = function() {
-            setLocation($('form').serialize())
-        }
-        data = getCookie(getCookieName());
-    } else {
-        foo = function () {}
-        data = $('form').serialize();
+        sections.each(function(section) {
+            section.style.visibility = state;
+        });
     }
-
-    new Ajax.Updater('body', 'postback.php', {
-        parameters: { mode: 'updateAll', data: data, submit: true },
-        onComplete: foo
-    });
-}
+});
 
 /**
  * Returns the contents of the named cookie.
@@ -186,18 +253,6 @@ function getCookie(c_name) {
         }
     }
     return "";
-}
-
-/**
- * Sets the user's current location in the URL and in a cookie.
- *
- * @param str STRING - the new location.
- * @return VOID
- */
-function setLocation(str) {
-    str += "&submit=true";
-    document.location.hash = str;
-    document.cookie = getCookieName()+"="+str;
 }
 
 /**

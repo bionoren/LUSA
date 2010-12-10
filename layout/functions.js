@@ -1,55 +1,97 @@
-function createJSToggle(a){sections=$$("."+a);
-tmp=sections.first();
-if(tmp.style.visibility=="visible"){state="collapse";
-$(a).innerHTML="+"
-}else{state="visible";
-$(a).innerHTML="-"
-}sections.each(function(b){b.style.visibility=state
-})
-}function selectChange(a,b){if(a!=0){new Ajax.Updater("classChoice"+b,"postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize(),submit:true,department:a,selection:"----"},onComplete:function(){$("choice"+b).focus()
-}})
-}}items=new Hash();
-function setClassInfo(c,a,b){if(c!=null){items.set(c,[b,a])
-}}function selectClass(e,b,c){setClassInfo(e,b,c);
-var a="print.php?sem="+$("semesterSelect").value+"&trad="+$("typeTraditional").value+"&classes=";
-var d="";
-items.each(function(f){a+="~"+f.value[0];
-d+="&cf[]="+f.value[1]
-});
-if($("scheduleImg")){$("scheduleImg").src=a
-}setLocation($("form").serialize()+d)
-}function selectCampusTrigger(a){updateAll(false)
-}function departmentSelected(a){if($("choice"+a).empty()){new Ajax.Updater("classDropdowns","postback.php",{parameters:{mode:"createClassDropdown",data:$("form").serialize(),submit:true},insertion:"bottom"})
-}if($("classDD"+a).value=="0"){blanks=false;
-($$(".classDD").reverse()).each(function(b){if(blanks&&b.firstChild&&b.firstChild.value=="0"){b.remove()
-}else{if(b.firstChild&&b.firstChild.value=="0"){blanks=true
-}}});
-if($("choice"+a)){$("choice"+a).innerHTML=""
-}}else{selectChange($("classDD"+a).value,a)
-}courseSelected()
-}function courseSelected(){new Ajax.Updater("schedule","postback.php",{parameters:{mode:"updateSchedule",data:$("form").serialize(),submit:true},evalScripts:true,onComplete:function(){setLocation($("form").serialize());
-updateHours()
-}})
-}function updateHours(){hours=0;
-$$(".choiceDD").each(function(a){hours+=Number(a.value.substr(-1))
+var LUSA=Class.create({initialize:function(){this.student=null;
+this.trad=null;
+this.semester=null;
+this.campus=null;
+this.classes=new Array();
+this.updateOptions();
+this.loadClasses()
+},updateLocation:function(){str+="&submit=true";
+document.location.hash=str;
+document.cookie=getCookieName()+"="+str
+},updateCampus:function(a){this.campus=a
+},updateHours:function(){hours=0;
+this.dropdowns.each(function(a){hours+=Number(a.course.value.substr(-1))
 });
 $("schedHours").innerHTML=hours
-}function updateAll(a){update=this["do"];
-if(update){foo=function(){setLocation($("form").serialize())
-};
-data=getCookie(getCookieName())
-}else{foo=function(){};
-data=$("form").serialize()
-}new Ajax.Updater("body","postback.php",{parameters:{mode:"updateAll",data:data,submit:true},onComplete:foo})
-}function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
+},updateSchedule:function(){var a="print.php?sem="+this.semester+"&trad="+this.trad+"&classes=";
+this.dropdowns.each(function(b){if(b.course.value){a+="~"+b.course.value
+}});
+if($("scheduleImg")){$("scheduleImg").src=a
+}this.updateLocation()
+},updateOptions:function(){this.student=$("typeStudent").value;
+this.trad=$("typeTraditional").value;
+if($("campusSelect")){this.campus=$("campusSelect").value
+}if(!this.campus){this.campus="MAIN"
+}this.semester=$("semesterSelect").value
+},loadClasses:function(){d=new Dropdown();
+$("classDropdowns").appendChild(d.container);
+if($("classes")){$A($("classes").children).each(function(a){if(!a.id){return
+}cs=new Course(a,a.id);
+this.classes.push(cs)
+}.bind(this))
+}}});
+var Dropdown=Class.create({initialize:function(){this.container=document.createElement("div");
+this.dept=document.createElement("select");
+this.course=document.createElement("select");
+this.hours=0;
+this.courseMgr=null;
+this.container.appendChild(this.dept);
+this.courseMgr=new Course(this.course);
+option=document.createElement("option");
+option.setAttribute("value","");
+option.appendChild(document.createTextNode("----"));
+this.dept.appendChild(option);
+new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getDepartmentData",data:$("form").serialize(),submit:true},onSuccess:function(a){data=a.responseText.evalJSON();
+Object.values(data).each(function(b){option=document.createElement("option");
+option.setAttribute("value",b);
+option.appendChild(document.createTextNode(b));
+this.dept.appendChild(option)
+}.bind(this));
+Event.observe(this.dept,"change",this.departmentSelected.bind(this))
+}.bind(this)});
+Event.observe(this.course,"change",this.courseSelected.bind(this))
+},departmentSelected:function(){if(this.dept.value){if(!this.course.firstChild){d=new Dropdown();
+$("classDropdowns").appendChild(d.container);
+this.container.appendChild(this.course)
+}this.populateCourse()
+}else{Form.Element.setValue(this.course,0);
+this.courseSelected();
+Element.remove(this.container)
+}},courseSelected:function(){hours=this.course.value.substr(-1);
+$("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-this.hours;
+this.hours=hours
+},populateCourse:function(){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:$("form").serialize(),submit:true,dept:this.dept.value},onSuccess:function(a){data=a.responseText.evalJSON();
+if(this.course.children){$A(this.course.children).each(function(b){Element.remove(b)
+})
+}option=document.createElement("option");
+option.setAttribute("value",0);
+option.appendChild(document.createTextNode("----"));
+this.course.appendChild(option);
+Object.keys(data).each(function(b){option=document.createElement("option");
+option.setAttribute("value",b);
+if(data[b]["error"]){option.setAttribute("style","color:rgb(177, 177, 177);")
+}option.appendChild(document.createTextNode(data[b]["class"]));
+this.course.appendChild(option)
+}.bind(this));
+this.course.activate()
+}.bind(this)})
+}});
+var Course=Class.create({initialize:function(a){this.course=a
+},toggle:function(){sections=$$("."+this.id);
+tmp=sections.first();
+if(tmp.style.visibility=="visible"){state="collapse";
+$(this.id).innerHTML="+"
+}else{state="visible";
+$(this.id).innerHTML="-"
+}sections.each(function(a){a.style.visibility=state
+})
+}});
+function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
 c_end=document.cookie.indexOf(";",c_start);
 if(c_end==-1){c_end=document.cookie.length
 }return unescape(document.cookie.substring(c_start,c_end))
 }}return""
-}function setLocation(a){a+="&submit=true";
-document.location.hash=a;
-document.cookie=getCookieName()+"="+a
 }function getCookieName(){campus="MAIN";
 if($("campusSelect")){campus=$("campusSelect").value
 }return $("semesterSelect").value+Number($("typeTraditional").checked)+campus

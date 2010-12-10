@@ -55,12 +55,12 @@
         <script type="text/javascript" src="layout/prototype.js"></script>
         <script type="text/javascript" src="layout/functions-orig.js"></script>
     </head>
-    <body lang="en" onload="selectClass()">
+    <body lang="en" onload="var lusa = new LUSA();">
         <!--LUSA 2: A Dorm 41 Production-->
         <!--Developed by: Wharf-->
         <!--Design by: Shutter-->
-		<!--QA and Lead Tester: Synk-->
-		<!--Performance Consultants: Zoot, Gary Raduns-->
+        <!--QA and Lead Tester: Synk-->
+        <!--Performance Consultants: Zoot, Gary Raduns-->
         <!--This code hates Tom Kelley-->
         <!--Special thanks to all of 41 and G2 for their suggestions, bug reports, patience, and encouragement!-->
         <div id="container">
@@ -69,25 +69,25 @@
                     <h1><a href="<?php print $main; ?>" style="text-decoration:inherit; color:inherit;">LUSA</a></h1>
 					<ul id="options">
 						<li class="first">
-							<input type="radio" id="typeStudent" name="role" value="student" <?php if(Main::isStudent()) { print 'checked="checked"'; } ?>/>
+							<input type="radio" id="typeStudent" name="role" value="student" <?php if(Main::isStudent()) { print 'checked="checked"'; } ?> onclick="lusa.setStudent(true);"/>
 							<label for="typeStudent">Student</label>
-							&nbsp;&nbsp;
-							<input type="radio" id="typeProf" name="role" value="prof" <?php if(!Main::isStudent()) { print 'checked="checked"'; } ?>/>
-							<label for="typeProf">Professor</label>
+							<!--&nbsp;&nbsp;
+							<input type="radio" id="typeProf" name="role" value="prof" <?php if(!Main::isStudent()) { print 'checked="checked"'; } ?> onclick="lusa.setStudent(false);"/>
+							<label for="typeProf">Professor</label>-->
 						</li>
                         <li class="second">
                             <div style="display:inline">
-                                <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(Main::isTraditional()) { print 'checked="checked"'; } ?>/>
+                                <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(Main::isTraditional()) { print 'checked="checked"'; } ?> onclick="lusa.setTrad(true);"/>
                                 <label for="typeTraditional">Traditional</label>
                                 &nbsp;&nbsp;
-                                <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!Main::isTraditional()) { print 'checked="checked"'; } ?>/>
+                                <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!Main::isTraditional()) { print 'checked="checked"'; } ?> onclick="lusa.setTrad(false);"/>
                                 <label for="typeNonTraditional">Non-Traditional</label>
                             </div>
                         </li>
                         <?php if(!Main::isTraditional()) { ?>
                             <li>
                                 <div style="display:inline">
-                                    <select name="campus" id="campusSelect">
+                                    <select name="campus" id="campusSelect" onclick="lusa.setCampus(this.value)">
 <!--                                        <option value="AUS" <?php if(Main::getCampus() == "AUS") print "selected='selected'"; ?>>Austin</option>-->
                                         <option value="BED" <?php if(Main::getCampus() == "BED") print "selected='selected'"; ?>>Bedford</option>
                                         <option value="DAL" <?php if(Main::getCampus() == "DAL") print "selected='selected'"; ?>>Dallas</option>
@@ -98,32 +98,18 @@
                                         <option value="XOL" <?php if(Main::getCampus() == "XOL") print "selected='selected'"; ?>>Online</option>
                                     </select>
 									<label for="campusSelect" style="display:none">Select Campus</label>
-                                    <script type="text/javascript">
-                                        <!--
-                                        $('campusSelect').observe('change', selectCampusTrigger);
-                                        //-->
-                                    </script>
                                 </div>
                             </li>
                         <?php } ?>
                         <li>
                             <div style="display:inline">
-                                <select name="semester" id="semesterSelect">
+                                <select name="semester" id="semesterSelect" onclick="lusa.setSemester(this.value)">
                                     <?php Main::printSemesterOptions(); ?>
                                 </select>
 								<label for="semesterSelect" style="display:none;">Select Semester</label>
                             </div>
                         </li>
                     </ul>
-					<script type="text/javascript">
-                        <!--
-                        $('typeTraditional').observe('click', updateAll.bindAsEventListener({'do': true}));
-                        $('typeNonTraditional').observe('click', updateAll.bindAsEventListener({'do': true}));
-                        $('semesterSelect').observe('change', updateAll.bindAsEventListener({'do': true}));
-						$('typeStudent').observe('click', updateAll.bindAsEventListener({'do': true}));
-						$('typeProf').observe('click', updateAll.bindAsEventListener({'do': false}));
-                        //-->
-                    </script>
                 </div>
                 <div id="body">
                     <?php $main->display(); ?>
