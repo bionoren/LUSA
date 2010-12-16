@@ -1,4 +1,6 @@
 <?php
+    //Shutter would like to note:
+    //We wish you a Merry Christmas and a happy New Year!
     $path = "./";
     require_once($path."Main.php");
     $mode = $_REQUEST["mode"];
@@ -22,19 +24,15 @@
 
     if($mode == "addClass") {
         $courses = Course::getFromID($_REQUEST["id"]);
-        print '{"classes":[';
         $optional = count($courses) > 1;
-        for($i = 0; $i < count($courses);) {
-            ob_start();
-            $courses[$i++]->display($optional);
-            $data = ob_get_contents();
-            ob_end_clean();
-            print json_encode($data);
-            if($i < count($courses)) {
-                print ',';
-            }
+        if($optional) {
+            $key = current($courses)->getID();
+            $span = (Main::isTraditional())?7:9;
+            print '<tr style="cursor:pointer;" class="'.$key.'" onclick="Course.toggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($courses)->getTitle().' ('.count($courses).')</td></tr>';
         }
-        print ']}';
+        foreach($courses as $course) {
+            $course->display($optional);
+        }
     }
 
     if($mode == "getDepartmentData") {

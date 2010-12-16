@@ -102,7 +102,7 @@
          * @return VOID
          */
         public function displaySchedules() {
-            if($this->isSubmitted() && Main::haveSelections()) {
+            if(true || $this->isSubmitted() && Main::haveSelections()) {
                 if($this->hasNoErrors()) {
                     print '<h2>Schedule</h2>';
                     $span = (Main::isTraditional())?7:9;

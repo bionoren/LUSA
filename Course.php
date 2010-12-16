@@ -28,7 +28,7 @@
 		/** INTEGER The number of this course. */
 		protected $number;
 		/** STRING Course ID with the section number and a hash of all class info appended. */
-		protected $id;
+		protected $uid;
         /** STRING Course section number. */
         protected $section;
         /** STRING Title of this class. */
@@ -61,7 +61,7 @@
 			$this->number = substr($xml->{"coursenumber"}, -4);
             $this->courseID = substr($xml->{"coursenumber"}, 0, 4)."-".$this->number;
             $this->section = (string)$xml->{"sectionnumber"};
-			$this->id = $this->courseID.$this->section;
+			$this->uid = $this->courseID.$this->section;
             if(empty($xml->{"sectiontitle"})) {
                 $this->title = htmlspecialchars($xml->{"coursetitle"});
             } else {
@@ -81,7 +81,7 @@
 		 * @return VOID
 		 */
 		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
-			$this->id .= md5($meeting->asXML());
+			$this->uid .= md5($meeting->asXML());
 			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask, $this->title);
 		}
 
@@ -110,31 +110,31 @@
 		 * @return VOID
 		 */
         public function display($optional=false) {
-			print '<tr id="'.$this->getUID().'0" class="'.$this->getBackgroundStyle().' '.$this->getID().'"';
+			print '<tr id="'.$this->getPrintQS().'" class="'.$this->getBackgroundStyle().' '.$this->getID().'"';
             if($optional) {
                 print ' style="visibility:collapse;"';
             }
             print '>';
 				if($optional) {
 					print '<td headers="classHeader">';
-						print "&nbsp;";
+						$ret .= "&nbsp;";
 					print '</td>';
 					print '<td style="width:auto;" headers="classHeader">';
 						if(!$this->isSpecial()) {
-							print "<input type='radio' id='select".$this->getUID()."' name='".$this->getID()."' value='".$this->section."'";
+							print '<input type="radio" name="'.$this->getID().'" value="'.$this->section.'" onclick="Course.selected(this.name, this.parentNode.parentNode.id);"';
 							if(Student::isKept($this)) {
-								print ' checked="checked"';
+								$ret .= ' checked="checked"';
 							}
-							print "/>";
-							print "<label for='select".$this->getUID()."'>Choose</label>";
+							print '/>';
+							print '<label for="select'.$this->getUID().'">Choose</label>';
 						}
-					print "</td>";
+					print '</td>';
 				} else {
 					print '<td headers="classHeader">'.$this->getID().'</td>';
 					print '<td headers="classHeader">'.$this->title.'</td>';
 				}
                 print '<td headers="sectionHeader">'.$this->section.'</td>';
-                $this->meetings[0]->display(!$this->trad);
+                print $this->meetings[0]->display(!$this->trad);
                 print '<td headers="registeredHeader">';
 					print $this->currentRegistered.'/'.$this->maxRegisterable;
 				print '</td>';
@@ -146,7 +146,7 @@
 					}
                     print '>';
                     print '<td colspan="3">&nbsp;</td>';
-                    $this->meetings[$i]->display(!$this->trad);
+                    print $this->meetings[$i]->display(!$this->trad);
                     print '<td></td>';
                 print '</tr>';
             }
@@ -228,15 +228,6 @@
 		}
 
 		/**
-		 * Returns the number of meetings for this class
-		 *
-		 * @return INTEGER Number of meetings.
-		 */
-		public function getNumMeetings() {
-			return count($this->meetings);
-		}
-
-		/**
 		 * Returns the querystring used to show the print preview for this class.
 		 *
 		 * @return STRING Query string.
@@ -278,7 +269,7 @@
 		 * @see $id
 		 */
         public function getUID() {
-            return $this->id;
+            return $this->uid;
         }
 
 		/**

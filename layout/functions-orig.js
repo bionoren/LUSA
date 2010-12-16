@@ -133,6 +133,8 @@ var Dropdown = Class.create({
         });
 
         Event.observe(this.course, 'change', this.courseSelected.bind(this));
+
+        Dropdown.instances.push(this);
     },
 
     /**
@@ -149,7 +151,7 @@ var Dropdown = Class.create({
             }
             this.populateCourse();
         } else {
-            Form.Element.setValue(this.course, 0);
+            this.course.value = 0;
             this.courseSelected();
             Element.remove(this.container);
         }
@@ -167,8 +169,12 @@ var Dropdown = Class.create({
         this.hours = hours;
 
         //update class list (call to another helper class)
+        this.courseMgr.update();
 
         //update schedule preview (if necessary) (call to another helper class)
+        Dropdown.instances.each(function(dropdown) {
+            course = dropdown.course.value;
+        });
 
         //update url (call to another helper class)
     },
@@ -208,31 +214,84 @@ var Dropdown = Class.create({
     }
 });
 
+Dropdown.instances = new Array();
+Dropdown.classes = new Hash();
+Dropdown.updatePreview = function() {
+    if($('scheduleImg')) {
+        tmp = new Array();
+        url = "print.php?sem=2011SP&trad=1&classes=";
+        Dropdown.classes.each(function(kvp) {
+            tmp.push(kvp[1]);
+        });
+        url += tmp.join("~");
+        $('scheduleImg').src = url;
+    }
+};
+
 var Course = Class.create({
     initialize: function(course) {
         this.course = course;
+        this.value = this.course.value;
+        this.update();
     },
 
-    /**
-     * Toggles the visibility of class sections in the class defined by key.
-     *
-     * @return VOID
-     */
-    toggle: function() {
-        sections = $$('.'+this.id);
-        tmp = sections.first();
-        if(tmp.style.visibility == "visible") {
-            state = "collapse";
-            $(this.id).innerHTML = "+";
-        } else {
-            state = "visible";
-            $(this.id).innerHTML = "-";
+    update: function() {
+        if(this.course.value) {
+            new Ajax.Updater('classes', 'postback.php', {
+                parameters: { mode: 'addClass', data: $('form').serialize(), submit: true, id: this.course.value },
+                insertion: Insertion.Bottom,
+                onSuccess: function(transport) {
+                    if(this.value) {
+                        $$("."+this.value).each(function(ele) {
+                            Element.remove(ele);
+                        }.bind(this));
+                    }
+                }.bind(this),
+                onComplete: function(transport) {
+                    rows = $$("."+this.course.value);
+                    if(rows.length == 1) {
+                        Dropdown.classes.set(this.course.value, rows[0].id);
+                        Dropdown.updatePreview();
+                    }
+                    this.value = this.course.value;
+                }.bind(this)
+            });
         }
-        sections.each(function(section) {
-            section.style.visibility = state;
-        });
+        if(this.course.value == "0") {
+            Dropdown.classes.unset(this.value);
+            Dropdown.updatePreview();
+        }
     }
 });
+
+/**
+ * Toggles the visibility of class sections in the class defined by key.
+ *
+ * @param key STRING - Class ID of the form DEPT-####
+ * @return VOID
+ */
+Course.toggle = function(key) {
+    sections = $$('.'+key);
+    sections.shift(); // remove the toggle header from the list
+    tmp = sections.first();
+    if(tmp.style.visibility == "visible") {
+        state = "collapse";
+        $(key).innerHTML = "+";
+    } else {
+        state = "visible";
+        $(key).innerHTML = "-";
+    }
+    sections.each(function(section) {
+        if(section.style.cursor != "pointer") {
+            section.style.visibility = state;
+        }
+    });
+};
+
+Course.selected = function(name, printStr) {
+    Dropdown.classes.set(name, printStr);
+    Dropdown.updatePreview();
+};
 
 /**
  * Returns the contents of the named cookie.

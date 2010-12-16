@@ -178,8 +178,7 @@
          */
         public function display($nontrad) {
             if($nontrad) {
-                $campus = $this->campusName;
-                print '<td headers="campusHeader">'.$campus.'</td>';
+                print '<td headers="campusHeader">'.$this->campusName.'</td>';
             }
             print '<td headers="profHeader"><a href="'.$_SERVER["SCRIPT_NAME"].'#role=professor&amp;prof='.$this->prof.'&amp;submit=Submit">'.$this->prof.'</a></td>';
             if($nontrad) {
