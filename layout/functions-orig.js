@@ -1,132 +1,101 @@
 //java -jar layout/yuicompressor-2.4.2.jar --type js -o layout/functions.js --line-break 0 layout/functions-orig.js
 
-var LUSA = Class.create({
-    initialize: function() {
-        /** BOOLEAN - True if this is the student view. */
-        this.student = null;
-        /** BOOLEAN - True if this is the trad view. */
-        this.trad = null;
-        /** STRING - The currently selected semester. */
-        this.semester = null;
-        /** STRING - The currently selected campus. */
-        this.campus = null;
+var lusa = {
+    /** BOOLEAN - True if this is the student view. */
+    student: null,
+    /** BOOLEAN - True if this is the trad view. */
+    trad: null,
+    /** STRING - The currently selected semester. */
+    semester: null,
+    /** STRING - The currently selected campus. */
+    campus: null
+};
 
-        /** HASH - List of classes added to the schedule keyed by class ID. */
-        this.classes = new Array();
-
-        this.updateOptions();
-        this.loadClasses();
-    },
-
-    /**
-     * Updates the location in the URL hash.
-     *
-     * @return VOID
-     */
-    updateLocation: function() {
-
-        str += "&submit=true";
-        document.location.hash = str;
-        document.cookie = this.getCookieName()+"="+str;
-    },
-
-    updateCampus: function(campus) {
-        this.campus = campus;
-    },
-
-    /**
-     * Updates the number of credit hours.
-     *
-     * @return VOID
-     */
-    updateHours: function() {
-       hours = 0;
-       this.dropdowns.each(function(dropdown) {
-           hours += Number(dropdown.course.value.substr(-1));
-       });
-       $('schedHours').innerHTML = hours;
-    },
-
-    /**
-     * Updates the schedule with all the most recent class selections.
-     *
-     * @return VOID
-     */
-    updateSchedule: function() {
-        var url = "print.php?sem="+this.semester+"&trad="+this.trad+"&classes=";
-        this.dropdowns.each(function(dropdown) {
-            if(dropdown.course.value) {
-                url += "~"+dropdown.course.value;
-            }
-        });
-        if($('scheduleImg')) {
-            $('scheduleImg').src = url;
+/**
+ * Updates the location in the URL hash.
+ *
+ * @return VOID
+ */
+lusa.updateLocation = function() {
+    str = lusa.getOptions();
+    Dropdown.instances.each(function(dropdown) {
+        if(dropdown.course.value && dropdown.course.value != "0") {
+            str += "&choice[] = "+dropdown.course.value;
         }
-        this.updateLocation();
-    },
+    });
+    document.location.hash = str;
+    document.cookie = this.getCookieName()+"="+str;
+};
 
-    updateOptions: function() {
-        this.student = $('typeStudent').value;
-        this.trad = $('typeTraditional').value;
-        if($('campusSelect')) {
-            this.campus = $('campusSelect').value;
-        }
-        if(!this.campus) {
-            this.campus = "MAIN";
-        }
-        this.semester = $('semesterSelect').value;
-    },
+lusa.updateCampus = function(campus) {
+    this.campus = campus;
+};
 
-    loadClasses: function() {
-        //create dropdowns
-        d = new Dropdown();
-        $('classDropdowns').appendChild(d.container);
-        //create classes
-        if($('classes')) {
-            $A($('classes').children).each(function(row) {
-                if(!row.id) {
-                    return;
-                }
-                cs = new Course(row, row.id);
-                this.classes.push(cs);
-            }.bind(this));
-        }
-    },
-
-    /**
-     * Returns the contents of the named cookie.
-     *
-     * @param c_name STRING - Name of the cookie to get data for.
-     * @return STRING - Cookie contents.
-     */
-    getCookie: function(c_name) {
-       if (document.cookie.length>0) {
-           c_start=document.cookie.indexOf(c_name + "=");
-           if (c_start!=-1) {
-               c_start=c_start + c_name.length+1;
-               c_end=document.cookie.indexOf(";",c_start);
-               if (c_end==-1) {
-                   c_end=document.cookie.length;
-               }
-               return unescape(document.cookie.substring(c_start,c_end));
-           }
-       }
-       return "";
-    },
-
-    /**
-     * Returns the name of the cookie currently storing user data.
-     *
-     * @return STRING - cookie name.
-     */
-    getCookieName: function() {
-       campus = "MAIN";
-       if($('campusSelect')) {
-           campus = $('campusSelect').value;
-       }
-       return $('semesterSelect').value+Number($('typeTraditional').checked)+campus;
+lusa.updateOptions = function() {
+    lusa.student = $('typeStudent').value;
+    lusa.trad = $('typeTraditional').value;
+    if($('campusSelect')) {
+        lusa.campus = $('campusSelect').value;
     }
-});
+    if(!lusa.campus) {
+        lusa.campus = "MAIN";
+    }
+    lusa.semester = $('semesterSelect').value;
+};
+
+lusa.getOptions = function() {
+    return "role="+lusa.student+"&type="+lusa.type+"&semester="+lusa.semester;
+}
+
+lusa.loadClasses = function() {
+    //create dropdowns
+    d = new Dropdown();
+    $('classDropdowns').appendChild(d.container);
+    //create classes
+    if($('classes')) {
+        $A($('classes').children).each(function(row) {
+            if(!row.id) {
+                return;
+            }
+            cs = new Course(row, row.id);
+            lusa.classes.push(cs);
+        });
+    }
+};
+
+/**
+ * Returns the contents of the named cookie.
+ *
+ * @param c_name STRING - Name of the cookie to get data for.
+ * @return STRING - Cookie contents.
+ */
+lusa.getCookie = function(c_name) {
+    if (document.cookie.length>0) {
+        c_start=document.cookie.indexOf(c_name + "=");
+        if (c_start!=-1) {
+            c_start=c_start + c_name.length+1;
+            c_end=document.cookie.indexOf(";",c_start);
+            if (c_end==-1) {
+                c_end=document.cookie.length;
+            }
+            return unescape(document.cookie.substring(c_start,c_end));
+        }
+    }
+    return "";
+ };
+
+/**
+ * Returns the name of the cookie currently storing user data.
+ *
+ * @return STRING - cookie name.
+ */
+lusa.getCookieName = function() {
+   campus = "MAIN";
+   if($('campusSelect')) {
+       campus = $('campusSelect').value;
+   }
+   return $('semesterSelect').value+Number($('typeTraditional').checked)+campus;
+};
 
 var Dropdown = Class.create({
     /**
@@ -152,7 +121,7 @@ var Dropdown = Class.create({
         this.dept.appendChild(option);
         new Ajax.Request('postback.php', {
             method: 'post',
-            parameters: { mode: 'getDepartmentData', data: $('form').serialize(), submit: true },
+            parameters: { mode: 'getDepartmentData', data: lusa.getOptions(), submit: true },
             onSuccess: function(transport) {
                 data = transport.responseText.evalJSON();
                 Object.values(data).each(function(dept) {
@@ -211,6 +180,7 @@ var Dropdown = Class.create({
         });
 
         //update url (call to another helper class)
+        lusa.updateLocation();
     },
 
     /**
@@ -221,7 +191,7 @@ var Dropdown = Class.create({
     populateCourse: function() {
         new Ajax.Request('postback.php', {
             method: 'post',
-            parameters: { mode: 'getCourseData', data: $('form').serialize(), submit: true, dept: this.dept.value },
+            parameters: { mode: 'getCourseData', data: lusa.getOptions(), submit: true, dept: this.dept.value },
             onSuccess: function(transport) {
                 data = transport.responseText.evalJSON();
                 if(this.course.children) {
@@ -276,7 +246,7 @@ var Course = Class.create({
                 Dropdown.updatePreview();
             }
             new Ajax.Updater('classes', 'postback.php', {
-                parameters: { mode: 'addClass', data: $('form').serialize(), submit: true, id: this.course.value },
+                parameters: { mode: 'addClass', data: lusa.getOptions(), submit: true, id: this.course.value },
                 insertion: Insertion.Bottom,
                 onSuccess: function(transport) {
                     if(this.value) {

@@ -7,7 +7,7 @@ this.updateOptions();
 this.loadClasses()
 },updateLocation:function(){str+="&submit=true";
 document.location.hash=str;
-document.cookie=getCookieName()+"="+str
+document.cookie=this.getCookieName()+"="+str
 },updateCampus:function(a){this.campus=a
 },updateHours:function(){hours=0;
 this.dropdowns.each(function(a){hours+=Number(a.course.value.substr(-1))
@@ -29,7 +29,16 @@ if($("classes")){$A($("classes").children).each(function(a){if(!a.id){return
 }cs=new Course(a,a.id);
 this.classes.push(cs)
 }.bind(this))
-}}});
+}},getCookie:function(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
+if(c_start!=-1){c_start=c_start+a.length+1;
+c_end=document.cookie.indexOf(";",c_start);
+if(c_end==-1){c_end=document.cookie.length
+}return unescape(document.cookie.substring(c_start,c_end))
+}}return""
+},getCookieName:function(){campus="MAIN";
+if($("campusSelect")){campus=$("campusSelect").value
+}return $("semesterSelect").value+Number($("typeTraditional").checked)+campus
+}});
 var Dropdown=Class.create({initialize:function(){this.container=document.createElement("div");
 this.dept=document.createElement("select");
 this.course=document.createElement("select");
@@ -92,15 +101,15 @@ $("scheduleImg").src=url
 var Course=Class.create({initialize:function(a){this.course=a;
 this.value=this.course.value;
 this.update()
-},update:function(){if(this.course.value){new Ajax.Updater("classes","postback.php",{parameters:{mode:"addClass",data:$("form").serialize(),submit:true,id:this.course.value},insertion:Insertion.Bottom,onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
+},update:function(){if(this.course.value){if(this.value&&this.course.value!=this.value){Dropdown.classes.unset(this.value);
+Dropdown.updatePreview()
+}new Ajax.Updater("classes","postback.php",{parameters:{mode:"addClass",data:$("form").serialize(),submit:true,id:this.course.value},insertion:Insertion.Bottom,onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
 }.bind(this))
 }}.bind(this),onComplete:function(a){rows=$$("."+this.course.value);
 if(rows.length==1){Dropdown.classes.set(this.course.value,rows[0].id);
 Dropdown.updatePreview()
 }this.value=this.course.value
 }.bind(this)})
-}if(this.course.value=="0"){Dropdown.classes.unset(this.value);
-Dropdown.updatePreview()
 }}});
 Course.toggle=function(a){sections=$$("."+a);
 sections.shift();
@@ -115,14 +124,3 @@ $(a).innerHTML="-"
 Course.selected=function(a,b){Dropdown.classes.set(a,b);
 Dropdown.updatePreview()
 };
-function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
-if(c_start!=-1){c_start=c_start+a.length+1;
-c_end=document.cookie.indexOf(";",c_start);
-if(c_end==-1){c_end=document.cookie.length
-}return unescape(document.cookie.substring(c_start,c_end))
-}}return""
-}function getCookieName(){campus="MAIN";
-if($("campusSelect")){campus=$("campusSelect").value
-}return $("semesterSelect").value+Number($("typeTraditional").checked)+campus
-}function profSelected(a){if(!a.empty()){new Ajax.Updater("schedule","postback.php",{parameters:{mode:"updateSchedule",data:$("form").serialize(),submit:true}})
-}};
