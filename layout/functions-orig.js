@@ -27,7 +27,7 @@ var LUSA = Class.create({
 
         str += "&submit=true";
         document.location.hash = str;
-        document.cookie = getCookieName()+"="+str;
+        document.cookie = this.getCookieName()+"="+str;
     },
 
     updateCampus: function(campus) {
@@ -91,6 +91,40 @@ var LUSA = Class.create({
                 this.classes.push(cs);
             }.bind(this));
         }
+    },
+
+    /**
+     * Returns the contents of the named cookie.
+     *
+     * @param c_name STRING - Name of the cookie to get data for.
+     * @return STRING - Cookie contents.
+     */
+    getCookie: function(c_name) {
+       if (document.cookie.length>0) {
+           c_start=document.cookie.indexOf(c_name + "=");
+           if (c_start!=-1) {
+               c_start=c_start + c_name.length+1;
+               c_end=document.cookie.indexOf(";",c_start);
+               if (c_end==-1) {
+                   c_end=document.cookie.length;
+               }
+               return unescape(document.cookie.substring(c_start,c_end));
+           }
+       }
+       return "";
+    },
+
+    /**
+     * Returns the name of the cookie currently storing user data.
+     *
+     * @return STRING - cookie name.
+     */
+    getCookieName: function() {
+       campus = "MAIN";
+       if($('campusSelect')) {
+           campus = $('campusSelect').value;
+       }
+       return $('semesterSelect').value+Number($('typeTraditional').checked)+campus;
     }
 });
 
@@ -237,6 +271,10 @@ var Course = Class.create({
 
     update: function() {
         if(this.course.value) {
+            if(this.value && this.course.value != this.value) {
+                Dropdown.classes.unset(this.value);
+                Dropdown.updatePreview();
+            }
             new Ajax.Updater('classes', 'postback.php', {
                 parameters: { mode: 'addClass', data: $('form').serialize(), submit: true, id: this.course.value },
                 insertion: Insertion.Bottom,
@@ -256,10 +294,6 @@ var Course = Class.create({
                     this.value = this.course.value;
                 }.bind(this)
             });
-        }
-        if(this.course.value == "0") {
-            Dropdown.classes.unset(this.value);
-            Dropdown.updatePreview();
         }
     }
 });
@@ -292,51 +326,3 @@ Course.selected = function(name, printStr) {
     Dropdown.classes.set(name, printStr);
     Dropdown.updatePreview();
 };
-
-/**
- * Returns the contents of the named cookie.
- *
- * @param c_name STRING - Name of the cookie to get data for.
- * @return STRING - Cookie contents.
- */
-function getCookie(c_name) {
-    if (document.cookie.length>0) {
-        c_start=document.cookie.indexOf(c_name + "=");
-        if (c_start!=-1) {
-            c_start=c_start + c_name.length+1;
-            c_end=document.cookie.indexOf(";",c_start);
-            if (c_end==-1) {
-                c_end=document.cookie.length;
-            }
-            return unescape(document.cookie.substring(c_start,c_end));
-        }
-    }
-    return "";
-}
-
-/**
- * Returns the name of the cookie currently storing user data.
- *
- * @return STRING - cookie name.
- */
-function getCookieName() {
-    campus = "MAIN";
-    if($('campusSelect')) {
-        campus = $('campusSelect').value;
-    }
-    return $('semesterSelect').value+Number($('typeTraditional').checked)+campus;
-}
-
-/**
- * Called when a professor is selected
- *
- * @param ele OBJECT - The select dropdown that was changed
- * @return VOID
- */
-function profSelected(ele) {
-    if(!ele.empty()) {
-        new Ajax.Updater('schedule', 'postback.php', {
-            parameters: { mode: 'updateSchedule', data: $('form').serialize(), submit: true }
-        });
-    }
-}

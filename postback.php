@@ -18,10 +18,6 @@
         $main = new Professor();
     }
 
-    if($mode == "updateSchedule") {
-        $main->displaySchedules();
-    }
-
     if($mode == "addClass") {
         $courses = Course::getFromID($_REQUEST["id"]);
         $optional = count($courses) > 1;
@@ -41,9 +37,5 @@
 
     if($mode == "getCourseData") {
         print $main->getCourseJSON($_REQUEST["dept"], $_REQUEST["course"]);
-    }
-
-    if($mode == "updateAll") {
-        $main->display();
     }
 ?>

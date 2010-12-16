@@ -49,17 +49,21 @@ this.dept.appendChild(option)
 }.bind(this));
 Event.observe(this.dept,"change",this.departmentSelected.bind(this))
 }.bind(this)});
-Event.observe(this.course,"change",this.courseSelected.bind(this))
+Event.observe(this.course,"change",this.courseSelected.bind(this));
+Dropdown.instances.push(this)
 },departmentSelected:function(){if(this.dept.value){if(!this.course.firstChild){d=new Dropdown();
 $("classDropdowns").appendChild(d.container);
 this.container.appendChild(this.course)
 }this.populateCourse()
-}else{Form.Element.setValue(this.course,0);
+}else{this.course.value=0;
 this.courseSelected();
 Element.remove(this.container)
 }},courseSelected:function(){hours=this.course.value.substr(-1);
 $("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-this.hours;
-this.hours=hours
+this.hours=hours;
+this.courseMgr.update();
+Dropdown.instances.each(function(a){course=a.course.value
+})
 },populateCourse:function(){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:$("form").serialize(),submit:true,dept:this.dept.value},onSuccess:function(a){data=a.responseText.evalJSON();
 if(this.course.children){$A(this.course.children).each(function(b){Element.remove(b)
 })
@@ -76,16 +80,41 @@ this.course.appendChild(option)
 this.course.activate()
 }.bind(this)})
 }});
-var Course=Class.create({initialize:function(a){this.course=a
-},toggle:function(){sections=$$("."+this.id);
+Dropdown.instances=new Array();
+Dropdown.classes=new Hash();
+Dropdown.updatePreview=function(){if($("scheduleImg")){tmp=new Array();
+url="print.php?sem=2011SP&trad=1&classes=";
+Dropdown.classes.each(function(a){tmp.push(a[1])
+});
+url+=tmp.join("~");
+$("scheduleImg").src=url
+}};
+var Course=Class.create({initialize:function(a){this.course=a;
+this.value=this.course.value;
+this.update()
+},update:function(){if(this.course.value){new Ajax.Updater("classes","postback.php",{parameters:{mode:"addClass",data:$("form").serialize(),submit:true,id:this.course.value},insertion:Insertion.Bottom,onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
+}.bind(this))
+}}.bind(this),onComplete:function(a){rows=$$("."+this.course.value);
+if(rows.length==1){Dropdown.classes.set(this.course.value,rows[0].id);
+Dropdown.updatePreview()
+}this.value=this.course.value
+}.bind(this)})
+}if(this.course.value=="0"){Dropdown.classes.unset(this.value);
+Dropdown.updatePreview()
+}}});
+Course.toggle=function(a){sections=$$("."+a);
+sections.shift();
 tmp=sections.first();
 if(tmp.style.visibility=="visible"){state="collapse";
-$(this.id).innerHTML="+"
+$(a).innerHTML="+"
 }else{state="visible";
-$(this.id).innerHTML="-"
-}sections.each(function(a){a.style.visibility=state
-})
-}});
+$(a).innerHTML="-"
+}sections.each(function(b){if(b.style.cursor!="pointer"){b.style.visibility=state
+}})
+};
+Course.selected=function(a,b){Dropdown.classes.set(a,b);
+Dropdown.updatePreview()
+};
 function getCookie(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
 c_end=document.cookie.indexOf(";",c_start);
