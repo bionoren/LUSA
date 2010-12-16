@@ -11,6 +11,31 @@ var lusa = {
     campus: null
 };
 
+lusa.init = function() {
+    lusa.updateOptions();
+    lusa.loadClasses();
+    Event.observe($('typeStudent'), 'click', function(event) {
+        lusa.student = this.value;
+    });
+/*    Event.observe($('typeProf'), 'click', function(event) {
+        lusa.student = this.value;
+    });*/
+    Event.observe($('typeTraditional'), 'click', function(event) {
+        lusa.trad = this.value;
+    });
+/*    Event.observe($('typeNonTraditional'), 'click', function(event) {
+        lusa.trad = this.value;
+    });*/
+    if($('campusSelect')) {
+        Event.observe($('campusSelect'), 'change', function(event) {
+            lusa.campus = this.value;
+        });
+    }
+    Event.observe($('semesterSelect'), 'change', function(event) {
+        lusa.semester = this.value;
+    });
+}
+
 /**
  * Updates the location in the URL hash.
  *
@@ -44,7 +69,7 @@ lusa.updateOptions = function() {
 };
 
 lusa.getOptions = function() {
-    return "role="+lusa.student+"&type="+lusa.type+"&semester="+lusa.semester;
+    return "role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester;
 }
 
 lusa.loadClasses = function() {

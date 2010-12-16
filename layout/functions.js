@@ -1,44 +1,38 @@
-var LUSA=Class.create({initialize:function(){this.student=null;
-this.trad=null;
-this.semester=null;
-this.campus=null;
-this.classes=new Array();
-this.updateOptions();
-this.loadClasses()
-},updateLocation:function(){str+="&submit=true";
+var lusa={student:null,trad:null,semester:null,campus:null};
+lusa.updateLocation=function(){str=lusa.getOptions();
+Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){str+="&choice[] = "+a.course.value
+}});
 document.location.hash=str;
 document.cookie=this.getCookieName()+"="+str
-},updateCampus:function(a){this.campus=a
-},updateHours:function(){hours=0;
-this.dropdowns.each(function(a){hours+=Number(a.course.value.substr(-1))
-});
-$("schedHours").innerHTML=hours
-},updateSchedule:function(){var a="print.php?sem="+this.semester+"&trad="+this.trad+"&classes=";
-this.dropdowns.each(function(b){if(b.course.value){a+="~"+b.course.value
-}});
-if($("scheduleImg")){$("scheduleImg").src=a
-}this.updateLocation()
-},updateOptions:function(){this.student=$("typeStudent").value;
-this.trad=$("typeTraditional").value;
-if($("campusSelect")){this.campus=$("campusSelect").value
-}if(!this.campus){this.campus="MAIN"
-}this.semester=$("semesterSelect").value
-},loadClasses:function(){d=new Dropdown();
+};
+lusa.updateCampus=function(a){this.campus=a
+};
+lusa.updateOptions=function(){lusa.student=$("typeStudent").value;
+lusa.trad=$("typeTraditional").value;
+if($("campusSelect")){lusa.campus=$("campusSelect").value
+}if(!lusa.campus){lusa.campus="MAIN"
+}lusa.semester=$("semesterSelect").value
+};
+lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.type+"&semester="+lusa.semester
+};
+lusa.loadClasses=function(){d=new Dropdown();
 $("classDropdowns").appendChild(d.container);
 if($("classes")){$A($("classes").children).each(function(a){if(!a.id){return
 }cs=new Course(a,a.id);
-this.classes.push(cs)
-}.bind(this))
-}},getCookie:function(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
+lusa.classes.push(cs)
+})
+}};
+lusa.getCookie=function(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
 c_end=document.cookie.indexOf(";",c_start);
 if(c_end==-1){c_end=document.cookie.length
 }return unescape(document.cookie.substring(c_start,c_end))
 }}return""
-},getCookieName:function(){campus="MAIN";
+};
+lusa.getCookieName=function(){campus="MAIN";
 if($("campusSelect")){campus=$("campusSelect").value
 }return $("semesterSelect").value+Number($("typeTraditional").checked)+campus
-}});
+};
 var Dropdown=Class.create({initialize:function(){this.container=document.createElement("div");
 this.dept=document.createElement("select");
 this.course=document.createElement("select");
@@ -50,7 +44,7 @@ option=document.createElement("option");
 option.setAttribute("value","");
 option.appendChild(document.createTextNode("----"));
 this.dept.appendChild(option);
-new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getDepartmentData",data:$("form").serialize(),submit:true},onSuccess:function(a){data=a.responseText.evalJSON();
+new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getDepartmentData",data:lusa.getOptions(),submit:true},onSuccess:function(a){data=a.responseText.evalJSON();
 Object.values(data).each(function(b){option=document.createElement("option");
 option.setAttribute("value",b);
 option.appendChild(document.createTextNode(b));
@@ -72,8 +66,9 @@ $("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-th
 this.hours=hours;
 this.courseMgr.update();
 Dropdown.instances.each(function(a){course=a.course.value
-})
-},populateCourse:function(){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:$("form").serialize(),submit:true,dept:this.dept.value},onSuccess:function(a){data=a.responseText.evalJSON();
+});
+lusa.updateLocation()
+},populateCourse:function(){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:lusa.getOptions(),submit:true,dept:this.dept.value},onSuccess:function(a){data=a.responseText.evalJSON();
 if(this.course.children){$A(this.course.children).each(function(b){Element.remove(b)
 })
 }option=document.createElement("option");
@@ -103,7 +98,7 @@ this.value=this.course.value;
 this.update()
 },update:function(){if(this.course.value){if(this.value&&this.course.value!=this.value){Dropdown.classes.unset(this.value);
 Dropdown.updatePreview()
-}new Ajax.Updater("classes","postback.php",{parameters:{mode:"addClass",data:$("form").serialize(),submit:true,id:this.course.value},insertion:Insertion.Bottom,onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
+}new Ajax.Updater("classes","postback.php",{parameters:{mode:"addClass",data:lusa.getOptions(),submit:true,id:this.course.value},insertion:Insertion.Bottom,onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
 }.bind(this))
 }}.bind(this),onComplete:function(a){rows=$$("."+this.course.value);
 if(rows.length==1){Dropdown.classes.set(this.course.value,rows[0].id);
