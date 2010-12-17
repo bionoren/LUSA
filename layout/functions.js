@@ -65,7 +65,8 @@ option=document.createElement("option");
 option.setAttribute("value","");
 option.appendChild(document.createTextNode("----"));
 this.dept.appendChild(option);
-new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getDepartmentData",data:lusa.getOptions(),submit:true},onSuccess:function(b){data=b.responseText.evalJSON();
+if(!lusa.deptCache){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getDepartmentData",data:lusa.getOptions(),submit:true},onSuccess:function(b){data=b.responseText.evalJSON();
+lusa.deptCache=data;
 Object.values(data).each(function(c){option=document.createElement("option");
 option.setAttribute("value",c);
 option.appendChild(document.createTextNode(c));
@@ -74,8 +75,17 @@ this.dept.appendChild(option)
 Event.observe(this.dept,"change",this.departmentSelected.bind(this))
 }.bind(this),onComplete:function(){if(a){this.dept.value=a.substr(0,4);
 this.departmentSelected(a)
-}}.bind(this)});
-Event.observe(this.course,"change",this.courseSelected.bind(this));
+}}.bind(this)})
+}else{data=lusa.deptCache;
+Object.values(data).each(function(b){option=document.createElement("option");
+option.setAttribute("value",b);
+option.appendChild(document.createTextNode(b));
+this.dept.appendChild(option)
+}.bind(this));
+Event.observe(this.dept,"change",this.departmentSelected.bind(this));
+if(a){this.dept.value=a.substr(0,4);
+this.departmentSelected(a)
+}}Event.observe(this.course,"change",this.courseSelected.bind(this));
 Dropdown.instances.push(this)
 },departmentSelected:function(a){if(this.dept.value){if(!this.course.firstChild){if(!Object.isString(a)){d=new Dropdown();
 $("classDropdowns").appendChild(d.container)

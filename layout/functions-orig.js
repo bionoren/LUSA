@@ -1,9 +1,9 @@
 //java -jar layout/yuicompressor-2.4.2.jar --type js -o layout/functions.js --line-break 0 layout/functions-orig.js
 
 var lusa = {
-    /** BOOLEAN - True if this is the student view. */
+    /** STRING - student if this is the student view. */
     student: null,
-    /** BOOLEAN - True if this is the trad view. */
+    /** STRING - trad if this is the trad view. */
     trad: null,
     /** STRING - The currently selected semester. */
     semester: null,
@@ -11,7 +11,7 @@ var lusa = {
     campus: null
 };
 
-lusa.init = function() {
+lusa.init = function(cookie) {
     lusa.updateOptions();
     lusa.loadClasses();
     Event.observe($('typeStudent'), 'click', function(event) {
@@ -33,6 +33,8 @@ lusa.init = function() {
     }
     Event.observe($('semesterSelect'), 'change', function(event) {
         lusa.semester = this.value;
+        cookie = lusa.getCookie(lusa.getCookieName());
+        document.location = "index.php?semester="+lusa.semester+"#"+cookie;
     });
 };
 
@@ -85,19 +87,21 @@ lusa.getOptions = function() {
 };
 
 lusa.loadClasses = function() {
-    temp = new Hash();
-    $A($('classes').children).each(function(row) {
-        if(row.classList.length) {
-            $A(row.classList).each(function(cssClass) {
-                cssClass.scan(/\w{4}-\d{4}/, function(match) {
-                    temp.set(match, match);
+    if($('classes')) {
+        temp = new Hash();
+        $A($('classes').children).each(function(row) {
+            if(row.classList.length) {
+                $A(row.classList).each(function(cssClass) {
+                    cssClass.scan(/\w{4}-\d{4}/, function(match) {
+                        temp.set(match, match);
+                    });
                 });
-            });
-        }
-    });
-    temp.each(function(kvp) {
-        d = new Dropdown(kvp[0]);
-    });
+            }
+        });
+        temp.each(function(kvp) {
+            d = new Dropdown(kvp[0]);
+        });
+    }
     //create dropdowns
     d = new Dropdown();
 };
@@ -120,7 +124,7 @@ lusa.getCookie = function(c_name) {
             return unescape(document.cookie.substring(c_start,c_end));
         }
     }
-    return "";
+    return null;
  };
 
 /**
