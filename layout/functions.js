@@ -1,13 +1,15 @@
 var lusa={student:null,trad:null,semester:null,campus:null};
-lusa.init=function(){lusa.updateOptions();
+lusa.init=function(a){lusa.updateOptions();
 lusa.loadClasses();
-Event.observe($("typeStudent"),"click",function(a){lusa.student=this.value
+Event.observe($("typeStudent"),"click",function(b){lusa.student=this.value
 });
-Event.observe($("typeTraditional"),"click",function(a){lusa.trad=this.value
+Event.observe($("typeTraditional"),"click",function(b){lusa.trad=this.value
 });
-if($("campusSelect")){Event.observe($("campusSelect"),"change",function(a){lusa.campus=this.value
+if($("campusSelect")){Event.observe($("campusSelect"),"change",function(b){lusa.campus=this.value
 })
-}Event.observe($("semesterSelect"),"change",function(a){lusa.semester=this.value
+}Event.observe($("semesterSelect"),"change",function(b){lusa.semester=this.value;
+a=lusa.getCookie(lusa.getCookieName());
+document.location="index.php?semester="+lusa.semester+"#"+a
 })
 };
 lusa.updateLocation=function(){str=lusa.getOptions();
@@ -33,21 +35,21 @@ if($("campusSelect")){lusa.campus=$("campusSelect").value
 };
 lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester
 };
-lusa.loadClasses=function(){temp=new Hash();
+lusa.loadClasses=function(){if($("classes")){temp=new Hash();
 $A($("classes").children).each(function(a){if(a.classList.length){$A(a.classList).each(function(b){b.scan(/\w{4}-\d{4}/,function(c){temp.set(c,c)
 })
 })
 }});
 temp.each(function(a){d=new Dropdown(a[0])
-});
-d=new Dropdown()
+})
+}d=new Dropdown()
 };
 lusa.getCookie=function(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
 c_end=document.cookie.indexOf(";",c_start);
 if(c_end==-1){c_end=document.cookie.length
 }return unescape(document.cookie.substring(c_start,c_end))
-}}return""
+}}return null
 };
 lusa.getCookieName=function(){campus="MAIN";
 if($("campusSelect")){campus=$("campusSelect").value
