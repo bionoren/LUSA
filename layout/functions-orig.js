@@ -51,7 +51,9 @@ lusa.updateLocation = function() {
         }
     });
     document.location.hash = str;
-    document.cookie = this.getCookieName()+"="+str;
+    date = new Date();
+    date.setTime(date.getTime()+(365*24*60*60*1000));
+    document.cookie = this.getCookieName()+"="+str+"; expires="+date.toUTCString();
 };
 
 lusa.updatePreview = function() {
