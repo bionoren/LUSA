@@ -11,11 +11,18 @@ if($("campusSelect")){Event.observe($("campusSelect"),"change",function(a){lusa.
 })
 };
 lusa.updateLocation=function(){str=lusa.getOptions();
-Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){str+="&choice[] = "+a.course.value
+Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){str+="&choice[]="+a.course.value
 }});
 document.location.hash=str;
 document.cookie=this.getCookieName()+"="+str
 };
+lusa.updatePreview=function(){if($("scheduleImg")){tmp=new Array();
+url="print.php?sem=2011SP&trad=1&classes=";
+Dropdown.classes.each(function(a){tmp.push(a[1])
+});
+url+=tmp.join("~");
+$("scheduleImg").src=url
+}};
 lusa.updateCampus=function(a){this.campus=a
 };
 lusa.updateOptions=function(){lusa.student=$("typeStudent").value;
@@ -75,10 +82,8 @@ Element.remove(this.container)
 }},courseSelected:function(){hours=this.course.value.substr(-1);
 $("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-this.hours;
 this.hours=hours;
-this.courseMgr.update();
-Dropdown.instances.each(function(a){course=a.course.value
-});
-lusa.updateLocation()
+lusa.updateLocation();
+this.courseMgr.reload()
 },populateCourse:function(){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:lusa.getOptions(),submit:true,dept:this.dept.value},onSuccess:function(a){data=a.responseText.evalJSON();
 if(this.course.children){$A(this.course.children).each(function(b){Element.remove(b)
 })
@@ -88,7 +93,7 @@ option.appendChild(document.createTextNode("----"));
 this.course.appendChild(option);
 Object.keys(data).each(function(b){option=document.createElement("option");
 option.setAttribute("value",b);
-if(data[b]["error"]){option.setAttribute("style","color:rgb(177, 177, 177);")
+if(data[b].error){option.setAttribute("style","color:rgb(177, 177, 177);")
 }option.appendChild(document.createTextNode(data[b]["class"]));
 this.course.appendChild(option)
 }.bind(this));
@@ -97,26 +102,20 @@ this.course.activate()
 }});
 Dropdown.instances=new Array();
 Dropdown.classes=new Hash();
-Dropdown.updatePreview=function(){if($("scheduleImg")){tmp=new Array();
-url="print.php?sem=2011SP&trad=1&classes=";
-Dropdown.classes.each(function(a){tmp.push(a[1])
-});
-url+=tmp.join("~");
-$("scheduleImg").src=url
-}};
 var Course=Class.create({initialize:function(a){this.course=a;
 this.value=this.course.value;
-this.update()
-},update:function(){if(this.course.value){if(this.value&&this.course.value!=this.value){Dropdown.classes.unset(this.value);
-Dropdown.updatePreview()
-}new Ajax.Updater("classes","postback.php",{parameters:{mode:"addClass",data:lusa.getOptions(),submit:true,id:this.course.value},insertion:Insertion.Bottom,onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
+this.reload()
+},reload:function(){if(this.course.value){if(this.value&&this.course.value!=this.value){Dropdown.classes.unset(this.value)
+}new Ajax.Updater("classes","postback.php",{parameters:{mode:"updateClasses",data:document.location.hash,submit:true,id:this.course.value},onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
 }.bind(this))
-}}.bind(this),onComplete:function(a){rows=$$("."+this.course.value);
-if(rows.length==1){Dropdown.classes.set(this.course.value,rows[0].id);
-Dropdown.updatePreview()
-}this.value=this.course.value
+}}.bind(this),onComplete:function(a){this.value=this.course.value;
+Dropdown.instances.each(function(b){if(b.courseMgr){b.courseMgr.update()
+}});
+lusa.updatePreview()
 }.bind(this)})
-}}});
+}},update:function(){if(this.course.value){rows=$$("."+this.course.value);
+if(rows.length==1){Dropdown.classes.set(this.value,rows[0].id)
+}}}});
 Course.toggle=function(a){sections=$$("."+a);
 sections.shift();
 tmp=sections.first();
@@ -128,5 +127,5 @@ $(a).innerHTML="-"
 }})
 };
 Course.selected=function(a,b){Dropdown.classes.set(a,b);
-Dropdown.updatePreview()
+lusa.updatePreview()
 };

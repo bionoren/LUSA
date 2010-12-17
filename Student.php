@@ -131,7 +131,7 @@
          */
         public function displaySchedules() {
             $span = (Main::isTraditional())?7:9;
-            if($this->isSubmitted() && Main::haveSelections()) {
+            if(Main::haveSelections()) {
                 $noCommon = true;
                 $haveOthers = false;
                 foreach($this->getCourses() as $sections) {
@@ -357,7 +357,7 @@
             //alphabetize the class list
             array_multisort($this->classes);
 
-            if($this->isSubmitted() && Main::haveSelections()) {
+            if(Main::haveSelections()) {
                 //gather input data
                 foreach($this->getSelectedChoices() as $key) {
                     if(isset($this->courseTitleNumbers[$key])) {

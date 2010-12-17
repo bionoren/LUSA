@@ -139,15 +139,6 @@
 		}
 
         /**
-         * Returns true if schedules should be generated.
-         *
-         * @return BOOLEAN True if the class form was submitted.
-         */
-        public static function isSubmitted() {
-            return Main::$submit;
-        }
-
-        /**
          * Returns true if traditional classes are being evaluated.
          *
          * @return BOOLEAN True if traditional classes are being used.

@@ -19,18 +19,14 @@
 	require_once("Main.php");
 	Main::init();
 
-    if(Main::isSubmitted() && Main::isStudent()) {
-        save_cookie($_SERVER["QUERY_STRING"]);
-    } else {
-        //look for cookie data
-        if(Main::isStudent() && isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
-			$_SERVER["QUERY_STRING"] = $_COOKIE[Main::getCookieName()];
-			$tmp = array();
-			parse_str($_SERVER["QUERY_STRING"], $tmp);
-			$_REQUEST = array_merge($tmp, $_REQUEST);
-			Main::init();
-        }
-    }
+	//look for cookie data
+	if(Main::isStudent() && isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
+		$_SERVER["QUERY_STRING"] = $_COOKIE[Main::getCookieName()];
+		$tmp = array();
+		parse_str($_SERVER["QUERY_STRING"], $tmp);
+		$_REQUEST = array_merge($tmp, $_REQUEST);
+		Main::init();
+	}
 
 	if(Main::isStudent()) {
 		$main = new Student();

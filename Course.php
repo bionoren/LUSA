@@ -117,13 +117,13 @@
             print '>';
 				if($optional) {
 					print '<td headers="classHeader">';
-						$ret .= "&nbsp;";
+						print "&nbsp;";
 					print '</td>';
 					print '<td style="width:auto;" headers="classHeader">';
 						if(!$this->isSpecial()) {
 							print '<input type="radio" name="'.$this->getID().'" value="'.$this->section.'" onclick="Course.selected(this.name, this.parentNode.parentNode.id);"';
 							if(Student::isKept($this)) {
-								$ret .= ' checked="checked"';
+								print ' checked="checked"';
 							}
 							print '/>';
 							print '<label for="select'.$this->getUID().'">Choose</label>';

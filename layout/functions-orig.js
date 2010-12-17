@@ -85,19 +85,21 @@ lusa.getOptions = function() {
 };
 
 lusa.loadClasses = function() {
+    temp = new Hash();
+    $A($('classes').children).each(function(row) {
+        if(row.classList.length) {
+            $A(row.classList).each(function(cssClass) {
+                cssClass.scan(/\w{4}-\d{4}/, function(match) {
+                    temp.set(match, match);
+                });
+            });
+        }
+    });
+    temp.each(function(kvp) {
+        d = new Dropdown(kvp[0]);
+    });
     //create dropdowns
     d = new Dropdown();
-    $('classDropdowns').appendChild(d.container);
-    //create classes
-    if($('classes')) {
-        $A($('classes').children).each(function(row) {
-            if(!row.id) {
-                return;
-            }
-            cs = new Course(row, row.id);
-            lusa.classes.push(cs);
-        });
-    }
 };
 
 /**
@@ -137,8 +139,10 @@ lusa.getCookieName = function() {
 var Dropdown = Class.create({
     /**
      * Constructs a new department dropdown in a div container.
+     *
+     * @param value STRING Optional default value of the form DEPT-####.
      */
-    initialize: function() {
+    initialize: function(value) {
         /** @var OBJECT - Container div for these options. */
         this.container = document.createElement("div");
         /** @var OBJECT - Reference to the department dropdown. */
@@ -150,6 +154,7 @@ var Dropdown = Class.create({
         /** @var COURSE - An object to manage the actual display of course info. */
         this.courseMgr = null;
 
+        $('classDropdowns').appendChild(this.container);
         this.container.appendChild(this.dept);
         this.courseMgr = new Course(this.course);
         option = document.createElement("option");
@@ -169,6 +174,12 @@ var Dropdown = Class.create({
                 }.bind(this));
 
                 Event.observe(this.dept, 'change', this.departmentSelected.bind(this));
+            }.bind(this),
+            onComplete: function() {
+                if(value) {
+                    this.dept.value = value.substr(0, 4);
+                    this.departmentSelected(value);
+                }
             }.bind(this)
         });
 
@@ -180,16 +191,19 @@ var Dropdown = Class.create({
     /**
      * Called when a department dropdown is selected.
      *
+     * @param value STRING Optional default value of the form DEPT-####.
      * @return VOID
      */
-    departmentSelected: function() {
+    departmentSelected: function(value) {
         if(this.dept.value) {
             if(!this.course.firstChild) {
-                d = new Dropdown();
-                $('classDropdowns').appendChild(d.container);
+                if(!Object.isString(value)) {
+                    d = new Dropdown();
+                    $('classDropdowns').appendChild(d.container);
+                }
                 this.container.appendChild(this.course);
             }
-            this.populateCourse();
+            this.populateCourse(value);
         } else {
             this.course.value = 0;
             this.courseSelected();
@@ -218,9 +232,10 @@ var Dropdown = Class.create({
     /**
      * Populates the course dropdown list with the currently selected department.
      *
+     * @param value STRING Optional default value of the form DEPT-####.
      * @return VOID
      */
-    populateCourse: function() {
+    populateCourse: function(value) {
         new Ajax.Request('postback.php', {
             method: 'post',
             parameters: { mode: 'getCourseData', data: lusa.getOptions(), submit: true, dept: this.dept.value },
@@ -245,6 +260,12 @@ var Dropdown = Class.create({
                     this.course.appendChild(option);
                 }.bind(this));
                 this.course.activate();
+            }.bind(this),
+            onComplete: function() {
+                if(value) {
+                    this.course.value = value;
+                    this.courseSelected();
+                }
             }.bind(this)
         });
     }
