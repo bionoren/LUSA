@@ -42,7 +42,7 @@
             }
         }
     }
-	if(substr($_REQUEST["sem"], -2) != "SU" && $_REQUEST["trad"]) {
+	if(substr($_REQUEST["sem"], -2) != "SU" && $_REQUEST["type"] != "non") {
 		//add chapel
 		$tmp = array();
 		$tmp[] = 2+8+32;
@@ -52,7 +52,14 @@
 		$tmp[] = "Chapel";
 		$classes[] = $tmp;
 	}
+
+	header('Content-type: image/gif');
 	if(empty($classes)) {
+		$img = imagecreate(1,1);
+		$white = imagecolorallocate($img, 255, 255, 255);
+		imagegif($img);
+	    imagedestroy($img);
+		imagefill($img, 0, 0, $white);
 		die();
 	}
 
@@ -79,16 +86,15 @@
         }
     }
 
-	header('Content-type: image/gif');
     $imgWidth = 670;
     $imgHeight = 880;
     //taken from the WINE project
     $font = "layout/tahoma.ttf";
     $img = imagecreate($imgWidth, $imgHeight);
-    $white = imagecolorallocate($img, 255, 255, 255);
-    imagefill($img, 0, 0, $white);
-    $black = imagecolorallocate($img, 0, 0, 0);
+	$white = imagecolorallocate($img, 255, 255, 255);
+	$black = imagecolorallocate($img, 0, 0, 0);
 
+    imagefill($img, 0, 0, $white);
     imagesetthickness($img, 2);
     //border
     imagerectangle($img, 0, 1, $imgWidth-1, $imgHeight-2, $black);

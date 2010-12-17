@@ -19,18 +19,14 @@
 	require_once("Main.php");
 	Main::init();
 
-    if(Main::isSubmitted() && Main::isStudent()) {
-        save_cookie($_SERVER["QUERY_STRING"]);
-    } else {
-        //look for cookie data
-        if(Main::isStudent() && isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
-			$_SERVER["QUERY_STRING"] = $_COOKIE[Main::getCookieName()];
-			$tmp = array();
-			parse_str($_SERVER["QUERY_STRING"], $tmp);
-			$_REQUEST = array_merge($tmp, $_REQUEST);
-			Main::init();
-        }
-    }
+	//look for cookie data
+	if(Main::isStudent() && isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
+		$_SERVER["QUERY_STRING"] = $_COOKIE[Main::getCookieName()];
+		$tmp = array();
+		parse_str($_SERVER["QUERY_STRING"], $tmp);
+		$_REQUEST = array_merge($tmp, $_REQUEST);
+		Main::init();
+	}
 
 	if(Main::isStudent()) {
 		$main = new Student();
@@ -55,12 +51,12 @@
         <script type="text/javascript" src="layout/prototype.js"></script>
         <script type="text/javascript" src="layout/functions.js"></script>
     </head>
-    <body lang="en" onload="selectClass()">
+    <body lang="en" onload="lusa.init();">
         <!--LUSA 2: A Dorm 41 Production-->
         <!--Developed by: Wharf-->
         <!--Design by: Shutter-->
-		<!--QA and Lead Tester: Synk-->
-		<!--Performance Consultants: Zoot, Gary Raduns-->
+        <!--QA and Lead Tester: Synk-->
+        <!--Performance Consultants: Zoot, Gary Raduns-->
         <!--This code hates Tom Kelley-->
         <!--Special thanks to all of 41 and G2 for their suggestions, bug reports, patience, and encouragement!-->
         <div id="container">
@@ -71,17 +67,17 @@
 						<li class="first">
 							<input type="radio" id="typeStudent" name="role" value="student" <?php if(Main::isStudent()) { print 'checked="checked"'; } ?>/>
 							<label for="typeStudent">Student</label>
-							&nbsp;&nbsp;
+							<!--&nbsp;&nbsp;
 							<input type="radio" id="typeProf" name="role" value="prof" <?php if(!Main::isStudent()) { print 'checked="checked"'; } ?>/>
-							<label for="typeProf">Professor</label>
+							<label for="typeProf">Professor</label>-->
 						</li>
                         <li class="second">
                             <div style="display:inline">
                                 <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(Main::isTraditional()) { print 'checked="checked"'; } ?>/>
                                 <label for="typeTraditional">Traditional</label>
-                                &nbsp;&nbsp;
+<!--                                &nbsp;&nbsp;
                                 <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!Main::isTraditional()) { print 'checked="checked"'; } ?>/>
-                                <label for="typeNonTraditional">Non-Traditional</label>
+                                <label for="typeNonTraditional">Non-Traditional</label>-->
                             </div>
                         </li>
                         <?php if(!Main::isTraditional()) { ?>
@@ -98,11 +94,6 @@
                                         <option value="XOL" <?php if(Main::getCampus() == "XOL") print "selected='selected'"; ?>>Online</option>
                                     </select>
 									<label for="campusSelect" style="display:none">Select Campus</label>
-                                    <script type="text/javascript">
-                                        <!--
-                                        $('campusSelect').observe('change', selectCampusTrigger);
-                                        //-->
-                                    </script>
                                 </div>
                             </li>
                         <?php } ?>
@@ -115,15 +106,6 @@
                             </div>
                         </li>
                     </ul>
-					<script type="text/javascript">
-                        <!--
-                        $('typeTraditional').observe('click', updateAll.bindAsEventListener({'do': true}));
-                        $('typeNonTraditional').observe('click', updateAll.bindAsEventListener({'do': true}));
-                        $('semesterSelect').observe('change', updateAll.bindAsEventListener({'do': true}));
-						$('typeStudent').observe('click', updateAll.bindAsEventListener({'do': true}));
-						$('typeProf').observe('click', updateAll.bindAsEventListener({'do': false}));
-                        //-->
-                    </script>
                 </div>
                 <div id="body">
                     <?php $main->display(); ?>
@@ -131,9 +113,9 @@
             </form>
             <div id="footer" class="print-no">
                 <ul>
-					<li><a href="#" onclick='window.open("http://www.letu.edu/academics/catalog/");'>Course Catalog</a></li>
-                    <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="https://my.letu.edu:91/cgi-bin/student/frame.cgi">log into MyLetu to register for classes</a>.</li>
-                    <li>By using this, you agree not to sue (<a href="tos.php">blah blah blah</a>).</li>
+					<li class="print-no"><a href="javascript:void" onclick='window.open("http://www.letu.edu/academics/catalog/");'>Course Catalog</a></li>
+                    <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="javascript:void" onclick='window.open("https://my.letu.edu:91/cgi-bin/student/frame.cgi")'>log into MyLetu to register for classes</a>.</li>
+                    <li class="print-no">By using this, you agree not to sue (<a href="tos.php">blah blah blah</a>).</li>
                 </ul>
             </div>
         </div>

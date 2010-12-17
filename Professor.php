@@ -47,7 +47,7 @@
          * @return VOID
          */
         public function displaySchedules() {
-            if($this->isSubmitted() && !empty($this->prof)) {
+            if(!empty($this->prof)) {
                 print '<h2>Schedule</h2>';
                 print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS($this->profClassList[$this->prof]).'" height="600"/>';
                 print '<br/>';
