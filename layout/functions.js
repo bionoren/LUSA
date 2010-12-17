@@ -16,7 +16,9 @@ lusa.updateLocation=function(){str=lusa.getOptions();
 Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){str+="&choice[]="+a.course.value
 }});
 document.location.hash=str;
-document.cookie=this.getCookieName()+"="+str
+date=new Date();
+date.setTime(date.getTime()+(365*24*60*60*1000));
+document.cookie=this.getCookieName()+"="+str+"; expires="+date.toUTCString()
 };
 lusa.updatePreview=function(){if($("scheduleImg")){tmp=new Array();
 url="print.php?sem=2011SP&trad=1&classes=";
