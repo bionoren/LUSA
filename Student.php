@@ -26,8 +26,6 @@
         protected $errors = array();
         /** INTEGER The total number of hours for the selected classes. */
         protected $hours = 0;
-        /** ARRAY Associative array of selected classes (DEPT). */
-        protected $selectedClasses = array();
         /** ARRAY Associative array of selected courses (DEPT####). */
         protected $selectedChoices = array();
         /** BOOLEAN True if links to the bookstore website should be shown (which is slow). */
@@ -39,10 +37,6 @@
         public function __construct() {
             parent::__construct();
 
-            //removes duplicate entries
-            if(isset($_REQUEST["class"])) {
-                $this->selectedClasses = array_filter($_REQUEST["class"]);
-            }
             if(Main::haveSelections()) {
                 foreach($_REQUEST["choice"] as $course) {
 					if(!empty($course)) {
@@ -91,21 +85,8 @@
                 print '<span id="schedHours">'.$this->getHours().'</span> Credit Hours';
             print '</div>';
             print '<div id="schedule">';
-                $this->displaySchedules();
-            print '</div>';
-        }
-
-        /**
-         * Displays the generated schedule(s) to the user with all the pretty and error
-         * messages that may or may not go with that.
-         *
-         * @return VOID
-         */
-        public function displaySchedules() {
-            if(true || $this->isSubmitted() && Main::haveSelections()) {
                 if($this->hasNoErrors()) {
                     print '<h2>Schedule</h2>';
-                    $span = (Main::isTraditional())?7:9;
                     //make classes show up in a pretty order
                     print '<table class="full border">';
                         print '<thead>';
@@ -118,38 +99,7 @@
                             print '</tr>';
                         print '</thead>';
                         print '<tbody id="classes">';
-                            $noCommon = true;
-                            $haveOthers = false;
-                            foreach($this->getCourses() as $sections) {
-                                if(count($sections) == 1) {
-                                    if($noCommon) {
-                                        $noCommon = false;
-                                        print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                                            print 'These are the only times you can take these classes:';
-                                        print '</td></tr>';
-                                    }
-                                    print $sections[0]->display()."\n";
-                                    Student::$common[] = $sections[0];
-                                } else {
-                                    $haveOthers = true;
-                                }
-                            }
-
-                            if($haveOthers) {
-                                print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                                    print 'These classes have some options:';
-                                print '</td></tr>';
-
-                                foreach($this->getCourses() as $sections) {
-                                    if(count($sections) > 1) {
-                                        $key = current($sections)->getID();
-                                        print '<tr style="cursor:pointer;" onclick="createJSToggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
-                                        foreach($sections as $section) {
-                                            print $section->display(true);
-                                        }
-                                    }
-                                }
-                            }
+                            $this->displaySchedules();
                         print '</tbody>';
                     print '</table>';
                     print '<br/>';
@@ -169,6 +119,50 @@
                     print '</div>';
                 } else {
                     print "<span style='color:red;'>Conflicts were found :(<br>".$this->getCourses()."</span>";
+                }
+            print '</div>';
+        }
+
+        /**
+         * Displays the generated schedule(s) to the user with all the pretty and error
+         * messages that may or may not go with that.
+         *
+         * @return VOID
+         */
+        public function displaySchedules() {
+            $span = (Main::isTraditional())?7:9;
+            if($this->isSubmitted() && Main::haveSelections()) {
+                $noCommon = true;
+                $haveOthers = false;
+                foreach($this->getCourses() as $sections) {
+                    if(count($sections) == 1) {
+                        if($noCommon) {
+                            $noCommon = false;
+                            print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                                print 'These are the only times you can take these classes:';
+                            print '</td></tr>';
+                        }
+                        print $sections[0]->display()."\n";
+                        Student::$common[] = $sections[0];
+                    } else {
+                        $haveOthers = true;
+                    }
+                }
+
+                if($haveOthers) {
+                    print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                        print 'These classes have some options:';
+                    print '</td></tr>';
+
+                    foreach($this->getCourses() as $sections) {
+                        if(count($sections) > 1) {
+                            $key = current($sections)->getID();
+                            print '<tr style="cursor:pointer;" class="'.$key.'" onclick="Course.toggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
+                            foreach($sections as $section) {
+                                print $section->display(true);
+                            }
+                        }
+                    }
                 }
             }
         }

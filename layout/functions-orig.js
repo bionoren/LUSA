@@ -34,7 +34,7 @@ lusa.init = function() {
     Event.observe($('semesterSelect'), 'change', function(event) {
         lusa.semester = this.value;
     });
-}
+};
 
 /**
  * Updates the location in the URL hash.
@@ -45,11 +45,23 @@ lusa.updateLocation = function() {
     str = lusa.getOptions();
     Dropdown.instances.each(function(dropdown) {
         if(dropdown.course.value && dropdown.course.value != "0") {
-            str += "&choice[] = "+dropdown.course.value;
+            str += "&choice[]="+dropdown.course.value;
         }
     });
     document.location.hash = str;
     document.cookie = this.getCookieName()+"="+str;
+};
+
+lusa.updatePreview = function() {
+    if($('scheduleImg')) {
+        tmp = new Array();
+        url = "print.php?sem=2011SP&trad=1&classes=";
+        Dropdown.classes.each(function(kvp) {
+            tmp.push(kvp[1]);
+        });
+        url += tmp.join("~");
+        $('scheduleImg').src = url;
+    }
 };
 
 lusa.updateCampus = function(campus) {
@@ -70,7 +82,7 @@ lusa.updateOptions = function() {
 
 lusa.getOptions = function() {
     return "role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester;
-}
+};
 
 lusa.loadClasses = function() {
     //create dropdowns
@@ -196,16 +208,11 @@ var Dropdown = Class.create({
         $('schedHours').innerHTML = parseInt($('schedHours').innerHTML) + parseInt(hours) - this.hours;
         this.hours = hours;
 
-        //update class list (call to another helper class)
-        this.courseMgr.update();
-
-        //update schedule preview (if necessary) (call to another helper class)
-        Dropdown.instances.each(function(dropdown) {
-            course = dropdown.course.value;
-        });
-
-        //update url (call to another helper class)
+        //update url
         lusa.updateLocation();
+
+        //update class list
+        this.courseMgr.reload();
     },
 
     /**
@@ -231,7 +238,7 @@ var Dropdown = Class.create({
                 Object.keys(data).each(function(course) {
                     option = document.createElement("option");
                     option.setAttribute("value", course);
-                    if(data[course]["error"]) {
+                    if(data[course].error) {
                         option.setAttribute("style", "color:rgb(177, 177, 177);");
                     }
                     option.appendChild(document.createTextNode(data[course]["class"]));
@@ -245,34 +252,21 @@ var Dropdown = Class.create({
 
 Dropdown.instances = new Array();
 Dropdown.classes = new Hash();
-Dropdown.updatePreview = function() {
-    if($('scheduleImg')) {
-        tmp = new Array();
-        url = "print.php?sem=2011SP&trad=1&classes=";
-        Dropdown.classes.each(function(kvp) {
-            tmp.push(kvp[1]);
-        });
-        url += tmp.join("~");
-        $('scheduleImg').src = url;
-    }
-};
 
 var Course = Class.create({
     initialize: function(course) {
         this.course = course;
         this.value = this.course.value;
-        this.update();
+        this.reload();
     },
 
-    update: function() {
+    reload: function() {
         if(this.course.value) {
             if(this.value && this.course.value != this.value) {
                 Dropdown.classes.unset(this.value);
-                Dropdown.updatePreview();
             }
             new Ajax.Updater('classes', 'postback.php', {
-                parameters: { mode: 'addClass', data: lusa.getOptions(), submit: true, id: this.course.value },
-                insertion: Insertion.Bottom,
+                parameters: { mode: 'updateClasses', data: document.location.hash, submit: true, id: this.course.value },
                 onSuccess: function(transport) {
                     if(this.value) {
                         $$("."+this.value).each(function(ele) {
@@ -281,14 +275,24 @@ var Course = Class.create({
                     }
                 }.bind(this),
                 onComplete: function(transport) {
-                    rows = $$("."+this.course.value);
-                    if(rows.length == 1) {
-                        Dropdown.classes.set(this.course.value, rows[0].id);
-                        Dropdown.updatePreview();
-                    }
                     this.value = this.course.value;
+                    Dropdown.instances.each(function(dropdown) {
+                        if(dropdown.courseMgr) {
+                            dropdown.courseMgr.update();
+                        }
+                    });
+                    lusa.updatePreview();
                 }.bind(this)
             });
+        }
+    },
+
+    update: function() {
+        if(this.course.value) {
+            rows = $$("."+this.course.value);
+            if(rows.length == 1) {
+                Dropdown.classes.set(this.value, rows[0].id);
+            }
         }
     }
 });
@@ -319,5 +323,5 @@ Course.toggle = function(key) {
 
 Course.selected = function(name, printStr) {
     Dropdown.classes.set(name, printStr);
-    Dropdown.updatePreview();
+    lusa.updatePreview();
 };

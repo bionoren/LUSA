@@ -180,7 +180,7 @@
             if($nontrad) {
                 print '<td headers="campusHeader">'.$this->campusName.'</td>';
             }
-            print '<td headers="profHeader"><a href="'.$_SERVER["SCRIPT_NAME"].'#role=professor&amp;prof='.$this->prof.'&amp;submit=Submit">'.$this->prof.'</a></td>';
+            print '<td headers="profHeader"><!--<a href="'.$_SERVER["SCRIPT_NAME"].'#role=professor&amp;prof='.$this->prof.'&amp;submit=Submit">-->'.$this->prof.'<!--</a>--></td>';
             if($nontrad) {
                 print '<td headers="dateHeader">'.$this->startDayString.' - '.$this->endDayString.'</td>';
             }

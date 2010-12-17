@@ -1,4 +1,15 @@
 var lusa={student:null,trad:null,semester:null,campus:null};
+lusa.init=function(){lusa.updateOptions();
+lusa.loadClasses();
+Event.observe($("typeStudent"),"click",function(a){lusa.student=this.value
+});
+Event.observe($("typeTraditional"),"click",function(a){lusa.trad=this.value
+});
+if($("campusSelect")){Event.observe($("campusSelect"),"change",function(a){lusa.campus=this.value
+})
+}Event.observe($("semesterSelect"),"change",function(a){lusa.semester=this.value
+})
+};
 lusa.updateLocation=function(){str=lusa.getOptions();
 Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){str+="&choice[] = "+a.course.value
 }});
@@ -13,7 +24,7 @@ if($("campusSelect")){lusa.campus=$("campusSelect").value
 }if(!lusa.campus){lusa.campus="MAIN"
 }lusa.semester=$("semesterSelect").value
 };
-lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.type+"&semester="+lusa.semester
+lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester
 };
 lusa.loadClasses=function(){d=new Dropdown();
 $("classDropdowns").appendChild(d.container);

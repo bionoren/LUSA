@@ -18,17 +18,8 @@
         $main = new Professor();
     }
 
-    if($mode == "addClass") {
-        $courses = Course::getFromID($_REQUEST["id"]);
-        $optional = count($courses) > 1;
-        if($optional) {
-            $key = current($courses)->getID();
-            $span = (Main::isTraditional())?7:9;
-            print '<tr style="cursor:pointer;" class="'.$key.'" onclick="Course.toggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($courses)->getTitle().' ('.count($courses).')</td></tr>';
-        }
-        foreach($courses as $course) {
-            $course->display($optional);
-        }
+    if($mode == "updateClasses") {
+        $main->displaySchedules();
     }
 
     if($mode == "getDepartmentData") {
