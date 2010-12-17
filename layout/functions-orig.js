@@ -161,27 +161,45 @@ var Dropdown = Class.create({
         option.setAttribute("value", "");
         option.appendChild(document.createTextNode("----"));
         this.dept.appendChild(option);
-        new Ajax.Request('postback.php', {
-            method: 'post',
-            parameters: { mode: 'getDepartmentData', data: lusa.getOptions(), submit: true },
-            onSuccess: function(transport) {
-                data = transport.responseText.evalJSON();
-                Object.values(data).each(function(dept) {
-                    option = document.createElement("option");
-                    option.setAttribute("value", dept);
-                    option.appendChild(document.createTextNode(dept));
-                    this.dept.appendChild(option);
-                }.bind(this));
+        if(!lusa.deptCache) {
+            new Ajax.Request('postback.php', {
+                method: 'post',
+                parameters: { mode: 'getDepartmentData', data: lusa.getOptions(), submit: true },
+                onSuccess: function(transport) {
+                    data = transport.responseText.evalJSON();
+                    lusa.deptCache = data;
+                    Object.values(data).each(function(dept) {
+                        option = document.createElement("option");
+                        option.setAttribute("value", dept);
+                        option.appendChild(document.createTextNode(dept));
+                        this.dept.appendChild(option);
+                    }.bind(this));
 
-                Event.observe(this.dept, 'change', this.departmentSelected.bind(this));
-            }.bind(this),
-            onComplete: function() {
-                if(value) {
-                    this.dept.value = value.substr(0, 4);
-                    this.departmentSelected(value);
-                }
-            }.bind(this)
-        });
+                    Event.observe(this.dept, 'change', this.departmentSelected.bind(this));
+                }.bind(this),
+                onComplete: function() {
+                    if(value) {
+                        this.dept.value = value.substr(0, 4);
+                        this.departmentSelected(value);
+                    }
+                }.bind(this)
+            });
+        } else {
+            data = lusa.deptCache;
+            Object.values(data).each(function(dept) {
+                option = document.createElement("option");
+                option.setAttribute("value", dept);
+                option.appendChild(document.createTextNode(dept));
+                this.dept.appendChild(option);
+            }.bind(this));
+
+            Event.observe(this.dept, 'change', this.departmentSelected.bind(this));
+
+            if(value) {
+                this.dept.value = value.substr(0, 4);
+                this.departmentSelected(value);
+            }
+        }
 
         Event.observe(this.course, 'change', this.courseSelected.bind(this));
 
