@@ -71,7 +71,7 @@
 							<input type="radio" id="typeProf" name="role" value="prof" <?php if(!Main::isStudent()) { print 'checked="checked"'; } ?>/>
 							<label for="typeProf">Professor</label>-->
 						</li>
-                        <li class="second">
+                        <li>
                             <div style="display:inline">
                                 <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(Main::isTraditional()) { print 'checked="checked"'; } ?>/>
                                 <label for="typeTraditional">Traditional</label>
