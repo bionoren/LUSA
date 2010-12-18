@@ -3,14 +3,16 @@ lusa.init=function(a){lusa.updateOptions();
 lusa.loadClasses();
 Event.observe($("typeStudent"),"click",function(b){lusa.student=this.value
 });
-Event.observe($("typeTraditional"),"click",function(b){lusa.trad=this.value
-});
+updateFunction=function(b){return function(c){lusa[b]=this.value;
+a=lusa.getCookie(lusa.getCookieName());
+document.location="index.php?semester="+lusa.semester+"&type="+lusa.trad+"#"+a
+}
+};
+Event.observe($("typeTraditional"),"click",updateFunction("trad"));
+Event.observe($("typeNonTraditional"),"click",updateFunction("trad"));
 if($("campusSelect")){Event.observe($("campusSelect"),"change",function(b){lusa.campus=this.value
 })
-}Event.observe($("semesterSelect"),"change",function(b){lusa.semester=this.value;
-a=lusa.getCookie(lusa.getCookieName());
-document.location="index.php?semester="+lusa.semester+"#"+a
-})
+}Event.observe($("semesterSelect"),"change",updateFunction("semester"))
 };
 lusa.updateLocation=function(){str=lusa.getOptions();
 Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){str+="&choice[]="+a.course.value
@@ -21,7 +23,7 @@ date.setTime(date.getTime()+(365*24*60*60*1000));
 document.cookie=this.getCookieName()+"="+str+"; expires="+date.toUTCString()
 };
 lusa.updatePreview=function(){if($("scheduleImg")){tmp=new Array();
-url="print.php?sem=2011SP&trad=1&classes=";
+url="print.php?sem=2011SP&trad="+lusa.trad+"&classes=";
 Dropdown.classes.each(function(a){tmp.push(a[1])
 });
 url+=tmp.join("~");
@@ -30,8 +32,9 @@ $("scheduleImg").src=url
 lusa.updateCampus=function(a){this.campus=a
 };
 lusa.updateOptions=function(){lusa.student=$("typeStudent").value;
-lusa.trad=$("typeTraditional").value;
-if($("campusSelect")){lusa.campus=$("campusSelect").value
+if($("typeTraditional").checked){lusa.trad=$("typeTraditional").value
+}else{lusa.trad=$("typeNonTraditional").value
+}if($("campusSelect")){lusa.campus=$("campusSelect").value
 }if(!lusa.campus){lusa.campus="MAIN"
 }lusa.semester=$("semesterSelect").value
 };
@@ -53,9 +56,7 @@ if(c_end==-1){c_end=document.cookie.length
 }return unescape(document.cookie.substring(c_start,c_end))
 }}return null
 };
-lusa.getCookieName=function(){campus="MAIN";
-if($("campusSelect")){campus=$("campusSelect").value
-}return $("semesterSelect").value+Number($("typeTraditional").checked)+campus
+lusa.getCookieName=function(){return lusa.semester+lusa.trad+lusa.campus
 };
 var Dropdown=Class.create({initialize:function(a){this.container=document.createElement("div");
 this.dept=document.createElement("select");

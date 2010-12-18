@@ -24,15 +24,13 @@ lusa.init = function(cookie) {
         return function(event) {
             lusa[type] = this.value;
             cookie = lusa.getCookie(lusa.getCookieName());
-            document.location = "index.php?semester="+lusa.semester+"&type="+lusa.trad+"#"+cookie;
+            document.location = "index.php?semester="+lusa.semester+"&type="+lusa.trad+"&campus="+lusa.campus+"#"+cookie;
         }
     };
     Event.observe($('typeTraditional'), 'click', updateFunction("trad"));
     Event.observe($('typeNonTraditional'), 'click', updateFunction("trad"));
     if($('campusSelect')) {
-        Event.observe($('campusSelect'), 'change', function(event) {
-            lusa.campus = this.value;
-        });
+        Event.observe($('campusSelect'), 'change', updateFunction("campus"));
     }
     Event.observe($('semesterSelect'), 'change', updateFunction("semester"));
 };
