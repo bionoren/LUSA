@@ -5,13 +5,12 @@ Event.observe($("typeStudent"),"click",function(b){lusa.student=this.value
 });
 updateFunction=function(b){return function(c){lusa[b]=this.value;
 a=lusa.getCookie(lusa.getCookieName());
-document.location="index.php?semester="+lusa.semester+"&type="+lusa.trad+"#"+a
+document.location="index.php?semester="+lusa.semester+"&type="+lusa.trad+"&campus="+lusa.campus+"#"+a
 }
 };
 Event.observe($("typeTraditional"),"click",updateFunction("trad"));
 Event.observe($("typeNonTraditional"),"click",updateFunction("trad"));
-if($("campusSelect")){Event.observe($("campusSelect"),"change",function(b){lusa.campus=this.value
-})
+if($("campusSelect")){Event.observe($("campusSelect"),"change",updateFunction("campus"))
 }Event.observe($("semesterSelect"),"change",updateFunction("semester"))
 };
 lusa.updateLocation=function(){str=lusa.getOptions();

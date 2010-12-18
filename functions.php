@@ -22,8 +22,8 @@
 	/**
      * useful debug function that displays variables or arrays in a pretty format.
      *
-     * @param $name STRING - Name of the array (for pretty display purposes).
-     * @param $array MIXED - Array of data, but if it isn't an array we try to print it by itself.
+     * @param STRING $name Name of the array (for pretty display purposes).
+     * @param MIXED $array Array of data, but if it isn't an array we try to print it by itself.
      * @return VOID
      */
 	function dump($name, $array) {
@@ -52,8 +52,8 @@
 	/**
 	 * Returns the data from the cache file for the given semester.
 	 *
-	 * @param $semester STRING - Fully qualified semester name.
-	 * @param $trad BOOLEAN - True if traditional class data should be fetched.
+	 * @param STRING $semester Fully qualified semester name.
+	 * @param BOOLEAN $trad True if traditional class data should be fetched.
 	 * @return STRING cache data.
 	 */
 	function getCacheFile($semester, $trad) {
@@ -70,8 +70,8 @@
 	/**
 	 * Returns an array of classes for the given options.
 	 *
-	 * @param $semester STRING - Fully qualified semester name.
-	 * @param $trad BOOLEAN - True for traditional classes.
+	 * @param STRING $semester Fully qualified semester name.
+	 * @param BOOLEAN $trad True for traditional classes.
 	 * @return ARRAY Array of Course objects.
 	 */
 	function getClassData($semester, $trad) {
@@ -81,7 +81,7 @@
 	/**
 	 * Returns an array of fully qualified semester names.
 	 *
-	 * @param $reject BOOLEAN - If false, semesters without available data are included.
+	 * @param BOOLEAN $reject If false, semesters without available data are included.
 	 * @return ARRAY List of semester names.
 	 */
     function getFileArray($reject=true) {
@@ -119,7 +119,7 @@
 	 * Creates a list of classes that can be taken (i.e. do not cause conflicts with other classes and can be used
 	 * in a valid schedule.) from the given courses.
 	 *
-	 * @param $courses ARRAY - List of course objects to consider.
+	 * @param ARRAY $courses List of course objects to consider.
 	 * @return MIXED A list of valid classes or a string with the error message(s).
 	 */
 	function findSchedules(array $courses) {
@@ -156,7 +156,7 @@
 	/**
 	 * Validates a set of classes.
 	 *
-	 * @param $classes ARRAY - List of classes to take together.
+	 * @param ARRAY $classes - List of classes to take together.
 	 * @return BOOLEAN True if the classes can be taken together.
 	 */
 	function isValidSchedule(array $classes) {
@@ -209,7 +209,7 @@
 	/**
 	 * Saves a cookie with the current course selection information
 	 *
-	 * @param $data STRING - Data to save.
+	 * @param STRING $data Data to save.
 	 * @return VOID
 	 */
     function save_cookie($data) {

@@ -1,5 +1,11 @@
 //java -jar layout/yuicompressor-2.4.2.jar --type js -o layout/functions.js --line-break 0 layout/functions-orig.js
 
+/**
+ * Class to mange general settings and application updates.
+ *
+ * @author Bion Oren
+ * @version 1.0
+ */
 var lusa = {
     /** STRING - student if this is the student view. */
     student: null,
@@ -11,7 +17,12 @@ var lusa = {
     campus: null
 };
 
-lusa.init = function(cookie) {
+/**
+ * Initializes the application.
+ *
+ * @return VOID
+ */
+lusa.init = function() {
     lusa.updateOptions();
     lusa.loadClasses();
     Event.observe($('typeStudent'), 'click', function(event) {
@@ -20,11 +31,23 @@ lusa.init = function(cookie) {
 /*    Event.observe($('typeProf'), 'click', function(event) {
         lusa.student = this.value;
     });*/
+    /**
+     * Generates a callback function to update the entire application state.
+     *
+     * @param STRING type The instance variable to be updated by the callback function.
+     * @return FUNCTION
+     */
     updateFunction = function(type) {
+        /**
+         * Callback function to update a property and reload the app.
+         *
+         * @param EVENT Event that triggered the callback.
+         * @return VOID
+         */
         return function(event) {
             lusa[type] = this.value;
             cookie = lusa.getCookie(lusa.getCookieName());
-            document.location = "index.php?semester="+lusa.semester+"&type="+lusa.trad+"&campus="+lusa.campus+"#"+cookie;
+            document.location = "index.php?"+lusa.getOptions()+"#"+cookie;
         }
     };
     Event.observe($('typeTraditional'), 'click', updateFunction("trad"));
@@ -36,7 +59,7 @@ lusa.init = function(cookie) {
 };
 
 /**
- * Updates the location in the URL hash.
+ * Updates the location in the URL hash and in the cookie.
  *
  * @return VOID
  */
@@ -53,6 +76,11 @@ lusa.updateLocation = function() {
     document.cookie = this.getCookieName()+"="+str+"; expires="+date.toUTCString();
 };
 
+/**
+ * Updates the schedule preview picture.
+ *
+ * @return VOID
+ */
 lusa.updatePreview = function() {
     if($('scheduleImg')) {
         tmp = new Array();
@@ -65,10 +93,11 @@ lusa.updatePreview = function() {
     }
 };
 
-lusa.updateCampus = function(campus) {
-    this.campus = campus;
-};
-
+/**
+ * Updates all the internal variables from their form controls.
+ *
+ * @return VOID
+ */
 lusa.updateOptions = function() {
     lusa.student = $('typeStudent').value;
     if($('typeTraditional').checked) {
@@ -85,10 +114,20 @@ lusa.updateOptions = function() {
     lusa.semester = $('semesterSelect').value;
 };
 
+/**
+ * Returns a list of common options in a URL ready format.
+ *
+ * @return STRING List of options for a URL.
+ */
 lusa.getOptions = function() {
-    return "role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester;
+    return "role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester+"&campus="+lusa.campus;
 };
 
+/**
+ * Loads classes from any visible class descriptions and creates a new empty dropdown.
+ *
+ * @return VOID
+ */
 lusa.loadClasses = function() {
     if($('classes')) {
         temp = new Hash();
@@ -139,6 +178,12 @@ lusa.getCookieName = function() {
    return lusa.semester+lusa.trad+lusa.campus;
 };
 
+/**
+ * Manages class selection dropdowns.
+ *
+ * @author Bion Oren
+ * @version 1.0
+ */
 var Dropdown = Class.create({
     /**
      * Constructs a new department dropdown in a div container.
@@ -167,7 +212,7 @@ var Dropdown = Class.create({
         if(!lusa.deptCache) {
             new Ajax.Request('postback.php', {
                 method: 'post',
-                parameters: { mode: 'getDepartmentData', data: lusa.getOptions(), submit: true },
+                parameters: { mode: 'getDepartmentData', data: lusa.getOptions() },
                 onSuccess: function(transport) {
                     data = transport.responseText.evalJSON();
                     lusa.deptCache = data;
@@ -259,7 +304,7 @@ var Dropdown = Class.create({
     populateCourse: function(value) {
         new Ajax.Request('postback.php', {
             method: 'post',
-            parameters: { mode: 'getCourseData', data: lusa.getOptions(), submit: true, dept: this.dept.value },
+            parameters: { mode: 'getCourseData', data: lusa.getOptions(), dept: this.dept.value },
             onSuccess: function(transport) {
                 data = transport.responseText.evalJSON();
                 if(this.course.children) {
@@ -292,23 +337,41 @@ var Dropdown = Class.create({
     }
 });
 
+/** ARRAY List of dropdown class instances. */
 Dropdown.instances = new Array();
+/** HASH Mapping from courses to their print script query string argument. */
 Dropdown.classes = new Hash();
 
+/**
+ * Class to manage interactions with class dropdowns and their interactions with the schedule preview and class information table row(s).
+ *
+ * @author Bion Oren
+ * @version 1.0
+ */
 var Course = Class.create({
+    /**
+     * Initializes the class.
+     *
+     * @param OBJECT course Reference to a class dropdown.
+     */
     initialize: function(course) {
         this.course = course;
         this.value = this.course.value;
         this.reload();
     },
 
+    /**
+     * Reloads the class dropdown with the current department information.
+     *
+     * @return VOID
+     */
     reload: function() {
         if(this.course.value) {
             if(this.value && this.course.value != this.value) {
                 Dropdown.classes.unset(this.value);
             }
             new Ajax.Updater('classes', 'postback.php', {
-                parameters: { mode: 'updateClasses', data: document.location.hash, submit: true, id: this.course.value },
+                parameters: { mode: 'updateClasses', data: document.location.hash },
                 onSuccess: function(transport) {
                     if(this.value) {
                         $$("."+this.value).each(function(ele) {
@@ -329,6 +392,11 @@ var Course = Class.create({
         }
     },
 
+    /**
+     * Updates the Dropdown.classes hash for the course this class is managing.
+     *
+     * @return VOID
+     */
     update: function() {
         if(this.course.value) {
             rows = $$("."+this.course.value);
@@ -363,6 +431,13 @@ Course.toggle = function(key) {
     });
 };
 
+/**
+ * Callback for when a class is selected among options.
+ *
+ * @param STRING name Class name.
+ * @param STRING printStr Query parameter for the print script.
+ * @return VOID.
+ */
 Course.selected = function(name, printStr) {
     Dropdown.classes.set(name, printStr);
     lusa.updatePreview();

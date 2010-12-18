@@ -66,7 +66,7 @@
         /**
          * Returns the campus classes are coming from.
          *
-         * @return STRING
+         * @return STRING Campus name.
          * @see $campus
          */
         public static function getCampus() {

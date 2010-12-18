@@ -18,6 +18,16 @@
     require_once("functions.php");
     require_once("Meeting.php");
 
+	/**
+	 * Wraps text.
+	 *
+	 * @param INTEGER $fontSize The size of the font.
+	 * @param INTEGER $angle The angle of the text from vertical.
+	 * @param STRING $fontFace The font being used.
+	 * @param STRING $string The string to wrap.
+	 * @param INTEGER $width The width of the container.
+	 * @return STRING Text wrapped with newlines.
+	 */
     function wrap($fontSize, $angle, $fontFace, $string, $width){
         $ret = "";
         $arr = explode(' ', $string);

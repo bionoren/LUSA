@@ -52,8 +52,8 @@
         /**
          * Constructs a new course object from the provided xml information.
          *
-         * @param $xml SimpleXMLElement - XML information for this class.
-         * @param $trad BOOLEAN - True if this is a traditional class.9
+         * @param SimpleXMLElement $xml XML information for this class.
+         * @param BOOLEAN $trad True if this is a traditional class.9
          * @return Course New class object.
          */
         public function __construct(SimpleXMLElement $xml, $trad=true) {
@@ -75,9 +75,9 @@
 		/**
 		 * Adds a specific meeting time to this class.
 		 *
-		 * @param $meeting SimpleXMLElement - XML information for this class' location and time.
-		 * @param $campus STRING - Name of the campus this meeting is at.
-		 * @param $campusBitMask INTEGER - Bit string value for the given campus
+		 * @param SimpleXMLElement $meeting Information for this class' location and time.
+		 * @param STRING $campus Name of the campus this meeting is at.
+		 * @param INTEGER $campusBitMask Bit string value for the given campus
 		 * @return VOID
 		 */
 		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
@@ -86,27 +86,9 @@
 		}
 
 		/**
-		 * Returns an instance of the course with the given ID.
-		 *
-		 * @param $id STRING - ID of the class to return.
-		 * @return Array List of courses matching the given ID.
-		 */
-		public static function getFromID($id) {
-			$classes = getClassData(Main::getSemester(), Main::isTraditional());
-			$ret = array();
-			array_pop($classes);
-			foreach($classes as $class) {
-				if($class->getID() == $id) {
-					$ret[] = $class;
-				}
-			}
-			return $ret;
-		}
-
-		/**
 		 * Displays this class in a table.
 		 *
-		 * @param $optional BOOLEAN - True if this class is part of an optional set of classes.
+		 * @param BOOLEAN $optional True if this class is part of an optional set of classes.
 		 * @return VOID
 		 */
         public function display($optional=false) {
@@ -284,7 +266,7 @@
 		/**
 		 * Validates that you can take two classes together.
 		 *
-		 * @param $class COURSE - The other class you're taking.
+		 * @param COURSE $class The other class you're taking.
 		 * @return BOOLEAN True if you can take both of these classes simultaneously.
 		 */
 		function validateClasses(Course $class) {

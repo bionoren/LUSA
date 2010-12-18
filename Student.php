@@ -54,7 +54,7 @@
         /**
          * Checks if the given course is valid in at least one available schedule.
          *
-         * @param $sections ARRAY - List of sections (a section list is a list of Course objects).
+         * @param ARRAY $sections List of sections (a section list is a list of Course objects).
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(array $sections) {
@@ -170,7 +170,7 @@
         /**
 		 * Used to validate classes in a dropdown list
 		 *
-		 * @param $courses ARRAY List of sections.
+		 * @param ARRAY $courses List of sections.
 		 * @return MIXED A conflict message if there was a conflict, null if there wasn't a conflict.
 		 */
 		function findSchedules(array $courses) {
@@ -223,6 +223,24 @@
         }
 
         /**
+         * Returns a JSON list of class names for the given department.
+         *
+         * @param STRING $dept 4 letter department code.
+         * @return STRING JSON encoded class list.
+         */
+        public function getCourseJSON($dept) {
+            $classes = $this->getClasses();
+            $ret = array();
+            $tmp = array();
+            foreach($classes[$dept] as $key=>$sections) {
+                $tmp["class"] = $sections[0]->getLabel();
+                $tmp["error"] = $this->checkValidClass($sections);
+                $ret[$key] = $tmp;
+            }
+            return json_encode($ret);
+        }
+
+        /**
          * Returns an internal array of classes.
          *
          * @return MIXED
@@ -243,6 +261,25 @@
         }
 
         /**
+         * Returns a JSON list of department names.
+         *
+         * @return STRING JSON encoded department list.
+         */
+        public function getDepartmentJSON() {
+            return json_encode($this->getDepartments());
+        }
+
+        /**
+         * Accessor for the internal departments array.
+         *
+         * @return STRING Department array.
+         * @see $departments
+         */
+        protected function getDepartments() {
+            return $this->departments;
+        }
+
+        /**
          * Returns the number of hours being taken.
          *
          * @return INTEGER
@@ -255,7 +292,7 @@
         /**
          * Returns the querystring used to generate a picture of the given classes.
          *
-         * @param $classes ARRAY - List of classes to display.
+         * @param ARRAY $classes List of classes to display.
          * @return STRING Querystring for display.
          * @see print.php
          */
@@ -302,7 +339,7 @@
         /**
          * Returns true if the given class is marked (by filters) to be kept for consideration in schedules.
          *
-         * @param $class COURSE - Class to evaluate.
+         * @param COURSE $class Class to evaluate.
          * @return BOOLEAN True if kept.
          */
         public static function isKept(Course $class) {
@@ -316,26 +353,6 @@
 		 */
         public static function init() {
             Student::$keepFilter = Student::getChosenClasses();
-        }
-
-        public function getDepartmentJSON($dept=null) {
-            return json_encode($this->getDepartments());
-        }
-
-        public function getCourseJSON($dept, $course=null) {
-            $classes = $this->getClasses();
-            $ret = array();
-            $tmp = array();
-            foreach($classes[$dept] as $key=>$sections) {
-                $tmp["class"] = $sections[0]->getLabel();
-                $tmp["error"] = $this->checkValidClass($sections);
-                $ret[$key] = $tmp;
-            }
-            return json_encode($ret);
-        }
-
-        protected function getDepartments() {
-            return $this->departments;
         }
 
         /**

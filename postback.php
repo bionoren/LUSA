@@ -23,10 +23,10 @@
     }
 
     if($mode == "getDepartmentData") {
-        print $main->getDepartmentJSON($_REQUEST["dept"]);
+        print $main->getDepartmentJSON();
     }
 
     if($mode == "getCourseData") {
-        print $main->getCourseJSON($_REQUEST["dept"], $_REQUEST["course"]);
+        print $main->getCourseJSON($_REQUEST["dept"]);
     }
 ?>
