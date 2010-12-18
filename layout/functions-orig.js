@@ -20,22 +20,21 @@ lusa.init = function(cookie) {
 /*    Event.observe($('typeProf'), 'click', function(event) {
         lusa.student = this.value;
     });*/
-    Event.observe($('typeTraditional'), 'click', function(event) {
-        lusa.trad = this.value;
-    });
-/*    Event.observe($('typeNonTraditional'), 'click', function(event) {
-        lusa.trad = this.value;
-    });*/
+    updateFunction = function(type) {
+        return function(event) {
+            lusa[type] = this.value;
+            cookie = lusa.getCookie(lusa.getCookieName());
+            document.location = "index.php?semester="+lusa.semester+"&type="+lusa.trad+"#"+cookie;
+        }
+    };
+    Event.observe($('typeTraditional'), 'click', updateFunction("trad"));
+    Event.observe($('typeNonTraditional'), 'click', updateFunction("trad"));
     if($('campusSelect')) {
         Event.observe($('campusSelect'), 'change', function(event) {
             lusa.campus = this.value;
         });
     }
-    Event.observe($('semesterSelect'), 'change', function(event) {
-        lusa.semester = this.value;
-        cookie = lusa.getCookie(lusa.getCookieName());
-        document.location = "index.php?semester="+lusa.semester+"#"+cookie;
-    });
+    Event.observe($('semesterSelect'), 'change', updateFunction("semester"));
 };
 
 /**
@@ -59,7 +58,7 @@ lusa.updateLocation = function() {
 lusa.updatePreview = function() {
     if($('scheduleImg')) {
         tmp = new Array();
-        url = "print.php?sem=2011SP&trad=1&classes=";
+        url = "print.php?sem=2011SP&trad="+lusa.trad+"&classes=";
         Dropdown.classes.each(function(kvp) {
             tmp.push(kvp[1]);
         });
@@ -74,7 +73,11 @@ lusa.updateCampus = function(campus) {
 
 lusa.updateOptions = function() {
     lusa.student = $('typeStudent').value;
-    lusa.trad = $('typeTraditional').value;
+    if($('typeTraditional').checked) {
+        lusa.trad = $('typeTraditional').value;
+    } else {
+        lusa.trad = $('typeNonTraditional').value;
+    }
     if($('campusSelect')) {
         lusa.campus = $('campusSelect').value;
     }
@@ -135,11 +138,7 @@ lusa.getCookie = function(c_name) {
  * @return STRING - cookie name.
  */
 lusa.getCookieName = function() {
-   campus = "MAIN";
-   if($('campusSelect')) {
-       campus = $('campusSelect').value;
-   }
-   return $('semesterSelect').value+Number($('typeTraditional').checked)+campus;
+   return lusa.semester+lusa.trad+lusa.campus;
 };
 
 var Dropdown = Class.create({

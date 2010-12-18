@@ -42,7 +42,7 @@
             }
         }
     }
-	if(substr($_REQUEST["sem"], -2) != "SU" && $_REQUEST["type"] != "non") {
+	if(substr($_REQUEST["sem"], -2) != "SU" && $_REQUEST["trad"] != "non") {
 		//add chapel
 		$tmp = array();
 		$tmp[] = 2+8+32;

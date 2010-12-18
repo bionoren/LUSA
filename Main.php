@@ -79,7 +79,8 @@
          * @return STRING Cookie name.
          */
         public static function getCookieName() {
-            return Main::getSemester().Main::isTraditional().Main::getCampus();
+			$trad = (Main::isTraditional())?"trad":"non";
+            return Main::getSemester().$trad.Main::getCampus();
         }
 
         /**

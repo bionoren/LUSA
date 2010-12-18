@@ -49,7 +49,7 @@
         <link rel="stylesheet" type="text/css" href="layout/screen.css" media="screen,projection"/>
         <link rel="stylesheet" type="text/css" href="layout/print.css" media="print"/>
         <script type="text/javascript" src="layout/prototype.js"></script>
-        <script type="text/javascript" src="layout/functions.js"></script>
+        <script type="text/javascript" src="layout/functions-orig.js"></script>
     </head>
     <body lang="en" onload="lusa.init();">
         <!--LUSA 2: A Dorm 41 Production-->
@@ -75,9 +75,9 @@
                             <div style="display:inline">
                                 <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(Main::isTraditional()) { print 'checked="checked"'; } ?>/>
                                 <label for="typeTraditional">Traditional</label>
-<!--                                &nbsp;&nbsp;
+                                &nbsp;&nbsp;
                                 <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!Main::isTraditional()) { print 'checked="checked"'; } ?>/>
-                                <label for="typeNonTraditional">Non-Traditional</label>-->
+                                <label for="typeNonTraditional">Non-Traditional</label>
                             </div>
                         </li>
                         <?php if(!Main::isTraditional()) { ?>

@@ -260,7 +260,8 @@
          * @see print.php
          */
         public static function getPrintQS(array $classes) {
-            $ret = 'sem='.Main::getSemester().'&trad='.Main::isTraditional().'&classes=';
+            $trad = (Main::isTraditional())?"trad":"non";
+            $ret = 'sem='.Main::getSemester().'&trad='.$trad.'&classes=';
             $tmp = array();
             foreach($classes as $class) {
                 $tmp[] = $class->getPrintQS();
