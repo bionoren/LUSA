@@ -1,11 +1,11 @@
 var lusa={student:null,trad:null,semester:null,campus:null};
-lusa.init=function(a){lusa.updateOptions();
+lusa.init=function(){lusa.updateOptions();
 lusa.loadClasses();
-Event.observe($("typeStudent"),"click",function(b){lusa.student=this.value
+Event.observe($("typeStudent"),"click",function(a){lusa.student=this.value
 });
-updateFunction=function(b){return function(c){lusa[b]=this.value;
-a=lusa.getCookie(lusa.getCookieName());
-document.location="index.php?semester="+lusa.semester+"&type="+lusa.trad+"&campus="+lusa.campus+"#"+a
+updateFunction=function(a){return function(b){lusa[a]=this.value;
+cookie=lusa.getCookie(lusa.getCookieName());
+document.location="index.php?"+lusa.getOptions()+"#"+cookie
 }
 };
 Event.observe($("typeTraditional"),"click",updateFunction("trad"));
@@ -28,8 +28,6 @@ Dropdown.classes.each(function(a){tmp.push(a[1])
 url+=tmp.join("~");
 $("scheduleImg").src=url
 }};
-lusa.updateCampus=function(a){this.campus=a
-};
 lusa.updateOptions=function(){lusa.student=$("typeStudent").value;
 if($("typeTraditional").checked){lusa.trad=$("typeTraditional").value
 }else{lusa.trad=$("typeNonTraditional").value
@@ -37,7 +35,7 @@ if($("typeTraditional").checked){lusa.trad=$("typeTraditional").value
 }if(!lusa.campus){lusa.campus="MAIN"
 }lusa.semester=$("semesterSelect").value
 };
-lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester
+lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester+"&campus="+lusa.campus
 };
 lusa.loadClasses=function(){if($("classes")){temp=new Hash();
 $A($("classes").children).each(function(a){if(a.classList.length){$A(a.classList).each(function(b){b.scan(/\w{4}-\d{4}/,function(c){temp.set(c,c)
@@ -69,7 +67,7 @@ option=document.createElement("option");
 option.setAttribute("value","");
 option.appendChild(document.createTextNode("----"));
 this.dept.appendChild(option);
-if(!lusa.deptCache){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getDepartmentData",data:lusa.getOptions(),submit:true},onSuccess:function(b){data=b.responseText.evalJSON();
+if(!lusa.deptCache){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getDepartmentData",data:lusa.getOptions()},onSuccess:function(b){data=b.responseText.evalJSON();
 lusa.deptCache=data;
 Object.values(data).each(function(c){option=document.createElement("option");
 option.setAttribute("value",c);
@@ -103,7 +101,7 @@ $("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-th
 this.hours=hours;
 lusa.updateLocation();
 this.courseMgr.reload()
-},populateCourse:function(a){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:lusa.getOptions(),submit:true,dept:this.dept.value},onSuccess:function(b){data=b.responseText.evalJSON();
+},populateCourse:function(a){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:lusa.getOptions(),dept:this.dept.value},onSuccess:function(b){data=b.responseText.evalJSON();
 if(this.course.children){$A(this.course.children).each(function(c){Element.remove(c)
 })
 }option=document.createElement("option");
@@ -127,7 +125,7 @@ var Course=Class.create({initialize:function(a){this.course=a;
 this.value=this.course.value;
 this.reload()
 },reload:function(){if(this.course.value){if(this.value&&this.course.value!=this.value){Dropdown.classes.unset(this.value)
-}new Ajax.Updater("classes","postback.php",{parameters:{mode:"updateClasses",data:document.location.hash,submit:true,id:this.course.value},onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
+}new Ajax.Updater("classes","postback.php",{parameters:{mode:"updateClasses",data:document.location.hash},onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
 }.bind(this))
 }}.bind(this),onComplete:function(a){this.value=this.course.value;
 Dropdown.instances.each(function(b){if(b.courseMgr){b.courseMgr.update()
