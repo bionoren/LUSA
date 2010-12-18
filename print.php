@@ -150,7 +150,7 @@
                 //lr
                 imagefilledellipse($img, $offsetX+1-9+$incX*($i), $offsetY-5+$end*$incY, 10, 10, $bgcolor);
 
-                $pos = imagettftext($img, 11, 0, $offsetX+4+$incX*($i-1), $offsetY+16+$start*$incY, $black, $font, wrap(11, 0, $font, str_replace("/", "/ ", stripslashes($class[4])), $incX));
+                $pos = imagettftext($img, 11, 0, $offsetX+4+$incX*($i-1), $offsetY+16+$start*$incY, $black, $font, wrap(11, 0, $font, str_replace("/", "/ ", htmlspecialchars_decode($class[4])), $incX));
                 $tmp = $pos[1]-$pos[7]+16;
                 imagettftext($img, 10, 0, $offsetX+2+$incX*($i-1), $offsetY+$tmp+$start*$incY, $black, $font, $class[3]);
 				$tmp += 16;

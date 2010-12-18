@@ -304,7 +304,7 @@ var Dropdown = Class.create({
     populateCourse: function(value) {
         new Ajax.Request('postback.php', {
             method: 'post',
-            parameters: { mode: 'getCourseData', data: lusa.getOptions(), dept: this.dept.value },
+            parameters: { mode: 'getCourseData', data: document.location.hash, dept: this.dept.value },
             onSuccess: function(transport) {
                 data = transport.responseText.evalJSON();
                 if(this.course.children) {
@@ -320,7 +320,7 @@ var Dropdown = Class.create({
                     option = document.createElement("option");
                     option.setAttribute("value", course);
                     if(data[course].error) {
-                        option.setAttribute("style", "color:rgb(177, 177, 177);");
+                        option.setAttribute("disabled", "disabled");
                     }
                     option.appendChild(document.createTextNode(data[course]["class"]));
                     this.course.appendChild(option);
@@ -331,6 +331,14 @@ var Dropdown = Class.create({
                 if(value) {
                     this.course.value = value;
                     this.courseSelected();
+                }
+                //this MUST be last
+                if(value) {
+                    Dropdown.instances.each(function(dropdown) {
+                        if(dropdown.course.value != this.course.value) {
+                            dropdown.populateCourse(dropdown.course.value);
+                        }
+                    }.bind(this));
                 }
             }.bind(this)
         });
@@ -436,7 +444,7 @@ Course.toggle = function(key) {
  *
  * @param STRING name Class name.
  * @param STRING printStr Query parameter for the print script.
- * @return VOID.
+ * @return VOID
  */
 Course.selected = function(name, printStr) {
     Dropdown.classes.set(name, printStr);

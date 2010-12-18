@@ -134,35 +134,39 @@
             if(Main::haveSelections()) {
                 $noCommon = true;
                 $haveOthers = false;
-                foreach($this->getCourses() as $sections) {
-                    if(count($sections) == 1) {
-                        if($noCommon) {
-                            $noCommon = false;
-                            print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                                print 'These are the only times you can take these classes:';
-                            print '</td></tr>';
-                        }
-                        print $sections[0]->display()."\n";
-                        Student::$common[] = $sections[0];
-                    } else {
-                        $haveOthers = true;
-                    }
-                }
-
-                if($haveOthers) {
-                    print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                        print 'These classes have some options:';
-                    print '</td></tr>';
-
+                if(is_array($this->getCourses())) {
                     foreach($this->getCourses() as $sections) {
-                        if(count($sections) > 1) {
-                            $key = current($sections)->getID();
-                            print '<tr style="cursor:pointer;" class="'.$key.'" onclick="Course.toggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
-                            foreach($sections as $section) {
-                                print $section->display(true);
+                        if(count($sections) == 1) {
+                            if($noCommon) {
+                                $noCommon = false;
+                                print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                                    print 'These are the only times you can take these classes:';
+                                print '</td></tr>';
+                            }
+                            print $sections[0]->display()."\n";
+                            Student::$common[] = $sections[0];
+                        } else {
+                            $haveOthers = true;
+                        }
+                    }
+
+                    if($haveOthers) {
+                        print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
+                            print 'These classes have some options:';
+                        print '</td></tr>';
+
+                        foreach($this->getCourses() as $sections) {
+                            if(count($sections) > 1) {
+                                $key = current($sections)->getID();
+                                print '<tr style="cursor:pointer;" class="'.$key.'" onclick="Course.toggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
+                                foreach($sections as $section) {
+                                    print $section->display(true);
+                                }
                             }
                         }
                     }
+                } else {
+                    print $this->getCourses();
                 }
             }
         }

@@ -82,7 +82,7 @@
 		 */
 		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
 			$this->uid .= md5($meeting->asXML());
-			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask, $this->title);
+			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask, $this->getTitle());
 		}
 
 		/**
@@ -113,7 +113,7 @@
 					print '</td>';
 				} else {
 					print '<td headers="classHeader">'.$this->getID().'</td>';
-					print '<td headers="classHeader">'.$this->title.'</td>';
+					print '<td headers="classHeader">'.$this->getTitle().'</td>';
 				}
                 print '<td headers="sectionHeader">'.$this->section.'</td>';
                 print $this->meetings[0]->display(!$this->trad);
@@ -206,7 +206,7 @@
 		 * @return STRING Dropdown label text.
 		 */
 		public function getLabel() {
-			return $this->number." ".$this->title;
+			return $this->number." ".$this->getTitle();
 		}
 
 		/**
@@ -241,7 +241,7 @@
 		 * @return STRING Class title.
 		 */
 		public function getTitle() {
-			return $this->title;
+			return htmlspecialchars_decode($this->title);
 		}
 
 		/**
