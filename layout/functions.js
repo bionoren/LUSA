@@ -101,7 +101,7 @@ $("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-th
 this.hours=hours;
 lusa.updateLocation();
 this.courseMgr.reload()
-},populateCourse:function(a){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:lusa.getOptions(),dept:this.dept.value},onSuccess:function(b){data=b.responseText.evalJSON();
+},populateCourse:function(a){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",data:document.location.hash,dept:this.dept.value},onSuccess:function(b){data=b.responseText.evalJSON();
 if(this.course.children){$A(this.course.children).each(function(c){Element.remove(c)
 })
 }option=document.createElement("option");
@@ -110,13 +110,15 @@ option.appendChild(document.createTextNode("----"));
 this.course.appendChild(option);
 Object.keys(data).each(function(c){option=document.createElement("option");
 option.setAttribute("value",c);
-if(data[c].error){option.setAttribute("style","color:rgb(177, 177, 177);")
+if(data[c].error){option.setAttribute("disabled","disabled")
 }option.appendChild(document.createTextNode(data[c]["class"]));
 this.course.appendChild(option)
 }.bind(this));
 this.course.activate()
 }.bind(this),onComplete:function(){if(a){this.course.value=a;
 this.courseSelected()
+}if(a){Dropdown.instances.each(function(b){if(b.course.value!=this.course.value){b.populateCourse(b.course.value)
+}}.bind(this))
 }}.bind(this)})
 }});
 Dropdown.instances=new Array();

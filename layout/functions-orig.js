@@ -269,6 +269,8 @@ var Dropdown = Class.create({
                 }
                 this.container.appendChild(this.course);
             }
+            this.course.value = 0; //reset the course value for each dropdown selection
+            lusa.updateLocation();
             this.populateCourse(value);
         } else {
             this.course.value = 0;
@@ -331,14 +333,6 @@ var Dropdown = Class.create({
                 if(value) {
                     this.course.value = value;
                     this.courseSelected();
-                }
-                //this MUST be last
-                if(value) {
-                    Dropdown.instances.each(function(dropdown) {
-                        if(dropdown.course.value != this.course.value) {
-                            dropdown.populateCourse(dropdown.course.value);
-                        }
-                    }.bind(this));
                 }
             }.bind(this)
         });
