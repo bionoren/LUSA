@@ -1,13 +1,13 @@
 var lusa={student:null,trad:null,semester:null,campus:null};
 lusa.init=function(){lusa.updateOptions();
 lusa.loadClasses();
-Event.observe($("typeStudent"),"click",function(a){lusa.student=this.value
-});
 updateFunction=function(a){return function(b){lusa[a]=this.value;
 cookie=lusa.getCookie(lusa.getCookieName());
 document.location="index.php?"+lusa.getOptions()+"#"+cookie
 }
 };
+Event.observe($("typeStudent"),"click",updateFunction("student"));
+Event.observe($("typeProf"),"click",updateFunction("student"));
 Event.observe($("typeTraditional"),"click",updateFunction("trad"));
 Event.observe($("typeNonTraditional"),"click",updateFunction("trad"));
 if($("campusSelect")){Event.observe($("campusSelect"),"change",updateFunction("campus"))
@@ -19,8 +19,8 @@ Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){str+
 document.location.hash=str;
 date=new Date();
 date.setTime(date.getTime()+(365*24*60*60*1000));
-document.cookie=this.getCookieName()+"="+str+"; expires="+date.toUTCString()
-};
+if(this.student=="student"){document.cookie=this.getCookieName()+"="+str+"; expires="+date.toUTCString()
+}};
 lusa.updatePreview=function(){if($("scheduleImg")){tmp=new Array();
 url="print.php?sem=2011SP&trad="+lusa.trad+"&classes=";
 Dropdown.classes.each(function(a){tmp.push(a[1])
@@ -28,8 +28,9 @@ Dropdown.classes.each(function(a){tmp.push(a[1])
 url+=tmp.join("~");
 $("scheduleImg").src=url
 }};
-lusa.updateOptions=function(){lusa.student=$("typeStudent").value;
-if($("typeTraditional").checked){lusa.trad=$("typeTraditional").value
+lusa.updateOptions=function(){if($("typeStudent").checked){lusa.student=$("typeStudent").value
+}else{lusa.student=$("typeProf").value
+}if($("typeTraditional").checked){lusa.trad=$("typeTraditional").value
 }else{lusa.trad=$("typeNonTraditional").value
 }if($("campusSelect")){lusa.campus=$("campusSelect").value
 }if(!lusa.campus){lusa.campus="MAIN"
@@ -40,8 +41,8 @@ lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.trad+"&semes
 lusa.loadClasses=function(){if($("classes")){cookie=lusa.getCookie(lusa.getCookieName());
 if(cookie){cookie.split("&").each(function(a){if(a.startsWith("choice[]")){new Dropdown(a.split("=")[1])
 }})
-}}new Dropdown()
-};
+}}if(lusa.student=="student"){new Dropdown()
+}};
 lusa.getCookie=function(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
 c_end=document.cookie.indexOf(";",c_start);
@@ -145,4 +146,6 @@ $(a).innerHTML="-"
 };
 Course.selected=function(a,b){Dropdown.classes.set(a,b);
 lusa.updatePreview()
+};
+function profSelected(a){new Ajax.Updater("schedule","postback.php",{parameters:{mode:"updateClasses",data:lusa.getOptions()+"&prof="+a.value}})
 };
