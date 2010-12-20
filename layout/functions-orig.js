@@ -130,22 +130,15 @@ lusa.getOptions = function() {
  */
 lusa.loadClasses = function() {
     if($('classes')) {
-        temp = new Hash();
-        $A($('classes').children).each(function(row) {
-            if(row.classList.length) {
-                $A(row.classList).each(function(cssClass) {
-                    cssClass.scan(/\w{4}-\d{4}/, function(match) {
-                        temp.set(match, match);
-                    });
-                });
+        cookie = lusa.getCookie(lusa.getCookieName());
+        cookie.split("&").each(function(part) {
+            if(part.startsWith("choice[]")) {
+                new Dropdown(part.split("=")[1]);
             }
-        });
-        temp.each(function(kvp) {
-            d = new Dropdown(kvp[0]);
         });
     }
     //create dropdowns
-    d = new Dropdown();
+    new Dropdown();
 };
 
 /**

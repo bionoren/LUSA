@@ -92,7 +92,9 @@ Dropdown.instances.push(this)
 },departmentSelected:function(a){if(this.dept.value){if(!this.course.firstChild){if(!Object.isString(a)){d=new Dropdown();
 $("classDropdowns").appendChild(d.container)
 }this.container.appendChild(this.course)
-}this.populateCourse(a)
+}this.course.value=0;
+lusa.updateLocation();
+this.populateCourse(a)
 }else{this.course.value=0;
 this.courseSelected();
 Element.remove(this.container)
@@ -117,8 +119,6 @@ this.course.appendChild(option)
 this.course.activate()
 }.bind(this),onComplete:function(){if(a){this.course.value=a;
 this.courseSelected()
-}if(a){Dropdown.instances.each(function(b){if(b.course.value!=this.course.value){b.populateCourse(b.course.value)
-}}.bind(this))
 }}.bind(this)})
 }});
 Dropdown.instances=new Array();

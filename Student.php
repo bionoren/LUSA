@@ -85,41 +85,37 @@
                 print '<span id="schedHours">'.$this->getHours().'</span> Credit Hours';
             print '</div>';
             print '<div id="schedule">';
-                if($this->hasNoErrors()) {
-                    print '<h2>Schedule</h2>';
-                    //make classes show up in a pretty order
-                    print '<table class="full border">';
-                        print '<thead>';
-                            print '<tr>';
-                                if(Main::isTraditional()) {
-                                    Student::showTraditionalHeaders();
-                                } else {
-                                    Student::showNonTraditionalHeaders();
-                                }
-                            print '</tr>';
-                        print '</thead>';
-                        print '<tbody id="classes">';
-                            $this->displaySchedules();
-                        print '</tbody>';
-                    print '</table>';
+                print '<h2>Schedule</h2>';
+                //make classes show up in a pretty order
+                print '<table class="full border">';
+                    print '<thead>';
+                        print '<tr>';
+                            if(Main::isTraditional()) {
+                                Student::showTraditionalHeaders();
+                            } else {
+                                Student::showNonTraditionalHeaders();
+                            }
+                        print '</tr>';
+                    print '</thead>';
+                    print '<tbody id="classes">';
+                        $this->displaySchedules();
+                    print '</tbody>';
+                print '</table>';
+                print '<br/>';
+                print '<div style="text-align:center;">';
+                    $extra = array();
+                    foreach(Student::$keepFilter as $uid) {
+                        $dept = substr($uid, 0, 4);
+                        $id = substr($uid, 0, 9);
+                        $extra[] = $this->classes[$dept][$id][array_search($uid, $this->classes[$dept][$id])]->getPrintQS();
+                    }
+                    $extra = implode("~", $extra);
+                    if(!empty($extra)) {
+                        $extra = "~".$extra;
+                    }
+                    print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="100%"/>';
                     print '<br/>';
-                    print '<div style="text-align:center;">';
-                        $extra = array();
-                        foreach(Student::$keepFilter as $uid) {
-                            $dept = substr($uid, 0, 4);
-                            $id = substr($uid, 0, 9);
-                            $extra[] = $this->classes[$dept][$id][array_search($uid, $this->classes[$dept][$id])]->getPrintQS();
-                        }
-                        $extra = implode("~", $extra);
-                        if(!empty($extra)) {
-                            $extra = "~".$extra;
-                        }
-                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="100%"/>';
-                        print '<br/>';
-                    print '</div>';
-                } else {
-                    print "<span style='color:red;'>Conflicts were found :(<br>".$this->getCourses()."</span>";
-                }
+                print '</div>';
             print '</div>';
         }
 
@@ -166,7 +162,7 @@
                         }
                     }
                 } else {
-                    print $this->getCourses();
+                    print '<tr><td id="error" style="color:red;" colspan="'.$span.'">Conflicts were found :(<br>'.$this->getCourses().'</td></tr>';
                 }
             }
         }
