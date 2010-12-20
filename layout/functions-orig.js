@@ -131,11 +131,13 @@ lusa.getOptions = function() {
 lusa.loadClasses = function() {
     if($('classes')) {
         cookie = lusa.getCookie(lusa.getCookieName());
-        cookie.split("&").each(function(part) {
-            if(part.startsWith("choice[]")) {
-                new Dropdown(part.split("=")[1]);
-            }
-        });
+        if(cookie) {
+            cookie.split("&").each(function(part) {
+                if(part.startsWith("choice[]")) {
+                    new Dropdown(part.split("=")[1]);
+                }
+            });
+        }
     }
     //create dropdowns
     new Dropdown();

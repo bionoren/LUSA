@@ -37,14 +37,10 @@ if($("typeTraditional").checked){lusa.trad=$("typeTraditional").value
 };
 lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester+"&campus="+lusa.campus
 };
-lusa.loadClasses=function(){if($("classes")){temp=new Hash();
-$A($("classes").children).each(function(a){if(a.classList.length){$A(a.classList).each(function(b){b.scan(/\w{4}-\d{4}/,function(c){temp.set(c,c)
-})
-})
-}});
-temp.each(function(a){d=new Dropdown(a[0])
-})
-}d=new Dropdown()
+lusa.loadClasses=function(){if($("classes")){cookie=lusa.getCookie(lusa.getCookieName());
+cookie.split("&").each(function(a){if(a.startsWith("choice[]")){new Dropdown(a.split("=")[1])
+}})
+}new Dropdown()
 };
 lusa.getCookie=function(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
