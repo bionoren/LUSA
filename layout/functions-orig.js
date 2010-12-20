@@ -7,9 +7,9 @@
  * @version 1.0
  */
 var lusa = {
-    /** STRING - student if this is the student view. */
+    /** STRING - 'student' if this is the student view. */
     student: null,
-    /** STRING - trad if this is the trad view. */
+    /** STRING - 'trad' if this is the trad view. */
     trad: null,
     /** STRING - The currently selected semester. */
     semester: null,
@@ -25,12 +25,6 @@ var lusa = {
 lusa.init = function() {
     lusa.updateOptions();
     lusa.loadClasses();
-    Event.observe($('typeStudent'), 'click', function(event) {
-        lusa.student = this.value;
-    });
-/*    Event.observe($('typeProf'), 'click', function(event) {
-        lusa.student = this.value;
-    });*/
     /**
      * Generates a callback function to update the entire application state.
      *
@@ -50,6 +44,8 @@ lusa.init = function() {
             document.location = "index.php?"+lusa.getOptions()+"#"+cookie;
         }
     };
+    Event.observe($('typeStudent'), 'click', updateFunction("student"));
+    Event.observe($('typeProf'), 'click', updateFunction("student"));
     Event.observe($('typeTraditional'), 'click', updateFunction("trad"));
     Event.observe($('typeNonTraditional'), 'click', updateFunction("trad"));
     if($('campusSelect')) {
@@ -73,7 +69,9 @@ lusa.updateLocation = function() {
     document.location.hash = str;
     date = new Date();
     date.setTime(date.getTime()+(365*24*60*60*1000));
-    document.cookie = this.getCookieName()+"="+str+"; expires="+date.toUTCString();
+    if(this.student == "student") {
+        document.cookie = this.getCookieName()+"="+str+"; expires="+date.toUTCString();
+    }
 };
 
 /**
@@ -99,7 +97,11 @@ lusa.updatePreview = function() {
  * @return VOID
  */
 lusa.updateOptions = function() {
-    lusa.student = $('typeStudent').value;
+    if($('typeStudent').checked) {
+        lusa.student = $('typeStudent').value;
+    } else {
+        lusa.student = $('typeProf').value;
+    }
     if($('typeTraditional').checked) {
         lusa.trad = $('typeTraditional').value;
     } else {
@@ -140,7 +142,9 @@ lusa.loadClasses = function() {
         }
     }
     //create dropdowns
-    new Dropdown();
+    if(lusa.student == "student") {
+        new Dropdown();
+    }
 };
 
 /**
@@ -439,3 +443,15 @@ Course.selected = function(name, printStr) {
     Dropdown.classes.set(name, printStr);
     lusa.updatePreview();
 };
+
+/**
+ * Callback for when a professor is selected.
+ *
+ * @param OBJECT Reference to the select list that fired this event.
+ * @return VOID
+ */
+function profSelected(ele) {
+    new Ajax.Updater('schedule', 'postback.php', {
+        parameters: { mode:'updateClasses', data:lusa.getOptions()+"&prof="+ele.value }
+    });
+}

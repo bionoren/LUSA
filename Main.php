@@ -63,6 +63,14 @@
 		 */
 		public abstract function display();
 
+		/**
+         * Displays the generated schedule(s) to the user with all the pretty and error
+         * messages that may or may not go with that.
+         *
+         * @return VOID
+         */
+        public abstract function displaySchedules();
+
         /**
          * Returns the campus classes are coming from.
          *
