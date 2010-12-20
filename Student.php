@@ -102,6 +102,8 @@
                     print '</tbody>';
                 print '</table>';
                 print '<br/>';
+                print '<a href="javascript:window.print();">Print Schedule</a>';
+                print '<br/>';
                 print '<div style="text-align:center;">';
                     $extra = array();
                     foreach(Student::$keepFilter as $uid) {
