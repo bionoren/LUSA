@@ -38,9 +38,9 @@ if($("typeTraditional").checked){lusa.trad=$("typeTraditional").value
 lusa.getOptions=function(){return"role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester+"&campus="+lusa.campus
 };
 lusa.loadClasses=function(){if($("classes")){cookie=lusa.getCookie(lusa.getCookieName());
-cookie.split("&").each(function(a){if(a.startsWith("choice[]")){new Dropdown(a.split("=")[1])
+if(cookie){cookie.split("&").each(function(a){if(a.startsWith("choice[]")){new Dropdown(a.split("=")[1])
 }})
-}new Dropdown()
+}}new Dropdown()
 };
 lusa.getCookie=function(a){if(document.cookie.length>0){c_start=document.cookie.indexOf(a+"=");
 if(c_start!=-1){c_start=c_start+a.length+1;
