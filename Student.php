@@ -164,6 +164,8 @@
                 } else {
                     print '<tr><td id="error" style="color:red;" colspan="'.$span.'">Conflicts were found :(<br>'.$this->getCourses().'</td></tr>';
                 }
+            } else {
+                print '<tr><td colspan="'.$span.'">No selections yet...</td></tr>';
             }
         }
 
