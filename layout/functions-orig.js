@@ -370,6 +370,7 @@ var Course = Class.create({
         if(this.course.value) {
             if(this.value && this.course.value != this.value) {
                 Dropdown.classes.unset(this.value);
+                lusa.updatePreview();
             }
             new Ajax.Updater('classes', 'postback.php', {
                 parameters: { mode: 'updateClasses', data: document.location.hash },
@@ -401,7 +402,7 @@ var Course = Class.create({
     update: function() {
         if(this.course.value) {
             rows = $$("."+this.course.value);
-            if(rows.length == 1) {
+            if(rows.length == 1 || typeof rows[1].down("input") == "undefined") {
                 Dropdown.classes.set(this.value, rows[0].id);
             }
         }

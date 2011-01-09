@@ -123,7 +123,8 @@ Dropdown.classes=new Hash();
 var Course=Class.create({initialize:function(a){this.course=a;
 this.value=this.course.value;
 this.reload()
-},reload:function(){if(this.course.value){if(this.value&&this.course.value!=this.value){Dropdown.classes.unset(this.value)
+},reload:function(){if(this.course.value){if(this.value&&this.course.value!=this.value){Dropdown.classes.unset(this.value);
+lusa.updatePreview()
 }new Ajax.Updater("classes","postback.php",{parameters:{mode:"updateClasses",data:document.location.hash},onSuccess:function(a){if(this.value){$$("."+this.value).each(function(b){Element.remove(b)
 }.bind(this))
 }}.bind(this),onComplete:function(a){this.value=this.course.value;
@@ -132,7 +133,7 @@ Dropdown.instances.each(function(b){if(b.courseMgr){b.courseMgr.update()
 lusa.updatePreview()
 }.bind(this)})
 }},update:function(){if(this.course.value){rows=$$("."+this.course.value);
-if(rows.length==1){Dropdown.classes.set(this.value,rows[0].id)
+if(rows.length==1||typeof rows[1].down("input")=="undefined"){Dropdown.classes.set(this.value,rows[0].id)
 }}}});
 Course.toggle=function(a){sections=$$("."+a);
 sections.shift();
