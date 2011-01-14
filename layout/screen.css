@@ -83,6 +83,11 @@ body {
 	clear: right;
 }
 
+#container #body {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 div.clear {
 	clear: both;
 }
