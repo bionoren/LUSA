@@ -20,12 +20,12 @@
         protected $courses = array();
         /** ARRAY Array of the form courseTitleNumbers[dept.num.section] = [Course]. */
         protected $courseTitleNumbers = array();
+        /** ARRAY List of department names. */
+        protected $departments = array();
         /** ARRAY Array of error messages for classes keyed by the class' order of selection. */
         protected $errors = array();
         /** INTEGER The total number of hours for the selected classes. */
         protected $hours = 0;
-        /** ARRAY Associative array of selected classes (DEPT). */
-        protected $selectedClasses = array();
         /** ARRAY Associative array of selected courses (DEPT####). */
         protected $selectedChoices = array();
         /** BOOLEAN True if links to the bookstore website should be shown (which is slow). */
@@ -37,10 +37,6 @@
         public function __construct() {
             parent::__construct();
 
-            //removes duplicate entries
-            if(isset($_REQUEST["class"])) {
-                $this->selectedClasses = array_filter($_REQUEST["class"]);
-            }
             if(Main::haveSelections()) {
                 foreach($_REQUEST["choice"] as $course) {
 					if(!empty($course)) {
@@ -58,7 +54,7 @@
         /**
          * Checks if the given course is valid in at least one available schedule.
          *
-         * @param $sections ARRAY - List of sections (a section list is a list of Course objects).
+         * @param ARRAY $sections List of sections (a section list is a list of Course objects).
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(array $sections) {
@@ -84,11 +80,44 @@
         public function display() {
             print '<div id="schedule-select" class="print-no">';
                 print '<h2>Selected Classes</h2>';
-                $this->printClassDropdowns();
+                print '<div id="classDropdowns">';
+                print '</div>';
                 print '<span id="schedHours">'.$this->getHours().'</span> Credit Hours';
             print '</div>';
             print '<div id="schedule">';
-                $this->displaySchedules();
+                print '<h2>Schedule</h2>';
+                //make classes show up in a pretty order
+                print '<table class="full border">';
+                    print '<thead>';
+                        print '<tr>';
+                            if(Main::isTraditional()) {
+                                Student::showTraditionalHeaders();
+                            } else {
+                                Student::showNonTraditionalHeaders();
+                            }
+                        print '</tr>';
+                    print '</thead>';
+                    print '<tbody id="classes">';
+                        $this->displaySchedules();
+                    print '</tbody>';
+                print '</table>';
+                print '<br/>';
+                print '<a href="javascript:window.print();">Print Schedule</a>';
+                print '<br/>';
+                print '<div style="text-align:center;">';
+                    $extra = array();
+                    foreach(Student::$keepFilter as $uid) {
+                        $dept = substr($uid, 0, 4);
+                        $id = substr($uid, 0, 9);
+                        $extra[] = $this->classes[$dept][$id][array_search($uid, $this->classes[$dept][$id])]->getPrintQS();
+                    }
+                    $extra = implode("~", $extra);
+                    if(!empty($extra)) {
+                        $extra = "~".$extra;
+                    }
+                    print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="100%"/>';
+                    print '<br/>';
+                print '</div>';
             print '</div>';
         }
 
@@ -99,89 +128,54 @@
          * @return VOID
          */
         public function displaySchedules() {
-            if($this->isSubmitted() && Main::haveSelections()) {
-                if($this->hasNoErrors()) {
-                    print '<h2>Schedule</h2>';
-                    $span = (Main::isTraditional())?7:9;
-                    //make classes show up in a pretty order
-                    print '<table class="full">';
-                        $noCommon = true;
-                        $haveOthers = false;
-                        foreach($this->getCourses() as $sections) {
-                            if(count($sections) == 1) {
-                                if($noCommon) {
-                                    $noCommon = false;
-                                    print '<thead><tr>';
-                                        print '<th style="font-size:117%;" colspan="'.$span.'">These are the only times you can take these classes:</th>';
-                                    print '</tr>';
-                                    print '<tr>';
-                                        if(Main::isTraditional()) {
-                                            Student::showTraditionalHeaders();
-                                        } else {
-                                            Student::showNonTraditionalHeaders();
-                                        }
-                                    print '</tr></thead>';
-                                }
-                                print $sections[0]->display()."\n";
-                                Student::$common[] = $sections[0];
-                            } else {
-                                $haveOthers = true;
+            $span = (Main::isTraditional())?7:9;
+            if(Main::haveSelections()) {
+                $noCommon = true;
+                $haveOthers = false;
+                if(is_array($this->getCourses())) {
+                    foreach($this->getCourses() as $sections) {
+                        if(count($sections) == 1) {
+                            if($noCommon) {
+                                $noCommon = false;
+                                print '<tr>';
+                                    print '<th style="font-size:117%;" colspan="'.$span.'">These are the only times you can take these classes:</th>';
+                                print '</tr>';
                             }
+                            print $sections[0]->display()."\n";
+                            Student::$common[] = $sections[0];
+                        } else {
+                            $haveOthers = true;
                         }
+                    }
 
-                        if($haveOthers) {
-                            print '<thead><tr>';
-                                print '<th style="font-size:117%; padding-top:16px;" colspan="'.$span.'">These classes have some options:</th>';
-                            print '</tr>';
-                            print '<tr>';
-                                if(Main::isTraditional()) {
-                                    Student::showTraditionalHeaders();
-                                } else {
-                                    Student::showNonTraditionalHeaders();
-                                }
-                            print '</tr></thead>';
-                            
-                            print '<tbody>';
-                            foreach($this->getCourses() as $sections) {
-                                if(count($sections) > 1) {
-                                    $key = current($sections)->getID();
-                                    print '<tr style="cursor:pointer;" onclick="createJSToggle(\''.$key.'\');">';
-                                        print '<td><span id="'.$key.'">+</span> '.$key.'</td>';
-                                        print '<td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td>';
-                                    print '</tr>';
-                                    foreach($sections as $section) {
-                                        print $section->display(true);
-                                    }
+                    if($haveOthers) {
+                        print '<tr><th style="font-size:117%; padding-top:16px;" colspan="'.$span.'">These classes have some options:</th></tr>';
+
+                        foreach($this->getCourses() as $sections) {
+                            if(count($sections) > 1) {
+                                $key = current($sections)->getID();
+                                print '<tr style="cursor:pointer;" class="'.$key.'" onclick="Course.toggle(\''.$key.'\');">';
+                                    print '<td><span id="'.$key.'">+</span> '.$key.'</td>';
+                                    print '<td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td>';
+                                print '</tr>';
+                                foreach($sections as $section) {
+                                    print $section->display(true);
                                 }
                             }
-                            print '</tbody>';
                         }
-                    print '</table>';
-                    print '<br/>';
-                    print '<div style="text-align:center;">';
-                        $extra = array();
-                        foreach(Student::$keepFilter as $uid) {
-                            $dept = substr($uid, 0, 4);
-                            $id = substr($uid, 0, 9);
-                            $extra[] = $this->classes[$dept][$id][array_search($uid, $this->classes[$dept][$id])]->getPrintQS();
-                        }
-                        $extra = implode("~", $extra);
-                        if(!empty($extra)) {
-                            $extra = "~".$extra;
-                        }
-                        print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="880"/>';
-                        print '<br/>';
-                    print '</div>';
+                    }
                 } else {
-                    print "<span style='color:red;'>Conflicts were found :(<br>".$this->getCourses()."</span>";
+                    print '<tr><td id="error" style="color:red;" colspan="'.$span.'">Conflicts were found :(<br>'.$this->getCourses().'</td></tr>';
                 }
+            } else {
+                print '<tr><td colspan="'.$span.'">No selections yet...</td></tr>';
             }
         }
 
         /**
 		 * Used to validate classes in a dropdown list
 		 *
-		 * @param $courses ARRAY List of sections.
+		 * @param ARRAY $courses List of sections.
 		 * @return MIXED A conflict message if there was a conflict, null if there wasn't a conflict.
 		 */
 		function findSchedules(array $courses) {
@@ -227,20 +221,28 @@
          * Returns an internal array of classes.
          *
          * @return ARRAY
-         * @see $classGroups
-         */
-        protected function getClassGroups() {
-            return $this->classGroups;
-        }
-
-        /**
-         * Returns an internal array of classes.
-         *
-         * @return ARRAY
          * @see $classes
          */
         protected function getClasses() {
             return $this->classes;
+        }
+
+        /**
+         * Returns a JSON list of class names for the given department.
+         *
+         * @param STRING $dept 4 letter department code.
+         * @return STRING JSON encoded class list.
+         */
+        public function getCourseJSON($dept) {
+            $classes = $this->getClasses();
+            $ret = array();
+            $tmp = array();
+            foreach($classes[$dept] as $key=>$sections) {
+                $tmp["class"] = $sections[0]->getLabel();
+                $tmp["error"] = $this->checkValidClass($sections);
+                $ret[$key] = $tmp;
+            }
+            return json_encode($ret);
         }
 
         /**
@@ -264,6 +266,25 @@
         }
 
         /**
+         * Returns a JSON list of department names.
+         *
+         * @return STRING JSON encoded department list.
+         */
+        public function getDepartmentJSON() {
+            return json_encode($this->getDepartments());
+        }
+
+        /**
+         * Accessor for the internal departments array.
+         *
+         * @return STRING Department array.
+         * @see $departments
+         */
+        protected function getDepartments() {
+            return $this->departments;
+        }
+
+        /**
          * Returns the number of hours being taken.
          *
          * @return INTEGER
@@ -276,12 +297,13 @@
         /**
          * Returns the querystring used to generate a picture of the given classes.
          *
-         * @param $classes ARRAY - List of classes to display.
+         * @param ARRAY $classes List of classes to display.
          * @return STRING Querystring for display.
          * @see print.php
          */
         public static function getPrintQS(array $classes) {
-            $ret = 'sem='.Main::getSemester().'&trad='.Main::isTraditional().'&classes=';
+            $trad = (Main::isTraditional())?"trad":"non";
+            $ret = 'sem='.Main::getSemester().'&trad='.$trad.'&classes=';
             $tmp = array();
             foreach($classes as $class) {
                 $tmp[] = $class->getPrintQS();
@@ -322,7 +344,7 @@
         /**
          * Returns true if the given class is marked (by filters) to be kept for consideration in schedules.
          *
-         * @param $class COURSE - Class to evaluate.
+         * @param COURSE $class Class to evaluate.
          * @return BOOLEAN True if kept.
          */
         public static function isKept(Course $class) {
@@ -339,75 +361,6 @@
         }
 
         /**
-         * Displays dropdown to select which class to take.
-         *
-         * @return VOID
-         */
-        public function printClassDropdown($class=null, $choice=null) {
-            $uid = md5(microtime());
-            $classes = $this->getClasses();
-            $ctn = $this->getCourseTitleNumbers();
-            if(!empty($class)) {
-                $tmp = str_replace('>'.$class, ' selected="selected">'.$class, $this->getClassGroups());
-            } else {
-                $tmp = $this->getClassGroups();
-            }
-            print '<div id="classChoice'.$uid.'" class="classDD">';
-                print '<select name="class[]" id="classDD'.$uid.'" onchange="departmentSelected(\''.$uid.'\')">';
-                    print '<option value="0">----</option>'.$tmp;
-                print '</select>';
-                print '<label for="classDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
-                print '<div id="choice'.$uid.'" style="display:inline;">';
-                    $populated = !empty($choice);
-                    if($populated) {
-                        print '<select name="choice[]" id="choiceDD'.$uid.'" class="choiceDD" onchange="courseSelected()" >';
-                            print '<option value="0">----</option>';
-                            foreach($classes[$class] as $key=>$sections) {
-                                print '<option value="'.$key.'"';
-                                if($choice == $key) {
-                                    $this->hours += substr($key, -1);
-                                    print ' selected="selected"';
-                                }
-	                            $error = $this->checkValidClass($sections);
-                                if(!($error && $this->getCourses())) {
-                                    print '>'.$sections[0]->getLabel();
-                                } else {
-                                    print ' style="color:rgb(177, 177, 177);">'.$error;
-                                }
-                                print '</option>';
-                            }
-                        print "</select>";
-                        print '<label for="choiceDD'.$uid.'" style="display:none;">Class selection dropdown</label>';
-                    }
-                print '</div>';
-                if($populated && $this->showBooks()) {
-                    print '&nbsp;&nbsp;'.Course::displayBookStoreLink($populated);
-                }
-                if($this->hasError($choice)) {
-                    print '<span style="color:red;">Sorry, this class is not offered this semester</span>';
-                }
-            print '</div>';
-        }
-
-        /**
-         * Displays dropdowns to select which classes to take.
-         *
-         * @return VOID
-         */
-        public function printClassDropdowns() {
-            print '<div id="classDropdowns">';
-                if(Main::haveSelections()) {
-                    foreach($this->getSelectedChoices() as $choice) {
-                        $this->printClassDropdown(substr($choice, 0, 4), $choice);
-                    }
-                }
-
-                //show an extra empty department dropdown
-                $this->printClassDropdown();
-            print '</div>';
-        }
-
-        /**
          * Initilizes internal class arrays. Also fetches all valid schedules for the given input.
          *
          * @return VOID
@@ -419,16 +372,15 @@
 			//generate select option values for display later
             $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
             foreach($data as $class) {
-                $course = substr($class->getID(), 0, 4);
-                $this->classGroups[$course] = '<option value="'.$course.'">'.$course.'</option>';
-                $this->classes[$course][$class->getID()][] = $class;
+                $dept = substr($class->getID(), 0, 4);
+                $this->departments[$dept] = $dept;
+                $this->classes[$dept][$class->getID()][] = $class;
                 $this->courseTitleNumbers[$class->getID()][] = $class;
             }
-            $this->classGroups = implode("", $this->getClassGroups());
             //alphabetize the class list
             array_multisort($this->classes);
 
-            if($this->isSubmitted() && Main::haveSelections()) {
+            if(Main::haveSelections()) {
                 //gather input data
                 foreach($this->getSelectedChoices() as $key) {
                     if(isset($this->courseTitleNumbers[$key])) {

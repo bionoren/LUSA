@@ -63,10 +63,18 @@
 		 */
 		public abstract function display();
 
+		/**
+         * Displays the generated schedule(s) to the user with all the pretty and error
+         * messages that may or may not go with that.
+         *
+         * @return VOID
+         */
+        public abstract function displaySchedules();
+
         /**
          * Returns the campus classes are coming from.
          *
-         * @return STRING
+         * @return STRING Campus name.
          * @see $campus
          */
         public static function getCampus() {
@@ -79,7 +87,8 @@
          * @return STRING Cookie name.
          */
         public static function getCookieName() {
-            return Main::getSemester().Main::isTraditional().Main::getCampus();
+			$trad = (Main::isTraditional())?"trad":"non";
+            return Main::getSemester().$trad.Main::getCampus();
         }
 
         /**
@@ -137,15 +146,6 @@
 		public static function isStudent() {
 			return Main::$student;
 		}
-
-        /**
-         * Returns true if schedules should be generated.
-         *
-         * @return BOOLEAN True if the class form was submitted.
-         */
-        public static function isSubmitted() {
-            return Main::$submit;
-        }
 
         /**
          * Returns true if traditional classes are being evaluated.

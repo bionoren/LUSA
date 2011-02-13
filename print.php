@@ -18,6 +18,16 @@
     require_once("functions.php");
     require_once("Meeting.php");
 
+	/**
+	 * Wraps text.
+	 *
+	 * @param INTEGER $fontSize The size of the font.
+	 * @param INTEGER $angle The angle of the text from vertical.
+	 * @param STRING $fontFace The font being used.
+	 * @param STRING $string The string to wrap.
+	 * @param INTEGER $width The width of the container.
+	 * @return STRING Text wrapped with newlines.
+	 */
     function wrap($fontSize, $angle, $fontFace, $string, $width){
         $ret = "";
         $arr = explode(' ', $string);
@@ -42,7 +52,7 @@
             }
         }
     }
-	if(substr($_REQUEST["sem"], -2) != "SU" && $_REQUEST["trad"]) {
+	if(substr($_REQUEST["sem"], -2) != "SU" && $_REQUEST["trad"] != "non") {
 		//add chapel
 		$tmp = array();
 		$tmp[] = 2+8+32;
@@ -52,7 +62,14 @@
 		$tmp[] = "Chapel";
 		$classes[] = $tmp;
 	}
+
+	header('Content-type: image/gif');
 	if(empty($classes)) {
+		$img = imagecreate(1,1);
+		$white = imagecolorallocate($img, 255, 255, 255);
+		imagegif($img);
+	    imagedestroy($img);
+		imagefill($img, 0, 0, $white);
 		die();
 	}
 
@@ -79,16 +96,15 @@
         }
     }
 
-	header('Content-type: image/gif');
     $imgWidth = 670;
     $imgHeight = 880;
     //taken from the WINE project
     $font = "layout/tahoma.ttf";
     $img = imagecreate($imgWidth, $imgHeight);
-    $white = imagecolorallocate($img, 255, 255, 255);
-    imagefill($img, 0, 0, $white);
-    $black = imagecolorallocate($img, 0, 0, 0);
+	$white = imagecolorallocate($img, 255, 255, 255);
+	$black = imagecolorallocate($img, 0, 0, 0);
 
+    imagefill($img, 0, 0, $white);
     imagesetthickness($img, 2);
     //border
     imagerectangle($img, 0, 1, $imgWidth-1, $imgHeight-2, $black);
@@ -134,7 +150,7 @@
                 //lr
                 imagefilledellipse($img, $offsetX+1-9+$incX*($i), $offsetY-5+$end*$incY, 10, 10, $bgcolor);
 
-                $pos = imagettftext($img, 11, 0, $offsetX+4+$incX*($i-1), $offsetY+16+$start*$incY, $black, $font, wrap(11, 0, $font, str_replace("/", "/ ", stripslashes($class[4])), $incX));
+                $pos = imagettftext($img, 11, 0, $offsetX+4+$incX*($i-1), $offsetY+16+$start*$incY, $black, $font, wrap(11, 0, $font, str_replace("/", "/ ", htmlspecialchars_decode($class[4])), $incX));
                 $tmp = $pos[1]-$pos[7]+16;
                 imagettftext($img, 10, 0, $offsetX+2+$incX*($i-1), $offsetY+$tmp+$start*$incY, $black, $font, $class[3]);
 				$tmp += 16;

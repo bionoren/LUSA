@@ -1,4 +1,6 @@
 <?php
+    //Shutter would like to note:
+    //We wish you a Merry Christmas and a happy New Year!
     $path = "./";
     require_once($path."Main.php");
     $mode = $_REQUEST["mode"];
@@ -16,15 +18,15 @@
         $main = new Professor();
     }
 
-    if($mode == "updateSchedule") {
+    if($mode == "updateClasses") {
         $main->displaySchedules();
     }
 
-    if($mode == "createClassDropdown") {
-        $main->printClassDropdown($_REQUEST["department"], $_REQUEST["selection"]);
+    if($mode == "getDepartmentData") {
+        print $main->getDepartmentJSON();
     }
 
-    if($mode == "updateAll") {
-        $main->display();
+    if($mode == "getCourseData") {
+        print $main->getCourseJSON($_REQUEST["dept"]);
     }
 ?>
