@@ -109,7 +109,9 @@ option.appendChild(document.createTextNode("----"));
 this.course.appendChild(option);
 Object.keys(data).each(function(c){option=document.createElement("option");
 option.setAttribute("value",c);
-if(data[c].error){option.setAttribute("disabled","disabled")
+if(data[c].error){option.setAttribute("disabled","disabled");
+option.observe("mouseover",function(e){$("scheduleImg").src+="&overlayClasses="+data[c].error
+})
 }option.appendChild(document.createTextNode(data[c]["class"]));
 this.course.appendChild(option)
 }.bind(this));

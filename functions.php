@@ -100,6 +100,7 @@
         } else {
             $semester = 2;
         }
+
 		//try to grab 2 semesters into the future, the current semester, and a year into the past
 		$numSem = count($semesters);
 		for($i = -2; $i <= 3; $i++) {
@@ -108,7 +109,7 @@
 				$index += $numSem;
 			}
 			$sem = $semesters[$index];
-			$yr = $year-floor($i/$numSem);
+			$yr = $year-ceil($i/$numSem);
 			if(!$reject || file_exists($prefix.$yr.$sem.".txt"))
                 $files[] = $yr.$sem;
 		}
