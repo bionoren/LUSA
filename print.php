@@ -103,7 +103,7 @@
             $this->background = imagecolorallocate($this->img, 255, 255, 255);
             $this->foreground = imagecolorallocate($this->img, 0, 0, 0);
             $this->classBackground = imagecolorallocate($this->img, 253, 255, 79);
-            $this->setImage($this::$width, $this::$height);
+            $this->setImage(SchedulePrinter::$width, SchedulePrinter::$height);
 
             $this->classes = $this->parseClasses($_REQUEST["classes"]);
             if(substr($_REQUEST["sem"], -2) != "SU" && $_REQUEST["trad"] != "non") {
@@ -124,8 +124,8 @@
             //find the first and last class
             $this->startTime = 24;
             $this->endTime = 0;
-            $this->startDay = $this::$defaultStartDay;
-            $this->numDays = $this::$defaultNumDays;
+            $this->startDay = SchedulePrinter::$defaultStartDay;
+            $this->numDays = SchedulePrinter::$defaultNumDays;
             foreach($this->classes as $class) {
                 if($class[1] < $this->startTime) {
                     $this->startTime = floor($class[1]);
@@ -225,14 +225,14 @@
         function drawFrame() {
             imagesetthickness($this->img, 2);
             //border
-            imagerectangle($this->img, 0, 1, $this::$width-1, $this::$height-2, $this->foreground);
+            imagerectangle($this->img, 0, 1, SchedulePrinter::$width-1, SchedulePrinter::$height-2, $this->foreground);
 
             imagesetthickness($this->img, 1);
-            $this->dayWidth = ($this::$width-$this->offsetX)/$this->numDays;
+            $this->dayWidth = (SchedulePrinter::$width-$this->offsetX)/$this->numDays;
             for($i = 0; $i < $this->numDays; $i++) {
                 $x = $this->offsetX+$this->dayWidth*$i;
-                imagerectangle($this->img, $x, 1, $x+$this->dayWidth, $this::$height-1, $this->foreground);
-                imagettftext($this->img, 14, 0, $x+16, 20, $this->foreground, $this->font, $this::$DAYS[$i+$this->startDay]);
+                imagerectangle($this->img, $x, 1, $x+$this->dayWidth, SchedulePrinter::$height-1, $this->foreground);
+                imagettftext($this->img, 14, 0, $x+16, 20, $this->foreground, $this->font, SchedulePrinter::$DAYS[$i+$this->startDay]);
             }
 
             //hour headers
@@ -241,7 +241,7 @@
             $this->hourHeight = (SchedulePrinter::$height - $this->offsetY)/$numHours;
             for($i = 0; $i < $numHours; $i++) {
                 $y = $this->offsetY+$this->hourHeight*$i;
-                imagerectangle($this->img, 0, $y, $this::$width-1, $y+$this->hourHeight, $this->foreground);
+                imagerectangle($this->img, 0, $y, SchedulePrinter::$width-1, $y+$this->hourHeight, $this->foreground);
                 imagettftext($this->img, 12, 0, 4, $y+17, $this->foreground, $this->font, (($i+$startHour)%12+1).":00");
             }
         }
