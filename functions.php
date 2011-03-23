@@ -110,8 +110,9 @@
 			}
 			$sem = $semesters[$index];
 			$yr = $year-ceil($i/$numSem);
-			if(!$reject || file_exists($prefix.$yr.$sem.".txt"))
+			if(!$reject || file_exists($prefix.$yr.$sem.".txt")) {
                 $files[] = $yr.$sem;
+            }
 		}
         return $files;
     }

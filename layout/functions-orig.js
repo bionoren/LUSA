@@ -82,7 +82,7 @@ lusa.updateLocation = function() {
 lusa.updatePreview = function() {
     if($('scheduleImg')) {
         tmp = new Array();
-        url = "print.php?sem=2011SP&trad="+lusa.trad+"&classes=";
+        url = "print.php?sem="+lusa.semester+"&trad="+lusa.trad+"&classes=";
         Dropdown.classes.each(function(kvp) {
             tmp.push(kvp[1]);
         });
