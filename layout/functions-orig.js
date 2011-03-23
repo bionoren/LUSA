@@ -402,7 +402,7 @@ var Course = Class.create({
     update: function() {
         if(this.course.value) {
             rows = $$("."+this.course.value);
-            if(rows.length == 1 || typeof rows[1].down("input") == "undefined") {
+            if(rows.length > 0 && (rows.length == 1 || typeof rows[1].down("input") == "undefined")) {
                 Dropdown.classes.set(this.value, rows[0].id);
             }
         }
