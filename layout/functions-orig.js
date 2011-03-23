@@ -322,6 +322,9 @@ var Dropdown = Class.create({
                     option.setAttribute("value", course);
                     if(data[course].error) {
                         option.setAttribute("disabled", "disabled");
+                        option.observe('mouseover', function(event) {
+                            $('scheduleImg').src += "&overlayClasses="+data[course].error;
+                        });
                     }
                     option.appendChild(document.createTextNode(data[course]["class"]));
                     this.course.appendChild(option);

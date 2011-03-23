@@ -133,7 +133,7 @@ Dropdown.instances.each(function(b){if(b.courseMgr){b.courseMgr.update()
 lusa.updatePreview()
 }.bind(this)})
 }},update:function(){if(this.course.value){rows=$$("."+this.course.value);
-if(rows.length==1||typeof rows[1].down("input")=="undefined"){Dropdown.classes.set(this.value,rows[0].id)
+if(rows.length>0&&(rows.length==1||typeof rows[1].down("input")=="undefined")){Dropdown.classes.set(this.value,rows[0].id)
 }}}});
 Course.toggle=function(a){sections=$$("."+a);
 sections.shift();

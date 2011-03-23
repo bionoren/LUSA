@@ -66,7 +66,15 @@
 				if(is_array($conflict)) {
 					return false;
 				} else {
-					return $conflict;
+                    if($conflict) {
+                        $ret = array();
+                        foreach($sections as $section) {
+                            $ret[] = $section->getPrintQS();
+                        }
+                        return implode("~", $ret);
+                    } else {
+                        return false;
+                    }
 				}
             }
             return false;
@@ -116,7 +124,6 @@
                         $extra = "~".$extra;
                     }
                     print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="100%"/>';
-                    print '<br/>';
                 print '</div>';
             print '</div>';
         }
