@@ -22,7 +22,7 @@ date.setTime(date.getTime()+(365*24*60*60*1000));
 if(this.student=="student"){document.cookie=this.getCookieName()+"="+str+"; expires="+date.toUTCString()
 }};
 lusa.updatePreview=function(){if($("scheduleImg")){tmp=new Array();
-url="print.php?sem=2011SP&trad="+lusa.trad+"&classes=";
+url="print.php?sem="+lusa.semester+"&trad="+lusa.trad+"&classes=";
 Dropdown.classes.each(function(a){tmp.push(a[1])
 });
 url+=tmp.join("~");
