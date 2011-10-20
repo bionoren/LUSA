@@ -67,6 +67,9 @@
         rename($filename.".tmp", $filename.".txt");
 	}
 
+	//run unit test on getFileArray
+	testGetFileArray();
+
     $files = getFileArray(false);
     $trad = "http://gimme.letu.edu/courseschedule/trad/full/";
     $nontrad = "http://gimme.letu.edu/courseschedule/sgps/full/";

@@ -82,13 +82,17 @@
 	 * Returns an array of fully qualified semester names.
 	 *
 	 * @param BOOLEAN $reject If false, semesters without available data are included.
+	 * @param INTEGER $today Timestamp used by unit tests. You are strongly discouraged from providing this parameter.
 	 * @return ARRAY List of semester names.
 	 */
-    function getFileArray($reject=true) {
+    function getFileArray($reject=true, $today=null) {
         //rollover on May 1st, August 1st, and January 1st
-        $year = date("Y");
-        $month = date("n");
-        $day = date("j");
+		if(!$today) {
+			$today = time();
+		}
+        $year = date("Y", $today);
+        $month = date("n", $today);
+        $day = date("j", $today);
         $files = array();
 		$prefix = "cache/";
 		$semesters = array("SP", "SU", "FA");
@@ -101,7 +105,7 @@
             $semester = 2;
         }
 
-		//try to grab 2 semesters into the future, the current semester, and a year into the past
+		//try to grab 2 semesters into the future, the current semester, and a year (3 semesters) into the past
 		$numSem = count($semesters);
 		for($i = -2; $i <= 3; $i++) {
 			$index = ($semester-$i)%$numSem;
@@ -109,13 +113,92 @@
 				$index += $numSem;
 			}
 			$sem = $semesters[$index];
-			$yr = $year-ceil($i/$numSem);
+			if($semester-$i >= $numSem) {
+				$yr = $year + 1;
+			} elseif($semester-$i < 0) {
+				$yr = $year - 1;
+			} else {
+				$yr = $year;
+			}
 			if(!$reject || file_exists($prefix.$yr.$sem.".txt")) {
                 $files[] = $yr.$sem;
             }
 		}
         return $files;
     }
+
+	/**
+	 * Unit tests for the getFileArray function.
+	 *
+	 * @return VOID
+	 */
+	function testGetFileArray() {
+		//January 1st, 2011
+		$today = mktime(0, 0, 0, 1, 1, 2011);
+		$files = getFileArray(false, $today);
+		assert('count($files) == 6 /* Found '.count($files).' for '.date("F jS, Y", $today).'*/');
+		assert('$files[0] == "2011FA" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[1] == "2011SU" /* Found '.$files[1].' for '.date("F jS, Y", $today).'*/'); //two into the future
+		assert('$files[2] == "2011SP" /* Found '.$files[2].' for '.date("F jS, Y", $today).'*/'); //current semester
+		assert('$files[3] == "2010FA" /* Found '.$files[3].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[4] == "2010SU" /* Found '.$files[4].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[5] == "2010SP" /* Found '.$files[5].' for '.date("F jS, Y", $today).'*/'); //year into the past
+
+		//April 30th, 2011
+		$today = mktime(0, 0, 0, 4, 30, 2011);
+		$files = getFileArray(false, $today);
+		assert('count($files) == 6 /* Found '.count($files).' for '.date("F jS, Y", $today).'*/');
+		assert('$files[0] == "2011FA" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[1] == "2011SU" /* Found '.$files[1].' for '.date("F jS, Y", $today).'*/'); //two into the future
+		assert('$files[2] == "2011SP" /* Found '.$files[2].' for '.date("F jS, Y", $today).'*/'); //current semester
+		assert('$files[3] == "2010FA" /* Found '.$files[3].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[4] == "2010SU" /* Found '.$files[4].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[5] == "2010SP" /* Found '.$files[5].' for '.date("F jS, Y", $today).'*/'); //year into the past
+
+		//May 1st, 2011
+		$today = mktime(0, 0, 0, 5, 1, 2011);
+		$files = getFileArray(false, $today);
+		assert('count($files) == 6 /* Found '.count($files).' for '.date("F jS, Y", $today).'*/');
+		assert('$files[0] == "2012SP" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[1] == "2011FA" /* Found '.$files[1].' for '.date("F jS, Y", $today).'*/'); //two into the future
+		assert('$files[2] == "2011SU" /* Found '.$files[2].' for '.date("F jS, Y", $today).'*/'); //current semester
+		assert('$files[3] == "2011SP" /* Found '.$files[3].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[4] == "2010FA" /* Found '.$files[4].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[5] == "2010SU" /* Found '.$files[5].' for '.date("F jS, Y", $today).'*/'); //year into the past
+
+		//July 31st, 2011
+		$today = mktime(0, 0, 0, 7, 31, 2011);
+		$files = getFileArray(false, $today);
+		assert('count($files) == 6 /* Found '.count($files).' for '.date("F jS, Y", $today).'*/');
+		assert('$files[0] == "2012SP" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[1] == "2011FA" /* Found '.$files[1].' for '.date("F jS, Y", $today).'*/'); //two into the future
+		assert('$files[2] == "2011SU" /* Found '.$files[2].' for '.date("F jS, Y", $today).'*/'); //current semester
+		assert('$files[3] == "2011SP" /* Found '.$files[3].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[4] == "2010FA" /* Found '.$files[4].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[5] == "2010SU" /* Found '.$files[5].' for '.date("F jS, Y", $today).'*/'); //year into the past
+
+		//August 1st, 2011
+		$today = mktime(0, 0, 0, 8, 1, 2011);
+		$files = getFileArray(false, $today);
+		assert('count($files) == 6 /* Found '.count($files).' for '.date("F jS, Y", $today).'*/');
+		assert('$files[0] == "2012SU" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[1] == "2012SP" /* Found '.$files[1].' for '.date("F jS, Y", $today).'*/'); //two into the future
+		assert('$files[2] == "2011FA" /* Found '.$files[2].' for '.date("F jS, Y", $today).'*/'); //current semester
+		assert('$files[3] == "2011SU" /* Found '.$files[3].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[4] == "2011SP" /* Found '.$files[4].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[5] == "2010FA" /* Found '.$files[5].' for '.date("F jS, Y", $today).'*/'); //year into the past
+
+		//December 31st, 2011
+		$today = mktime(0, 0, 0, 12, 31, 2011);
+		$files = getFileArray(false, $today);
+		assert('count($files) == 6 /* Found '.count($files).' for '.date("F jS, Y", $today).'*/');
+		assert('$files[0] == "2012SU" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[1] == "2012SP" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/'); //two into the future
+		assert('$files[2] == "2011FA" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/'); //current semester
+		assert('$files[3] == "2011SU" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[4] == "2011SP" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/');
+		assert('$files[5] == "2010FA" /* Found '.$files[0].' for '.date("F jS, Y", $today).'*/'); //year into the past
+	}
 
     /**
 	 * Creates a list of classes that can be taken (i.e. do not cause conflicts with other classes and can be used
