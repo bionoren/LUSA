@@ -7,7 +7,6 @@
 </div>
 <div id="schedule">
     <h2>Schedule</h2>
-    //make classes show up in a pretty order
     <table class="full border">
         <thead>
             <tr>

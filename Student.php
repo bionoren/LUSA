@@ -15,8 +15,6 @@
         protected $classes = array();
         /** MIXED Numeric array of course objects for the currently selected courses or an error string. */
         protected $courses = array();
-        /** ARRAY Array of the form courseTitleNumbers[dept.num.section] = [Course]. */
-        protected $courseTitleNumbers = array();
         /** ARRAY List of department names. */
         protected $departments = array();
         /** ARRAY Array of error messages for classes keyed by the class' order of selection. */
@@ -25,8 +23,6 @@
         protected $hours = 0;
         /** ARRAY Associative array of selected courses (DEPT####). */
         protected $selectedChoices = array();
-        /** BOOLEAN True if links to the bookstore website should be shown (which is slow). */
-        protected $showBooks = false;
 
         /**
          * Initializes all the class variables.
@@ -55,10 +51,10 @@
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(array $sections) {
-			$choices = $this->selectedChoices;
-            if($this->hasNoErrors() && !isset($choices[$sections[0]->courseID])) {
-				$this->courses[] = $sections;
-				$conflict = $this->findSchedules($this->courses);
+            if($this->hasNoErrors() && !isset($this->selectedChoices[$sections[0]->courseID])) {
+				$courses = $this->courses;
+				$courses[] = $sections;
+				$conflict = $this->findSchedules($courses);
 				if(is_array($conflict)) {
 					return false;
 				} else {
@@ -183,6 +179,7 @@
         /**
          * Returns true if the given input class caused an error.
          *
+         * @param STRING $index Class ID.
          * @return BOOLEAN True on error.
          */
         protected function hasError($index) {
@@ -230,11 +227,12 @@
             $data = array_filter($classData, function(Course $class) {
 				return $class->getCampus() & $this->campusMask;
 			});
+			$courseTitleNumbers = array();
             foreach($data as $class) {
                 $dept = substr($class->courseID, 0, 4);
                 $this->departments[$dept] = $dept;
                 $this->classes[$dept][$class->courseID][] = $class;
-                $this->courseTitleNumbers[$class->courseID][] = $class;
+                $courseTitleNumbers[$class->courseID][] = $class;
             }
             //alphabetize the class list
             array_multisort($this->classes);
@@ -242,20 +240,14 @@
             if(Main::haveSelections()) {
                 //gather input data
                 foreach($this->selectedChoices as $key) {
-                    if(isset($this->courseTitleNumbers[$key])) {
-                        $this->courses[] = $this->courseTitleNumbers[$key];
-                    } else {
-                        $this->errors[$this->courseTitleNumbers[$key]->getID()] = true;
-                    }
+                    $this->courses[] = $courseTitleNumbers[$key];
                 }
 
-                if($this->hasNoErrors()) {
-                    //find possible schedules
-					$this->courses = findSchedules($this->courses);
-                    if(!is_array($this->courses)) {
-                        $this->errors = true;
-                    }
-                }
+				//find possible schedules
+				$this->courses = findSchedules($this->courses);
+				if(!is_array($this->courses)) {
+					$this->errors = true;
+				}
 
 				foreach($this->courses as $sections) {
 					if(count($sections) == 1) {

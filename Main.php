@@ -33,8 +33,6 @@
 
         /** STRING The name of the campus we're getting courses for. */
         protected static $campus;
-        /** ARRAY Array of the form classGroups[dept] = [select_option_block]. */
-        protected $classGroups = array();
         /** STRING The unique name of the current semester. */
         protected static $semester;
 		/** BOOLEAN True if student information should be evaluated and displayed. */

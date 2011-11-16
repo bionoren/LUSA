@@ -55,6 +55,7 @@ lusa.getCookieName=function(){return lusa.semester+lusa.trad+lusa.campus
 var Dropdown=Class.create({initialize:function(a){this.container=document.createElement("div");
 this.dept=document.createElement("select");
 this.course=document.createElement("select");
+this.chosenActivated=false;
 this.hours=0;
 this.courseMgr=null;
 $("classDropdowns").appendChild(this.container);
@@ -85,6 +86,9 @@ Event.observe(this.dept,"change",this.departmentSelected.bind(this));
 if(a){this.dept.value=a.substr(0,4);
 this.departmentSelected(a)
 }}Event.observe(this.course,"change",this.courseSelected.bind(this));
+this.course.setAttribute("multiple","");
+this.course.setAttribute("data-placeholder","Select a class");
+this.course.addClassName("chzn-select");
 Dropdown.instances.push(this)
 },departmentSelected:function(a){if(this.dept.value){if(!this.course.firstChild){if(!Object.isString(a)){d=new Dropdown();
 $("classDropdowns").appendChild(d.container)
@@ -94,7 +98,8 @@ lusa.updateLocation();
 this.populateCourse(a)
 }else{this.course.value=0;
 this.courseSelected();
-Element.remove(this.container)
+Element.remove(this.container);
+this.chosenActivated=false
 }},courseSelected:function(){hours=this.course.value.substr(-1);
 $("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-this.hours;
 this.hours=hours;
@@ -105,7 +110,7 @@ if(this.course.children){$A(this.course.children).each(function(c){Element.remov
 })
 }option=document.createElement("option");
 option.setAttribute("value",0);
-option.appendChild(document.createTextNode("----"));
+option.appendChild(document.createTextNode(""));
 this.course.appendChild(option);
 Object.keys(data).each(function(c){option=document.createElement("option");
 option.setAttribute("value",c);
@@ -115,8 +120,10 @@ option.observe("mouseover",function(e){$("scheduleImg").src+="&overlayClasses="+
 }option.appendChild(document.createTextNode(data[c]["class"]));
 this.course.appendChild(option)
 }.bind(this));
-this.course.activate()
-}.bind(this),onComplete:function(){if(a){this.course.value=a;
+this.course.activate();
+if(!this.chosenActivated){this.chosenActivated=true
+}else{Event.fire(this.course,"liszt:updated")
+}}.bind(this),onComplete:function(){if(a){this.course.value=a;
 this.courseSelected()
 }}.bind(this)})
 }});
