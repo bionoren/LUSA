@@ -15,8 +15,10 @@
 
     error_reporting(E_ALL | E_STRICT);
 	date_default_timezone_set("America/Chicago");
-    require_once("functions.php");
-    require_once("Course.php");
+
+	$path = "./";
+    require_once($path."functions.php");
+    require_once($path."Course.php");
 
     /**
      * Writes cash data for all courses in the given semester and year using data from the

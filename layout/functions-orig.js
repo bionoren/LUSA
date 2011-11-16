@@ -196,6 +196,8 @@ var Dropdown = Class.create({
         this.dept = document.createElement("select");
         /** @var OBJECT - Reference to the class dropdown. */
         this.course = document.createElement("select");
+        /** @var BOOL - True if this.course has been activated with Chosen. */
+        this.chosenActivated = false;
         /** @var INTEGER - The number of hours the current class is worth. */
         this.hours = 0;
         /** @var COURSE - An object to manage the actual display of course info. */
@@ -249,6 +251,9 @@ var Dropdown = Class.create({
         }
 
         Event.observe(this.course, 'change', this.courseSelected.bind(this));
+        this.course.setAttribute("multiple", "")
+        this.course.setAttribute("data-placeholder", "Select a class")
+        this.course.addClassName("chzn-select");
 
         Dropdown.instances.push(this);
     },
@@ -275,6 +280,7 @@ var Dropdown = Class.create({
             this.course.value = 0;
             this.courseSelected();
             Element.remove(this.container);
+            this.chosenActivated = false;
         }
     },
 
@@ -315,7 +321,7 @@ var Dropdown = Class.create({
                 }
                 option = document.createElement("option");
                 option.setAttribute("value", 0);
-                option.appendChild(document.createTextNode("----"));
+                option.appendChild(document.createTextNode(""));
                 this.course.appendChild(option);
                 Object.keys(data).each(function(course) {
                     option = document.createElement("option");
@@ -330,6 +336,12 @@ var Dropdown = Class.create({
                     this.course.appendChild(option);
                 }.bind(this));
                 this.course.activate();
+                if(!this.chosenActivated) {
+//                    new Chosen(this.course, {no_results_text: "Nothing in this department matches"});
+                    this.chosenActivated = true;
+                } else {
+                    Event.fire(this.course, "liszt:updated");
+                }
             }.bind(this),
             onComplete: function() {
                 if(value) {

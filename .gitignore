@@ -1,3 +1,5 @@
 cache/*
 documentation
 *.komodo*
+templates_c/*
+smarty/*

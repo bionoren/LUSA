@@ -208,7 +208,9 @@
 	 * @return MIXED A list of valid classes or a string with the error message(s).
 	 */
 	function findSchedules(array $courses) {
-		usort($courses, create_function('$section1, $section2', 'return count($section1) - count($section2);'));
+		usort($courses, function($section1, $section2) {
+			return count($section1) - count($section2);
+		});
 		$numCourses = count($courses);
         $indexes = array_fill(0, $numCourses, 0);
 		$classes = array();
@@ -218,7 +220,7 @@
             }
 			if(isValidSchedule($classes)) {
 				foreach($classes as $class) {
-					$class->conflicts = array();
+					$class->conflict = null;
 					$class->valid = true;
 				}
 			}
@@ -265,6 +267,8 @@
 	/**
 	 * Builds and returns an array of conflicts.
 	 *
+	 * @param ARRAY $courses List of courses to find conflicts for.
+	 * @param BOOL $fast If true, fails as soon as an error is encountered.
 	 * @return ARRAY List of unresolvable conflicts.
 	 */
 	function findConflicts(array &$courses, $fast=false) {
@@ -281,7 +285,7 @@
 			}
 			if(empty($courses[$key1])) {
 				if($fast) {
-					return array($tmp[0]);
+					return array(@$tmp[0]);
 				}
 				$conflict = array_merge($conflict, $tmp);
 			} else {

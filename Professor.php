@@ -27,34 +27,6 @@
         }
 
         /**
-		 * Displays the body of the page (forms, output, etc).
-		 *
-		 * @return VOID
-		 */
-        public function display() {
-            print '<div class="print-no">';
-                print 'Select a professor: ';
-                $this->printProfDropdown($this->prof);
-            print '</div>';
-            print '<div id="schedule" style="text-align:center;">';
-                $this->displaySchedules();
-            print '</div>';
-        }
-
-        /**
-         * Displays the schedule for the selected professor.
-         *
-         * @return VOID
-         */
-        public function displaySchedules() {
-            if(!empty($this->prof)) {
-                print '<h2>Schedule</h2>';
-                print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS($this->profClassList[$this->prof]).'" height="600"/>';
-                print '<br/>';
-            }
-        }
-
-        /**
          * Generates a sorted list of meetings associated with and keyed by the professor teaching them.
          *
          * @return ARRAY $ret[PROF_NAME][] = Meeting

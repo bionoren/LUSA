@@ -13,22 +13,19 @@
 	 *	limitations under the License.
 	 */
 
-    require_once("Course.php");
-    require_once("functions.php");
-
-	require_once("Student.php");
-	require_once("Professor.php");
+	require_once($path."Object.php");
+    require_once($path."Course.php");
+    require_once($path."functions.php");
 
     /**
      * Handles processing of the main page.
      *
-     * Provides user input to other classes that need it and holds intermediary
-     * class information arrays used throughout this script.
+     * Provides user input to other classes that need it.
      *
      * @author Bion Oren
      * @version 1.0
      */
-    abstract class Main {
+    abstract class Main extends Object {
         /** ARRAY Mapping of semester abbreviations to long names. */
         public static $SEMESTER_NAMES = array("SP"=>"Spring", "SU"=>"Summer", "FA"=>"Fall");
 		/** ARRAY Mapping from campus names to their bit value (for bitmasking campuses). */
@@ -55,21 +52,6 @@
          */
         public function __construct() {
         }
-
-		/**
-		 * Displays the body of the page (forms, output, etc).
-		 *
-		 * @return VOID
-		 */
-		public abstract function display();
-
-		/**
-         * Displays the generated schedule(s) to the user with all the pretty and error
-         * messages that may or may not go with that.
-         *
-         * @return VOID
-         */
-        public abstract function displaySchedules();
 
         /**
          * Returns the campus classes are coming from.
@@ -119,7 +101,7 @@
          *
          * @return BOOLEAN True on user selection.
          */
-        protected static function haveSelections() {
+        public static function haveSelections() {
             return isset($_REQUEST["choice"]);
         }
 
@@ -198,4 +180,7 @@
             return $_SERVER["PHP_SELF"];
         }
     }
+
+	require_once($path."Student.php");
+	require_once($path."Professor.php");
 ?>

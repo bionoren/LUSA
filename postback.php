@@ -3,6 +3,8 @@
     //We wish you a Merry Christmas and a happy New Year!
     $path = "./";
     require_once($path."Main.php");
+    require_once($path."smarty/Smarty.class.php");
+
     $mode = $_REQUEST["mode"];
     if(isset($_REQUEST["data"])) {
         $data = $_REQUEST["data"];
@@ -11,7 +13,10 @@
         unset($_REQUEST["data"]);
     }
 
+    $smarty = new Smarty();
+    $data = new Smarty_Data();
     Main::init();
+
     if(Main::isStudent()) {
         $main = new Student();
     } else {
@@ -19,7 +24,12 @@
     }
 
     if($mode == "updateClasses") {
-        $main->displaySchedules();
+        $data->assign("student", $main);
+        if($main instanceof Student) {
+            $smarty->display("classList.tpl", $data);
+        } else {
+            $smarty->display("profClassList.tpl", $data);
+        }
     }
 
     if($mode == "getDepartmentData") {

@@ -13,16 +13,21 @@
 	 *	limitations under the License.
 	 */
 
+	require_once($path."Object.php");
+
     /**
      * Stores information for an individual class meeting time.
      *
      * @author Bion Oren
      * @version 1.0
      */
-    class Meeting {
+    class Meeting extends Object {
         /** INTEGER Bit string of days of the week (1 is Sunday). */
         protected $days;
-        /** BOOLEAN Returns true if this class is special (irregular day value or online class). */
+        /**
+		 * BOOLEAN Returns true if this class is special (irregular day value or online class).
+		 * Note that you should always be able to take special classes because they're special like that :).
+		 */
 		protected $special = false;
         /** FLOAT Class start time. */
         protected $startTime;
@@ -86,9 +91,9 @@
 
             $this->startDayString = date("n/j/y", $this->startDay);
             $this->endDayString = date("n/j/y", $this->endDay);
-            $this->dayString = Meeting::dayString($this->days, $this->isSpecial());
-            $this->startTimeString = Meeting::displayTime($this->startTime, $this->isSpecial());
-            $this->endTimeString = Meeting::displayTime($this->endTime, $this->isSpecial());
+            $this->dayString = Meeting::dayString($this->days, $this->special);
+            $this->startTimeString = Meeting::displayTime($this->startTime, $this->special);
+            $this->endTimeString = Meeting::displayTime($this->endTime, $this->special);
         }
 
         /**
@@ -171,24 +176,6 @@
         }
 
         /**
-         * Displays this meeting as part of a class' display.
-         *
-         * @param BOOLEAN $nontrad True if this is a nontraditional class.
-         * @return VOID
-         */
-        public function display($nontrad) {
-            if($nontrad) {
-                print '<td headers="campusHeader">'.$this->campusName.'</td>';
-            }
-            print '<td headers="profHeader"><!--<a href="'.$_SERVER["SCRIPT_NAME"].'#role=professor&amp;prof='.$this->prof.'&amp;submit=Submit">-->'.$this->prof.'<!--</a>--></td>';
-            if($nontrad) {
-                print '<td headers="dateHeader">'.$this->startDayString.' - '.$this->endDayString.'</td>';
-            }
-            print '<td headers="dayHeader">'.$this->dayString.'</td>';
-			print '<td headers="timeHeader">'.$this->startTimeString.'-'.$this->endTimeString.'</td>';
-        }
-
-        /**
          * Displays the given time as a string.
          *
          * Returns "-" for online classes and "TBA" for classes with a
@@ -227,15 +214,6 @@
         }
 
         /**
-         * Returns the name of this campus this meeting is at.
-         *
-         * @return STRING Campus name.
-         */
-        public function getCampus() {
-            return $this->campus;
-        }
-
-        /**
          * Returns the datestamp for the given date.
          *
          * @param STRING $date Date of the format YYYY-MM-DD
@@ -259,15 +237,6 @@
         }
 
         /**
-         * Returns the name of the professor teaching this meeting.
-         *
-         * @return STRING Professor name.
-         */
-        public function getProf() {
-            return $this->prof;
-        }
-
-        /**
 		 * Checks if two classes are offered during at least 1 common day.
 		 *
 		 * @param MEETING $class Other meeting.
@@ -285,18 +254,6 @@
 		 */
 		function isDayOverlap(Meeting $class) {
 		   return $this->days & $class->days;
-		}
-
-        /**
-		 * Returns true if nobody has a clue when this class is offered. This usually indicates an
-		 * online, study abroad, or similar class.
-		 *
-		 * Note that you should always be able to take special classes because they're special like that :).
-		 *
-		 * @return BOOLEAN
-		 */
-		public function isSpecial() {
-			return $this->special;
 		}
 
         /**

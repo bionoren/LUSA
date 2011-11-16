@@ -16,7 +16,9 @@
 	error_reporting(E_ALL);
 	date_default_timezone_set("America/Chicago");
 
-	require_once("Main.php");
+	$path = "./";
+	require_once($path."Main.php");
+	require_once($path."smarty/Smarty.class.php");
 	Main::init();
 
 	//look for cookie data
@@ -33,91 +35,10 @@
 	} else {
 		$main = new Professor();
 	}
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-        <meta http-equiv="content-language" content="en"/>
-        <meta http-equiv="Content-Style-Type" content="text/css"/>
-        <meta http-equiv="Content-Script-Type" content="text/javascript"/>
-        <meta name="language" content="en"/>
-        <meta name="description" content="Helps LETU students figure out their class schedules"/>
-        <meta name="keywords" content="LETU LeTourneau student schedule class classes"/>
 
-        <title>LUSA SE</title>
-        <link rel="stylesheet" type="text/css" href="layout/screen.css" media="screen,projection"/>
-        <link rel="stylesheet" type="text/css" href="layout/print.css" media="print"/>
-        <script type="text/javascript" src="layout/prototype.js"></script>
-        <script type="text/javascript" src="layout/functions.js"></script>
-    </head>
-    <body lang="en" onload="lusa.init();">
-        <!--LUSA 2: A Dorm 41 Production-->
-        <!--Developed by: Wharf-->
-        <!--Design by: Shutter-->
-        <!--QA and Lead Tester: Synk-->
-        <!--Performance Consultants: Zoot, Gary Raduns-->
-        <!--This code hates Tom Kelley-->
-        <!--Special thanks to all of 41 and G2 for their suggestions, bug reports, patience, and encouragement!-->
-        <div id="container">
-            <form method="get" id="form" action="<?php print $main; ?>">
-                <div id="header">
-                    <h1><a href="<?php print $main; ?>" style="text-decoration:inherit; color:inherit;">LUSA</a></h1>
-					<ul id="options">
-						<li class="first">
-							<input type="radio" id="typeStudent" name="role" value="student" <?php if(Main::isStudent()) { print 'checked="checked"'; } ?>/>
-							<label for="typeStudent">Student</label>
-							&nbsp;&nbsp;
-							<input type="radio" id="typeProf" name="role" value="prof" <?php if(!Main::isStudent()) { print 'checked="checked"'; } ?>/>
-							<label for="typeProf">Professor</label>
-						</li>
-                        <li>
-                            <div style="display:inline">
-                                <input type="radio" id="typeTraditional" name="type" value="trad" <?php if(Main::isTraditional()) { print 'checked="checked"'; } ?>/>
-                                <label for="typeTraditional">Traditional</label>
-                                &nbsp;&nbsp;
-                                <input type="radio" id="typeNonTraditional" name="type" value="non" <?php if(!Main::isTraditional()) { print 'checked="checked"'; } ?>/>
-                                <label for="typeNonTraditional">Non-Traditional</label>
-                            </div>
-                        </li>
-                        <?php if(!Main::isTraditional()) { ?>
-                            <li>
-                                <div style="display:inline">
-                                    <select name="campus" id="campusSelect">
-<!--                                        <option value="AUS" <?php if(Main::getCampus() == "AUS") print "selected='selected'"; ?>>Austin</option>-->
-                                        <option value="BED" <?php if(Main::getCampus() == "BED") print "selected='selected'"; ?>>Bedford</option>
-                                        <option value="DAL" <?php if(Main::getCampus() == "DAL") print "selected='selected'"; ?>>Dallas</option>
-                                        <option value="HOU" <?php if(Main::getCampus() == "HOU") print "selected='selected'"; ?>>Houston</option>
-                                        <option value="MAIN" <?php if(Main::getCampus() == "MAIN") print "selected='selected'"; ?>>Longview</option>
-                                        <option value="TYL" <?php if(Main::getCampus() == "TYL") print "selected='selected'"; ?>>Tyler</option>
-                                        <option value="WES" <?php if(Main::getCampus() == "WES") print "selected='selected'"; ?>>Westchase</option>
-                                        <option value="XOL" <?php if(Main::getCampus() == "XOL") print "selected='selected'"; ?>>Online</option>
-                                    </select>
-									<label for="campusSelect" style="display:none">Select Campus</label>
-                                </div>
-                            </li>
-                        <?php } ?>
-                        <li>
-                            <div style="display:inline">
-                                <select name="semester" id="semesterSelect">
-                                    <?php Main::printSemesterOptions(); ?>
-                                </select>
-								<label for="semesterSelect" style="display:none;">Select Semester</label>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div id="body">
-                    <?php $main->display(); ?>
-                </div>
-            </form>
-            <div id="footer" class="print-no">
-                <ul>
-					<li class="print-no"><a href="javascript:void" onclick='window.open("http://www.letu.edu/academics/catalog/");'>Course Catalog</a></li>
-                    <li>Remember that LUSA <span style="color:red;">does not</span> register you for classes. You can <a href="javascript:void" onclick='window.open("https://my.letu.edu:91/cgi-bin/student/frame.cgi")'>log into MyLetu to register for classes</a>.</li>
-                    <li class="print-no">By using this, you agree not to sue (<a href="tos.php">blah blah blah</a>).</li>
-                </ul>
-            </div>
-        </div>
-    </body>
-</html>
+	$smarty = new Smarty();
+    $data = new Smarty_Data();
+    $data->assign("main", $main);
+
+    $smarty->display("index.tpl", $data);
+?>

@@ -1,12 +1,9 @@
 <?php
     /**
-     * Handles processing of the main page for studnet schedules.
-     *
-     * Provides user input to other classes that need it and holds intermediary
-     * class information arrays used throughout this script.
+     * Handles processing of the main page for student schedules.
      *
      * @author Bion Oren
-     * @version 1.0
+     * @version 2.0
      */
     class Student extends Main {
         /** ARRAY List of common classes in the schedule. */
@@ -58,11 +55,10 @@
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(array $sections) {
-			$choices = $this->getSelectedChoices();
-            if($this->hasNoErrors() && !isset($choices[$sections[0]->getID()])) {
-                $courses = $this->getCourses();
-				$courses[] = $sections;
-				$conflict = $this->findSchedules($courses);
+			$choices = $this->selectedChoices;
+            if($this->hasNoErrors() && !isset($choices[$sections[0]->courseID])) {
+				$this->courses[] = $sections;
+				$conflict = $this->findSchedules($this->courses);
 				if(is_array($conflict)) {
 					return false;
 				} else {
@@ -78,104 +74,6 @@
 				}
             }
             return false;
-        }
-
-        /**
-		 * Displays the body of the page (forms, output, etc).
-		 *
-		 * @return VOID
-		 */
-        public function display() {
-            print '<div class="print-no">';
-                print '<h2>Selected Classes</h2>';
-                print '<div id="classDropdowns">';
-                print '</div>';
-                print '<span id="schedHours">'.$this->getHours().'</span> Credit Hours';
-            print '</div>';
-            print '<div id="schedule">';
-                print '<h2>Schedule</h2>';
-                //make classes show up in a pretty order
-                print '<table class="full border">';
-                    print '<thead>';
-                        print '<tr>';
-                            if(Main::isTraditional()) {
-                                Student::showTraditionalHeaders();
-                            } else {
-                                Student::showNonTraditionalHeaders();
-                            }
-                        print '</tr>';
-                    print '</thead>';
-                    print '<tbody id="classes">';
-                        $this->displaySchedules();
-                    print '</tbody>';
-                print '</table>';
-                print '<br/>';
-                print '<a href="javascript:window.print();">Print Schedule</a>';
-                print '<br/>';
-                print '<div style="text-align:center;">';
-                    $extra = array();
-                    foreach(Student::$keepFilter as $uid) {
-                        $dept = substr($uid, 0, 4);
-                        $id = substr($uid, 0, 9);
-                        $extra[] = $this->classes[$dept][$id][array_search($uid, $this->classes[$dept][$id])]->getPrintQS();
-                    }
-                    $extra = implode("~", $extra);
-                    if(!empty($extra)) {
-                        $extra = "~".$extra;
-                    }
-                    print '<img id="scheduleImg" alt="Schedule" src="print.php?'.Student::getPrintQS(Student::$common).$extra.'" height="100%"/>';
-                print '</div>';
-            print '</div>';
-        }
-
-        /**
-         * Displays the generated schedule(s) to the user with all the pretty and error
-         * messages that may or may not go with that.
-         *
-         * @return VOID
-         */
-        public function displaySchedules() {
-            $span = (Main::isTraditional())?7:9;
-            if(Main::haveSelections()) {
-                $noCommon = true;
-                $haveOthers = false;
-                if(is_array($this->getCourses())) {
-                    foreach($this->getCourses() as $sections) {
-                        if(count($sections) == 1) {
-                            if($noCommon) {
-                                $noCommon = false;
-                                print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                                    print 'These are the only times you can take these classes:';
-                                print '</td></tr>';
-                            }
-                            print $sections[0]->display()."\n";
-                            Student::$common[] = $sections[0];
-                        } else {
-                            $haveOthers = true;
-                        }
-                    }
-
-                    if($haveOthers) {
-                        print '<tr><td style="border-bottom-color:black;" colspan="'.$span.'">';
-                            print 'These classes have some options:';
-                        print '</td></tr>';
-
-                        foreach($this->getCourses() as $sections) {
-                            if(count($sections) > 1) {
-                                $key = current($sections)->getID();
-                                print '<tr style="cursor:pointer;" class="'.$key.'" onclick="Course.toggle(\''.$key.'\');"><td><span id="'.$key.'">+</span> '.$key.'</td><td colspan="'.($span-1).'">'.current($sections)->getTitle().' ('.count($sections).')</td></tr>';
-                                foreach($sections as $section) {
-                                    print $section->display(true);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    print '<tr><td id="error" style="color:red;" colspan="'.$span.'">Conflicts were found :(<br>'.$this->getCourses().'</td></tr>';
-                }
-            } else {
-                print '<tr><td colspan="'.$span.'">No selections yet...</td></tr>';
-            }
         }
 
         /**
@@ -224,26 +122,15 @@
         }
 
         /**
-         * Returns an internal array of classes.
-         *
-         * @return ARRAY
-         * @see $classes
-         */
-        protected function getClasses() {
-            return $this->classes;
-        }
-
-        /**
          * Returns a JSON list of class names for the given department.
          *
          * @param STRING $dept 4 letter department code.
          * @return STRING JSON encoded class list.
          */
         public function getCourseJSON($dept) {
-            $classes = $this->getClasses();
             $ret = array();
             $tmp = array();
-            foreach($classes[$dept] as $key=>$sections) {
+            foreach($this->classes[$dept] as $key=>$sections) {
                 $tmp["class"] = $sections[0]->getLabel();
                 $tmp["error"] = $this->checkValidClass($sections);
                 $ret[$key] = $tmp;
@@ -252,53 +139,27 @@
         }
 
         /**
-         * Returns an internal array of classes.
-         *
-         * @return MIXED
-         * @see $courses
-         */
-        protected function getCourses() {
-            return $this->courses;
-        }
-
-        /**
-         * Returns an internal array of classes.
-         *
-         * @return ARRAY
-         * @see $courseTitleNumbers
-         */
-        protected function getCourseTitleNumbers() {
-            return $this->courseTitleNumbers;
-        }
-
-        /**
          * Returns a JSON list of department names.
          *
          * @return STRING JSON encoded department list.
          */
         public function getDepartmentJSON() {
-            return json_encode($this->getDepartments());
+            return json_encode($this->departments);
         }
 
-        /**
-         * Accessor for the internal departments array.
-         *
-         * @return STRING Department array.
-         * @see $departments
-         */
-        protected function getDepartments() {
-            return $this->departments;
-        }
-
-        /**
-         * Returns the number of hours being taken.
-         *
-         * @return INTEGER
-         * @see $hours
-         */
-        public function getHours() {
-            return $this->hours;
-        }
+		public function getPrintExtra() {
+			$extra = array();
+			foreach(Student::$keepFilter as $uid) {
+				$dept = substr($uid, 0, 4);
+				$id = substr($uid, 0, 9);
+				$extra[] = $this->classes[$dept][$id][array_search($uid, $this->classes[$dept][$id])]->getPrintQS();
+			}
+			$extra = implode("~", $extra);
+			if(!empty($extra)) {
+				$extra = "~".$extra;
+			}
+			return $extra;
+		}
 
         /**
          * Returns the querystring used to generate a picture of the given classes.
@@ -320,16 +181,6 @@
         }
 
         /**
-         * Returns an array of the unique selected courses.
-         *
-         * @return ARRAY
-         * @see $selectedChoices
-         */
-        protected function getSelectedChoices() {
-            return $this->selectedChoices;
-        }
-
-        /**
          * Returns true if the given input class caused an error.
          *
          * @return BOOLEAN True on error.
@@ -344,7 +195,7 @@
          * @return BOOLEAN True if no errors.
          */
         protected function hasNoErrors() {
-            return empty($errors) && is_array($this->getCourses());
+            return empty($errors) && is_array($this->courses);
         }
 
         /**
@@ -354,7 +205,7 @@
          * @return BOOLEAN True if kept.
          */
         public static function isKept(Course $class) {
-            return !isset(Student::$keepFilter[$class->getID()]) || Student::$keepFilter[$class->getID()] == $class->getUID();
+            return !isset(Student::$keepFilter[$class->courseID]) || Student::$keepFilter[$class->courseID] == $class->uid;
         }
 
         /**
@@ -376,19 +227,21 @@
 			Main::$CAMPUS_MASK = array_pop($classData);
 			$this->setCampusMask();
 			//generate select option values for display later
-            $data = array_filter($classData, create_function('Course $class', 'return $class->getCampus() & "'.$this->campusMask.'";'));
+            $data = array_filter($classData, function(Course $class) {
+				return $class->getCampus() & $this->campusMask;
+			});
             foreach($data as $class) {
-                $dept = substr($class->getID(), 0, 4);
+                $dept = substr($class->courseID, 0, 4);
                 $this->departments[$dept] = $dept;
-                $this->classes[$dept][$class->getID()][] = $class;
-                $this->courseTitleNumbers[$class->getID()][] = $class;
+                $this->classes[$dept][$class->courseID][] = $class;
+                $this->courseTitleNumbers[$class->courseID][] = $class;
             }
             //alphabetize the class list
             array_multisort($this->classes);
 
             if(Main::haveSelections()) {
                 //gather input data
-                foreach($this->getSelectedChoices() as $key) {
+                foreach($this->selectedChoices as $key) {
                     if(isset($this->courseTitleNumbers[$key])) {
                         $this->courses[] = $this->courseTitleNumbers[$key];
                     } else {
@@ -398,55 +251,18 @@
 
                 if($this->hasNoErrors()) {
                     //find possible schedules
-					$this->courses = findSchedules($this->getCourses());
-                    if(!is_array($this->getCourses())) {
+					$this->courses = findSchedules($this->courses);
+                    if(!is_array($this->courses)) {
                         $this->errors = true;
                     }
                 }
-            }
-        }
 
-        /**
-         * Returns true if links to the bookstore should be shown.
-         *
-         * @return BOOLEAN True to show links.
-         */
-        public function showBooks() {
-            return $this->showBooks;
-        }
-
-        /**
-         * Prints headers for non-traditional classes.
-         *
-         * @return VOID
-         */
-        protected static function showNonTraditionalHeaders() {
-            ?>
-            <th colspan="2" id="classHeader">Class</th>
-			<th id="sectionHeader">Section</th>
-			<th id="campusHeader">Campus</th>
-            <th id="profHeader">Prof</th>
-            <th id="dateHeader">Dates</th>
-            <th id="dayHeader">Days</th>
-            <th id="timeHeader">Time</th>
-			<th id="registeredHeader">Registered/Size</th>
-            <?php
-        }
-
-        /**
-         * Prints headers for traditional classes.
-         *
-         * @return VOID
-         */
-        protected static function showTraditionalHeaders() {
-            ?>
-            <th colspan="2" id="classHeader">Class</th>
-			<th id="sectionHeader">Section</th>
-            <th id="profHeader">Prof</th>
-            <th id="dayHeader">Days</th>
-            <th id="timeHeader">Time</th>
-			<th id="registeredHeader">Registered/Size</th>
-            <?php
+				foreach($this->courses as $sections) {
+					if(count($sections) == 1) {
+						Student::$common[] = $sections[0];
+					}
+				}
+			}
         }
     }
 ?>

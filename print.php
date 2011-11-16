@@ -16,8 +16,9 @@
 	date_default_timezone_set("America/Chicago");
     error_reporting(E_ALL);
 
-    require_once("functions.php");
-    require_once("Meeting.php");
+    $path = "./";
+    require_once($path."functions.php");
+    require_once($path."Meeting.php");
 
     /**
      * Handles display of a class schedule.

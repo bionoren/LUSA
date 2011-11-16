@@ -13,7 +13,8 @@
 	 *	limitations under the License.
 	 */
 
-	require_once("Meeting.php");
+	require_once($path."Object.php");
+	require_once($path."Meeting.php");
 
     /**
      * Stores information for an individual class.
@@ -21,7 +22,7 @@
      * @author Bion Oren
      * @version 3.0
      */
-    class Course {
+    class Course extends Object {
         //course specific
         /** STRING Course ID of the form DEPT-####. */
         protected $courseID;
@@ -86,55 +87,6 @@
 		}
 
 		/**
-		 * Displays this class in a table.
-		 *
-		 * @param BOOLEAN $optional True if this class is part of an optional set of classes.
-		 * @return VOID
-		 */
-        public function display($optional=false) {
-			print '<tr id="'.$this->getPrintQS().'" class="'.$this->getBackgroundStyle().' '.$this->getID().'"';
-            if($optional) {
-                print ' style="visibility:collapse;"';
-            }
-            print '>';
-				if($optional) {
-					print '<td headers="classHeader">';
-						print "&nbsp;";
-					print '</td>';
-					print '<td style="width:auto;" headers="classHeader">';
-						if(!$this->isSpecial()) {
-							print '<input type="radio" name="'.$this->getID().'" value="'.$this->section.'" onclick="Course.selected(this.name, this.parentNode.parentNode.id);"';
-							if(Student::isKept($this)) {
-								print ' checked="checked"';
-							}
-							print '/>';
-							print '<label for="select'.$this->getUID().'">Choose</label>';
-						}
-					print '</td>';
-				} else {
-					print '<td headers="classHeader">'.$this->getID().'</td>';
-					print '<td headers="classHeader">'.$this->getTitle().'</td>';
-				}
-                print '<td headers="sectionHeader">'.$this->section.'</td>';
-                print $this->meetings[0]->display(!$this->trad);
-                print '<td headers="registeredHeader">';
-					print $this->currentRegistered.'/'.$this->maxRegisterable;
-				print '</td>';
-			print '</tr>';
-            for($i = 1; $i < count($this->meetings); $i++) {
-                print '<tr id="'.$this->getUID().$i.'" class="'.$this->getBackgroundStyle().' '.$this->getID().'"';
-					if($optional) {
-						print ' style="visibility:collapse;"';
-					}
-                    print '>';
-                    print '<td colspan="3">&nbsp;</td>';
-                    print $this->meetings[$i]->display(!$this->trad);
-                    print '<td></td>';
-                print '</tr>';
-            }
-        }
-
-		/**
 		 * Finishes cashing information relating to meeting data.
 		 *
 		 * @return VOID
@@ -151,7 +103,7 @@
 		 *
 		 * @return STRING CSS class.
 		 */
-        protected function getBackgroundStyle() {
+        public function getBackgroundStyle() {
             //>5 seats left
             if($this->maxRegisterable-$this->currentRegistered > 5) {
                 return 'status-open';
@@ -172,7 +124,7 @@
 		public function getCampus() {
 			$ret = 0;
 			foreach($this->meetings as $meeting) {
-				$ret |= $meeting->getCampus();
+				$ret |= $meeting->campus;
 			}
 			return $ret;
 		}
@@ -189,16 +141,6 @@
 				return $this->getTitle()." conflicts with ".$this->conflict->getTitle();
 			}
 		}
-
-		/**
-         * Returns this class' ID.
-         *
-         * @return STRING
-         * @see $courseID
-         */
-        public function getID() {
-            return $this->courseID;
-        }
 
 		/**
 		 * Returns the label to use for this class in a dropdown.
@@ -230,7 +172,7 @@
 		public function getProfClassList() {
 			$ret = array();
 			foreach($this->meetings as $meeting) {
-				$ret[$meeting->getProf()] = $meeting;
+				$ret[$meeting->prof] = $meeting;
 			}
 			return $ret;
 		}
@@ -242,25 +184,6 @@
 		 */
 		public function getTitle() {
 			return htmlspecialchars_decode($this->title);
-		}
-
-		/**
-		 * Returns this class' UID.
-		 *
-		 * @return STRING
-		 * @see $id
-		 */
-        public function getUID() {
-            return $this->uid;
-        }
-
-		/**
-		 * Returns true if this class is special (can be taken at any time anywhere, as far as I can tell).
-		 *
-		 * @return BOOLEAN True if this class is special.
-		 */
-		public function isSpecial() {
-			return $this->special;
 		}
 
 		/**
@@ -286,7 +209,7 @@
 		 * @return STRING Formatted class UID.
 		 */
         public function __toString() {
-            return $this->getUID();
+            return $this->uid;
         }
     }
 ?>
