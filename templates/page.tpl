@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="layout/chosen.css" media="screen,projection"/>
         <link rel="stylesheet" type="text/css" href="layout/print.css" media="print"/>
         <script type="text/javascript" src="layout/prototype.js"></script>
-        <script type="text/javascript" src="layout/chosen.proto.js"></script>
+        <script type="text/javascript" src="layout/selectMultiple.js"></script>
         <script type="text/javascript" src="layout/functions-orig.js"></script>
     </head>
     <body lang="en" onload="lusa.init();">
