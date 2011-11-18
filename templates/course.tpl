@@ -1,7 +1,7 @@
 {* @param Course $course Course object to display. *}
 {* @param BOOL $optional True if this is an optional course. *}
 
-<tr id="{$course->getPrintQS()}" class="{$course->getBackgroundStyle()} {$course->courseID}"{if $optional} style="visibility:collapse;"{/if}>
+<tr id="{$course->getPrintQS()}" class="{$course->getBackgroundStyle()} {$course->courseID}"{if $optional} style="display:none;"{/if}>
     {if $optional}
         <td headers="classHeader">
             &nbsp;
@@ -23,7 +23,7 @@
     </td>
 </tr>
 {for $i = 1; $i < count($course->meetings); $i++}
-    <tr id="{$course->uid}{$i}" class="{$course->getBackgroundStyle()} {$course->courseID}"{if $optional} style="visibility:collapse;"{/if}>
+    <tr id="{$course->uid}{$i}" class="{$course->getBackgroundStyle()} {$course->courseID}"{if $optional} style="display:none;"{/if}>
         <td colspan="3">&nbsp;</td>
         {include "meeting.tpl" meeting=$course->meetings[$i] nontrad=!$course->trad}
         <td></td>

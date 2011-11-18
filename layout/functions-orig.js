@@ -74,9 +74,7 @@ lusa.init = function() {
  */
 lusa.updateLocation = function() {
     params = lusa.getOptions();
-    if(!params.choice) {
-        params.choice = [];
-    }
+    params.choice = [];
     Dropdown.instances.each(function(dropdown) {
         if(dropdown.course.value && dropdown.course.value != "0") {
             params.choice.push(dropdown.course.value);
@@ -140,7 +138,11 @@ lusa.updateOptions = function() {
  */
 lusa.getOptions = function() {
     url = window.location.hash;
-    params = url.substring(1).evalJSON();
+    if(url) {
+        params = url.substring(1).evalJSON();
+    } else {
+        params = {};
+    }
     params.role = lusa.student;
     params.trad = lusa.trad;
     params.semester = lusa.semester;
@@ -430,7 +432,7 @@ var Course = Class.create({
      * @return VOID
      */
     update: function() {
-        if(this.course.value) {
+        if(this.course.value && this.course.value != "0") {
             rows = $$("."+this.course.value);
             if(rows.length > 0 && (rows.length == 1 || typeof rows[1].down("input") == "undefined")) {
                 Dropdown.classes.set(this.value, rows[0].id);
@@ -449,16 +451,18 @@ Course.toggle = function(key) {
     sections = $$('.'+key);
     sections.shift(); // remove the toggle header from the list
     tmp = sections.first();
-    if(tmp.style.visibility == "visible") {
-        state = "collapse";
+    if(tmp.getStyle("display") != "none") {
+        state = "none";
         $(key).innerHTML = "+";
     } else {
-        state = "visible";
+        state = "table-row";
         $(key).innerHTML = "-";
     }
     sections.each(function(section) {
         if(section.style.cursor != "pointer") {
-            section.style.visibility = state;
+            section.setStyle({
+                display:state
+            });
         }
     });
 };
