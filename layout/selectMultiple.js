@@ -2,6 +2,16 @@
     var SelectMultiple, root;
     root = this;
     SelectMultiple = (function() {
+        /**
+         * Replaces a select multiple element with a widget that allows selecting multiple elements in a way that doesn't completely suck.
+         * Note that any onChange events registered on the select element by prototype will receive a "sm:change" event instead.
+         *
+         * @param ELEMENT select HTML SELECT element to replace.
+         * @param OBJECT options:
+         * defaultText - STRING - text to use when no option is selected
+         * defaultOption - STRING - value of the default (empty) option
+         * hoverDisabledCallback - FUNCTION - function to call for onHover events on select elements
+         */
         function SelectMultiple(select, options) {
             this.select = select;
             this.selectDiv = null;
@@ -20,6 +30,9 @@
             if(!("defaultOption" in this.config)) {
                 this.config.defaultOption = "";
             }
+            if(!("hoverDisabledCallback" in this.config)) {
+                this.config.hoverDisabledCallback = null;
+            }
         };
 
         SelectMultiple.prototype.init = function() {
@@ -29,7 +42,7 @@
 
             //replace the select widget
             this.select.setStyle({
-//                display: "none"
+                display: "none"
             });
 
             this.selectDiv = new Element("div", {
@@ -80,6 +93,9 @@
                     item.observe("mouseout", this.optionMouseOut.bind(this));
                     item.observe("click", this.optionMouseClick.bind(this));
                 } else {
+                    if(this.config.hoverDisabledCallback) {
+                        item.observe("mouseover", this.config.hoverDisabledCallback);
+                    }
                     item.addClassName("chsn-disabled-option");
                     item.observe("click", this.optionDisabledMouseClick.bind(this));
                 }
@@ -100,9 +116,9 @@
 
         SelectMultiple.prototype.displaySelected = function(event) {
             if(this.selected.length == 0) {
-                this.selectDiv.firstChild.update(this.config.defaultText);
+                this.selectDiv.down().down().update(this.config.defaultText);
             } else {
-                this.selectDiv.firstChild.update(this.selected.join(","));
+                this.selectDiv.down().down().update(this.selected.join(","));
             }
         };
 
