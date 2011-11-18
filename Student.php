@@ -31,11 +31,14 @@
             parent::__construct();
 
             if(Main::haveSelections()) {
-                foreach($_REQUEST["choice"] as $course) {
+				if(!empty($_REQUEST["choice"]) && !is_array($_REQUEST["choice"])) {
+					$_REQUEST["choice"] = array($_REQUEST["choice"]);
+				}
+				foreach($_REQUEST["choice"] as $course) {
 					if(!empty($course)) {
-	                    $this->selectedChoices[$course] = $course;
+						$this->selectedChoices[$course] = $course;
 					}
-                }
+				}
                 if(empty($this->selectedChoices)) {
                     unset($_REQUEST["choice"]);
                 }

@@ -104,11 +104,28 @@
         }
 
 		/**
-		 * Sets up static environment variables.
+		 * Initializes environment variables.
 		 *
 		 * @return VOID
 		 */
 		public static function init() {
+			//setup enough environment to actually set up
+			Main::setup();
+
+			//look for cookie data
+			if(Main::isStudent() && isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
+				$args = json_decode(substr($_COOKIE[Main::getCookieName()], 1), true);
+				$_REQUEST = array_merge($args, $_REQUEST);
+				Main::setup();
+			}
+		}
+
+		/**
+		 * Sets up static environment variables.
+		 *
+		 * @return VOID
+		 */
+		protected static function setup() {
 			Main::$semester = Main::getCurrentSemester();
             Main::$traditional = !isset($_REQUEST["type"]) || $_REQUEST["type"] != "non";
 			Main::$student = !isset($_REQUEST["role"]) || $_REQUEST["role"] == "student";

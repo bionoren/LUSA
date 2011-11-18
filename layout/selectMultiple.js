@@ -10,6 +10,7 @@
          * @param OBJECT options:
          * defaultText - STRING - text to use when no option is selected
          * defaultOption - STRING - value of the default (empty) option
+         * optionValueField - STRING - Option field to use for display in the list of selected items. data-* is the recommended format.
          * hoverDisabledCallback - FUNCTION - function to call for onHover events on select elements
          */
         function SelectMultiple(select, options) {
@@ -32,6 +33,9 @@
             }
             if(!("hoverDisabledCallback" in this.config)) {
                 this.config.hoverDisabledCallback = null;
+            }
+            if(!("optionValueField" in this.config)) {
+                this.config.optionValueField = null;
             }
         };
 
@@ -87,6 +91,9 @@
                     class: "active-result",
                     "data-value": option.value
                 }).update(option.innerHTML);
+                if(this.config.optionValueField) {
+                    item.setAttribute("data-display", option.getAttribute(this.config.optionValueField));
+                }
                 list.appendChild(item);
                 if(!option.disabled) {
                     item.observe("mouseover", this.optionMouseOver.bind(this));
@@ -99,7 +106,7 @@
                     item.addClassName("chsn-disabled-option");
                     item.observe("click", this.optionDisabledMouseClick.bind(this));
                 }
-                if(option.selected) {
+                if(option.value == this.select.value) {
                     this.selected.push(item.getAttribute("data-value"));
                 }
             }.bind(this));

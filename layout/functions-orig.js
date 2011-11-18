@@ -40,9 +40,8 @@ lusa.init = function() {
          */
         return function(event) {
             lusa[type] = this.value;
-            cookie = lusa.getCookie(lusa.getCookieName());
-            document.location = "index.php?"+lusa.getOptions()+"#"+cookie;
-        }
+            this.updateLocation();
+        }.bind(this);
     };
     Event.observe($('typeStudent'), 'click', updateFunction("student"));
     Event.observe($('typeProf'), 'click', updateFunction("student"));
@@ -60,17 +59,21 @@ lusa.init = function() {
  * @return VOID
  */
 lusa.updateLocation = function() {
-    str = lusa.getOptions();
+    params = lusa.getOptions();
+    if(!params.choice) {
+        params.choice = [];
+    }
     Dropdown.instances.each(function(dropdown) {
         if(dropdown.course.value && dropdown.course.value != "0") {
-            str += "&choice[]="+dropdown.course.value;
+            params.choice.push(dropdown.course.value);
         }
     });
-    document.location.hash = str;
+    params.choice = params.choice.uniq();
+    document.location.hash = Object.toJSON(params);
     date = new Date();
     date.setTime(date.getTime()+(365*24*60*60*1000));
     if(this.student == "student") {
-        document.cookie = this.getCookieName()+"="+str+"; expires="+date.toUTCString();
+        document.cookie = this.getCookieName()+"="+document.location.hash+"; expires="+date.toUTCString();
     }
 };
 
@@ -122,7 +125,13 @@ lusa.updateOptions = function() {
  * @return STRING List of options for a URL.
  */
 lusa.getOptions = function() {
-    return "role="+lusa.student+"&type="+lusa.trad+"&semester="+lusa.semester+"&campus="+lusa.campus;
+    url = window.location.hash;
+    params = url.substring(1).evalJSON();
+    params.role = lusa.student;
+    params.trad = lusa.trad;
+    params.semester = lusa.semester;
+    params.campus = lusa.campus;
+    return params;
 };
 
 /**
@@ -134,10 +143,9 @@ lusa.loadClasses = function() {
     if($('classes')) {
         cookie = lusa.getCookie(lusa.getCookieName());
         if(cookie) {
-            cookie.split("&").each(function(part) {
-                if(part.startsWith("choice[]")) {
-                    new Dropdown(part.split("=")[1]);
-                }
+            params = cookie.substring(1).evalJSON();
+            params.choice.each(function(choice) {
+                new Dropdown(choice);
             });
         }
     }
@@ -214,7 +222,7 @@ var Dropdown = Class.create({
         if(!lusa.deptCache) {
             new Ajax.Request('postback.php', {
                 method: 'post',
-                parameters: { mode: 'getDepartmentData', data: lusa.getOptions() },
+                parameters: { mode: 'getDepartmentData' },
                 onSuccess: function(transport) {
                     data = transport.responseText.evalJSON();
                     lusa.deptCache = data;
@@ -304,9 +312,11 @@ var Dropdown = Class.create({
      * @return VOID
      */
     populateCourse: function(value) {
+        url = window.location.hash;
+        params = url.substring(1).toQueryParams();
         new Ajax.Request('postback.php', {
             method: 'post',
-            parameters: { mode: 'getCourseData', data: document.location.hash, dept: this.dept.value },
+            parameters: { mode: 'getCourseData', dept: this.dept.value },
             onSuccess: function(transport) {
                 data = transport.responseText.evalJSON();
                 if(this.course.children) {
@@ -323,24 +333,21 @@ var Dropdown = Class.create({
                     option.setAttribute("value", course);
                     if(data[course].error) {
                         option.setAttribute("disabled", "disabled");
-                        option.observe('mouseover', function(event) {
-                            $('scheduleImg').src += "&overlayClasses="+data[course].error;
-                        });
+                    }
+                    if(option.value == value) {
+                        option.setAttribute("selected");
                     }
                     option.appendChild(document.createTextNode(data[course]["class"]));
                     this.course.appendChild(option);
                 }.bind(this));
                 this.course.activate();
-            }.bind(this),
-            onComplete: function() {
-                if(value) {
-                    this.course.value = value;
-                    this.courseSelected();
-                }
                 Event.observe(this.course, 'change', this.courseSelected.bind(this));
                 new SelectMultiple(this.course, {
                     defaultText: "Select a class",
-                    defaultOption: "0"
+                    defaultOption: "0",
+                    hoverDisabledCallback: function(event) {
+                        $('scheduleImg').src += "&overlayClasses="+data[event.element().getAttribute("data-value")].error;
+                    }.bind(this)
                 });
             }.bind(this)
         });
@@ -382,7 +389,7 @@ var Course = Class.create({
                 lusa.updatePreview();
             }
             new Ajax.Updater('classes', 'postback.php', {
-                parameters: { mode: 'updateClasses', data: document.location.hash },
+                parameters: { mode: 'updateClasses' },
                 onSuccess: function(transport) {
                     if(this.value) {
                         $$("."+this.value).each(function(ele) {
@@ -462,6 +469,6 @@ Course.selected = function(name, printStr) {
  */
 function profSelected(ele) {
     new Ajax.Updater('schedule', 'postback.php', {
-        parameters: { mode:'updateClasses', data:lusa.getOptions()+"&prof="+ele.value }
+        parameters: { mode:'updateClasses', data:Object.toQueryString(lusa.getOptions())+"&prof="+ele.value }
     });
 }
