@@ -13,8 +13,8 @@ if($("campusSelect")){Event.observe($("campusSelect"),"change",updateFunction("c
 }Event.observe($("semesterSelect"),"change",updateFunction("semester"))
 };
 lusa.updateLocation=function(){params=lusa.getOptions();
-if(!params.choice){params.choice=[]
-}Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){params.choice.push(a.course.value)
+params.choice=[];
+Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){params.choice.push(a.course.value)
 }});
 params.choice=params.choice.uniq();
 document.location.hash=Object.toJSON(params);
@@ -38,8 +38,9 @@ lusa.updateOptions=function(){if($("typeStudent").checked){lusa.student=$("typeS
 }lusa.semester=$("semesterSelect").value
 };
 lusa.getOptions=function(){url=window.location.hash;
-params=url.substring(1).evalJSON();
-params.role=lusa.student;
+if(url){params=url.substring(1).evalJSON()
+}else{params={}
+}params.role=lusa.student;
 params.trad=lusa.trad;
 params.semester=lusa.semester;
 params.campus=lusa.campus;
@@ -144,17 +145,17 @@ Dropdown.instances.each(function(b){if(b.courseMgr){b.courseMgr.update()
 }});
 lusa.updatePreview()
 }.bind(this)})
-}},update:function(){if(this.course.value){rows=$$("."+this.course.value);
+}},update:function(){if(this.course.value&&this.course.value!="0"){rows=$$("."+this.course.value);
 if(rows.length>0&&(rows.length==1||typeof rows[1].down("input")=="undefined")){Dropdown.classes.set(this.value,rows[0].id)
 }}}});
 Course.toggle=function(a){sections=$$("."+a);
 sections.shift();
 tmp=sections.first();
-if(tmp.style.visibility=="visible"){state="collapse";
+if(tmp.getStyle("display")!="none"){state="none";
 $(a).innerHTML="+"
-}else{state="visible";
+}else{state="table-row";
 $(a).innerHTML="-"
-}sections.each(function(b){if(b.style.cursor!="pointer"){b.style.visibility=state
+}sections.each(function(b){if(b.style.cursor!="pointer"){b.setStyle({display:state})
 }})
 };
 Course.selected=function(a,b){Dropdown.classes.set(a,b);

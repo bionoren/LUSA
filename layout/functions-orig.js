@@ -365,6 +365,7 @@ var Dropdown = Class.create({
                         $('scheduleImg').src += "&overlayClasses="+data[event.element().getAttribute("data-value")].error;
                     }.bind(this)
                 });
+                this.courseSelected();
             }.bind(this)
         });
     }
