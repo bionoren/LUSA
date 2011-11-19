@@ -13,7 +13,7 @@
 
         /** ARRAY Sorted array of the form classes[dept][classID][] = [Course]. */
         protected $classes = array();
-        /** MIXED Numeric array of course objects for the currently selected courses or an error string. */
+        /** MIXED Numeric array of array of course objects for the currently selected courses, or an error string. */
         protected $courses = array();
         /** ARRAY List of department names. */
         protected $departments = array();
@@ -36,7 +36,7 @@
 				}
 				foreach($_REQUEST["choice"] as $course) {
 					if(!empty($course)) {
-						$this->selectedChoices[$course] = $course;
+						$this->selectedChoices[] = $course;
 					}
 				}
                 if(empty($this->selectedChoices)) {
@@ -54,7 +54,7 @@
          * @return MIXED False if no errors, error string otherwise.
          */
         function checkValidClass(array $sections) {
-            if($this->hasNoErrors() && !isset($this->selectedChoices[$sections[0]->courseID])) {
+            if($this->hasNoErrors() && !in_array($sections[0]->courseID, $this->selectedChoices)) {
 				$courses = $this->courses;
 				$courses[] = $sections;
 				$conflict = $this->findSchedules($courses);
@@ -242,8 +242,18 @@
 
             if(Main::haveSelections()) {
                 //gather input data
-                foreach($this->selectedChoices as $key) {
-                    $this->courses[] = $courseTitleNumbers[$key];
+                foreach($this->selectedChoices as $choices) {
+					$choiceSections = array();
+					$partOfSet = count($choices) > 1;
+					foreach($choices as $key) {
+	                    $choiceSections = array_merge($choiceSections, $courseTitleNumbers[$key]);
+						if($partOfSet) {
+							foreach($courseTitleNumbers[$key] as $section) {
+								$section->partOfSet = true;
+							}
+						}
+					}
+					$this->courses[] = $choiceSections;
                 }
 
 				//find possible schedules

@@ -32,12 +32,14 @@
          * defaultOption - STRING - value of the default (empty) option
          * optionValueField - STRING - Option field to use for display in the list of selected items. data-* is the recommended format.
          * hoverDisabledCallback - FUNCTION - function to call for onHover events on select elements
+         * defaultValue - ARRAY - List of values to select by default
          */
         function SelectMultiple(select, options) {
             this.select = select;
             this.selectDiv = null;
             this.config = options != null ? options : {};
             this.selected = [];
+            this.selectedDisplay = [];
             this.eventListeners = {};
             this.visible = false;
             this.setDefaults();
@@ -55,7 +57,7 @@
                 this.config.hoverDisabledCallback = null;
             }
             if(!("optionValueField" in this.config)) {
-                this.config.optionValueField = null;
+                this.config.optionValueField = "value";
             }
         };
 
@@ -111,9 +113,7 @@
                     class: "active-result",
                     "data-value": option.value
                 }).update(option.innerHTML);
-                if(this.config.optionValueField) {
-                    item.setAttribute("data-display", option.getAttribute(this.config.optionValueField));
-                }
+                item.setAttribute("data-display", option.getAttribute(this.config.optionValueField));
                 list.appendChild(item);
                 if(!option.disabled) {
                     item.observe("mouseover", this.optionMouseOver.bind(this));
@@ -126,9 +126,6 @@
                     item.addClassName("chsn-disabled-option");
                     item.observe("click", this.optionDisabledMouseClick.bind(this));
                 }
-                if(option.value == this.select.value) {
-                    this.selected.push(item.getAttribute("data-value"));
-                }
             }.bind(this));
             document.observe("click", function(event) {
                 if(event.element() != this.selectDiv && !event.element().descendantOf(this.selectDiv)) {
@@ -139,13 +136,14 @@
 
             //show the selected options (if any)
             this.displaySelected();
+            Event.fire(this.select, "sm:change");
         };
 
         SelectMultiple.prototype.displaySelected = function(event) {
             if(this.selected.length == 0) {
                 this.selectDiv.down().down().update(this.config.defaultText);
             } else {
-                this.selectDiv.down().down().update(this.selected.join(","));
+                this.selectDiv.down().down().update(this.selectedDisplay.join(","));
             }
         };
 
@@ -161,7 +159,6 @@
         SelectMultiple.prototype.optionMouseClick = function(event) {
             this.select.setValue(event.element().getAttribute("data-value"));
             Event.fire(this.select, "sm:change");
-            event.stopPropagation();
         };
 
         SelectMultiple.prototype.optionDisabledMouseClick = function(event) {
@@ -188,19 +185,36 @@
 
         SelectMultiple.prototype.selectChanged = function(event) {
             value = this.select.value
-            index = this.selected.indexOf(value);
-            if(index == -1) {
-                this.selected.push(value);
-            } else {
-                this.selected = this.selected.without(value);
-            }
-            if(this.selected.length == 0) {
-                this.select.value = "0";
+            if(value != this.config.defaultOption) {
+                if(this.selected.indexOf(value) == -1) {
+                    this.selected.push(value);
+                    if(this.config.optionValueField) {
+                        dispValue = this.select[this.select.options.selectedIndex].getAttribute(this.config.optionValueField);
+                    } else {
+                        dispValue = value;
+                    }
+                    this.selectedDisplay.push(dispValue)
+                } else {
+                    this.selected = this.selected.without(value);
+                    if(this.config.optionValueField) {
+                        this.select.childElements().each(function(option) {
+                            if(option.value == value) {
+                                this.selectedDisplay = this.selectedDisplay.without(option.getAttribute(this.config.optionValueField));
+                            }
+                        }.bind(this));
+                    } else {
+                        this.selectedDisplay = this.selectedDisplay.without(value)
+                    }
+                }
+                if(this.selected.length == 0) {
+                    this.select.value = this.config.defaultOption;
+                }
             }
 
             this.displaySelected();
+            event.values = this.selected;
             this.eventListeners.each(function(listener, index) {
-                listener(event, this.selected);
+                listener(event);
             }.bind(this));
         };
 

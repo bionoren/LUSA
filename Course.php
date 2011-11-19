@@ -45,6 +45,8 @@
 		/** BOOLEAN True if this is a traditional class. */
 		protected $trad = true;
 
+		/** BOOLEAN True if this class is part of a complex set of classes (IE COSC-1303 and COSC-2103. Something for which getLabel() can differ). */
+		public $partOfSet = false;
 		/** BOOLEAN True if this class is valid in the schedule. */
 		public $valid = false;
 		/** Course A course that this class conflicts with. */

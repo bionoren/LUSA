@@ -6,12 +6,6 @@
     require_once($path."smarty/Smarty.class.php");
 
     $mode = $_REQUEST["mode"];
-    if(isset($_REQUEST["data"])) {
-        $data = $_REQUEST["data"];
-        parse_str($data, $tmp);
-        $_REQUEST = array_merge($tmp, $_REQUEST);
-        unset($_REQUEST["data"]);
-    }
 
     $smarty = new Smarty();
     $data = new Smarty_Data();

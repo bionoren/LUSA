@@ -14,7 +14,7 @@ if($("campusSelect")){Event.observe($("campusSelect"),"change",updateFunction("c
 };
 lusa.updateLocation=function(){params=lusa.getOptions();
 params.choice=[];
-Dropdown.instances.each(function(a){if(a.course.value&&a.course.value!="0"){params.choice.push(a.course.value)
+Dropdown.instances.each(function(a){if(a.values&&a.values.length>0){params.choice.push(a.values)
 }});
 params.choice=params.choice.uniq();
 document.location.hash=Object.toJSON(params);
@@ -66,6 +66,7 @@ this.dept=document.createElement("select");
 this.course=document.createElement("select");
 this.hours=0;
 this.courseMgr=null;
+this.values=[];
 this.course.setStyle({width:"350px"});
 $("classDropdowns").appendChild(this.container);
 this.container.appendChild(this.dept);
@@ -82,7 +83,7 @@ option.appendChild(document.createTextNode(c));
 this.dept.appendChild(option)
 }.bind(this));
 Event.observe(this.dept,"change",this.departmentSelected.bind(this))
-}.bind(this),onComplete:function(){if(a){this.dept.value=a.substr(0,4);
+}.bind(this),onComplete:function(){if(a){this.dept.value=a[0].substr(0,4);
 this.departmentSelected(a)
 }}.bind(this)})
 }else{data=lusa.deptCache;
@@ -95,7 +96,7 @@ Event.observe(this.dept,"change",this.departmentSelected.bind(this));
 if(a){this.dept.value=a.substr(0,4);
 this.departmentSelected(a)
 }}Dropdown.instances.push(this)
-},departmentSelected:function(a){if(this.dept.value){if(!this.course.firstChild){if(!Object.isString(a)){d=new Dropdown();
+},departmentSelected:function(a){if(this.dept.value){if(!this.course.firstChild){if(!Object.isArray(a)){d=new Dropdown();
 $("classDropdowns").appendChild(d.container)
 }this.container.appendChild(this.course)
 }this.course.value=0;
@@ -104,12 +105,14 @@ this.populateCourse(a)
 }else{this.course.value=0;
 this.courseSelected();
 Element.remove(this.container)
-}},courseSelected:function(b,a){hours=this.course.value.substr(-1);
+}},courseSelected:function(a){this.values=a.values;
+hours=this.course.value.substr(-1);
 $("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-this.hours;
 this.hours=hours;
 lusa.updateLocation();
 this.courseMgr.reload()
-},populateCourse:function(a){url=window.location.hash;
+},populateCourse:function(a){if(!Object.isArray(a)){a=[]
+}url=window.location.hash;
 params=url.substring(1).toQueryParams();
 new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",dept:this.dept.value},onSuccess:function(b){data=b.responseText.evalJSON();
 if(this.course.children){$A(this.course.children).each(function(c){Element.remove(c)
@@ -121,14 +124,14 @@ this.course.appendChild(option);
 Object.keys(data).each(function(c){option=document.createElement("option");
 option.setAttribute("value",c);
 if(data[c].error){option.setAttribute("disabled","disabled")
-}if(option.value==a){option.setAttribute("selected")
+}if(a.indexOf(option.value)!=-1){option.setAttribute("selected")
 }option.appendChild(document.createTextNode(data[c]["class"]));
 this.course.appendChild(option)
 }.bind(this));
 this.course.activate();
 Event.observe(this.course,"change",this.courseSelected.bind(this));
 new SelectMultiple(this.course,{defaultText:"Select a class",defaultOption:"0",hoverDisabledCallback:function(c){$("scheduleImg").src+="&overlayClasses="+data[c.element().getAttribute("data-value")].error
-}.bind(this)})
+}.bind(this),defaultValue:a})
 }.bind(this)})
 }});
 Dropdown.instances=new Array();

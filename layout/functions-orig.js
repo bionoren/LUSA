@@ -76,8 +76,8 @@ lusa.updateLocation = function() {
     params = lusa.getOptions();
     params.choice = [];
     Dropdown.instances.each(function(dropdown) {
-        if(dropdown.course.value && dropdown.course.value != "0") {
-            params.choice.push(dropdown.course.value);
+        if(dropdown.values && dropdown.values.length > 0) {
+            params.choice.push(dropdown.values);
         }
     });
     params.choice = params.choice.uniq();
@@ -224,6 +224,8 @@ var Dropdown = Class.create({
         this.hours = 0;
         /** @var COURSE - An object to manage the actual display of course info. */
         this.courseMgr = null;
+        /** @var ARRAY - List of values for this field. */
+        this.values = [];
 
         this.course.setStyle({
             width: "350px"
@@ -253,7 +255,7 @@ var Dropdown = Class.create({
                 }.bind(this),
                 onComplete: function() {
                     if(value) {
-                        this.dept.value = value.substr(0, 4);
+                        this.dept.value = value[0].substr(0, 4);
                         this.departmentSelected(value);
                     }
                 }.bind(this)
@@ -281,13 +283,13 @@ var Dropdown = Class.create({
     /**
      * Called when a department dropdown is selected.
      *
-     * @param value STRING Optional default value of the form DEPT-####.
+     * @param value STRING Optional default value of the form DEPT-####. Or, it could be an EVENT object. Bad wharf, bad design!
      * @return VOID
      */
     departmentSelected: function(value) {
         if(this.dept.value) {
             if(!this.course.firstChild) {
-                if(!Object.isString(value)) {
+                if(!Object.isArray(value)) {
                     d = new Dropdown();
                     $('classDropdowns').appendChild(d.container);
                 }
@@ -308,7 +310,10 @@ var Dropdown = Class.create({
      *
      * @return VOID
      */
-    courseSelected: function(event, values) {
+    courseSelected: function(event) {
+        //update values
+        this.values = event.values;
+
         //update hours
         hours = this.course.value.substr(-1);
         $('schedHours').innerHTML = parseInt($('schedHours').innerHTML) + parseInt(hours) - this.hours;
@@ -327,7 +332,10 @@ var Dropdown = Class.create({
      * @param value STRING Optional default value of the form DEPT-####.
      * @return VOID
      */
-    populateCourse: function(value) {
+    populateCourse: function(values) {
+        if(!Object.isArray(values)) {
+            values = [];
+        }
         url = window.location.hash;
         params = url.substring(1).toQueryParams();
         new Ajax.Request('postback.php', {
@@ -350,7 +358,7 @@ var Dropdown = Class.create({
                     if(data[course].error) {
                         option.setAttribute("disabled", "disabled");
                     }
-                    if(option.value == value) {
+                    if(values.indexOf(option.value) != -1) {
                         option.setAttribute("selected");
                     }
                     option.appendChild(document.createTextNode(data[course]["class"]));
@@ -363,9 +371,9 @@ var Dropdown = Class.create({
                     defaultOption: "0",
                     hoverDisabledCallback: function(event) {
                         $('scheduleImg').src += "&overlayClasses="+data[event.element().getAttribute("data-value")].error;
-                    }.bind(this)
+                    }.bind(this),
+                    defaultValue: values
                 });
-                this.courseSelected();
             }.bind(this)
         });
     }
