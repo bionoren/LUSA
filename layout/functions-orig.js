@@ -215,11 +215,11 @@ var Dropdown = Class.create({
      */
     initialize: function(value) {
         /** @var OBJECT - Container div for these options. */
-        this.container = document.createElement("div");
+        this.container = new Element("div");
         /** @var OBJECT - Reference to the department dropdown. */
-        this.dept = document.createElement("select");
+        this.dept = new Element("select");
         /** @var OBJECT - Reference to the class dropdown. */
-        this.course = document.createElement("select");
+        this.course = new Element("select");
         /** @var INTEGER - The number of hours the current class is worth. */
         this.hours = 0;
         /** @var COURSE - An object to manage the actual display of course info. */
@@ -233,10 +233,9 @@ var Dropdown = Class.create({
         $('classDropdowns').appendChild(this.container);
         this.container.appendChild(this.dept);
         this.courseMgr = new Course(this.course);
-        option = document.createElement("option");
-        option.setAttribute("value", "");
-        option.appendChild(document.createTextNode("----"));
-        this.dept.appendChild(option);
+        this.dept.appendChild(new Element("option", {
+            value: ""
+        }).update("----"));
         if(!lusa.deptCache) {
             new Ajax.Request('postback.php', {
                 method: 'post',
@@ -245,10 +244,9 @@ var Dropdown = Class.create({
                     data = transport.responseText.evalJSON();
                     lusa.deptCache = data;
                     Object.values(data).each(function(dept) {
-                        option = document.createElement("option");
-                        option.setAttribute("value", dept);
-                        option.appendChild(document.createTextNode(dept));
-                        this.dept.appendChild(option);
+                        this.dept.appendChild(new Element("option", {
+                            value: dept
+                        }).update(dept));
                     }.bind(this));
 
                     Event.observe(this.dept, 'change', this.departmentSelected.bind(this));
@@ -263,10 +261,9 @@ var Dropdown = Class.create({
         } else {
             data = lusa.deptCache;
             Object.values(data).each(function(dept) {
-                option = document.createElement("option");
-                option.setAttribute("value", dept);
-                option.appendChild(document.createTextNode(dept));
-                this.dept.appendChild(option);
+                this.dept.appendChild(new Element("option", {
+                    value: dept
+                }).update(dept));
             }.bind(this));
 
             Event.observe(this.dept, 'change', this.departmentSelected.bind(this));
@@ -316,7 +313,7 @@ var Dropdown = Class.create({
 
         //update hours
         hours = this.course.value.substr(-1);
-        $('schedHours').innerHTML = parseInt($('schedHours').innerHTML) + parseInt(hours) - this.hours;
+        $('schedHours').update(parseInt($('schedHours').innerHTML) + parseInt(hours) - this.hours);
         this.hours = hours;
 
         //update url
@@ -348,31 +345,30 @@ var Dropdown = Class.create({
                         Element.remove(ele);
                     });
                 }
-                option = document.createElement("option");
-                option.setAttribute("value", "0");
-                option.appendChild(document.createTextNode("----"));
-                this.course.appendChild(option);
+                this.course.appendChild(new Element("option", {
+                    value: "0"
+                }).update("----"));
                 Object.keys(data).each(function(course) {
-                    option = document.createElement("option");
-                    option.setAttribute("value", course);
+                    option = new Element("option", {
+                        value: course
+                    }).update(data[course]["class"]);
                     if(data[course].error) {
                         option.setAttribute("disabled", "disabled");
                     }
-                    if(values.indexOf(option.value) != -1) {
-                        option.setAttribute("selected");
-                    }
-                    option.appendChild(document.createTextNode(data[course]["class"]));
                     this.course.appendChild(option);
                 }.bind(this));
                 this.course.activate();
                 Event.observe(this.course, 'change', this.courseSelected.bind(this));
-                new SelectMultiple(this.course, {
+                goodSelect = new SelectMultiple(this.course, {
                     defaultText: "Select a class",
                     defaultOption: "0",
                     hoverDisabledCallback: function(event) {
                         $('scheduleImg').src += "&overlayClasses="+data[event.element().getAttribute("data-value")].error;
                     }.bind(this),
                     defaultValue: values
+                });
+                values.each(function(value) {
+                    goodSelect.update(value);
                 });
             }.bind(this)
         });
@@ -462,10 +458,10 @@ Course.toggle = function(key) {
     tmp = sections.first();
     if(tmp.getStyle("display") != "none") {
         state = "none";
-        $(key).innerHTML = "+";
+        $(key).update("+");
     } else {
         state = "table-row";
-        $(key).innerHTML = "-";
+        $(key).update("-");
     }
     sections.each(function(section) {
         if(section.style.cursor != "pointer") {

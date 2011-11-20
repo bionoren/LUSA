@@ -139,6 +139,11 @@
             Event.fire(this.select, "sm:change");
         };
 
+        SelectMultiple.prototype.update = function(newValue) {
+            this.select.value = newValue;
+            Event.fire(this.select, "sm:change");
+        };
+
         SelectMultiple.prototype.displaySelected = function(event) {
             if(this.selected.length == 0) {
                 this.selectDiv.down().down().update(this.config.defaultText);

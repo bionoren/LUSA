@@ -1,14 +1,15 @@
 {* @param Course $course Course object to display. *}
 {* @param BOOL $optional True if this is an optional course. *}
+{* @param Key to use for this course. *}
 
-<tr id="{$course->getPrintQS()}" class="{$course->getBackgroundStyle()} {$course->courseID}"{if $optional} style="display:none;"{/if}>
+<tr id="{$course->getPrintQS()}" class="{$course->getBackgroundStyle()} {$key}"{if $optional} style="display:none;"{/if}>
     {if $optional}
         <td headers="classHeader">
             &nbsp;
         </td>
         <td style="width:auto;" headers="classHeader">
             {if !$course->special}
-                <input type="radio" name="{$course->courseID}" value="{$course->section}" onclick="Course.selected(this.name, this.parentNode.parentNode.id);"{if Student::isKept($course)} checked="checked"{/if}/>
+                <input type="radio" name="{$key}" value="{$course->section}" onclick="Course.selected(this.name, this.parentNode.parentNode.id);"{if Student::isKept($course)} checked="checked"{/if}/>
                 <label for="select{$course->uid}">Choose</label>
             {/if}
         </td>

@@ -61,9 +61,9 @@ if(c_end==-1){c_end=document.cookie.length
 };
 lusa.getCookieName=function(){return lusa.semester+lusa.trad+lusa.campus
 };
-var Dropdown=Class.create({initialize:function(a){this.container=document.createElement("div");
-this.dept=document.createElement("select");
-this.course=document.createElement("select");
+var Dropdown=Class.create({initialize:function(a){this.container=new Element("div");
+this.dept=new Element("select");
+this.course=new Element("select");
 this.hours=0;
 this.courseMgr=null;
 this.values=[];
@@ -71,26 +71,17 @@ this.course.setStyle({width:"350px"});
 $("classDropdowns").appendChild(this.container);
 this.container.appendChild(this.dept);
 this.courseMgr=new Course(this.course);
-option=document.createElement("option");
-option.setAttribute("value","");
-option.appendChild(document.createTextNode("----"));
-this.dept.appendChild(option);
+this.dept.appendChild(new Element("option",{value:""}).update("----"));
 if(!lusa.deptCache){new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getDepartmentData"},onSuccess:function(b){data=b.responseText.evalJSON();
 lusa.deptCache=data;
-Object.values(data).each(function(c){option=document.createElement("option");
-option.setAttribute("value",c);
-option.appendChild(document.createTextNode(c));
-this.dept.appendChild(option)
+Object.values(data).each(function(c){this.dept.appendChild(new Element("option",{value:c}).update(c))
 }.bind(this));
 Event.observe(this.dept,"change",this.departmentSelected.bind(this))
 }.bind(this),onComplete:function(){if(a){this.dept.value=a[0].substr(0,4);
 this.departmentSelected(a)
 }}.bind(this)})
 }else{data=lusa.deptCache;
-Object.values(data).each(function(b){option=document.createElement("option");
-option.setAttribute("value",b);
-option.appendChild(document.createTextNode(b));
-this.dept.appendChild(option)
+Object.values(data).each(function(b){this.dept.appendChild(new Element("option",{value:b}).update(b))
 }.bind(this));
 Event.observe(this.dept,"change",this.departmentSelected.bind(this));
 if(a){this.dept.value=a.substr(0,4);
@@ -107,7 +98,7 @@ this.courseSelected();
 Element.remove(this.container)
 }},courseSelected:function(a){this.values=a.values;
 hours=this.course.value.substr(-1);
-$("schedHours").innerHTML=parseInt($("schedHours").innerHTML)+parseInt(hours)-this.hours;
+$("schedHours").update(parseInt($("schedHours").innerHTML)+parseInt(hours)-this.hours);
 this.hours=hours;
 lusa.updateLocation();
 this.courseMgr.reload()
@@ -117,21 +108,17 @@ params=url.substring(1).toQueryParams();
 new Ajax.Request("postback.php",{method:"post",parameters:{mode:"getCourseData",dept:this.dept.value},onSuccess:function(b){data=b.responseText.evalJSON();
 if(this.course.children){$A(this.course.children).each(function(c){Element.remove(c)
 })
-}option=document.createElement("option");
-option.setAttribute("value","0");
-option.appendChild(document.createTextNode("----"));
-this.course.appendChild(option);
-Object.keys(data).each(function(c){option=document.createElement("option");
-option.setAttribute("value",c);
+}this.course.appendChild(new Element("option",{value:"0"}).update("----"));
+Object.keys(data).each(function(c){option=new Element("option",{value:c}).update(data[c]["class"]);
 if(data[c].error){option.setAttribute("disabled","disabled")
-}if(a.indexOf(option.value)!=-1){option.setAttribute("selected")
-}option.appendChild(document.createTextNode(data[c]["class"]));
-this.course.appendChild(option)
+}this.course.appendChild(option)
 }.bind(this));
 this.course.activate();
 Event.observe(this.course,"change",this.courseSelected.bind(this));
-new SelectMultiple(this.course,{defaultText:"Select a class",defaultOption:"0",hoverDisabledCallback:function(c){$("scheduleImg").src+="&overlayClasses="+data[c.element().getAttribute("data-value")].error
-}.bind(this),defaultValue:a})
+goodSelect=new SelectMultiple(this.course,{defaultText:"Select a class",defaultOption:"0",hoverDisabledCallback:function(c){$("scheduleImg").src+="&overlayClasses="+data[c.element().getAttribute("data-value")].error
+}.bind(this),defaultValue:a});
+a.each(function(c){goodSelect.update(c)
+})
 }.bind(this)})
 }});
 Dropdown.instances=new Array();
@@ -155,9 +142,9 @@ Course.toggle=function(a){sections=$$("."+a);
 sections.shift();
 tmp=sections.first();
 if(tmp.getStyle("display")!="none"){state="none";
-$(a).innerHTML="+"
+$(a).update("+")
 }else{state="table-row";
-$(a).innerHTML="-"
+$(a).update("-")
 }sections.each(function(b){if(b.style.cursor!="pointer"){b.setStyle({display:state})
 }})
 };

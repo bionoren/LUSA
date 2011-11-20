@@ -205,7 +205,8 @@
          * @return BOOLEAN True if kept.
          */
         public static function isKept(Course $class) {
-            return !isset(Student::$keepFilter[$class->courseID]) || Student::$keepFilter[$class->courseID] == $class->uid;
+            return false;
+			//return !isset(Student::$keepFilter[$class->courseID]) || Student::$keepFilter[$class->courseID] == $class->uid;
         }
 
         /**
