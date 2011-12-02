@@ -54,7 +54,8 @@ lusa.init = function() {
          */
         return function(event) {
             lusa[type] = event.element().value;
-            lusa.updateLocation();
+            Dropdown.instances = [];
+            lusa.updateLocation(true);
         }.bind(this);
     };
     Event.observe($('typeStudent'), 'click', updateFunction("student"));
@@ -72,7 +73,7 @@ lusa.init = function() {
  *
  * @return VOID
  */
-lusa.updateLocation = function() {
+lusa.updateLocation = function(urlOnly) {
     params = lusa.getOptions();
     params.choice = [];
     Dropdown.instances.each(function(dropdown) {
@@ -81,7 +82,7 @@ lusa.updateLocation = function() {
         }
     });
     params.choice = params.choice.uniq();
-    if(this.student == "student") {
+    if(!urlOnly && this.student == "student") {
         date = new Date();
         date.setTime(date.getTime()+(365*24*60*60*1000));
         document.cookie = this.getCookieName()+"="+Object.toJSON(params)+"; expires="+date.toUTCString();
