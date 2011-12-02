@@ -21,7 +21,7 @@
                 {/if}
                 <th id="dayHeader">Days</th>
                 <th id="timeHeader">Time</th>
-                <th id="registeredHeader">Registered/Size</th>
+                <th id="registeredHeader">Reg/Size</th>
             </tr>
         </thead>
         <tbody id="classes">

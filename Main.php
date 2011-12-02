@@ -114,8 +114,8 @@
 
 			//look for cookie data
 			if(Main::isStudent() && isset($_COOKIE[Main::getCookieName()]) && !isset($_REQUEST["ignore"])) {
-				$args = json_decode(substr($_COOKIE[Main::getCookieName()], 1), true);
-				$_REQUEST = array_merge($args, $_REQUEST);
+				$args = json_decode($_COOKIE[Main::getCookieName()], true);
+				$_REQUEST = array_merge($_REQUEST, $args);
 				Main::setup();
 			}
 		}

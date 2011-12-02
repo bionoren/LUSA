@@ -53,8 +53,8 @@ lusa.init = function() {
          * @return VOID
          */
         return function(event) {
-            lusa[type] = this.value;
-            this.updateLocation();
+            lusa[type] = event.element().value;
+            lusa.updateLocation();
         }.bind(this);
     };
     Event.observe($('typeStudent'), 'click', updateFunction("student"));
@@ -81,11 +81,15 @@ lusa.updateLocation = function() {
         }
     });
     params.choice = params.choice.uniq();
-    document.location.hash = Object.toJSON(params);
-    date = new Date();
-    date.setTime(date.getTime()+(365*24*60*60*1000));
     if(this.student == "student") {
-        document.cookie = this.getCookieName()+"="+document.location.hash+"; expires="+date.toUTCString();
+        date = new Date();
+        date.setTime(date.getTime()+(365*24*60*60*1000));
+        document.cookie = this.getCookieName()+"="+Object.toJSON(params)+"; expires="+date.toUTCString();
+    }
+    delete params.choice;
+    newSearch = "?"+Object.toQueryString(params);
+    if(document.location.search != newSearch) {
+        document.location.search = newSearch;
     }
 };
 
@@ -137,9 +141,9 @@ lusa.updateOptions = function() {
  * @return STRING List of options for a URL.
  */
 lusa.getOptions = function() {
-    url = window.location.hash;
-    if(url) {
-        params = url.substring(1).evalJSON();
+    cookie = lusa.getCookie(lusa.getCookieName());
+    if(cookie) {
+        params = cookie.evalJSON();
     } else {
         params = {};
     }
@@ -159,7 +163,7 @@ lusa.loadClasses = function() {
     if($('classes')) {
         cookie = lusa.getCookie(lusa.getCookieName());
         if(cookie) {
-            params = cookie.substring(1).evalJSON();
+            params = cookie.evalJSON();
             params.choice.each(function(choice) {
                 new Dropdown(choice);
             });
@@ -309,7 +313,11 @@ var Dropdown = Class.create({
      */
     courseSelected: function(event) {
         //update values
-        this.values = event.values;
+        if(event) {
+            this.values = event.values;
+        } else {
+            this.values = [];
+        }
 
         //update hours
         hours = this.course.value.substr(-1);
@@ -333,8 +341,6 @@ var Dropdown = Class.create({
         if(!Object.isArray(values)) {
             values = [];
         }
-        url = window.location.hash;
-        params = url.substring(1).toQueryParams();
         new Ajax.Request('postback.php', {
             method: 'post',
             parameters: { mode: 'getCourseData', dept: this.dept.value },
