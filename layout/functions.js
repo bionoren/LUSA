@@ -2,7 +2,8 @@ var lusa={student:null,trad:null,semester:null,campus:null};
 lusa.init=function(){lusa.updateOptions();
 lusa.loadClasses();
 updateFunction=function(a){return function(b){lusa[a]=b.element().value;
-lusa.updateLocation()
+Dropdown.instances=[];
+lusa.updateLocation(true)
 }.bind(this)
 };
 Event.observe($("typeStudent"),"click",updateFunction("student"));
@@ -12,12 +13,12 @@ Event.observe($("typeNonTraditional"),"click",updateFunction("trad"));
 if($("campusSelect")){Event.observe($("campusSelect"),"change",updateFunction("campus"))
 }Event.observe($("semesterSelect"),"change",updateFunction("semester"))
 };
-lusa.updateLocation=function(){params=lusa.getOptions();
+lusa.updateLocation=function(a){params=lusa.getOptions();
 params.choice=[];
-Dropdown.instances.each(function(a){if(a.values&&a.values.length>0){params.choice.push(a.values)
+Dropdown.instances.each(function(b){if(b.values&&b.values.length>0){params.choice.push(b.values)
 }});
 params.choice=params.choice.uniq();
-if(this.student=="student"){date=new Date();
+if(!a&&this.student=="student"){date=new Date();
 date.setTime(date.getTime()+(365*24*60*60*1000));
 document.cookie=this.getCookieName()+"="+Object.toJSON(params)+"; expires="+date.toUTCString()
 }delete params.choice;

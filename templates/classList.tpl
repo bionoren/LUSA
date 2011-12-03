@@ -18,15 +18,19 @@
         {/foreach}
 
         {if count(Student::$common) < count($student->courses)}
-            <tr>
-                <td style="border-bottom-color:black;" colspan="{$span}">
-                    These classes have some options:
-                </td>
-            </tr>
+            {$headersShown=false}
             {$courses = $student->courses}
             {foreach $courses as $sections}
                 {if !$sections[0]->partOfSet}
                     {if count($sections) > 1}
+                        {if !$headersShown}
+                            {$headersShown=true}
+                            <tr>
+                                <td style="border-bottom-color:black;" colspan="{$span}">
+                                    These classes have some options:
+                                </td>
+                            </tr>
+                        {/if}
                         {$currentSection = current($sections)}
                         {$key = $currentSection->courseID}
                         <tr style="cursor:pointer;" class="{$key}" onclick="Course.toggle('{$key}');">
@@ -60,14 +64,15 @@
                     <tr style="cursor:pointer;" class="{$key}" onclick="Course.toggle('{$key}');">
                         <td colspan="{$span}">
                             <span id="{$key}">+</span>
+                            {$lastTitle=""}
+                            {$title = []}
                             {foreach $sections as $section}
-                                {if $section@last}
-                                    {$section->getTitle()}
-                                {else}
-                                    {$section->getTitle()},
+                                {if $lastTitle != $section->getTitle()}
+                                    {$lastTitle = $section->getTitle()}
+                                    {append var="title" value=$lastTitle}
                                 {/if}
                             {/foreach}
-                            ({count($sections)})
+                            {implode(", ", $title)} ({count($sections)})
                         </td>
                     </tr>
                     {foreach $sections as $section}

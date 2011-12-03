@@ -148,7 +148,7 @@
             if(this.selected.length == 0) {
                 this.selectDiv.down().down().update(this.config.defaultText);
             } else {
-                this.selectDiv.down().down().update(this.selectedDisplay.join(","));
+                this.selectDiv.down().down().update(this.selectedDisplay.join(", "));
             }
         };
 

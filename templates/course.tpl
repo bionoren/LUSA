@@ -4,9 +4,6 @@
 
 <tr id="{$course->getPrintQS()}" class="{$course->getBackgroundStyle()} {$key}"{if $optional} style="display:none;"{/if}>
     {if $optional}
-        <td headers="classHeader">
-            &nbsp;
-        </td>
         <td style="width:auto;" headers="classHeader">
             {if !$course->special}
                 <input type="radio" name="{$key}" value="{$course->section}" onclick="Course.selected(this.name, this.parentNode.parentNode.id);"{if Student::isKept($course)} checked="checked"{/if}/>
@@ -15,8 +12,8 @@
         </td>
     {else}
         <td headers="classHeader">{$course->courseID}</td>
-        <td headers="classHeader">{$course->getTitle()}</td>
     {/if}
+    <td headers="classHeader">{$course->getTitle()}</td>
     <td headers="sectionHeader">{$course->section}</td>
     {include "meeting.tpl" meeting=$course->meetings[0] nontrad=!$course->trad}
     <td headers="registeredHeader">
