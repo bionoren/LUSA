@@ -28,7 +28,9 @@ var lusa = {
     /** STRING - The currently selected semester. */
     semester: null,
     /** STRING - The currently selected campus. */
-    campus: null
+    campus: null,
+    /** BOOL - True if all the initial data loading is finished. */
+    loaded: false
 };
 
 /**
@@ -164,15 +166,19 @@ lusa.loadClasses = function() {
     if($('classes')) {
         cookie = lusa.getCookie(lusa.getCookieName());
         if(cookie) {
-            params = cookie.evalJSON();
-            params.choice.each(function(choice) {
-                new Dropdown(choice);
+            Dropdown.primeCache(function() {
+                params = cookie.evalJSON();
+                params.choice.each(function(choice) {
+                    new Dropdown(choice);
+                });
+                Course.forceRefresh();
+                new Dropdown();
             });
         }
-    }
-    //create dropdowns
-    if(lusa.student == "student") {
-        new Dropdown();
+    } else {
+        if(lusa.student == "student") {
+            new Dropdown();
+        }
     }
 };
 
@@ -274,7 +280,7 @@ var Dropdown = Class.create({
             Event.observe(this.dept, 'change', this.departmentSelected.bind(this));
 
             if(value) {
-                this.dept.value = value.substr(0, 4);
+                this.dept.value = value[0].substr(0, 4);
                 this.departmentSelected(value);
             }
         }
@@ -386,6 +392,21 @@ var Dropdown = Class.create({
 Dropdown.instances = new Array();
 /** HASH Mapping from courses to their print script query string argument. */
 Dropdown.classes = new Hash();
+/**
+ * Primes the department dropdown cache
+ *
+ * @param FUNCTION callback Callback function to run when the cache is update.
+ */
+Dropdown.primeCache = function(callback) {
+    new Ajax.Request('postback.php', {
+        method: 'post',
+        parameters: { mode: 'getDepartmentData' },
+        onSuccess: function(transport) {
+            lusa.deptCache = transport.responseText.evalJSON();
+            callback();
+        }
+    });
+};
 
 /**
  * Class to manage interactions with class dropdowns and their interactions with the schedule preview and class information table row(s).
@@ -476,6 +497,21 @@ Course.toggle = function(key) {
                 display:state
             });
         }
+    });
+};
+
+Course.forceRefresh = function() {
+    new Ajax.Updater('classes', 'postback.php', {
+        parameters: { mode: 'updateClasses' },
+        onComplete: function(transport) {
+            Dropdown.instances.each(function(dropdown) {
+                if(dropdown.courseMgr) {
+                    dropdown.courseMgr.update();
+                }
+            });
+            lusa.updatePreview();
+            lusa.loaded = true;
+        }.bind(this)
     });
 };
 
