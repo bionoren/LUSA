@@ -10,12 +10,16 @@
         <meta name="keywords" content="LETU LeTourneau student schedule class classes"/>
 
         <title>LUSA SE</title>
-        <link rel="stylesheet" type="text/css" href="layout/screen.css" media="screen,projection"/>
-        <link rel="stylesheet" type="text/css" href="layout/chosen.css" media="screen,projection"/>
+        <!-- cat screen.css chosen.css | java -jar yuicompressor-2.4.2.jar --type css > compiled.css -->
+        <!--<link rel="stylesheet" type="text/css" href="layout/screen.css" media="screen,projection"/>
+        <link rel="stylesheet" type="text/css" href="layout/chosen.css" media="screen,projection"/>-->
+        <link rel="stylesheet" type="text/css" href="layout/compiled.css" media="screen, projection"/>
         <link rel="stylesheet" type="text/css" href="layout/print.css" media="print"/>
-        <script type="text/javascript" src="layout/prototype.js"></script>
+        <!-- cat prototype-orig.js selectMultiple.js functions-orig.js | java -jar yuicompressor-2.4.2.jar --type js > compiled.js -->
+        <!--<script type="text/javascript" src="layout/prototype.js"></script>
         <script type="text/javascript" src="layout/selectMultiple.js"></script>
-        <script type="text/javascript" src="layout/functions-orig.js"></script>
+        <script type="text/javascript" src="layout/functions-orig.js"></script>-->
+        <script type="text/javascript" src="layout/compiled.js"></script>
     </head>
     <body lang="en" onload="lusa.init();">
         <!--LUSA 2: A Dorm 41 Production-->

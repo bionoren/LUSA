@@ -72,7 +72,7 @@
             });
 
             this.selectDiv = new Element("div", {
-                class: "chzn-container chzn-container-single"
+                "class": "chzn-container chzn-container-single"
             });
             this.selectDiv.observe("click", this.selectClicked.bind(this));
             this.selectDiv.setStyle({
@@ -83,17 +83,17 @@
             });
             var anchor = new Element("a", {
                 href:"javascript:void(0)",
-                class:"chzn-single"
+                "class":"chzn-single"
             });
             this.selectDiv.appendChild(anchor);
             anchor.appendChild(new Element("span", {
-                class:"selectedText"
+                "class":"selectedText"
             }));
             anchor.appendChild(new Element("div").update("<b></b>"));
 
             //add our own dropdown
             var dropdown = new Element("div", {
-                class: "chzn-drop"
+                "class": "chzn-drop"
             });
             dropdown.setStyle({
                 width:(this.selectDiv.getStyle('width').substring(0, this.selectDiv.getStyle('width').length-2)-2)+"px",
@@ -102,7 +102,7 @@
             });
             this.selectDiv.appendChild(dropdown);
             list = new Element("ul", {
-                class: "chzn-results"
+                "class": "chzn-results"
             });
             dropdown.appendChild(list);
             this.select.childElements().each(function(option) {
@@ -110,7 +110,7 @@
                     return;
                 }
                 var item = new Element("li", {
-                    class: "active-result",
+                    "class": "active-result",
                     "data-value": option.value
                 }).update(option.innerHTML);
                 item.setAttribute("data-display", option.getAttribute(this.config.optionValueField));
