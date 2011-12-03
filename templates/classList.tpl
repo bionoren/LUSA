@@ -51,9 +51,10 @@
             {/foreach}
         {/if}
         {if $haveComplex}
-            <tr>
+            <tr style="height:20px; overflow:hidden; vertical-align:top;">
                 <td style="border-bottom-color:black;" colspan="{$span}">
-                    This is what worked for the multi-class selections:
+                    {literal}This is what worked for the multi-class selections: <a href="javascript:void" style="vertical-align:inherit;" onmouseover="$('helpDiv').setStyle({display: 'inline-block'})" onmouseout="$('helpDiv').setStyle({display: 'none'})">[?]</a>{/literal}
+                    <div id="helpDiv" style="{*display:none;*}">When multiple classes are selected, LUSA will try to give you as many options as possible, and it won't fail so long as at least 1 section is workable out of all the selected classes.</div>
                 </td>
             </tr>
             {$courses = $student->courses}
