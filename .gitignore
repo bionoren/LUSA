@@ -3,3 +3,5 @@ documentation
 *.komodo*
 templates_c/*
 smarty/*
+*.log
+*.png

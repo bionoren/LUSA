@@ -95,15 +95,16 @@
         protected $classBackground;
         /** RESOURCE Internal image resource. */
         protected $img;
+        /** Whether or not an image has been rendered. */
+        protected $displayed = false;
+
 
         /**
          * Initializes color and image information and processes arguments from the query string.
          */
         public function __construct() {
             $this->setImage(1, 1);
-            $this->background = imagecolorallocate($this->img, 255, 255, 255);
-            $this->foreground = imagecolorallocate($this->img, 0, 0, 0);
-            $this->classBackground = imagecolorallocate($this->img, 253, 255, 79);
+            $this->allocateColors();
             $this->setImage(SchedulePrinter::$width, SchedulePrinter::$height);
 
             $this->classes = $this->parseClasses($_REQUEST["classes"]);
@@ -147,13 +148,27 @@
         }
 
         /**
+         * Allocates color objects.
+         *
+         * @return VOID
+         */
+        public function allocateColors() {
+            $this->background = imagecolorallocate($this->img, 255, 255, 255);
+            $this->foreground = imagecolorallocate($this->img, 0, 0, 0);
+            $this->classBackground = imagecolorallocate($this->img, 253, 255, 79);
+        }
+
+        /**
          * Displays the current schedule image.
          *
          * @return VOID
          */
         public function display() {
-            header('Content-type: image/png');
-            imagepng($this->img);
+            if(!$this->displayed) {
+                header('Content-type: image/png');
+                imagepng($this->img);
+                $this->displayed = true;
+            }
         }
 
         /**
@@ -277,10 +292,16 @@
          */
         protected function setImage($width, $height) {
             if($this->img) {
+                imagecolordeallocate($this->img, $this->background);
+                imagecolordeallocate($this->img, $this->foreground);
+                imagecolordeallocate($this->img, $this->classBackground);
                 imagedestroy($this->img);
             }
-            $this->img = imagecreatetruecolor($width, $height);
-            imagefill($this->img, 0, 0, $this->background);
+            if($width && $height) {
+                $this->img = imagecreatetruecolor($width, $height);
+                $this->allocateColors();
+                imagefill($this->img, 0, 0, $this->background);
+            }
         }
 
         /**
@@ -314,7 +335,8 @@
         public function __destruct() {
             $this->setImage(1,1);
             $this->display();
-            $this->setImage(null);
+            //yes, the 0, 0 is important. Memory management in destructors is a bit shaky in 5.4RC3
+            $this->setImage(0, 0);
         }
     }
 

@@ -174,6 +174,8 @@ lusa.loadClasses = function() {
                 Course.forceRefresh();
                 new Dropdown();
             });
+        } else {
+            new Dropdown();
         }
     } else {
         if(lusa.student == "student") {
