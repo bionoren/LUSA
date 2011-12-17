@@ -62,7 +62,7 @@
                 {if $sections[0]->partOfSet}
                     {$currentSection = current($sections)}
                     {$key = $currentSection->courseID}
-                    <tr style="cursor:pointer;" class="{$key}" onclick="Course.toggle('{$key}');">
+                    <tr style="cursor:pointer;" class="{foreach $sections as $section}{$section->courseID} {/foreach}" onclick="Course.toggle('{$key}');">
                         <td colspan="{$span}">
                             <span id="{$key}">+</span>
                             {$lastTitle=""}
