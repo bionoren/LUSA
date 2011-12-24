@@ -35,20 +35,19 @@ def getClassObjects(driver, num):
     classDD = driver.find_elements_by_class_name("chzn-drop")[num]
     return filter(lambda x:x, classDD.find_elements_by_tag_name("li"))
 
-def selectDepartment(driver, dept, num, skipCheck=False):
+def selectDepartment(driver, dept, num):
+    print "Selecting department %s in department dropdown %s" % (dept, num)
     classDD = driver.find_elements_by_tag_name("select")[num*2+1]
     classDD.click()
     for option in classDD.find_elements_by_tag_name("option"):
         if option.text == dept:
             option.click()
             break
-    if not skipCheck:
-        WebDriverWait(driver, 5).until(lambda driver: len(driver.find_elements_by_tag_name("select")) > num*2+3)
-        WebDriverWait(driver, 5).until(lambda driver: len(driver.find_elements_by_class_name("chzn-single")) > num)
-    else:
-        WebDriverWait(driver, 5).until(lambda driver: len(driver.find_elements_by_tag_name("select")) > num*2+1)
+    WebDriverWait(driver, 5).until(lambda driver: len(driver.find_elements_by_tag_name("select")) > num*2+3)
+    WebDriverWait(driver, 5).until(lambda driver: len(driver.find_elements_by_class_name("chzn-single")) > num)
 
 def selectClass(driver, target, num):
+    print "Selecting class %s in class dropdown %s" % (target, num)
     classDD = driver.find_elements_by_class_name("chzn-single")[num]
     classDD.click()
     for option in getClassObjects(driver, num):
@@ -61,13 +60,16 @@ driver.get("http://localhost/~bion/lusa")
 WebDriverWait(driver, 5).until(lambda driver: driver.find_elements_by_tag_name("select"))
 driver.get_screenshot_as_file("init.png")
 
-selectDepartment(driver, singleSection[0], 0, True)
-selectDepartment(driver, singleSection[0], 0) #You shouldn't have to do this twice...
+print "Testing traditional student"
+print "---------------------------"
+print "-Testing single section class"
+selectDepartment(driver, singleSection[0], 0)
 driver.get_screenshot_as_file("dept.png")
 
 selectClass(driver, singleSection[1], 0);
 driver.get_screenshot_as_file("class.png")
 
+print "-Testing multiple section class"
 selectDepartment(driver, multiSection[0], 1)
 selectClass(driver, multiSection[1], 1);
 driver.get_screenshot_as_file("multi-classes.png");
@@ -76,6 +78,7 @@ multiHeader.click()
 driver.get_screenshot_as_file("multi-classes-open.png");
 multiHeader.click()
 
+print "-Testing multiple class selections"
 sections = getSections(driver)
 selectDepartment(driver, sections[0], 2)
 classes = getClasses(driver, 2)
@@ -87,4 +90,5 @@ multiHeader.click()
 driver.get_screenshot_as_file("multi-choice-open.png");
 multiHeader.click()
 
+print "Tests Complete"
 driver.quit()

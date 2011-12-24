@@ -40,6 +40,7 @@ var lusa = {
  */
 lusa.init = function() {
     lusa.updateOptions();
+    lusa.updateLocation();
     lusa.loadClasses();
     /**
      * Generates a callback function to update the entire application state.
