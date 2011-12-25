@@ -40,7 +40,7 @@ var lusa = {
  */
 lusa.init = function() {
     lusa.updateOptions();
-    lusa.updateLocation();
+    lusa.updateLocation(true);
     lusa.loadClasses();
     /**
      * Generates a callback function to update the entire application state.
@@ -253,7 +253,7 @@ var Dropdown = Class.create({
         if(!lusa.deptCache) {
             new Ajax.Request('postback.php', {
                 method: 'post',
-                parameters: { mode: 'getDepartmentData' },
+                parameters: { mode: 'getDepartmentData', data:Object.toQueryString(lusa.getOptions()) },
                 onSuccess: function(transport) {
                     data = transport.responseText.evalJSON();
                     lusa.deptCache = data;
@@ -355,7 +355,7 @@ var Dropdown = Class.create({
         }
         new Ajax.Request('postback.php', {
             method: 'post',
-            parameters: { mode: 'getCourseData', dept: this.dept.value },
+            parameters: { mode: 'getCourseData', data:Object.toQueryString(lusa.getOptions()), dept: this.dept.value },
             onSuccess: function(transport) {
                 data = transport.responseText.evalJSON();
                 if(this.course.children) {
@@ -405,7 +405,7 @@ Dropdown.classes = new Hash();
 Dropdown.primeCache = function(callback) {
     new Ajax.Request('postback.php', {
         method: 'post',
-        parameters: { mode: 'getDepartmentData' },
+        parameters: { mode: 'getDepartmentData', data:Object.toQueryString(lusa.getOptions()) },
         onSuccess: function(transport) {
             lusa.deptCache = transport.responseText.evalJSON();
             callback();
@@ -443,7 +443,7 @@ var Course = Class.create({
                 lusa.updatePreview();
             }
             new Ajax.Updater('classes', 'postback.php', {
-                parameters: { mode: 'updateClasses' },
+                parameters: { mode: 'updateClasses', data:Object.toQueryString(lusa.getOptions()) },
                 onSuccess: function(transport) {
                     if(this.value) {
                         $$("."+this.value).each(function(ele) {
@@ -507,7 +507,7 @@ Course.toggle = function(key) {
 
 Course.forceRefresh = function() {
     new Ajax.Updater('classes', 'postback.php', {
-        parameters: { mode: 'updateClasses' },
+        parameters: { mode: 'updateClasses', data:Object.toQueryString(lusa.getOptions()) },
         onComplete: function(transport) {
             Dropdown.instances.each(function(dropdown) {
                 if(dropdown.courseMgr) {
