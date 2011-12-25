@@ -228,8 +228,9 @@
 			Main::$CAMPUS_MASK = array_pop($classData);
 			$this->setCampusMask();
 			//generate select option values for display later
-            $data = array_filter($classData, function(Course $class) {
-				return $class->getCampus() & $this->campusMask;
+			$self = $this;
+            $data = array_filter($classData, function(Course $class) use ($self) {
+				return $class->getCampus() & $self->campusMask;
 			});
 			$courseTitleNumbers = array();
             foreach($data as $class) {

@@ -299,12 +299,14 @@ var Dropdown = Class.create({
      */
     departmentSelected: function(value) {
         if(this.dept.value) {
-            if(!this.course.firstChild) {
+            if(this.container.childElementCount <= 1) {
                 if(!Object.isArray(value)) {
                     d = new Dropdown();
                     $('classDropdowns').appendChild(d.container);
                 }
                 this.container.appendChild(this.course);
+            } else {
+                this.container.down(".chzn-container").remove();
             }
             this.course.value = 0; //reset the course value for each dropdown selection
             lusa.updateLocation();

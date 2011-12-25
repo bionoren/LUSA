@@ -57,25 +57,25 @@ def selectClass(driver, target, num):
     WebDriverWait(driver, 5).until(lambda driver: driver.find_elements_by_class_name(target))
 
 driver.get("http://localhost/~bion/lusa")
+#driver.get("http://www.bionoren.com/letu")
 WebDriverWait(driver, 5).until(lambda driver: driver.find_elements_by_tag_name("select"))
-driver.get_screenshot_as_file("init.png")
+driver.get_screenshot_as_file("01-init.png")
 
 print "Testing traditional student"
 print "---------------------------"
 print "-Testing single section class"
 selectDepartment(driver, singleSection[0], 0)
-driver.get_screenshot_as_file("dept.png")
-
+driver.get_screenshot_as_file("02-dept.png")
 selectClass(driver, singleSection[1], 0);
-driver.get_screenshot_as_file("class.png")
+driver.get_screenshot_as_file("03-class.png")
 
 print "-Testing multiple section class"
 selectDepartment(driver, multiSection[0], 1)
 selectClass(driver, multiSection[1], 1);
-driver.get_screenshot_as_file("multi-classes.png");
+driver.get_screenshot_as_file("04-multi-classes.png");
 multiHeader = driver.find_elements_by_class_name(multiSection[1])[0]
 multiHeader.click()
-driver.get_screenshot_as_file("multi-classes-open.png");
+driver.get_screenshot_as_file("05-multi-classes-open.png");
 multiHeader.click()
 
 print "-Testing multiple class selections"
@@ -84,11 +84,24 @@ selectDepartment(driver, sections[0], 2)
 classes = getClasses(driver, 2)
 selectClass(driver, classes[0], 2);
 selectClass(driver, classes[1], 2);
-driver.get_screenshot_as_file("multi-choice.png");
+driver.get_screenshot_as_file("06-multi-choice.png");
 multiHeader = driver.find_elements_by_class_name(classes[1])[0]
 multiHeader.click()
-driver.get_screenshot_as_file("multi-choice-open.png");
+driver.get_screenshot_as_file("07-multi-choice-open.png");
 multiHeader.click()
+
+print "-Change class selection"
+selectClass(driver, singleSection[1], 0);
+classes = getClasses(driver, 0)
+selectClass(driver, classes[0], 0);
+driver.get_screenshot_as_file("08-class-changed.png")
+
+print "-Change department selection" #This test is broken because the chrome webdriver is broken
+sections = getSections(driver)
+selectDepartment(driver, sections[1], 0);
+time.sleep(5)
+#WebDriverWait(driver, 5).until(lambda driver: not driver.find_elements_by_class_name(singleSection[1]))
+driver.get_screenshot_as_file("09-dept-changed.png")
 
 print "Tests Complete"
 driver.quit()
