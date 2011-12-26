@@ -309,6 +309,7 @@ var Dropdown = Class.create({
                 this.container.down(".chzn-container").remove();
             }
             this.course.value = 0; //reset the course value for each dropdown selection
+            this.values = [];
             lusa.updateLocation();
             this.populateCourse(value);
         } else {
