@@ -48,13 +48,15 @@
         //IMAGE RELATED CONSTANTS
 
         /** INTEGER Image width. */
-        protected static $width = 670;
+        protected static $width = 385;//670;
         /** INTEGER Image height. */
-        protected static $height = 880;
+        protected static $height = 506;//880;
         /** INTEGER Default start day (Monday). */
         protected static $defaultStartDay = 1;
         /** INTEGER Default number of days (5 = Monday-Friday default). */
         protected static $defaultNumDays = 5;
+        /** INTEGER Base font size. */
+        protected static $fontSize = 7;//13;
 
         //INFORMATION SPECIFIC TO THIS SCHEDULE
 
@@ -82,7 +84,7 @@
         //IMAGE INFORMATION FOR THIS SCHEDULE
 
         /** INTEGER X offset for the schedule (leaves room for the hour row headers). */
-        protected $offsetX = 50;
+        protected $offsetX = 25;
         /** INTEGER Y offset for the schedule (leaves room for the day column headers). */
         protected $offsetY = 25;
         /** STRING Location of a font to use. Tahoma is from the open source WINE project. */
@@ -198,17 +200,18 @@
                     //lr
                     imagefilledellipse($this->img, $this->offsetX+1-9+$this->dayWidth*($i), $this->offsetY-5+$end*$this->hourHeight, 10, 10, $this->classBackground);
 
-                    $pos = imagettftext($this->img, 11, 0, $this->offsetX+4+$this->dayWidth*($i-1), $this->offsetY+16+$start*$this->hourHeight, $this->foreground, $this->font, $this->wrap(11, 0, $title, $this->dayWidth));
-                    $tmp = $pos[1]-$pos[7]+16;
+                    $pos = imagettftext($this->img, $this::$fontSize, 0, $this->offsetX+4+$this->dayWidth*($i-1), $this->offsetY+16+$start*$this->hourHeight, $this->foreground, $this->font, $this->wrap($this::$fontSize, 0, $title, $this->dayWidth));
+                    $tmp = $pos[1]-$pos[7]+20;
                     if($isOverlay) {
                         $y = $this->offsetY-$tmp/2+$end*$this->hourHeight;
                     } else {
                         $y = $this->offsetY+$tmp+$start*$this->hourHeight;
                     }
-                    imagettftext($this->img, 10, 0, $this->offsetX+4+$this->dayWidth*($i-1), $y, $this->foreground, $this->font, $location);
+                    //11
+                    //imagettftext($this->img, $this::$fontSize, 0, $this->offsetX+4+$this->dayWidth*($i-1), $y, $this->foreground, $this->font, $location);
                     if(!$isOverlay) {
-                        $tmp += 16;
-                        imagettftext($this->img, 10, 0, $this->offsetX+4+$this->dayWidth*($i-1), $this->offsetY+$tmp+$start*$this->hourHeight, $this->foreground, $this->font, Meeting::displayTime($startTime)." - ".Meeting::displayTime($endTime));
+                        //$tmp += 16;
+                        imagettftext($this->img, $this::$fontSize, 0, $this->offsetX+4+$this->dayWidth*($i-1), $this->offsetY+$tmp+$start*$this->hourHeight, $this->foreground, $this->font, Meeting::displayTime($startTime)." - ".Meeting::displayTime($endTime));
                     }
                 }
             }
@@ -247,8 +250,13 @@
             $this->dayWidth = (SchedulePrinter::$width-$this->offsetX)/$this->numDays;
             for($i = 0; $i < $this->numDays; $i++) {
                 $x = $this->offsetX+$this->dayWidth*$i;
+                $x1 = $this->offsetX+$this->dayWidth*($i+1);
+                $midpt = ($x1-$x)/2;
                 imagerectangle($this->img, $x, 1, $x+$this->dayWidth, SchedulePrinter::$height-1, $this->foreground);
-                imagettftext($this->img, 14, 0, $x+16, 20, $this->foreground, $this->font, SchedulePrinter::$DAYS[$i+$this->startDay]);
+                $text = SchedulePrinter::$DAYS[$i+$this->startDay];
+                $box = imagettfbbox($this::$fontSize+1, 0, $this->font, $text);
+                $width = $box[4] - $box[0];
+                imagettftext($this->img, $this::$fontSize+1, 0, round($x+($midpt-$width/2)), 20, $this->foreground, $this->font, $text);
             }
 
             //hour headers
@@ -258,7 +266,7 @@
             for($i = 0; $i < $numHours; $i++) {
                 $y = $this->offsetY+$this->hourHeight*$i;
                 imagerectangle($this->img, 0, $y, SchedulePrinter::$width-1, $y+$this->hourHeight, $this->foreground);
-                imagettftext($this->img, 12, 0, 4, $y+17, $this->foreground, $this->font, (($i+$startHour)%12+1).":00");
+                imagettftext($this->img, $this::$fontSize-1, 0, 4, $y+17, $this->foreground, $this->font, (($i+$startHour)%12+1).":00");
             }
         }
 
@@ -315,7 +323,7 @@
          */
         function wrap($fontSize, $angle, $string, $width){
             $ret = "";
-            $arr = explode(' ', str_replace("/", "/ ", htmlspecialchars_decode($string)));
+            $arr = explode(' ', str_replace("/", " /", htmlspecialchars_decode($string)));
             foreach($arr as $word) {
                 $testbox = imagettfbbox($fontSize, $angle, $this->font, $ret.' '.$word);
                 if ($testbox[2] > $width) {

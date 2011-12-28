@@ -1,5 +1,5 @@
 Runtime Requirements:
-PHP >= 5.3.0
+PHP >= 5.3.0 compiled with GD and Freetype
 Write permissions for PHP to the cache/ and templates_c directories
 
 Documentation Requirements:

@@ -14,16 +14,13 @@
         <td headers="classHeader">{$course->courseID}</td>
     {/if}
     <td headers="classHeader">{$course->getTitle()}</td>
-    <td headers="sectionHeader">{$course->section}</td>
+<!--    <td headers="sectionHeader">{$course->section}</td>-->
     {include "meeting.tpl" meeting=$course->meetings[0] nontrad=!$course->trad}
-    <td headers="registeredHeader">
-        {$course->currentRegistered}/{$course->maxRegisterable}
-    </td>
+<!--    <td headers="registeredHeader">{$course->currentRegistered}/{$course->maxRegisterable}</td> -->
 </tr>
 {for $i = 1; $i < count($course->meetings); $i++}
     <tr id="{$course->uid}{$i}" class="{$course->getBackgroundStyle()} {$course->courseID}"{if $optional} style="display:none;"{/if}>
-        <td colspan="3">&nbsp;</td>
+        <td colspan="2">&nbsp;</td>
         {include "meeting.tpl" meeting=$course->meetings[$i] nontrad=!$course->trad}
-        <td></td>
     </tr>
 {/for}
