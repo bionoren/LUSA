@@ -48,7 +48,7 @@
         //IMAGE RELATED CONSTANTS
 
         /** INTEGER Image width. */
-        protected static $width = 435;//670;
+        protected static $width = 438;//670;
         /** INTEGER Image height. */
         protected static $height = 0;
         /** INTEGER Default start day (Monday). */
@@ -84,7 +84,7 @@
         //IMAGE INFORMATION FOR THIS SCHEDULE
 
         /** INTEGER X offset for the schedule (leaves room for the hour row headers). */
-        protected $offsetX = 25;
+        protected $offsetX = 26;
         /** INTEGER Y offset for the schedule (leaves room for the day column headers). */
         protected $offsetY = 25;
         /** STRING Location of a font to use. Tahoma is from the open source WINE project. */
@@ -185,23 +185,28 @@
          * @return VOID
          */
         function drawClass($classDays, $startTime, $endTime, $location, $title, $isOverlay=false) {
-            for($i = 1; $i < count(SchedulePrinter::$DAY_NUMBERS); $i++) {
+            for($i = $this->startDay; $i <= $this->numDays; $i++) {
                 if($classDays & SchedulePrinter::$DAY_NUMBERS[$i]) {
                     $start = $startTime-$this->startTime;
                     $end = $endTime-$this->startTime;
-                    imagefilledrectangle($this->img, $this->offsetX+2+$this->dayWidth*($i-1), $this->offsetY+5+$start*$this->hourHeight, $this->offsetX-3+$this->dayWidth*$i, $this->offsetY-5+$end*$this->hourHeight, $this->classBackground);
-                    imagefilledrectangle($this->img, $this->offsetX+2+5+$this->dayWidth*($i-1), $this->offsetY+$start*$this->hourHeight, $this->offsetX-3-5+$this->dayWidth*$i, $this->offsetY+$end*$this->hourHeight, $this->classBackground);
+                    if($i == $this->numDays) {
+                        $rectEnd = $this::$width-3;
+                    } else {
+                        $rectEnd = $this->offsetX-1+$this->dayWidth*$i;
+                    }
+                    imagefilledrectangle($this->img, $this->offsetX+1+$this->dayWidth*($i-1), $this->offsetY+5+$start*$this->hourHeight, $rectEnd, $this->offsetY-5+$end*$this->hourHeight, $this->classBackground);
+                    imagefilledrectangle($this->img, $this->offsetX+1+5+$this->dayWidth*($i-1), $this->offsetY+$start*$this->hourHeight, $rectEnd-5, $this->offsetY+$end*$this->hourHeight, $this->classBackground);
                     //rounded edges
                     //ul
-                    imagefilledellipse($this->img, $this->offsetX+1+6+$this->dayWidth*($i-1), $this->offsetY+5+$start*$this->hourHeight, 10, 10, $this->classBackground);
+                    imagefilledellipse($this->img, $this->offsetX+6+$this->dayWidth*($i-1), $this->offsetY+5+$start*$this->hourHeight, 10, 10, $this->classBackground);
                     //ll
-                    imagefilledellipse($this->img, $this->offsetX+1+6+$this->dayWidth*($i-1), $this->offsetY-5+$end*$this->hourHeight, 10, 10, $this->classBackground);
+                    imagefilledellipse($this->img, $this->offsetX+6+$this->dayWidth*($i-1), $this->offsetY-5+$end*$this->hourHeight, 10, 10, $this->classBackground);
                     //ur
-                    imagefilledellipse($this->img, $this->offsetX+1-9+$this->dayWidth*($i), $this->offsetY+5+$start*$this->hourHeight, 10, 10, $this->classBackground);
+                    imagefilledellipse($this->img, $rectEnd-5, $this->offsetY+5+$start*$this->hourHeight, 10, 10, $this->classBackground);
                     //lr
-                    imagefilledellipse($this->img, $this->offsetX+1-9+$this->dayWidth*($i), $this->offsetY-5+$end*$this->hourHeight, 10, 10, $this->classBackground);
+                    imagefilledellipse($this->img, $rectEnd-5, $this->offsetY-5+$end*$this->hourHeight, 10, 10, $this->classBackground);
 
-                    $pos = imagettftext($this->img, $this::$fontSize, 0, $this->offsetX+4+$this->dayWidth*($i-1), $this->offsetY+16+$start*$this->hourHeight, $this->foreground, $this->font, $this->wrap($this::$fontSize, 0, $title, $this->dayWidth));
+                    $pos = imagettftext($this->img, $this::$fontSize, 0, $this->offsetX+2+$this->dayWidth*($i-1), $this->offsetY+16+$start*$this->hourHeight, $this->foreground, $this->font, $this->wrap($this::$fontSize, 0, $title, $this->dayWidth));
                     $tmp = $pos[1]-$pos[7]+20;
                     if($isOverlay) {
                         $y = $this->offsetY-$tmp/2+$end*$this->hourHeight;
@@ -212,7 +217,7 @@
                     //imagettftext($this->img, $this::$fontSize, 0, $this->offsetX+4+$this->dayWidth*($i-1), $y, $this->foreground, $this->font, $location);
                     if(!$isOverlay) {
                         //$tmp += 16;
-                        imagettftext($this->img, $this::$fontSize, 0, $this->offsetX+4+$this->dayWidth*($i-1), $this->offsetY+$tmp+$start*$this->hourHeight, $this->foreground, $this->font, Meeting::displayTime($startTime)." - ".Meeting::displayTime($endTime));
+                        imagettftext($this->img, $this::$fontSize, 0, $this->offsetX+2+$this->dayWidth*($i-1), $this->offsetY+$tmp+$start*$this->hourHeight, $this->foreground, $this->font, Meeting::displayTime($startTime)." - ".Meeting::displayTime($endTime));
                     }
                 }
             }
@@ -267,7 +272,7 @@
             for($i = 0; $i < $numHours; $i++) {
                 $y = $this->offsetY+$this->hourHeight*$i;
                 imagerectangle($this->img, 0, $y, SchedulePrinter::$width-1, $y+$this->hourHeight, $this->foreground);
-                imagettftext($this->img, $this::$fontSize-1, 0, 4, $y+17, $this->foreground, $this->font, (($i+$startHour)%12+1).":00");
+                imagettftext($this->img, $this::$fontSize-1, 0, 3, $y+17, $this->foreground, $this->font, (($i+$startHour)%12+1).":00");
             }
         }
 
