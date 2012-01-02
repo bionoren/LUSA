@@ -7,11 +7,11 @@
         <td style="width:auto;" headers="classHeader">
             {if !$course->special}
                 <input type="radio" name="{$key}" value="{$course->section}" onclick="Course.selected(this.name, this.parentNode.parentNode.id);"{if Student::isKept($course)} checked="checked"{/if}/>
-                <label for="select{$course->uid}">Choose</label>
+                <label for="select{$course->uid}">{$course->number}-{$course->section}</label>
             {/if}
         </td>
     {else}
-        <td headers="classHeader">{$course->courseID}</td>
+        <td headers="classHeader">{$course->courseID}-{$course->section}</td>
     {/if}
     <td headers="classHeader">{$course->getTitle()}</td>
 <!--    <td headers="sectionHeader">{$course->section}</td>-->

@@ -133,7 +133,7 @@ div#float {
 	border-collapse: collapse;
 }
 #container #body table td {
-	margin-top: 1px;
+	margin-top: 0px;
 }
 #container #body table th {
 	text-align: left;

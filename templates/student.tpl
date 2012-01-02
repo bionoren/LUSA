@@ -10,7 +10,7 @@
             </div>
             <br/>
             <div id="schedule">
-                <table class="full border" style="width:600px;">
+                <table class="full" style="width:600px; border-spacing:0px;">
                     <thead>
                         <tr>
                             <th colspan="2" id="classHeader">Class</th>

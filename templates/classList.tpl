@@ -6,7 +6,7 @@
         {$haveComplex = false}
         {if count(Student::$common) > 0}
             <tr>
-                <td style="border-bottom-color:black;" colspan="{$span}">
+                <td style="border-bottom:1px solid black;" colspan="{$span}">
                     These are the only times you can take these classes:
                 </td>
             </tr>
@@ -26,7 +26,7 @@
                         {if !$headersShown}
                             {$headersShown=true}
                             <tr>
-                                <td style="border-bottom-color:black;" colspan="{$span}">
+                                <td style="border-bottom:1px solid black;" colspan="{$span}">
                                     These classes have some options:
                                 </td>
                             </tr>
@@ -52,7 +52,7 @@
         {/if}
         {if $haveComplex}
             <tr style="height:20px; overflow:hidden; vertical-align:top;">
-                <td style="border-bottom-color:black;" colspan="{$span}">
+                <td style="border-bottom:1px solid black;" colspan="{$span}">
                     {literal}This is what worked for the multi-class selections: <a href="javascript:void" style="vertical-align:inherit;" onmouseover="$('helpDiv').setStyle({display: 'inline-block'})" onmouseout="$('helpDiv').setStyle({display: 'none'})">[?]</a>{/literal}
                     <div id="helpDiv" style="{*display:none;*}">When multiple classes are selected, LUSA will try to give you as many options as possible, and it won't fail so long as at least 1 section is workable out of all the selected classes.</div>
                 </td>
