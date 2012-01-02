@@ -42,7 +42,7 @@
                     {/if}
                     <li>
                         <div style="display:inline">
-                            <select name="semester" id="semesterSelect">
+                            <select name="semester" id="semesterSelect" style="margin-right:0px; padding-right:0px;">
                                 {Main::printSemesterOptions()}
                             </select>
                             <label for="semesterSelect" style="display:none;">Select Semester</label>

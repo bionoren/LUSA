@@ -223,3 +223,8 @@ a.button.disabled {
 	background: #f6f6f6;
 	border-style: solid;
 }
+
+#classDropdowns select {
+	margin-left:0px;
+	padding-left:0px;
+}
