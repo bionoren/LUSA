@@ -48,15 +48,15 @@
         //IMAGE RELATED CONSTANTS
 
         /** INTEGER Image width. */
-        protected static $width = 385;//670;
+        protected static $width = 435;//670;
         /** INTEGER Image height. */
-        protected static $height = 506;//880;
+        protected static $height = 0;
         /** INTEGER Default start day (Monday). */
         protected static $defaultStartDay = 1;
         /** INTEGER Default number of days (5 = Monday-Friday default). */
         protected static $defaultNumDays = 5;
         /** INTEGER Base font size. */
-        protected static $fontSize = 7;//13;
+        protected static $fontSize = 8;//13;
 
         //INFORMATION SPECIFIC TO THIS SCHEDULE
 
@@ -105,6 +105,7 @@
          * Initializes color and image information and processes arguments from the query string.
          */
         public function __construct() {
+            $this::$height = round($this::$width*880/670);
             $this->setImage(1, 1);
             $this->allocateColors();
             $this->setImage(SchedulePrinter::$width, SchedulePrinter::$height);
@@ -261,7 +262,7 @@
 
             //hour headers
             $startHour = $this->startTime-1;
-            $numHours = $this->endTime-$this->startTime+1;
+            $numHours = $this->endTime-$this->startTime;
             $this->hourHeight = (SchedulePrinter::$height - $this->offsetY)/$numHours;
             for($i = 0; $i < $numHours; $i++) {
                 $y = $this->offsetY+$this->hourHeight*$i;

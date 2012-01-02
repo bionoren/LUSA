@@ -1,8 +1,8 @@
 {* @param Student $student *}
 
 <table style="border:0px; padding:0px; margin:0px;">
-    <tr>
-        <td valign="top">
+    <tr style="margin-left:0px; margin-right:0px;">
+        <td valign="top" style="margin-right:0px; padding-right:0px;">
             <div class="print-no">
                 <h2>Classes</h2>
                 <div id="classDropdowns"></div>
@@ -10,7 +10,7 @@
             </div>
             <br/>
             <div id="schedule">
-                <table class="full" style="width:600px; border-spacing:0px;">
+                <table class="full" style="width:586px; border-spacing:0px;">
                     <thead>
                         <tr>
                             <th colspan="2" id="classHeader">Class</th>
@@ -33,10 +33,10 @@
                 </table>
             </div>
         </td>
-        <td>
+        <td style="margin-left:0px; padding-left:0px;">
             <a href="javascript:window.print();">Print Schedule</a>
             {$extra = $student->getPrintExtra()}
-            <img id="scheduleImg" alt="Schedule" src="print.php?{Student::getPrintQS(Student::$common)}{$extra}" style="width:385px;"/>
+            <img id="scheduleImg" alt="Schedule" src="print.php?{Student::getPrintQS(Student::$common)}{$extra}" style="width:435px;"/>
         </td>
     </tr>
 </table>
