@@ -120,3 +120,8 @@ div.clear {
 	padding: 0;
 	clear: both;
 }
+
+#scheduleImg {
+	width:8in;
+	height:10in;
+}
