@@ -142,6 +142,12 @@
         SelectMultiple.prototype.update = function(newValue) {
             this.select.value = newValue;
             Event.fire(this.select, "sm:change");
+            this.selectDiv.down(".chzn-results").childElements().each(function(listItem) {
+                if(this.select.value == listItem.getAttribute("data-value")) {
+                    checkmarkDiv = listItem.down(".chzn-check-div");
+                    checkmarkDiv.innerHTML = "✓";
+                }
+            }.bind(this));
         };
 
         SelectMultiple.prototype.displaySelected = function(event) {
@@ -163,6 +169,12 @@
 
         SelectMultiple.prototype.optionMouseClick = function(event) {
             this.select.setValue(event.element().getAttribute("data-value"));
+            checkmarkDiv = event.element().down(".chzn-check-div");
+            if(checkmarkDiv.innerHTML.length) {
+                checkmarkDiv.innerHTML = "";
+            } else {
+                checkmarkDiv.innerHTML = "✓";
+            }
             Event.fire(this.select, "sm:change");
         };
 
