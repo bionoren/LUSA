@@ -372,3 +372,9 @@
 .chsn-disabled-option {
   color:grey;
 }
+
+.chzn-check-div {
+  display: inline;
+  position: absolute;
+  right: 0px;
+}

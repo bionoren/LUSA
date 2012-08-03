@@ -104,7 +104,12 @@
         /**
          * Initializes color and image information and processes arguments from the query string.
          */
-        public function __construct() {
+        public function __construct($size=null) {
+            if(!$size) {
+                $size = 438;
+            }
+            $this::$width = $size;
+
             $this::$height = round($this::$width*880/670);
             $this->setImage(1, 1);
             $this->allocateColors();
@@ -354,7 +359,7 @@
         }
     }
 
-    $printer = new SchedulePrinter();
+    $printer = new SchedulePrinter(@$_REQUEST["size"]);
     $printer->drawFrame();
     $printer->drawClasses();
     $printer->display();

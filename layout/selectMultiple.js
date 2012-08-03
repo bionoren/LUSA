@@ -112,7 +112,7 @@
                 var item = new Element("li", {
                     "class": "active-result",
                     "data-value": option.value
-                }).update(option.innerHTML);
+                }).update(option.innerHTML + "<div class='chzn-check-div'></div>");
                 item.setAttribute("data-display", option.getAttribute(this.config.optionValueField));
                 list.appendChild(item);
                 if(!option.disabled) {

@@ -19,6 +19,7 @@
 	$path = "./";
     require_once($path."functions.php");
     require_once($path."Course.php");
+	require_once("UnitTests.php");
 
     /**
      * Writes cash data for all courses in the given semester and year using data from the
