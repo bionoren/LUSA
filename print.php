@@ -195,12 +195,12 @@
                     $start = $startTime-$this->startTime;
                     $end = $endTime-$this->startTime;
                     if($i == $this->numDays) {
-                        $rectEnd = $this::$width-3;
+                        $rectEnd = $this::$width-2;
                     } else {
-                        $rectEnd = $this->offsetX-1+$this->dayWidth*$i;
+                        $rectEnd = $this->offsetX-2+$this->dayWidth*$i;
                     }
-                    imagefilledrectangle($this->img, $this->offsetX+1+$this->dayWidth*($i-1), $this->offsetY+5+$start*$this->hourHeight, $rectEnd, $this->offsetY-5+$end*$this->hourHeight, $this->classBackground);
-                    imagefilledrectangle($this->img, $this->offsetX+1+5+$this->dayWidth*($i-1), $this->offsetY+$start*$this->hourHeight, $rectEnd-5, $this->offsetY+$end*$this->hourHeight, $this->classBackground);
+                    imagefilledrectangle($this->img, $this->offsetX+$this->dayWidth*($i-1), $this->offsetY+5+$start*$this->hourHeight, $rectEnd, $this->offsetY-5+$end*$this->hourHeight, $this->classBackground);
+                    imagefilledrectangle($this->img, $this->offsetX+5+$this->dayWidth*($i-1), $this->offsetY+$start*$this->hourHeight, $rectEnd-5, $this->offsetY+$end*$this->hourHeight, $this->classBackground);
                     //rounded edges
                     //ul
                     imagefilledellipse($this->img, $this->offsetX+6+$this->dayWidth*($i-1), $this->offsetY+5+$start*$this->hourHeight, 10, 10, $this->classBackground);
@@ -253,21 +253,21 @@
          * @return VOID
          */
         function drawFrame() {
-            imagesetthickness($this->img, 2);
-            //border
-            imagerectangle($this->img, 0, 1, SchedulePrinter::$width-1, SchedulePrinter::$height-2, $this->foreground);
-
             imagesetthickness($this->img, 1);
+            
+            //border
+            imagerectangle($this->img, 0, 1, $this->offsetX - 1, $this->offsetY - 1, $this->foreground);
+
             $this->dayWidth = (SchedulePrinter::$width-$this->offsetX)/$this->numDays;
             for($i = 0; $i < $this->numDays; $i++) {
                 $x = $this->offsetX+$this->dayWidth*$i;
                 $x1 = $this->offsetX+$this->dayWidth*($i+1);
                 $midpt = ($x1-$x)/2;
-                imagerectangle($this->img, $x, 1, $x+$this->dayWidth, SchedulePrinter::$height-1, $this->foreground);
+                imagerectangle($this->img, $x - 1, 1, $x+$this->dayWidth - 1, SchedulePrinter::$height-1, $this->foreground);
                 $text = SchedulePrinter::$DAYS[$i+$this->startDay];
                 $box = imagettfbbox($this::$fontSize+1, 0, $this->font, $text);
                 $width = $box[4] - $box[0];
-                imagettftext($this->img, $this::$fontSize+1, 0, round($x+($midpt-$width/2)), 20, $this->foreground, $this->font, $text);
+                imagettftext($this->img, $this::$fontSize+1, 0, round($x+($midpt-$width/2)), 19, $this->foreground, $this->font, $text);
             }
 
             //hour headers
@@ -276,8 +276,8 @@
             $this->hourHeight = (SchedulePrinter::$height - $this->offsetY)/$numHours;
             for($i = 0; $i < $numHours; $i++) {
                 $y = $this->offsetY+$this->hourHeight*$i;
-                imagerectangle($this->img, 0, $y, SchedulePrinter::$width-1, $y+$this->hourHeight, $this->foreground);
-                imagettftext($this->img, $this::$fontSize-1, 0, 3, $y+17, $this->foreground, $this->font, (($i+$startHour)%12+1).":00");
+                imagerectangle($this->img, 0, $y - 1, SchedulePrinter::$width-1, $y+$this->hourHeight - 1, $this->foreground);
+                imagettftext($this->img, $this::$fontSize-1, 0, 2, $y+12, $this->foreground, $this->font, (($i+$startHour)%12+1).":00");
             }
         }
 
