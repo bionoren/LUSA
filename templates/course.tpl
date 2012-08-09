@@ -5,10 +5,10 @@
 <tr id="{$course->getPrintQS()}" class="{$course->getBackgroundStyle()} {$key}"{if $optional} style="display:none;"{/if}>
     {if $optional}
         <td style="width:auto;" headers="classHeader">
-            {if !$course->special}
+{*            {if !$course->special}*}
                 <input type="radio" name="{$key}" value="{$course->section}" onclick="Course.selected(this.name, this.parentNode.parentNode.id);"{if Student::isKept($course)} checked="checked"{/if}/>
                 <label for="select{$course->uid}">{$course->number}-{$course->section}</label>
-            {/if}
+{*            {/if}*}
         </td>
     {else}
         <td headers="classHeader">{$course->courseID}-{$course->section}</td>

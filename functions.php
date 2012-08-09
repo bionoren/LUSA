@@ -131,6 +131,8 @@
 	 * Creates a list of classes that can be taken (i.e. do not cause conflicts with other classes and can be used
 	 * in a valid schedule.) from the given courses.
 	 *
+	 * Note that this function (the while loop in particular) is a significant performance bottleneck
+	 *
 	 * @param ARRAY $courses List of course objects to consider.
 	 * @return MIXED A list of valid classes or a string with the error message(s).
 	 */
@@ -140,11 +142,16 @@
 		});
 		$numCourses = count($courses);
         $indexes = array_fill(0, $numCourses, 0);
+		$courseCounts = array();
+		foreach($courses as $arr) {
+			$courseCounts[] = count($arr);
+		}
+
 		$classes = array();
-        while(true) {
-            for($i = 0; $i < $numCourses; $i++) {
-                $classes[$i] = $courses[$i][$indexes[$i]];
-            }
+		for($i = 0; $i < $numCourses; $i++) {
+			$classes[$i] = $courses[$i][0];
+		}
+		while(true) {
 			if(isValidSchedule($classes)) {
 				foreach($classes as $class) {
 					$class->conflict = null;
@@ -152,11 +159,13 @@
 				}
 			}
 			//for each course, if the index for this course is less than the max section index, shift it
-            //also handles rollover for previous indicies
-            for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
+            //also handles rollover for previous indicies, and updates the currently evaluated classes array
+            for($i = 0, $classes[0] = @$courses[0][++$indexes[0]]; $indexes[$i] == $courseCounts[$i];) {
+				$classes[$i] = $courses[$i][0];
                 $indexes[$i++] = 0;
                 //this exits the loop
                 if($i == $numCourses) break 2;
+				@$classes[$i] = $courses[$i][++$indexes[$i]];
             }
         }
 

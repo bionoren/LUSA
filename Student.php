@@ -85,6 +85,11 @@
 			$numCourses = count($courses);
 			$indexes = array_fill(0, $numCourses, 0);
 			$classes = array();
+
+			$courseCounts = array();
+			foreach($courses as $arr) {
+				$courseCounts[] = count($arr);
+			}
 			while(true) {
 				for($i = 0; $i < $numCourses; $i++) {
 					$classes[$i] = $courses[$i][$indexes[$i]];
@@ -94,7 +99,7 @@
 				}
 				//for each course, if the index for this course is less than the max section index, shift it
 				//also handles rollover for previous indicies
-				for($i = 0; ++$indexes[$i] == count($courses[$i]);) {
+				for($i = 0; ++$indexes[$i] == $courseCounts[$i];) {
 					$indexes[$i++] = 0;
 					//this exits the loop
 					if($i == $numCourses) break 2;
@@ -228,16 +233,16 @@
 			Main::$CAMPUS_MASK = array_pop($classData);
 			$this->setCampusMask();
 			//generate select option values for display later
-			$self = $this;
-            $data = array_filter($classData, function(Course $class) use ($self) {
-				return $class->getCampus() & $self->campusMask;
-			});
 			$courseTitleNumbers = array();
-            foreach($data as $class) {
-                $dept = substr($class->courseID, 0, 4);
+            foreach($classData as $class) {
+				if(!($class->getCampus() & $this->campusMask)) {
+					continue;
+				}
+				$id = $class->courseID;
+                $dept = substr($id, 0, 4);
                 $this->departments[$dept] = $dept;
-                $this->classes[$dept][$class->courseID][] = $class;
-                $courseTitleNumbers[$class->courseID][] = $class;
+                $this->classes[$dept][$id][] = $class;
+                $courseTitleNumbers[$id][] = $class;
             }
             //alphabetize the class list
             array_multisort($this->classes);

@@ -40,10 +40,10 @@
         protected $maxRegisterable;
 		/** MEETING List of meetings for this class (times, location, etc). */
 		protected $meetings = array();
-		/** BOOLEAN Returns true if this class is special (irregular day value or online class). */
-		protected $special = false;
 		/** BOOLEAN True if this is a traditional class. */
 		protected $trad = true;
+		/** INTEGER Bit string for the campus(es) this class is held at. */
+		protected $campus = 0;
 
 		/** BOOLEAN True if this class is part of a complex set of classes (IE COSC-1303 and COSC-2103. Something for which getLabel() can differ). */
 		public $partOfSet = false;
@@ -85,19 +85,9 @@
 		 */
 		public function addMeeting(SimpleXMLElement $meeting, $campus, $campusBitMask) {
 			$this->uid .= md5($meeting->asXML());
-			$this->meetings[] = new Meeting($meeting, $campus, $campusBitMask, $this->getTitle());
-		}
-
-		/**
-		 * Finishes cashing information relating to meeting data.
-		 *
-		 * @return VOID
-		 */
-		public function finalize() {
-			$this->special = true;
-			foreach($this->meetings as $meeting) {
-				$this->special = $this->special && $meeting->isSpecial();
-			}
+			$temp = new Meeting($meeting, $campus, $campusBitMask, $this->getTitle());
+			$this->meetings[] = $temp;
+			$this->campus |= $temp->campus;
 		}
 
 		/**
@@ -124,11 +114,7 @@
 		 * @return INTEGER Campus bitmask.
 		 */
 		public function getCampus() {
-			$ret = 0;
-			foreach($this->meetings as $meeting) {
-				$ret |= $meeting->campus;
-			}
-			return $ret;
+			return $this->campus;
 		}
 
 		/**
@@ -197,7 +183,7 @@
 		function validateClasses(Course $class) {
 			foreach($this->meetings as $meeting) {
 				foreach($class->meetings as $meeting2) {
-					if($meeting->isDayOverlap($meeting2) && $meeting->isDateOverlap($meeting2) && $meeting->isTimeConflict($meeting2)) {
+					if($meeting->isDayOverlap($meeting2) && $meeting->isTimeConflict($meeting2) && $meeting->isDateOverlap($meeting2)) {
 						return false;
 					}
 				}
